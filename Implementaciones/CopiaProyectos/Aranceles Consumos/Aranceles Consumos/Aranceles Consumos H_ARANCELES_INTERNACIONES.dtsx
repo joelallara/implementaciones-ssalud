@@ -1,0 +1,101 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="1/18/2017 1:51:37 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AMS06X"
+  DTS:CreatorName="AMS\nborio"
+  DTS:DTSID="{81A11371-6FD4-461B-8A66-4D2470A9C086}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="Aranceles Consumos H_ARANCELES_INTERNACIONES"
+  DTS:PackageType="5"
+  DTS:VersionBuild="7"
+  DTS:VersionGUID="{E45E7C5A-7BEC-46F7-B348-66D95BE2FFD6}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{21E375C8-4C6A-4FFD-A4FA-FA1C2BFB4092}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">1,7,OnError</DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnError"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{21E375C8-4C6A-4FFD-A4FA-FA1C2BFB4092}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Elimina y crea H_ARANCELES_INTERNACIONES"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{FC71E246-F5A4-4F4C-9B64-481D7F219E6A}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Elimina y crea H_ARANCELES_INTERNACIONES"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{A7161898-9CA0-4E15-920D-09B3D39D44ED}"
+          SQLTask:SqlStatementSource="---- Borra la tabla H_ARANCELES_INTERNACIONES&#xA;&#xA;Truncate table H_ARANCELES_INTERNACIONES&#xA;&#xA;/* Se insertan los datos desde H_ORD_INT_DET y despues se obtiene la cantidad de dias desde la H_INTERNACIONES_CARLOS.&#xA; El acreedor se deja en 0 porque si bien se puede obtener, en algunos casos, traia varios registros con la misma cantidad de dias.&#xA; La cual le pertenecia solo a uno para que la suma no genere diferencias. Por ejemplo el nro_orden = 338289 tiraba 3 registros porque&#xA; tenia 3 acreedores diferentes. Ahora tiene solo uno, porque lo que importa es la suma por el tipo de internacion.*/&#xA;INSERT INTO H_ARANCELES_INTERNACIONES&#xA;SELECT&#x9;id_periodo_prestacion,&#xA;&#x9;&#x9;0,&#xA;&#x9;&#x9;id_tipo_orden,&#xA;&#x9;&#x9;id_orden_int,&#xA;&#x9;&#x9;a11.id_producto,&#xA;&#x9;&#x9;a11.id_plan_producto,&#xA;&#x9;&#x9;0,&#xA;&#x9;&#x9;id_persona,&#xA;&#x9;&#x9;'',&#xA;&#x9;&#x9;id_origen_prestacion,&#xA;&#x9;&#x9;id_tipo_internacion,&#xA;&#x9;&#x9;0,&#xA;&#x9;&#x9;0,&#xA;&#x9;&#x9;0&#xA;from&#x9;H_ORD_INT_DET&#x9;a11&#xA;&#x9;join&#x9;D_PRODUCTOS&#x9;a14&#xA;&#x9;  on &#x9;(a11.id_producto = a14.id_producto)&#xA;where&#x9;(a14.Id_Clase_Producto in ('S ')&#xA; and a11.id_marca_valorizacion in ('P')&#xA; and a14.id_segmento not in (3)&#xA; --and id_Tipo_Prestador = 'P'&#xA; and not ((a11.id_producto = 16 and a11.id_plan_producto = 'CC   ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='CM   ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='CS1  ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='CS100')&#xA;   or  (a11.id_producto=4 and a11.id_plan_producto='M    ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='M    ')&#xA;   or  (a11.id_producto=20 and a11.id_plan_producto='M    ')&#xA;   or  (a11.id_producto=14 and a11.id_plan_producto='Z    ')&#xA;   or  (a11.id_producto=20 and a11.id_plan_producto='Z    ')&#xA;   or  (a11.id_producto=4 and a11.id_plan_producto='Z    ')&#xA;   or  (a11.id_producto=1 and a11.id_plan_producto='C  '))&#xA; and a11.id_reintegro = 'F'&#xA; and a11.id_periodo_prestacion &lt;= (SELECT MAX(id_periodo_prestacion) FROM H_ARANCELES_CONSUMO))&#xA; GROUP BY&#x9;id_periodo_prestacion,&#xA;&#x9;&#x9;&#x9;id_tipo_orden,&#xA;&#x9;&#x9;&#x9;id_orden_int,&#xA;&#x9;&#x9;&#x9;a11.id_producto,&#xA;&#x9;&#x9;&#x9;a11.id_plan_producto,&#xA;&#x9;&#x9;&#x9;id_persona,&#xA;&#x9;&#x9;&#x9;id_origen_prestacion,&#xA;&#x9;&#x9;&#x9;id_tipo_internacion&#xA; &#xA; &#xA;UPDATE H_ARANCELES_INTERNACIONES&#xA;SET id_trimestre_aranceles = P.id_trimestre_aranceles&#xA;FROM H_ARANCELES_INTERNACIONES I &#xA;INNER JOIN D_PERIODO_TRIMESTRE_ARANCELES P ON (I.id_periodo_prestacion=P.id_periodo_prestacion)&#xA;&#xA;--Actualiza acreedor y tipo de prestador, si no lo encuentra aca. Lo actualiza en el paso siguiente.&#xA;UPDATE H_ARANCELES_INTERNACIONES&#xA;SET id_acreedor = C.id_acreedor,&#xA;&#x9;id_tipo_prestador = C.id_tipo_prestador&#xA;FROM H_ARANCELES_INTERNACIONES I INNER JOIN H_ARANCELES_CONSUMO C &#xA;ON (I.nro_orden=C.nro_orden and I.id_producto=C.id_producto and I.id_plan_producto=C.id_plan_producto&#xA;and I.id_tipo_internacion=C.id_tipo_internacion)&#xA;&#xA;UPDATE H_ARANCELES_INTERNACIONES&#xA;SET id_acreedor = C.id_acreedor,&#xA;&#x9;id_tipo_prestador = C.id_tipo_prestador&#xA;FROM H_ARANCELES_INTERNACIONES I INNER JOIN H_ORD_INT_DET C &#xA;ON (I.nro_orden=C.id_orden_relacionada and I.id_tipo_orden=C.id_tipo_orden_relacionada)&#xA;WHERE I.id_acreedor = 0&#xA;&#xA;&#xA;UPDATE H_ARANCELES_INTERNACIONES&#xA;SET id_marca_caso_severo = 1&#xA;FROM H_ARANCELES_INTERNACIONES H INNER JOIN H_CASOS_SEVEROS C ON (H.id_periodo_prestacion=C.id_periodo and H.id_persona=C.id_persona)&#xA;&#xA;DELETE H_ARANCELES_INTERNACIONES WHERE id_trimestre_aranceles = 0&#xA;&#xA;UPDATE H_ARANCELES_INTERNACIONES&#xA;SET cant_dias_aut_total = sumaDias&#xA;FROM H_ARANCELES_INTERNACIONES H&#xA;INNER JOIN (SELECT nro_orden, SUM(cant_dias_aut_total) AS sumaDias&#xA;&#x9;&#x9;&#x9;FROM H_INTERNACIONES_CARLOS&#xA;&#x9;&#x9;&#x9;GROUP BY nro_orden) AS I&#xA;ON (H.nro_orden=I.nro_orden)&#xA;WHERE id_tipo_orden = 6&#xA;&#xA;UPDATE H_ARANCELES_INTERNACIONES&#xA;SET cant_internaciones = sumaInt&#xA;FROM H_ARANCELES_INTERNACIONES H&#xA;INNER JOIN (SELECT nro_orden, SUM(cant_internaciones) AS sumaInt&#xA;&#x9;&#x9;&#x9;FROM H_INTERNACIONES_CARLOS&#xA;&#x9;&#x9;&#x9;GROUP BY nro_orden) AS I&#xA;ON (H.nro_orden=I.nro_orden)&#xA;WHERE id_tipo_orden = 6&#xA;&#xA;DELETE H_ARANCELES_INTERNACIONES WHERE id_trimestre_aranceles = 0" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="328,42"
+          Id="Package\Elimina y crea H_ARANCELES_INTERNACIONES"
+          TopLeft="5.5,5.5" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

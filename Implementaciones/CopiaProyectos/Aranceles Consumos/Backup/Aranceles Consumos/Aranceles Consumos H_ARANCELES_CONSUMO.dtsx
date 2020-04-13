@@ -1,0 +1,157 @@
+<?xml version="1.0"?><DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts" DTS:ExecutableType="SSIS.Package.2">
+<DTS:Property DTS:Name="PackageFormatVersion">3</DTS:Property>
+<DTS:Property DTS:Name="VersionComments"></DTS:Property>
+<DTS:Property DTS:Name="CreatorName">AMS\nborio</DTS:Property>
+<DTS:Property DTS:Name="CreatorComputerName">AMS06X</DTS:Property>
+<DTS:Property DTS:Name="CreationDate" DTS:DataType="7">1/18/2017 3:01:51 PM</DTS:Property>
+<DTS:Property DTS:Name="PackageType">5</DTS:Property>
+<DTS:Property DTS:Name="ProtectionLevel">1</DTS:Property>
+<DTS:Property DTS:Name="MaxConcurrentExecutables">-1</DTS:Property>
+<DTS:Property DTS:Name="PackagePriorityClass">0</DTS:Property>
+<DTS:Property DTS:Name="VersionMajor">1</DTS:Property>
+<DTS:Property DTS:Name="VersionMinor">0</DTS:Property>
+<DTS:Property DTS:Name="VersionBuild">6</DTS:Property>
+<DTS:Property DTS:Name="VersionGUID">{39FD2A8E-01C4-4B43-98E6-A998E07E2166}</DTS:Property>
+<DTS:Property DTS:Name="EnableConfig">0</DTS:Property>
+<DTS:Property DTS:Name="CheckpointFileName"></DTS:Property>
+<DTS:Property DTS:Name="SaveCheckpoints">0</DTS:Property>
+<DTS:Property DTS:Name="CheckpointUsage">0</DTS:Property>
+<DTS:Property DTS:Name="SuppressConfigurationWarnings">0</DTS:Property>
+<DTS:ConnectionManager>
+<DTS:Property DTS:Name="DelayValidation">0</DTS:Property>
+<DTS:Property DTS:Name="ObjectName">AMS06X.DW_SALUD</DTS:Property>
+<DTS:Property DTS:Name="DTSID">{1CC5CD42-BE5E-4026-9D68-748F58B3A001}</DTS:Property>
+<DTS:Property DTS:Name="Description"></DTS:Property>
+<DTS:Property DTS:Name="CreationName">OLEDB</DTS:Property><DTS:ObjectData><DTS:ConnectionManager>
+<DTS:Property DTS:Name="Retain">0</DTS:Property>
+<DTS:Property DTS:Name="ConnectionString">Data Source=AMS06X;Initial Catalog=DW_SALUD;Provider=SQLNCLI10.1;Integrated Security=SSPI;Application Name=SSIS-Aranceles Consumos-{1CC5CD42-BE5E-4026-9D68-748F58B3A001}AMS06X.DW_SALUD;Auto Translate=False;</DTS:Property></DTS:ConnectionManager></DTS:ObjectData></DTS:ConnectionManager>
+<DTS:ConnectionManager>
+<DTS:Property DTS:Name="DelayValidation">0</DTS:Property>
+<DTS:Property DTS:Name="ObjectName">AMS06X.msdb</DTS:Property>
+<DTS:Property DTS:Name="DTSID">{9DF418C3-9E9C-4E80-A1A6-98BB40E8F003}</DTS:Property>
+<DTS:Property DTS:Name="Description"></DTS:Property>
+<DTS:Property DTS:Name="CreationName">OLEDB</DTS:Property><DTS:ObjectData><DTS:ConnectionManager>
+<DTS:Property DTS:Name="Retain">0</DTS:Property>
+<DTS:Property DTS:Name="ConnectionString">Data Source=AMS06X;Initial Catalog=msdb;Provider=SQLNCLI10.1;Integrated Security=SSPI;Application Name=SSIS-Aranceles Consumo-{9DF418C3-9E9C-4E80-A1A6-98BB40E8F003}AMS06X.msdb;Auto Translate=False;</DTS:Property></DTS:ConnectionManager></DTS:ObjectData></DTS:ConnectionManager>
+<DTS:LogProvider>
+<DTS:Property DTS:Name="ConfigString">AMS06X.msdb</DTS:Property>
+<DTS:Property DTS:Name="DelayValidation">0</DTS:Property>
+<DTS:Property DTS:Name="ObjectName">SSIS log provider for SQL Server</DTS:Property>
+<DTS:Property DTS:Name="DTSID">{A1B8FD12-447D-4E63-9C03-74DD22B36B7E}</DTS:Property>
+<DTS:Property DTS:Name="Description">Writes log entries for events to a SQL Server database</DTS:Property>
+<DTS:Property DTS:Name="CreationName">DTS.LogProviderSQLServer.2</DTS:Property><DTS:ObjectData><InnerObject/></DTS:ObjectData></DTS:LogProvider>
+<DTS:Property DTS:Name="LastModifiedProductVersion">10.50.1600.1</DTS:Property>
+<DTS:Property DTS:Name="ForceExecValue">0</DTS:Property>
+<DTS:Property DTS:Name="ExecValue" DTS:DataType="3">0</DTS:Property>
+<DTS:Property DTS:Name="ForceExecutionResult">-1</DTS:Property>
+<DTS:Property DTS:Name="Disabled">0</DTS:Property>
+<DTS:Property DTS:Name="FailPackageOnFailure">0</DTS:Property>
+<DTS:Property DTS:Name="FailParentOnFailure">0</DTS:Property>
+<DTS:Property DTS:Name="MaxErrorCount">1</DTS:Property>
+<DTS:Property DTS:Name="ISOLevel">1048576</DTS:Property>
+<DTS:Property DTS:Name="LocaleID">11274</DTS:Property>
+<DTS:Property DTS:Name="TransactionOption">1</DTS:Property>
+<DTS:Property DTS:Name="DelayValidation">0</DTS:Property>
+<DTS:LoggingOptions>
+<DTS:Property DTS:Name="LoggingMode">1</DTS:Property>
+<DTS:Property DTS:Name="FilterKind">0</DTS:Property>
+<DTS:Property DTS:Name="EventFilter" DTS:DataType="8">1,7,OnError</DTS:Property>
+<DTS:Property DTS:Name="ColumnFilter" DTS:EventName="OnError">
+<DTS:Property DTS:Name="Computer">-1</DTS:Property>
+<DTS:Property DTS:Name="Operator">-1</DTS:Property>
+<DTS:Property DTS:Name="SourceName">-1</DTS:Property>
+<DTS:Property DTS:Name="SourceID">-1</DTS:Property>
+<DTS:Property DTS:Name="ExecutionID">-1</DTS:Property>
+<DTS:Property DTS:Name="MessageText">-1</DTS:Property>
+<DTS:Property DTS:Name="DataBytes">-1</DTS:Property></DTS:Property><DTS:SelectedLogProvider DTS:InstanceID="{A1B8FD12-447D-4E63-9C03-74DD22B36B7E}"/></DTS:LoggingOptions>
+<DTS:Executable DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" DTS:ThreadHint="0">
+<DTS:Property DTS:Name="ExecutionLocation">0</DTS:Property>
+<DTS:Property DTS:Name="ExecutionAddress"></DTS:Property>
+<DTS:Property DTS:Name="TaskContact">Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1</DTS:Property>
+<DTS:Property DTS:Name="ForceExecValue">0</DTS:Property>
+<DTS:Property DTS:Name="ExecValue" DTS:DataType="3">0</DTS:Property>
+<DTS:Property DTS:Name="ForceExecutionResult">-1</DTS:Property>
+<DTS:Property DTS:Name="Disabled">0</DTS:Property>
+<DTS:Property DTS:Name="FailPackageOnFailure">0</DTS:Property>
+<DTS:Property DTS:Name="FailParentOnFailure">0</DTS:Property>
+<DTS:Property DTS:Name="MaxErrorCount">1</DTS:Property>
+<DTS:Property DTS:Name="ISOLevel">1048576</DTS:Property>
+<DTS:Property DTS:Name="LocaleID">-1</DTS:Property>
+<DTS:Property DTS:Name="TransactionOption">1</DTS:Property>
+<DTS:Property DTS:Name="DelayValidation">0</DTS:Property>
+<DTS:LoggingOptions>
+<DTS:Property DTS:Name="LoggingMode">0</DTS:Property>
+<DTS:Property DTS:Name="FilterKind">0</DTS:Property>
+<DTS:Property DTS:Name="EventFilter" DTS:DataType="8"></DTS:Property></DTS:LoggingOptions>
+<DTS:Property DTS:Name="ObjectName">Actualiza H_ARANCELES_CONSUMO</DTS:Property>
+<DTS:Property DTS:Name="DTSID">{7FAFFA01-9EDB-4B74-BEA9-219DB68FDC8E}</DTS:Property>
+<DTS:Property DTS:Name="Description">Execute SQL Task</DTS:Property>
+<DTS:Property DTS:Name="CreationName">Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91</DTS:Property>
+<DTS:Property DTS:Name="DisableEventHandlers">0</DTS:Property><DTS:ObjectData><SQLTask:SqlTaskData SQLTask:Connection="{1CC5CD42-BE5E-4026-9D68-748F58B3A001}" SQLTask:TimeOut="0" SQLTask:IsStoredProc="False" SQLTask:BypassPrepare="True" SQLTask:SqlStmtSourceType="DirectInput" SQLTask:SqlStatementSource="SET DATEFORMAT 'YMD'&#xA;DECLARE @Periodo INT&#xA;SET @Periodo = (SELECT MAX(dbo.PeriodoSiguiente(CAST(dbo.Devuelve_Fecha(id_periodo_prestacion)AS VARCHAR(10)))) FROM H_ARANCELES_CONSUMO)&#xA;&#xA;WHILE @Periodo &lt;= (SELECT MAX(id_periodo) FROM H_ORD_INT_DET)&#xA;BEGIN&#xA;	IF RIGHT(@Periodo, 2) IN (01, 05, 06, 07, 11, 12)&#xA;	BEGIN	&#xA;		DELETE H_ARANCELES_CONSUMO where id_periodo_prestacion = @Periodo&#xA;&#xA;		select	a11.id_tipo_orden  id_tipo_orden,&#xA;			a12.id_subrubro_ley  id_subrubro_ley,&#xA;			a11.id_provision  id_provision,&#xA;			a11.id_prestacion  id_prestacion,&#xA;			a11.id_producto,&#xA;			a11.id_plan_producto,&#xA;			a13.Id_Plan_Agrupado_S  Id_Plan_Agrupado_S,&#xA;			a11.id_persona  id_persona,&#xA;			a11.id_periodo_prestacion  id_periodo_prestacion,&#xA;			a11.id_origen_prestacion  id_origen_prestacion,&#xA;			a11.id_orden_int  nro_orden,&#xA;			a11.id_acreedor  id_acreedor,&#xA;			a11.id_tipo_prestador  id_tipo_prestador,&#xA;			a11.id_profesional id_profesional,&#xA;			a11.id_no_facturador id_no_facturador, &#xA;			a11.id_prof_prescr id_prof_prescr,&#xA;			a11.id_tipo_profesional_preescribiente id_tipo_profesional_preescribiente,&#xA;			a11.id_tipo_internacion,&#xA;			sum(a11.cant_prest_int_acep)  WJXBFS1,&#xA;			sum(a11.imp_prest_int_pag)  WJXBFS2&#xA;		into #ZZTLLI257TOSP000&#xA;		from	H_ORD_INT_DET	a11&#xA;			join	D_PLANES	a12&#xA;			  on 	(a11.id_plan_producto = a12.id_plan_producto and &#xA;			a11.id_producto = a12.id_producto)&#xA;			join	D_PLANES_AGRUPADOS	a13&#xA;			  on 	(a12.id_plan_agrupado = a13.id_plan_agrupado)&#xA;			join	D_PRODUCTOS	a14&#xA;			  on 	(a11.id_producto = a14.id_producto)&#xA;		where	(a14.Id_Clase_Producto in ('S ')&#xA;		 and a11.id_marca_valorizacion in ('P')&#xA;		 and a14.id_segmento not in (3)&#xA;		 and not ((a11.id_producto = 16 and a11.id_plan_producto = 'CC   ')&#xA;		   or  (a11.id_producto=16 and a11.id_plan_producto='CM   ')&#xA;		   or  (a11.id_producto=16 and a11.id_plan_producto='CS1  ')&#xA;		   or  (a11.id_producto=16 and a11.id_plan_producto='CS100')&#xA;		   or  (a11.id_producto=4 and a11.id_plan_producto='M    ')&#xA;		   or  (a11.id_producto=16 and a11.id_plan_producto='M    ')&#xA;		   or  (a11.id_producto=20 and a11.id_plan_producto='M    ')&#xA;		   or  (a11.id_producto=14 and a11.id_plan_producto='Z    ')&#xA;		   or  (a11.id_producto=20 and a11.id_plan_producto='Z    ')&#xA;		   or  (a11.id_producto=4 and a11.id_plan_producto='Z    ')&#xA;		   or  (a11.id_producto=1 and a11.id_plan_producto='C  '))&#xA;		 and a11.id_reintegro = 'F'&#xA;		 and a11.id_periodo_prestacion = @Periodo)&#xA;		group by	a11.id_tipo_orden,&#xA;			a12.id_subrubro_ley,&#xA;			a11.id_provision,&#xA;			a11.id_prestacion,&#xA;			a11.id_producto,&#xA;			a11.id_plan_producto,&#xA;			a13.Id_Plan_Agrupado_S,&#xA;			a11.id_persona,&#xA;			a11.id_periodo_prestacion,&#xA;			a11.id_origen_prestacion,&#xA;			a11.id_orden_int,&#xA;			a11.id_acreedor,&#xA;			a11.id_tipo_prestador,&#xA;			a11.id_profesional,&#xA;			a11.id_no_facturador,&#xA;			a11.id_prof_prescr,&#xA;			a11.id_tipo_profesional_preescribiente,&#xA;			a11.id_tipo_internacion&#xA;&#xA;		select	a11.id_tipo_orden  id_tipo_orden,&#xA;			a12.id_subrubro_ley  id_subrubro_ley,&#xA;			a11.id_provision  id_provision,&#xA;			a11.id_prestacion  id_prestacion,&#xA;			a11.id_producto,&#xA;			a11.id_plan_producto,&#xA;			a13.Id_Plan_Agrupado_S  Id_Plan_Agrupado_S,&#xA;			a11.id_persona  id_persona,&#xA;			a11.id_periodo_prestacion  id_periodo_prestacion,&#xA;			a11.id_origen_prestacion  id_origen_prestacion,&#xA;			a11.nro_orden  nro_orden,&#xA;			a11.id_acreedor  id_acreedor,&#xA;			a11.id_tipo_prestador  id_tipo_prestador,&#xA;			a11.id_profesional id_profesional,&#xA;			a11.id_no_facturador id_no_facturador, &#xA;			a11.id_prof_prescr id_prof_prescr,&#xA;			a11.id_tipo_profesional_preescribiente id_tipo_profesional_preescribiente,&#xA;			sum(a11.cant_prest_amb_acep)  WJXBFS1,&#xA;			sum(a11.imp_pret_amb_pag)  WJXBFS2&#xA;		into #ZZTJB0O578SSP001&#xA;		from	H_ORD_AMB_DET	a11&#xA;			join	D_PLANES	a12&#xA;			  on 	(a11.id_plan_producto = a12.id_plan_producto and &#xA;			a11.id_producto = a12.id_producto)&#xA;			join	D_PLANES_AGRUPADOS	a13&#xA;			  on 	(a12.id_plan_agrupado = a13.id_plan_agrupado)&#xA;			join	D_PRODUCTOS	a14&#xA;			  on 	(a11.id_producto = a14.id_producto)&#xA;		where	(a14.Id_Clase_Producto in ('S ')&#xA;		 and a11.id_marca_valorizacion in ('P')&#xA;		 and a14.id_segmento not in (3)&#xA;		 and not ((a11.id_producto = 16 and a11.id_plan_producto = 'CC   ')&#xA;			 or  (a11.id_producto=16 and a11.id_plan_producto='CM   ')&#xA;		   or  (a11.id_producto=16 and a11.id_plan_producto='CS1  ')&#xA;		   or  (a11.id_producto=16 and a11.id_plan_producto='CS100')&#xA;		   or  (a11.id_producto=4 and a11.id_plan_producto='M    ')&#xA;		   or  (a11.id_producto=16 and a11.id_plan_producto='M    ')&#xA;		   or  (a11.id_producto=20 and a11.id_plan_producto='M    ')&#xA;		   or  (a11.id_producto=14 and a11.id_plan_producto='Z    ')&#xA;		   or  (a11.id_producto=20 and a11.id_plan_producto='Z    ')&#xA;		   or  (a11.id_producto=4 and a11.id_plan_producto='Z    ')&#xA;		   or  (a11.id_producto=1 and a11.id_plan_producto='C  '))&#xA;		 and a11.id_reintegro = 'F'&#xA;		 and a11.id_periodo_prestacion = @Periodo)&#xA;		group by	a11.id_tipo_orden,&#xA;			a12.id_subrubro_ley,&#xA;			a11.id_provision,&#xA;			a11.id_prestacion,&#xA;			a11.id_producto,&#xA;			a11.id_plan_producto,&#xA;			a13.Id_Plan_Agrupado_S,&#xA;			a11.id_persona,&#xA;			a11.id_periodo_prestacion,&#xA;			a11.id_origen_prestacion,&#xA;			a11.nro_orden,&#xA;			a11.id_acreedor,&#xA;			a11.id_tipo_prestador,&#xA;			a11.id_profesional,&#xA;			a11.id_no_facturador,&#xA;			a11.id_prof_prescr,&#xA;			a11.id_tipo_profesional_preescribiente&#xA;&#xA;		insert INTO H_ARANCELES_CONSUMO&#xA;		select distinct coalesce(pa11.id_periodo_prestacion, pa12.id_periodo_prestacion),&#xA;						0,&#xA;						coalesce(pa11.id_persona, pa12.id_persona),&#xA;						coalesce(pa11.id_tipo_orden, pa12.id_tipo_orden),&#xA;						coalesce(pa11.nro_orden, pa12.nro_orden),&#xA;						coalesce(pa11.id_producto, pa12.id_producto),&#xA;						coalesce(pa11.id_plan_producto, pa12.id_plan_producto),				&#xA;						a14.id_nomenclador,&#xA;						coalesce(pa11.id_prestacion, pa12.id_prestacion),&#xA;						coalesce(pa11.id_origen_prestacion, pa12.id_origen_prestacion),&#xA;						coalesce(pa11.id_acreedor, pa12.id_acreedor),&#xA;						coalesce(pa11.id_tipo_prestador, pa12.id_tipo_prestador),&#xA;						0,&#xA;						SUM(ISNULL(pa11.WJXBFS1, 0)) + SUM(ISNULL(pa12.WJXBFS1, 0)),&#xA;						SUM(ISNULL(pa11.WJXBFS2, 0)) + SUM(ISNULL(pa12.WJXBFS2, 0)),&#xA;						pa11.id_tipo_internacion,&#xA;						0,&#xA;						0,&#xA;						0&#xA;		from	#ZZTLLI257TOSP000	pa11&#xA;			full outer join	#ZZTJB0O578SSP001	pa12&#xA;			  on 	(pa11.Id_Plan_Agrupado_S = pa12.Id_Plan_Agrupado_S and &#xA;			pa11.id_acreedor = pa12.id_acreedor and &#xA;			pa11.id_origen_prestacion = pa12.id_origen_prestacion and &#xA;			pa11.id_periodo_prestacion = pa12.id_periodo_prestacion and &#xA;			pa11.id_persona = pa12.id_persona and &#xA;			pa11.id_prestacion = pa12.id_prestacion and &#xA;			pa11.id_provision = pa12.id_provision and &#xA;			pa11.id_subrubro_ley = pa12.id_subrubro_ley and &#xA;			pa11.id_tipo_orden = pa12.id_tipo_orden and &#xA;			pa11.id_tipo_prestador = pa12.id_tipo_prestador and &#xA;			pa11.nro_orden = pa12.nro_orden)&#xA;			join	D_ACREEDOR	a13&#xA;			  on 	(coalesce(pa11.id_acreedor, pa12.id_acreedor) = a13.id_acreedor and &#xA;			coalesce(pa11.id_tipo_prestador, pa12.id_tipo_prestador) = a13.id_tipo_prestador)&#xA;			join	D_PRESTACION	a14&#xA;			  on 	(coalesce(pa11.id_prestacion, pa12.id_prestacion) = a14.id_prestacion)&#xA;			join	D_PERSONAS	a15&#xA;			  on 	(coalesce(pa11.id_persona, pa12.id_persona) = a15.id_persona)&#xA;			join	D_LOCALIDADES_AFILIADO	a16&#xA;			  on 	(a15.id_localidad_afiliado = a16.id_localidad_afiliado)&#xA;			join	D_ORIGEN_PRESTACION	a17&#xA;			  on 	(coalesce(pa11.id_origen_prestacion, pa12.id_origen_prestacion) = a17.id_origen_prestacion)&#xA;			join	D_PLANES_AGRUPADOS_S	a18&#xA;			  on 	(coalesce(pa11.Id_Plan_Agrupado_S, pa12.Id_Plan_Agrupado_S) = a18.Id_Plan_Agrupado_S)&#xA;			join	D_PROVISION	a19&#xA;			  on 	(coalesce(pa11.id_provision, pa12.id_provision) = a19.id_provision)&#xA;			join	D_SUBRUBRO_LEY	a110&#xA;			  on 	(coalesce(pa11.id_subrubro_ley, pa12.id_subrubro_ley) = a110.id_subrubro_ley)&#xA;			join	D_TIPO_ORDEN	a111&#xA;			  on 	(coalesce(pa11.id_tipo_orden, pa12.id_tipo_orden) = a111.id_tipo_orden)&#xA;			join	D_LOCALIDADES	a112&#xA;			  on 	(a13.id_localidad = a112.id_localidad)&#xA;			join	D_NOMENCLADOR	a113&#xA;			  on 	(a14.id_nomenclador = a113.id_nomenclador)&#xA;			join	D_POSICION_ACREEDOR	a114&#xA;			  on 	(a13.id_posicion_acreedor = a114.id_posicion_acreedor)&#xA;			join	D_POSICION	a115&#xA;			  on 	(a16.id_posicion = a115.id_posicion)&#xA;			join	D_PROVINCIA	a116&#xA;			  on 	(a13.id_provincia = a116.id_provincia)&#xA;		GROUP BY		coalesce(pa11.id_periodo_prestacion, pa12.id_periodo_prestacion),&#xA;						coalesce(pa11.id_persona, pa12.id_persona),&#xA;						coalesce(pa11.id_tipo_orden, pa12.id_tipo_orden),&#xA;						coalesce(pa11.nro_orden, pa12.nro_orden),&#xA;						coalesce(pa11.id_producto, pa12.id_producto),&#xA;						coalesce(pa11.id_plan_producto, pa12.id_plan_producto),				&#xA;						a14.id_nomenclador,&#xA;						coalesce(pa11.id_prestacion, pa12.id_prestacion),&#xA;						coalesce(pa11.id_origen_prestacion, pa12.id_origen_prestacion),&#xA;						coalesce(pa11.id_acreedor, pa12.id_acreedor),&#xA;						coalesce(pa11.id_tipo_prestador, pa12.id_tipo_prestador),&#xA;						pa11.id_tipo_internacion&#xA;						&#xA;		drop table #ZZTLLI257TOSP000&#xA;&#xA;		drop table #ZZTJB0O578SSP001&#xA;&#xA;		UPDATE H_ARANCELES_CONSUMO&#xA;		SET id_trimestre_aranceles = T.id_trimestre_aranceles&#xA;		FROM H_ARANCELES_CONSUMO A &#xA;		INNER JOIN D_PERIODO_TRIMESTRE_ARANCELES P ON (A.id_periodo_prestacion=P.id_periodo_prestacion)&#xA;		INNER JOIN D_TRIMESTRE_ARANCELES T ON (P.id_trimestre_aranceles=T.id_trimestre_aranceles)&#xA;		WHERE A.id_periodo_prestacion = @Periodo&#xA;&#xA;		UPDATE H_ARANCELES_CONSUMO&#xA;		SET id_marca_caso_severo = 1&#xA;		FROM H_ARANCELES_CONSUMO H INNER JOIN H_CASOS_SEVEROS C ON (H.id_periodo_prestacion=C.id_periodo and H.id_persona=C.id_persona)&#xA;		WHERE id_periodo_prestacion = @Periodo&#xA;&#xA;	END&#xA;	SET @Periodo = (SELECT MAX(dbo.PeriodoSiguiente(CAST(dbo.Devuelve_Fecha(@Periodo)AS VARCHAR(10)))))	&#xA;END" SQLTask:CodePage="1252" SQLTask:ResultType="ResultSetType_None" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask"/></DTS:ObjectData></DTS:Executable>
+<DTS:Property DTS:Name="ObjectName">Aranceles Consumo</DTS:Property>
+<DTS:Property DTS:Name="DTSID">{FD27D20C-75DE-425D-A79F-D8E67B448D4B}</DTS:Property>
+<DTS:Property DTS:Name="Description"></DTS:Property>
+<DTS:Property DTS:Name="CreationName">SSIS.Package.2</DTS:Property>
+<DTS:Property DTS:Name="DisableEventHandlers">0</DTS:Property>
+<DTS:PackageVariable>
+<DTS:Property DTS:Name="PackageVariableValue" DTS:DataType="8">&lt;Package xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ddl2="http://schemas.microsoft.com/analysisservices/2003/engine/2" xmlns:ddl2_2="http://schemas.microsoft.com/analysisservices/2003/engine/2/2" xmlns:ddl100_100="http://schemas.microsoft.com/analysisservices/2008/engine/100/100" xmlns:ddl200="http://schemas.microsoft.com/analysisservices/2010/engine/200" xmlns:ddl200_200="http://schemas.microsoft.com/analysisservices/2010/engine/200/200" xmlns:dwd="http://schemas.microsoft.com/DataWarehouse/Designer/1.0"&gt;&lt;dwd:DtsControlFlowDiagram&gt;&lt;dwd:BoundingLeft&gt;674&lt;/dwd:BoundingLeft&gt;&lt;dwd:BoundingTop&gt;569&lt;/dwd:BoundingTop&gt;&lt;dwd:Layout&gt;&lt;dds&gt;
+  &lt;diagram fontclsid="{0BE35203-8F91-11CE-9DE3-00AA004BB851}" mouseiconclsid="{0BE35204-8F91-11CE-9DE3-00AA004BB851}" defaultlayout="Microsoft.DataWarehouse.Layout.GraphLayout100" defaultlineroute="Microsoft.DataWarehouse.Layout.GraphLayout100" version="7" nextobject="5" scale="100" pagebreakanchorx="0" pagebreakanchory="0" pagebreaksizex="0" pagebreaksizey="0" scrollleft="0" scrolltop="0" gridx="150" gridy="150" marginx="1000" marginy="1000" zoom="100" x="25982" y="12594" backcolor="15334399" defaultpersistence="2" PrintPageNumbersMode="3" PrintMarginTop="0" PrintMarginBottom="635" PrintMarginLeft="0" PrintMarginRight="0" marqueeselectionmode="1" mousepointer="0" snaptogrid="0" autotypeannotation="1" showscrollbars="0" viewpagebreaks="0" donotforceconnectorsbehindshapes="1" backpictureclsid="{00000000-0000-0000-0000-000000000000}"&gt;
+    &lt;font&gt;
+      &lt;ddsxmlobjectstreamwrapper binary="01010000900180380100065461686f6d61" /&gt;
+    &lt;/font&gt;
+    &lt;mouseicon&gt;
+      &lt;ddsxmlobjectstreamwrapper binary="6c74000000000000" /&gt;
+    &lt;/mouseicon&gt;
+  &lt;/diagram&gt;
+  &lt;layoutmanager&gt;
+    &lt;ddsxmlobj /&gt;
+  &lt;/layoutmanager&gt;
+  &lt;ddscontrol controlprogid="DdsShapes.DdsObjectManagedBridge.2" tooltip="Execute SQL Task" left="674" top="569" logicalid="2" controlid="1" masterid="0" hint1="0" hint2="0" width="5874" height="1164" noresize="0" nomove="0" nodefaultattachpoints="0" autodrag="1" usedefaultiddshape="1" selectable="1" showselectionhandles="1" allownudging="1" isannotation="0" dontautolayout="0" groupcollapsed="0" tabstop="1" visible="1" snaptogrid="0"&gt;
+    &lt;control&gt;
+      &lt;ddsxmlobjectstreaminitwrapper binary="00080000f21600008c040000" /&gt;
+    &lt;/control&gt;
+    &lt;layoutobject&gt;
+      &lt;ddsxmlobj&gt;
+        &lt;property name="LogicalObject" value="{7FAFFA01-9EDB-4B74-BEA9-219DB68FDC8E}" vartype="8" /&gt;
+        &lt;property name="ShowConnectorSource" value="0" vartype="2" /&gt;
+      &lt;/ddsxmlobj&gt;
+    &lt;/layoutobject&gt;
+    &lt;shape groupshapeid="0" groupnode="0" /&gt;
+  &lt;/ddscontrol&gt;
+&lt;/dds&gt;&lt;/dwd:Layout&gt;&lt;/dwd:DtsControlFlowDiagram&gt;&lt;/Package&gt;</DTS:Property>
+<DTS:Property DTS:Name="Namespace">dts-designer-1.0</DTS:Property>
+<DTS:Property DTS:Name="ObjectName">{FD27D20C-75DE-425D-A79F-D8E67B448D4B}</DTS:Property>
+<DTS:Property DTS:Name="DTSID">{7F286056-7706-42AD-9378-429CC966B1EA}</DTS:Property>
+<DTS:Property DTS:Name="Description"></DTS:Property>
+<DTS:Property DTS:Name="CreationName"></DTS:Property></DTS:PackageVariable>
+<DTS:PackageVariable>
+<DTS:Property DTS:Name="PackageVariableValue" DTS:DataType="8">&lt;Package xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ddl2="http://schemas.microsoft.com/analysisservices/2003/engine/2" xmlns:ddl2_2="http://schemas.microsoft.com/analysisservices/2003/engine/2/2" xmlns:ddl100_100="http://schemas.microsoft.com/analysisservices/2008/engine/100/100" xmlns:ddl200="http://schemas.microsoft.com/analysisservices/2010/engine/200" xmlns:ddl200_200="http://schemas.microsoft.com/analysisservices/2010/engine/200/200" xmlns:dwd="http://schemas.microsoft.com/DataWarehouse/Designer/1.0"&gt;&lt;dwd:DtsControlFlowDiagram&gt;&lt;dwd:BoundingLeft&gt;674&lt;/dwd:BoundingLeft&gt;&lt;dwd:BoundingTop&gt;569&lt;/dwd:BoundingTop&gt;&lt;dwd:Layout&gt;&lt;dds&gt;
+  &lt;diagram fontclsid="{0BE35203-8F91-11CE-9DE3-00AA004BB851}" mouseiconclsid="{0BE35204-8F91-11CE-9DE3-00AA004BB851}" defaultlayout="Microsoft.DataWarehouse.Layout.GraphLayout100" defaultlineroute="Microsoft.DataWarehouse.Layout.GraphLayout100" version="7" nextobject="5" scale="100" pagebreakanchorx="0" pagebreakanchory="0" pagebreaksizex="0" pagebreaksizey="0" scrollleft="0" scrolltop="0" gridx="150" gridy="150" marginx="1000" marginy="1000" zoom="100" x="25982" y="12594" backcolor="15334399" defaultpersistence="2" PrintPageNumbersMode="3" PrintMarginTop="0" PrintMarginBottom="635" PrintMarginLeft="0" PrintMarginRight="0" marqueeselectionmode="1" mousepointer="0" snaptogrid="0" autotypeannotation="1" showscrollbars="0" viewpagebreaks="0" donotforceconnectorsbehindshapes="1" backpictureclsid="{00000000-0000-0000-0000-000000000000}"&gt;
+    &lt;font&gt;
+      &lt;ddsxmlobjectstreamwrapper binary="01010000900180380100065461686f6d61" /&gt;
+    &lt;/font&gt;
+    &lt;mouseicon&gt;
+      &lt;ddsxmlobjectstreamwrapper binary="6c74000000000000" /&gt;
+    &lt;/mouseicon&gt;
+  &lt;/diagram&gt;
+  &lt;layoutmanager&gt;
+    &lt;ddsxmlobj /&gt;
+  &lt;/layoutmanager&gt;
+  &lt;ddscontrol controlprogid="DdsShapes.DdsObjectManagedBridge.2" tooltip="Execute SQL Task" left="674" top="569" logicalid="2" controlid="1" masterid="0" hint1="0" hint2="0" width="5874" height="1164" noresize="0" nomove="0" nodefaultattachpoints="0" autodrag="1" usedefaultiddshape="1" selectable="1" showselectionhandles="1" allownudging="1" isannotation="0" dontautolayout="0" groupcollapsed="0" tabstop="1" visible="1" snaptogrid="0"&gt;
+    &lt;control&gt;
+      &lt;ddsxmlobjectstreaminitwrapper binary="00080000f21600008c040000" /&gt;
+    &lt;/control&gt;
+    &lt;layoutobject&gt;
+      &lt;ddsxmlobj&gt;
+        &lt;property name="LogicalObject" value="{7FAFFA01-9EDB-4B74-BEA9-219DB68FDC8E}" vartype="8" /&gt;
+        &lt;property name="ShowConnectorSource" value="0" vartype="2" /&gt;
+      &lt;/ddsxmlobj&gt;
+    &lt;/layoutobject&gt;
+    &lt;shape groupshapeid="0" groupnode="0" /&gt;
+  &lt;/ddscontrol&gt;
+&lt;/dds&gt;&lt;/dwd:Layout&gt;&lt;/dwd:DtsControlFlowDiagram&gt;&lt;/Package&gt;</DTS:Property>
+<DTS:Property DTS:Name="Namespace">dts-designer-1.0</DTS:Property>
+<DTS:Property DTS:Name="ObjectName">package-diagram</DTS:Property>
+<DTS:Property DTS:Name="DTSID">{0029D1EE-7AA0-4CDB-897E-0E8011D5E3AF}</DTS:Property>
+<DTS:Property DTS:Name="Description"></DTS:Property>
+<DTS:Property DTS:Name="CreationName"></DTS:Property></DTS:PackageVariable></DTS:Executable>

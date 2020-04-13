@@ -1,0 +1,804 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="12/27/2018 11:18:13 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AMS06X"
+  DTS:CreatorName="AMS\mpaludi"
+  DTS:DTSID="{BE13238B-B60D-4FDC-9B00-2B58233FD4E1}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="Comercial_H_PRECIOS_GRILLA"
+  DTS:PackageType="5"
+  DTS:VersionBuild="43"
+  DTS:VersionGUID="{30B5D389-D8B4-4FEB-A226-1812201B2F58}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{C6628D6E-D1BE-4E94-8CB6-9F08D5DA00A7}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">1,7,OnError</DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnError"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{C6628D6E-D1BE-4E94-8CB6-9F08D5DA00A7}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Borra AUX_H_GRILLA"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{D9AC76F7-B853-4758-A8EE-54C6F665DC60}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Borra AUX_H_GRILLA"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{C58967E1-D6E6-45BE-BAEB-DD39AA465CE7}"
+          SQLTask:SqlStatementSource="truncate table AUX_H_GRILLA" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Data Flow Task"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{72C74574-2475-4451-8229-1EF141F183C5}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Data Flow Task"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <pipeline
+          BLOBTempStoragePath=""
+          bufferTempStoragePath=""
+          version="1">
+          <components>
+            <component
+              refId="Package\Data Flow Task\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[AUX_H_GRILLA]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="{C58967E1-D6E6-45BE-BAEB-DD39AA465CE7}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DS_DW_SALUD]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[W23PRO]"
+                      cachedDataType="numeric"
+                      cachedName="W23PRO"
+                      cachedPrecision="4"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_producto]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[W23PRO]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[W23PLA]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="5"
+                      cachedName="W23PLA"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_plan_producto]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[W23PLA]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[W23PLG]"
+                      cachedDataType="numeric"
+                      cachedName="W23PLG"
+                      cachedPrecision="5"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[grilla]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[W23PLG]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[W23FEC]"
+                      cachedDataType="numeric"
+                      cachedName="W23FEC"
+                      cachedPrecision="8"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_vigencia]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[W23FEC]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[W23EDD]"
+                      cachedDataType="numeric"
+                      cachedName="W23EDD"
+                      cachedPrecision="3"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[edad_desde]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[W23EDD]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[W23EDH]"
+                      cachedDataType="numeric"
+                      cachedName="W23EDH"
+                      cachedPrecision="3"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[edad_hasta]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[W23EDH]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[W23CAN]"
+                      cachedDataType="numeric"
+                      cachedName="W23CAN"
+                      cachedPrecision="3"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[cant_beneficiario]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[W23CAN]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[W13MOP]"
+                      cachedDataType="numeric"
+                      cachedName="W13MOP"
+                      cachedPrecision="11"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[imp_monto_plan]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[W13MOP]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_producto]"
+                      dataType="i4"
+                      name="id_producto" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_plan_producto]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      name="id_plan_producto" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[grilla]"
+                      dataType="i4"
+                      name="grilla" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_vigencia]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      name="fecha_vigencia" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[edad_desde]"
+                      dataType="i4"
+                      name="edad_desde" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[edad_hasta]"
+                      dataType="i4"
+                      name="edad_hasta" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[cant_beneficiario]"
+                      dataType="i4"
+                      name="cant_beneficiario" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[imp_monto_plan]"
+                      dataType="numeric"
+                      name="imp_monto_plan"
+                      precision="12"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_periodo]"
+                      dataType="i4"
+                      name="id_periodo" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task\OLE DB Source"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE DB Source"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select  W23PRO, --id_producto
+	    W23PLA,  --id_plan_producto
+		W23PLG, --grilla
+		W23FEC, -- fecha_vigencia
+		W23EDD, -- edad_desde
+		W23EDH, -- edad_hasta
+		W23CAN, -- cant_beneficiario
+		W13MOP--imp_monto_plan
+from SMPLIBD.T23LFCH where W23CAN = 1 AND  W23FEC &gt;= '20190101'</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task\OLE DB Source.Connections[OleDbConnection]"
+                  connectionManagerID="{DEF61386-9B9F-4B6A-B439-088B2A65DD60}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DS_HOST03]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[W23PRO]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W23PRO]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[W23PRO]"
+                      name="W23PRO"
+                      precision="4"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[W23PLA]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W23PLA]"
+                      length="5"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[W23PLA]"
+                      name="W23PLA"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[W23PLG]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W23PLG]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[W23PLG]"
+                      name="W23PLG"
+                      precision="5"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[W23FEC]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W23FEC]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[W23FEC]"
+                      name="W23FEC"
+                      precision="8"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[W23EDD]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W23EDD]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[W23EDD]"
+                      name="W23EDD"
+                      precision="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[W23EDH]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W23EDH]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[W23EDH]"
+                      name="W23EDH"
+                      precision="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[W23CAN]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W23CAN]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[W23CAN]"
+                      name="W23CAN"
+                      precision="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[W13MOP]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W13MOP]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[W13MOP]"
+                      name="W13MOP"
+                      precision="11"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W23PRO]"
+                      dataType="numeric"
+                      name="W23PRO"
+                      precision="4" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W23PLA]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      name="W23PLA" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W23PLG]"
+                      dataType="numeric"
+                      name="W23PLG"
+                      precision="5" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W23FEC]"
+                      dataType="numeric"
+                      name="W23FEC"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W23EDD]"
+                      dataType="numeric"
+                      name="W23EDD"
+                      precision="3" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W23EDH]"
+                      dataType="numeric"
+                      name="W23EDH"
+                      precision="3" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W23CAN]"
+                      dataType="numeric"
+                      name="W23CAN"
+                      precision="3" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W13MOP]"
+                      dataType="numeric"
+                      name="W13MOP"
+                      precision="11"
+                      scale="2" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W23PRO]"
+                      dataType="numeric"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W23PRO]"
+                      name="W23PRO"
+                      precision="4" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W23PLA]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W23PLA]"
+                      name="W23PLA" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W23PLG]"
+                      dataType="numeric"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W23PLG]"
+                      name="W23PLG"
+                      precision="5" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W23FEC]"
+                      dataType="numeric"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W23FEC]"
+                      name="W23FEC"
+                      precision="8" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W23EDD]"
+                      dataType="numeric"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W23EDD]"
+                      name="W23EDD"
+                      precision="3" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W23EDH]"
+                      dataType="numeric"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W23EDH]"
+                      name="W23EDH"
+                      precision="3" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W23CAN]"
+                      dataType="numeric"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W23CAN]"
+                      name="W23CAN"
+                      precision="3" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W13MOP]"
+                      dataType="numeric"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W13MOP]"
+                      name="W13MOP"
+                      precision="11"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Data Flow Task.Paths[OLE DB Source Output]"
+              endId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Inserta en H_EMPRESA_GRILLA"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{59920c6a-6a8d-4432-818d-ca9a29292cb1}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Inserta en H_EMPRESA_GRILLA"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{C58967E1-D6E6-45BE-BAEB-DD39AA465CE7}"
+          SQLTask:SqlStatementSource="truncate table H_EMPRESA_GRILLA&#xA;&#xA;DECLARE @Periodo INT&#xA;SET @Periodo = dbo.DevuelvePeriodo(getdate())&#xA;&#xA;/* Version Anterior Borrar despues de primer ejecucion&#xA;insert into H_EMPRESA_GRILLA&#xA;select id_empresa_PE,grilla,id_tipo_entidad_PE, count(distinct id_persona) from H_COMER_STOCK_AFILIA&#xA;where grilla &lt;&gt; 0 -- Excluyo las grillas 0 &#xA;&#x9;and id_periodo = @Periodo&#xA;group by id_empresa_PE,grilla,id_tipo_entidad_PE&#xA;*/&#xA;&#xA;&#xA;------ select * from H_EMPRESA_GRILLA&#xA;&#xA;--Se borraba las grillas 0&#xA;insert into H_EMPRESA_GRILLA&#xA;select 0,A11.grilla,'I', count(a11.id_persona),0--id_producto&#xA;,0--id_plan_producto&#xA;,0--edad_desde&#xA;,0 --edad_hasta&#xA;,0 --id_marca_grilla_mayoritaria&#xA;,0 -- cant_stock_empresa&#xA;,a11.id_convenio&#xA;,a11.id_tipo_entidad_convenio&#xA;,a11.id_periodo&#xA;from        H_COMER_STOCK_AFILIA        a11&#xA;        join        D_PERSONAS        a12&#xA;          on         (a11.id_persona = a12.id_persona)&#xA;        join        D_LOCALIDADES_AFILIADO        a13&#xA;          on         (a12.id_localidad_afiliado = a13.id_localidad_afiliado)&#xA;        join        D_PLANES        a14&#xA;          on         (a11.id_plan_producto = a14.id_plan_producto and &#xA;        a11.id_producto = a14.id_producto)&#xA;        join        D_PLANES_AGRUPADOS        a18&#xA;          on         (a14.id_plan_agrupado = a18.id_plan_agrupado)&#xA;        join        D_PRODUCTOS        a19&#xA;          on         (a11.id_producto = a19.id_producto)&#xA;where id_periodo = @Periodo and&#xA;&#x9;&#x9;---Se utiliza el filtro de producto&#xA;&#x9;&#x9;(a19.Id_Clase_Producto in ('S ')&#xA; and a14.Id_SubRubro_Ley in (1, 2, 3, 5, 6, 7)&#xA; and not ((a11.id_producto = 4 and a11.id_plan_producto = 'OS   ' and a11.subgrupo_plan = 24)&#xA;   or  (a11.id_producto=20 and a11.id_plan_producto='OS   ' and a11.subgrupo_plan=24))&#xA; and a13.id_zona_comercial not in (0, 1, 20)&#xA; and a18.id_plan_agrupado_S not in (84, 85, 58, 78, 29)&#xA; and not ((a11.id_producto = 4 and a11.id_plan_producto = 'PMO  ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='PMO  ')&#xA;   or  (a11.id_producto=35 and a11.id_plan_producto='PMO  '))&#xA; and a11.id_producto not in (78)&#xA; and (not a11.id_convenio in (402725))&#xA; and not ((a11.id_producto = 16 and a11.id_plan_producto = 'CC   ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='CM   ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='CS1  ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='CS100')&#xA;   or  (a11.id_producto=4 and a11.id_plan_producto='M    ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='M    ')&#xA;   or  (a11.id_producto=20 and a11.id_plan_producto='M    ')&#xA;   or  (a11.id_producto=14 and a11.id_plan_producto='Z    ')&#xA;   or  (a11.id_producto=20 and a11.id_plan_producto='Z    ')&#xA;   or  (a11.id_producto=1 and a11.id_plan_producto='C    ')&#xA;   or  (a11.id_producto=4 and a11.id_plan_producto='Z    ')))&#xA;   and a11.id_tipo_entidad_convenio in ('E')&#xA;group by A11.grilla,a11.id_convenio,a11.id_tipo_entidad_convenio,a11.id_periodo&#xA;&#xA;&#xA;&#xA;---- drop table #planes&#xA;----- drop table #planesmayoritarios&#xA;&#xA;&#xA;-- Selecciona por clave la cantidad de personas qeu hay en el stock&#xA;select  id_periodo,id_convenio,id_tipo_entidad_convenio,grilla, id_plan_producto, id_producto ,count(distinct id_persona) as cantidad into #planes&#xA;from H_COMER_STOCK_AFILIA &#xA;where id_periodo = @Periodo and id_convenio &lt;&gt; 0 &#xA;group by  id_periodo,grilla,id_convenio,id_tipo_entidad_convenio, id_plan_producto, id_producto&#xA;&#xA;-- se busca el producto plan mayoritario de cada grilla&#xA;select id_convenio,id_tipo_entidad_convenio, grilla, max(cantidad) cantidad &#xA;into #planesmayoritarios from #planes  group by id_convenio,id_tipo_entidad_convenio, grilla&#xA;&#xA;update H_EMPRESA_GRILLA&#xA;set id_plan_producto = p.id_plan_producto,&#xA;&#x9;id_producto = p.id_producto&#xA;&#x9;from H_EMPRESA_GRILLA h inner join #planes p on h.id_convenio = p.id_convenio and h.grilla = p.grilla and p.id_tipo_entidad_convenio = h.id_tipo_entidad_convenio&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;inner join #planesmayoritarios pm on p.grilla = pm.grilla and p.id_convenio = pm.id_convenio and  p.cantidad = pm.cantidad and pm.id_tipo_entidad_convenio = p.id_tipo_entidad_convenio&#xA;-- Se selecciona la edades hasta y desde que primero encuentro (arbitrario) para los planes que hay &#x9;&#xA;update H_EMPRESA_GRILLA&#xA;set edad_desde = p.edad_desde,&#xA;&#x9;edad_hasta = p.edad_hasta&#xA;from H_EMPRESA_GRILLA g inner join H_PRECIOS_GRILLAS  p on  g.grilla = p.grilla and g.id_plan_producto = p.id_plan_producto and g.id_producto = p.id_producto&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#xA;&#xA;--Calcula Grilla mayoritaria&#xA;update H_EMPRESA_GRILLA &#xA;set id_marca_grilla_mayoritaria = 0&#xA;-- Busca las grillas mayoritarias por empresa&#xA;select h.id_convenio,h.id_tipo_entidad_convenio, max(cant_stock_empresa_grilla) as cant into #grillas_mayoritarias from H_EMPRESA_GRILLA h  group by id_convenio ,h.id_tipo_entidad_convenio&#xA;--Como hay empresas que tienen grillas con la misma cantidad en la maxima se toma la grilla de menor numero (valor arbitrario)&#xA;select h.id_convenio,h.id_tipo_entidad_convenio, min(grilla) as grilla into #grillas_misma_cantidad &#xA;from H_EMPRESA_GRILLA h inner join #grillas_mayoritarias g on h.id_convenio = g.id_convenio and h.cant_stock_empresa_grilla = g.cant and  g.id_tipo_entidad_convenio = h.id_tipo_entidad_convenio&#xA;group by h.id_convenio,h.id_tipo_entidad_convenio&#xA;-- Actualiza tabla &#xA;update H_EMPRESA_GRILLA &#xA;set id_marca_grilla_mayoritaria = 1&#xA;from H_EMPRESA_GRILLA h inner join #grillas_misma_cantidad g &#xA;on h.id_convenio = g.id_convenio and h.grilla = g.grilla and  g.id_tipo_entidad_convenio = h.id_tipo_entidad_convenio&#xA;&#xA;Drop table #grillas_misma_cantidad &#xA;Drop table #grillas_mayoritarias &#xA;&#xA;-- Calcula el stock de la empresa en total&#xA;update h &#xA;set cant_stock_empresa = s.cant_total &#xA;from H_EMPRESA_GRILLA h inner join&#xA;(select id_convenio,id_tipo_entidad_convenio,sum(cant_stock_empresa_grilla) cant_total from H_EMPRESA_GRILLA group by id_convenio,id_tipo_entidad_convenio) s&#xA; on h.id_convenio = s.id_convenio and  s.id_tipo_entidad_convenio = h.id_tipo_entidad_convenio" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Inserta en H_PRECIOS_GRILLAS"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{9D3F50E4-69D6-44E9-935D-76F6568E652F}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Inserta en H_PRECIOS_GRILLAS"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{C58967E1-D6E6-45BE-BAEB-DD39AA465CE7}"
+          SQLTask:SqlStatementSource="DECLARE @Periodo INT&#xA;SET @Periodo = dbo.DevuelvePeriodo(getdate())&#xA;&#xA;-- Calculo el periodo a partir de la fecha de vigencia&#xA;update aux_h_grilla &#xA;set id_periodo = left(fecha_vigencia,6)&#xA;&#xA;delete from aux_h_grilla  where id_periodo &lt;&gt; @Periodo &#xA;&#xA;truncate table  AUX_H_GRILLA_PERIODOS &#xA;&#xA;&#xA;&#xA;&#xA;&#xA;-- Carga los nuevos cambios en precio de grilla&#xA;--Inserta las grillas con aumento en el periodo actual&#xA;&#x9;insert into AUX_H_GRILLA_PERIODOS&#xA;&#x9;select distinct @Periodo as id_periodo,id_producto,id_plan_producto,grilla,edad_desde,edad_hasta,imp_monto_plan,0,-- Imp monto plan anterior&#xA;&#x9;0-- marca_importe&#xA;&#x9;from AUX_H_GRILLA&#xA;&#x9;order by id_producto,id_plan_producto,grilla,edad_desde,edad_hasta&#xA;&#xA;-- Inserta las grillas que no sufrieron aumentos&#xA;-- Pone dos veces el imp_monto_plan ya que el anterior es el mismo por no haber sufrido modificaciones&#xA;--DECLARE @Periodo INT&#xA;--SET @Periodo = dbo.DevuelvePeriodo(getdate())&#xA;insert into AUX_H_GRILLA_PERIODOS&#xA;select distinct @Periodo,id_producto,id_plan_producto,grilla,edad_desde,edad_hasta, imp_monto_plan,imp_monto_plan,0&#xA; from h_precios_grillas  A &#xA;where not exists (select id_producto,id_plan_producto,grilla,edad_desde,edad_hasta from AUX_H_GRILLA H &#xA;&#x9;&#x9;&#x9;&#x9;where h.grilla = a.grilla and h.id_producto = a.id_producto and a.id_plan_producto = h.id_plan_producto and a.edad_desde = h.edad_desde and a.edad_hasta = h.edad_hasta)&#xA;&#x9;&#x9;and id_periodo = dbo.periodosanteriores(@Periodo ,2)&#xA;&#xA;&#xA;-- Completa los importes anteriores que no se llenaron en los pasos anteriores y que las grillas ya existian&#xA;--DECLARE @Periodo INT&#xA;--SET @Periodo = dbo.DevuelvePeriodo(getdate())&#xA;update A  &#xA;set imp_monto_plan_anterior = b.imp_monto_plan&#xA;from AUX_H_GRILLA_PERIODOS A inner join h_precios_grillas B &#xA;on A.id_producto = b.id_producto and a.grilla = b.grilla and a.id_plan_producto = b.id_plan_producto &#xA;and a.edad_desde = b.edad_desde and a.edad_hasta = b.edad_hasta and b.id_periodo = dbo.PeriodosAnteriores(a.id_periodo,2)&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#xA;where a.imp_monto_plan_anterior = 0 and a.id_periodo = @Periodo&#xA;&#xA;-- Completa los campos de monto anterior para aquellas grillas que son nuevas y aun tienen el importe en 0&#xA;--DECLARE @Periodo INT&#xA;--SET @Periodo = dbo.DevuelvePeriodo(getdate())&#xA;&#xA;update AUX_H_GRILLA_PERIODOS&#xA;set imp_monto_plan_anterior = imp_monto_plan&#xA;from AUX_H_GRILLA_PERIODOS A where id_periodo = @Periodo and imp_monto_plan_anterior = 0 and not exists &#xA;(select * from h_precios_grillas H &#xA;where h.grilla = a.grilla and h.id_producto = a.id_producto and a.id_plan_producto = h.id_plan_producto and a.edad_desde = h.edad_desde and a.edad_hasta = h.edad_hasta)&#xA; &#xA;delete from h_precios_grillas where id_periodo = @Periodo &#xA;&#xA;&#xA;&#xA;insert into h_precios_grillas&#xA;select id_periodo,id_producto,id_plan_producto,grilla,edad_desde, edad_hasta, imp_monto_plan, imp_monto_plan_anterior,&#xA;0, -- imp_monto_plan_U12&#xA;0, -- aumento_grilla_sss &#xA;0,-- imp_sss&#xA;0 --imp_sss_u12&#xA;from AUX_H_GRILLA_PERIODOS &#xA;&#xA;delete from h_precios_grillas where imp_monto_plan &lt; 50&#xA;&#xA;---CALCULO DE AUMENTO DE GRILLAS&#xA;--Selecciona el minimo mes de los ultimos 12 meses&#xA;declare @periodo_U12M int = (select min(id_periodo) from &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;(select top 12 min(id_periodo) id_periodo from h_precios_grillas group by id_periodo order by id_periodo desc) a)&#xA;-- Guarda en la tabla el minimo periodo de cada clave&#xA;select min(id_periodo) as id_periodo, id_producto,id_plan_producto,grilla,edad_desde,edad_hasta into #temp_ultimos12&#xA;from h_precios_grillas &#xA;where id_periodo &gt;= @periodo_U12M &#xA;group by id_producto,id_plan_producto,grilla,edad_desde,edad_hasta&#xA;-- Pone en 0 todo lo menor al periodo inicial&#xA;update h_precios_grillas&#xA;set imp_monto_plan_U12  = 0&#xA;-- Pasa para cada grilla el precio en el periodo inicial&#xA;update h_precios_grillas&#xA;set imp_monto_plan_U12  = h.imp_monto_plan_anterior&#xA;from h_precios_grillas h inner join #temp_ultimos12 t on  h.id_producto = t.id_producto and h.id_plan_producto = t.id_plan_producto &#xA;and h.grilla = t.grilla and  h.edad_desde = t.edad_desde and h.edad_hasta = t.edad_hasta and t.id_periodo = h.id_periodo&#xA;&#xA;-- gUarda la clave para el relleno&#xA;select h.* into #temp_relleno from h_precios_grillas h  inner join #temp_ultimos12  t on t.id_periodo =  h.id_periodo and h.id_producto = t.id_producto and h.id_plan_producto = t.id_plan_producto &#xA;and h.grilla = t.grilla and  h.edad_desde = t.edad_desde and h.edad_hasta = t.edad_hasta &#xA;-- Rellena los campos  que quedaron en  0 y son posteriores al mes de inicio&#xA;update h_precios_grillas&#xA;set imp_monto_plan_U12  = t.imp_monto_plan_anterior&#xA;from h_precios_grillas h inner join #temp_relleno t on  h.id_producto = t.id_producto and h.id_plan_producto = t.id_plan_producto &#xA;and h.grilla = t.grilla and  h.edad_desde = t.edad_desde and h.edad_hasta = t.edad_hasta &#xA;where h.imp_monto_plan_U12 = 0  and h.id_periodo &gt; @periodo_U12M&#xA;----CALCULO DE AUMENTO DE SUPER&#xA;&#xA;select distinct  id_periodo,cast(0 as float) as aumento_grilla_sss ,cast(0 as float) as imp_sss ,cast(0 as float) as imp_sss_U12&#xA; into #temp_aumentosss from h_precios_grillas where id_periodo &gt;= @periodo_U12M&#xA;&#xA;-- Setea los ultimos todos en 1000000&#xA;update #temp_aumentosss&#xA;set imp_sss_U12 = 1000000&#xA;--Setea los aumentos segun la tabla de h_aranceles_aumentos&#xA;update #temp_aumentosss&#xA;set aumento_grilla_sss = aumento_sss&#xA;from #temp_aumentosss t inner join H_ARANCELES_aumentos h on t.id_periodo = h.id_periodo&#xA;-- Setea los importes con sus aumentos&#xA;&#xA;declare @importe int = 1000000&#xA;update #temp_aumentosss&#xA;set @importe = @importe + @importe * aumento_grilla_sss,&#xA;&#x9;imp_sss = @importe &#xA;where id_periodo &gt;= @periodo_U12M&#xA;-- Inicializo en 0 todas&#xA;update h_precios_grillas&#xA; set imp_sss  = 0,&#xA;&#x9; imp_sss_U12 = 0&#xA;&#xA;--Pasa los importes a la h para las grillas qeu tienen 12 meses&#xA;update h_precios_grillas&#xA; set imp_sss  = t.imp_sss,&#xA;&#x9; imp_sss_U12 = t.imp_sss_U12,&#xA;&#x9; aumento_grilla_sss = t.aumento_grilla_sss&#xA;from h_precios_grillas h inner join #temp_aumentosss t on h.id_periodo = t.id_periodo&#xA;&#xA;&#xA;&#xA;-- Para las grillas que tienen menos de 12 meses calcula desde donde arrancar&#xA;&#xA;update h_precios_grillas&#xA;set imp_sss_U12 = a.imp_sss&#xA;from h_precios_grillas h inner join #temp_ultimos12 t on  h.id_producto = t.id_producto and h.id_plan_producto = t.id_plan_producto &#xA;and h.grilla = t.grilla and  h.edad_desde = t.edad_desde and h.edad_hasta = t.edad_hasta and t.id_periodo = h.id_periodo&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;inner join #temp_aumentosss a on a.id_periodo = dbo.periodosanteriores(h.id_periodo,2)&#xA;where t.id_periodo &gt; @periodo_U12M&#xA;&#xA;-- Busco las grillas con menos de 12 meses de antiguedad&#xA;select * into #grillasnuevas from h_precios_grillas where imp_sss_U12 not in (1000000,0)&#xA;&#xA;&#xA;update h_precios_grillas&#xA;set imp_sss_U12 = t.imp_sss_U12&#xA;from h_precios_grillas h inner join #grillasnuevas t on  h.id_producto = t.id_producto and h.id_plan_producto = t.id_plan_producto &#xA;and h.grilla = t.grilla and  h.edad_desde = t.edad_desde and h.edad_hasta = t.edad_hasta &#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{D9C16C0C-0EA3-4088-8248-2F3E65EC9BC7}"
+      DTS:From="Package\Borra AUX_H_GRILLA"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Data Flow Task" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{1755E578-9D1E-418C-A3E7-52EA376FE4B1}"
+      DTS:From="Package\Data Flow Task"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Inserta en H_PRECIOS_GRILLAS" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{561C3F0C-1ED7-472C-BC25-BD56104104B8}"
+      DTS:From="Package\Inserta en H_PRECIOS_GRILLAS"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Inserta en H_EMPRESA_GRILLA" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="191,42"
+          Id="Package\Borra AUX_H_GRILLA"
+          TopLeft="56,5.5" />
+        <NodeLayout
+          Size="155,42"
+          Id="Package\Data Flow Task"
+          TopLeft="74,95.3490566037736" />
+        <NodeLayout
+          Size="244,42"
+          Id="Package\Inserta en H_EMPRESA_GRILLA"
+          TopLeft="29.5,256.990566037736" />
+        <NodeLayout
+          Size="247,42"
+          Id="Package\Inserta en H_PRECIOS_GRILLAS"
+          TopLeft="28,179.198113207547" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="151.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,47.8490566037736"
+              Start="0,0"
+              End="0,40.3490566037736">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,40.3490566037736" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="151.5,137.349056603774">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,41.8490566037734"
+              Start="0,0"
+              End="0,34.3490566037734">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,34.3490566037734" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="151.5,221.198113207547">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,35.792452830189"
+              Start="0,0"
+              End="0,28.292452830189">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,28.292452830189" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Data Flow Task">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="177,42"
+          Id="Package\Data Flow Task\OLE DB Destination"
+          TopLeft="5.50000000000001,107.5" />
+        <NodeLayout
+          Size="157,42"
+          Id="Package\Data Flow Task\OLE DB Source"
+          TopLeft="15.5,5.5" />
+        <EdgeLayout
+          Id="Package\Data Flow Task.Paths[OLE DB Source Output]"
+          TopLeft="94,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Task\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Task\OLE DB Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

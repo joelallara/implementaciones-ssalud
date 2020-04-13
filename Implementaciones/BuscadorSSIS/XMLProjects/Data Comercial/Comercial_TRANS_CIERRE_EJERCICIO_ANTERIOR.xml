@@ -1,0 +1,101 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="1/13/2016 8:07:28 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AMS06X"
+  DTS:CreatorName="AMS\nborio"
+  DTS:DTSID="{ACE6960D-4AFB-4F42-82DC-BD02E6C7183F}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="Comercial_TRANS_CIERRE_EJERCICIO_ANTERIOR"
+  DTS:PackageType="5"
+  DTS:VersionBuild="11"
+  DTS:VersionGUID="{D79A652F-94C1-4106-A7A8-598201132BD0}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{88A3896E-DDA6-4FAE-B6CC-FF90F703BA45}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">1,7,OnError</DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnError"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{88A3896E-DDA6-4FAE-B6CC-FF90F703BA45}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza TRANS_CIERRE_EJERCICIO_ANTERIOR"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Actualiza TRANS_CIERRE_EJERCICIO_ANTERIOR"
+      DTS:DTSID="{6C0159E6-5581-4E3B-B42E-0DE5742BD76E}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza TRANS_CIERRE_EJERCICIO_ANTERIOR"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{C58967E1-D6E6-45BE-BAEB-DD39AA465CE7}"
+          SQLTask:SqlStatementSource="&#x9;&#xA;&#x9;DECLARE @Periodo INTEGER&#xA;&#x9;DECLARE @PeriodoCierre INT&#xA;&#x9;SET @Periodo = DW_SALUD.dbo.DevuelvePeriodo(GETDATE())&#xA;&#x9;SET @PeriodoCierre = (SELECT MAX(Id_Cierre_Ejercicio_Anterior) FROM TRANS_CIERRE_EJERCICIO_ANTERIOR)&#xA;&#xA;/* Actualiza TRANS_CIERRE_EJERCICIO_ANTERIOR */&#xA;&#xA;&#x9;-- Lo hace mediante el maximo periodo del ejercicio anterior. Si el periodo a actualizar es el 7 (apertura del ejercicio) debería cambiar de periodo y en los meses siguientes continuar con los demás meses. */&#xA;&#x9;IF @Periodo &lt;&gt; (SELECT MAX(id_periodo) FROM TRANS_CIERRE_EJERCICIO_ANTERIOR)&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;IF RIGHT(@Periodo, 2)= 07&#xA;&#xA;&#x9;&#x9;&#x9;INSERT INTO TRANS_CIERRE_EJERCICIO_ANTERIOR&#xA;&#x9;&#x9;&#x9;SELECT @Periodo, DW_SALUD.dbo.PeriodoAnioSiguiente(CAST(CAST(DW_SALUD.dbo.Devuelve_Fecha(@PeriodoCierre) AS VARCHAR) AS DATETIME))&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;ELSE&#xA;&#xA;&#x9;&#x9;&#x9;INSERT INTO TRANS_CIERRE_EJERCICIO_ANTERIOR&#xA;&#x9;&#x9;&#x9;SELECT @Periodo, @PeriodoCierre&#xA;&#x9;&#x9;&#x9;&#xA;&#x9;&#x9;&#x9;&#xA;&#x9;&#x9;&#x9;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="298,44"
+          Id="Package\Actualiza TRANS_CIERRE_EJERCICIO_ANTERIOR"
+          TopLeft="5.5,5.5" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

@@ -1,0 +1,87 @@
+declare @Periodo int 
+SET @Periodo =  (select id_periodo from CONSULTAS_DW.DBO.AUX_PERIODO_MES_BORRA_LIQUIDACIONES)
+
+
+--BORRO LOS DATOS EXISTENTES PARA EL PERIODO QUE VOY A CARGAR
+delete H_LIQUIDACIONES where id_periodo = @Periodo 
+
+--INSERTO EN  H_LIQUIDACIONES
+INSERT INTO [DW_SALUD].[dbo].[H_LIQUIDACIONES]
+           ([id_periodo]
+           ,[id_tipo_cuenta]
+           ,[id_empresa]
+           ,[id_comprobante_liquidacion]
+           ,[id_talonario_liquidacion]
+           ,[numero_interno_liquidacion]
+           ,[id_persona]
+           ,[id_producto]
+           ,[id_plan_producto]
+           ,[id_subproducto]
+           ,[id_tipo_aporte_liquidacion]
+           ,[id_concepto_liquidacion]
+           ,[afiliado]
+           ,[subnumero]
+           ,[secuencia]
+           ,[nro_afiliado_origen]
+           ,[total_concepto]
+           ,[id_periodo_liquidacion]
+           ,[id_categoria_liquidacion]
+           ,[fecha_comprobante_liquidacion])
+SELECT 
+	[id_periodo]
+	,[id_tipo_cuenta]
+      ,[numero_cuenta]
+      ,[id_comprobante_liquidacion]
+      ,[id_talonario_liquidacion]
+      ,[numero_interno_liquidacion]
+      ,[id_persona]
+      ,[id_producto]
+      ,[id_plan_producto]
+      ,[id_subproducto]
+      ,[id_tipo_aporte_liquidacion]
+      ,[id_concepto_liquidacion]
+      ,[afiliado]
+      ,[subnumero]
+      ,999999
+      ,[nro_afiliado_origen]
+      ,[total_concepto]
+      ,[id_periodo_liquidacion]
+      ,[id_categoria_liquidacion]
+      ,CAST(CAST(fecha_comprobante_liquidacion AS CHAR(8)) AS DATE)
+  FROM [DW_SALUD].[dbo].[AUX_H_LIQUIDACIONES]
+
+
+--ACTUALIZO id_empresa EN 0 SI EL TIPO DE CUENTA ES DISTINTO DE 'E'
+update H_LIQUIDACIONES
+set id_empresa = 0
+where id_periodo = @Periodo and id_tipo_cuenta not in ('E')
+ 
+--ACTUALIZO secuencia. SI NO LA ENCUENTRO EN EL PERIODO EN CUESTION QUEDA EN 999999
+update H_LIQUIDACIONES
+set secuencia = G.secuencia
+from H_LIQUIDACIONES L join H_COMP_GRUPO_ACTIVO G on (L.afiliado = G.afiliado and L.id_persona = G.id_persona and L.subnumero = G.Subnumero and L.id_periodo = G.id_periodo)
+where L.id_periodo = @Periodo
+
+--SI NO ESTA EN EL ULTIMO STOCK, LA BUSCO EN EL MAXIMO PERIODO QUE APAREZCA
+select L.id_persona, L.afiliado, MAX(G.id_periodo) as periodo_max, null as secuencia
+into #CUENTAS_SALUD
+from H_LIQUIDACIONES L join H_COMP_GRUPO_ACTIVO G on (L.afiliado = G.afiliado and L.id_persona = G.id_persona)
+where L.id_periodo = @Periodo
+and L.secuencia = 999999
+group by L.id_persona, L.afiliado
+
+update #CUENTAS_SALUD
+set secuencia = G.secuencia
+from H_COMP_GRUPO_ACTIVO G join #CUENTAS_SALUD CS on (CS.afiliado = G.afiliado and G.id_persona = CS.id_persona and G.id_periodo = CS.periodo_max)
+
+
+update H_LIQUIDACIONES
+set secuencia = CS.secuencia
+from H_LIQUIDACIONES L join #CUENTAS_SALUD CS on (L.afiliado = CS.afiliado and CS.id_persona = L.id_persona)
+where L.id_periodo = @Periodo and L.secuencia = 999999
+
+
+
+
+ 
+   

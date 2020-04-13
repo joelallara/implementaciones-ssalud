@@ -1,0 +1,209 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="1/16/2017 1:26:08 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AMS06X"
+  DTS:CreatorName="AMS\nborio"
+  DTS:DTSID="{60A7A8C9-2D02-43C4-BA18-976F223C8A97}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="Aranceles Consumos Agrupados"
+  DTS:PackageType="5"
+  DTS:VersionBuild="16"
+  DTS:VersionGUID="{6BC48655-B83A-4FD8-BCAF-CDD1357CA1EA}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{C2F33E45-CE41-418B-B9ED-B9113112DC99}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">1,7,OnError</DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnError"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{C2F33E45-CE41-418B-B9ED-B9113112DC99}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Llenado D_AGRUPADO_ACREEDOR_NB-NU"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{92CB1090-438D-4B34-BFFA-E4AA3BA74B40}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Llenado D_AGRUPADO_ACREEDOR_NB-NU"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{A7161898-9CA0-4E15-920D-09B3D39D44ED}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE D_AGRUPADO_ACREEDOR_NU_NB&#xA;&#xA;INSERT INTO D_AGRUPADO_ACREEDOR_NU_NB&#xA;SELECT 0 as id_agrupado_acreedor, a11.id_acreedor, a11.id_tipo_prestador, a10.de_acreedor, a10.id_posicion_acreedor, ROUND(SUM(importe_aranceles_consumo),2) importe_aranceles_consumo, ROUND(SUM(cantidad_aranceles_consumo),2), 0, 0&#x9;&#xA;From&#x9;H_ARANCELES_CONSUMO&#x9;a11&#xA;&#x9;join&#x9;D_ACREEDOR a10&#xA;&#x9;  on (a11.id_acreedor=a10.id_acreedor and a11.id_tipo_prestador=a10.id_tipo_prestador)&#xA;&#x9;join&#x9;D_PLANES&#x9;a12&#xA;&#x9;  on &#x9;(a11.id_plan_producto = a12.id_plan_producto and &#xA;&#x9;a11.id_producto = a12.id_producto)&#xA;&#x9;join&#x9;D_PLANES_AGRUPADOS&#x9;a13&#xA;&#x9;  on &#x9;(a12.id_plan_agrupado = a13.id_plan_agrupado)&#xA;&#x9;join&#x9;D_PRODUCTOS&#x9;a14&#xA;&#x9;  on &#x9;(a12.id_producto = a14.id_producto)&#xA;where&#x9;(a14.Id_Clase_Producto in ('S ')&#xA; and a12.Id_SubRubro_Ley in (1, 2, 3)&#xA; and a11.id_marca_caso_severo in (0)&#xA; and a13.id_plan_agrupado_S not in (84, 85, 83, 121)&#xA; and a11.id_trimestre_aranceles in (SELECT MAX(A.id_trimestre_aranceles) id_trimestre_aranceles FROM H_ARANCELES_CONSUMO A)&#xA; and a11.id_nomenclador in ('NB', 'NU'))&#xA;GROUP BY a11.id_acreedor, a11.id_tipo_prestador, a10.de_acreedor, a10.id_posicion_acreedor&#xA;ORDER BY importe_aranceles_consumo DESC&#xA;&#xA;UPDATE D_AGRUPADO_ACREEDOR_NU_NB&#xA;SET ranking_cantidad_nu_nb = RowNumber&#xA;FROM D_AGRUPADO_ACREEDOR_NU_NB D INNER JOIN &#xA;(SELECT ROW_NUMBER() OVER (ORDER BY cantidad_aranceles_nu_nb DESC) AS RowNumber, &#xA; id_acreedor, cantidad_aranceles_nu_nb FROM D_AGRUPADO_ACREEDOR_NU_NB) A&#xA; ON (D.id_acreedor=A.id_acreedor)&#xA; &#xA;&#xA;UPDATE D_AGRUPADO_ACREEDOR_NU_NB&#xA;SET ranking_importe_nu_nb = RowNumber,&#xA;&#x9;id_agrupado_acreedor_nu_nb = RowNumber&#xA;FROM D_AGRUPADO_ACREEDOR_NU_NB D INNER JOIN &#xA;(SELECT ROW_NUMBER() OVER (ORDER BY importe_aranceles_nu_nb DESC) AS RowNumber, &#xA;id_acreedor, importe_aranceles_nu_nb FROM D_AGRUPADO_ACREEDOR_NU_NB) A&#xA;ON (D.id_acreedor=A.id_acreedor)&#xA;&#xA;&#xA;UPDATE D_AGRUPADO_ACREEDOR_NU_NB &#xA;SET id_agrupado_acreedor_nu_nb = 31&#xA;WHERE id_agrupado_acreedor_nu_nb &gt;= 31&#xA;&#xA;UPDATE D_AGRUPADO_ACREEDOR_NU_NB&#xA;SET de_acreedor = 'RESTO',&#xA;&#x9;id_acreedor = 0,&#xA;&#x9;id_posicion_acreedor = 0,&#xA;&#x9;ranking_cantidad_nu_nb = 0,&#xA;&#x9;ranking_importe_nu_nb = 0&#xA;WHERE id_agrupado_acreedor_nu_nb &gt;= 31&#xA;&#xA;UPDATE H_ARANCELES_CONSUMO&#xA;SET id_agrupado_acreedor_nu_nb = A.id_agrupado_acreedor_nu_nb&#xA;FROM H_ARANCELES_CONSUMO H &#xA;INNER JOIN D_AGRUPADO_ACREEDOR_NU_NB A ON (H.id_acreedor=A.id_acreedor and H.id_tipo_prestador=A.id_tipo_prestador)&#xA;&#xA;&#xA;UPDATE H_ARANCELES_CONSUMO&#xA;SET id_agrupado_acreedor_nu_nb = 31&#xA;WHERE id_agrupado_acreedor_nu_nb is null&#xA;&#xA;UPDATE D_AGRUPADO_ACREEDOR_NU_NB&#xA;SET importe_aranceles_nu_nb = 0,&#xA;&#x9;cantidad_aranceles_nu_nb = 0&#xA;WHERE id_agrupado_acreedor_nu_nb &gt;= 31" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Llenado D_AGRUPADO_ACREEDOR_NM"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{CFE16B30-76EA-4306-A64A-69BE6149D016}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Llenado D_AGRUPADO_ACREEDOR_NM"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{A7161898-9CA0-4E15-920D-09B3D39D44ED}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE D_AGRUPADO_ACREEDOR_NM&#xA;&#xA;INSERT INTO D_AGRUPADO_ACREEDOR_NM&#xA;SELECT 0, a11.id_acreedor, a11.id_tipo_prestador, a10.de_acreedor, a10.id_posicion_acreedor, ROUND(SUM(importe_aranceles_consumo),2) importe_aranceles_consumo, ROUND(SUM(cantidad_aranceles_consumo),2), 0, 0&#xA;From&#x9;H_ARANCELES_CONSUMO&#x9;a11&#xA;&#x9;join&#x9;D_ACREEDOR a10&#xA;&#x9;  on (a11.id_acreedor=a10.id_acreedor and a11.id_tipo_prestador=a10.id_tipo_prestador)&#xA;&#x9;join&#x9;D_PLANES&#x9;a12&#xA;&#x9;  on &#x9;(a11.id_plan_producto = a12.id_plan_producto and &#xA;&#x9;a11.id_producto = a12.id_producto)&#xA;&#x9;join&#x9;D_PLANES_AGRUPADOS&#x9;a13&#xA;&#x9;  on &#x9;(a12.id_plan_agrupado = a13.id_plan_agrupado)&#xA;&#x9;join&#x9;D_PRODUCTOS&#x9;a14&#xA;&#x9;  on &#x9;(a12.id_producto = a14.id_producto)&#xA;where&#x9;(a14.Id_Clase_Producto in ('S ')&#xA; and a12.Id_SubRubro_Ley in (1, 2, 3)&#xA; and a11.id_marca_caso_severo in (0)&#xA; and a13.id_plan_agrupado_S not in (84, 85, 83, 121)&#xA; and a11.id_trimestre_aranceles in (SELECT MAX(A.id_trimestre_aranceles) id_trimestre_aranceles FROM H_ARANCELES_CONSUMO A)&#xA; and a11.id_nomenclador in ('NM'))&#xA;GROUP BY a11.id_acreedor, a11.id_tipo_prestador, a10.de_acreedor, a10.id_posicion_acreedor&#xA;ORDER BY importe_aranceles_consumo DESC&#xA;&#xA;UPDATE D_AGRUPADO_ACREEDOR_NM&#xA;SET ranking_cantidad_nm = RowNumber&#xA;FROM D_AGRUPADO_ACREEDOR_NM D INNER JOIN &#xA;(SELECT ROW_NUMBER() OVER (ORDER BY cantidad_aranceles_nm DESC) AS RowNumber, &#xA; id_acreedor, cantidad_aranceles_nm FROM D_AGRUPADO_ACREEDOR_NM) A&#xA; ON (D.id_acreedor=A.id_acreedor)&#xA; &#xA;&#xA;UPDATE D_AGRUPADO_ACREEDOR_NM&#xA;SET ranking_importe_nm = RowNumber,&#xA;&#x9;id_agrupado_acreedor_nm = RowNumber&#xA;FROM D_AGRUPADO_ACREEDOR_NM D INNER JOIN &#xA;(SELECT ROW_NUMBER() OVER (ORDER BY id_agrupado_acreedor_nm DESC) AS RowNumber, &#xA;id_acreedor, id_agrupado_acreedor_nm FROM D_AGRUPADO_ACREEDOR_NM) A&#xA;ON (D.id_acreedor=A.id_acreedor)&#xA;&#xA;&#xA;UPDATE D_AGRUPADO_ACREEDOR_NM &#xA;SET id_agrupado_acreedor_nm = 26&#xA;WHERE id_agrupado_acreedor_nm &gt;= 26&#xA;&#xA;UPDATE D_AGRUPADO_ACREEDOR_NM &#xA;SET de_acreedor = 'RESTO',&#xA;&#x9;id_acreedor = 0,&#xA;&#x9;id_posicion_acreedor = 0,&#xA;&#x9;ranking_cantidad_nm = 0,&#xA;&#x9;ranking_importe_nm = 0&#xA;WHERE id_agrupado_acreedor_nm &gt;= 26&#xA;&#xA;&#xA;UPDATE H_ARANCELES_CONSUMO&#xA;SET id_agrupado_acreedor_nm = A.id_agrupado_acreedor_nm&#xA;FROM H_ARANCELES_CONSUMO H &#xA;INNER JOIN D_AGRUPADO_ACREEDOR_NM A ON (H.id_acreedor=A.id_acreedor and H.id_tipo_prestador=A.id_tipo_prestador)&#xA;&#xA;&#xA;UPDATE H_ARANCELES_CONSUMO&#xA;SET id_agrupado_acreedor_nm = 26&#xA;WHERE id_agrupado_acreedor_nm is null&#xA;&#xA;UPDATE D_AGRUPADO_ACREEDOR_NM&#xA;SET importe_aranceles_nm = 0,&#xA;&#x9;cantidad_aranceles_nm = 0&#xA;WHERE id_agrupado_acreedor_nm &gt;= 26&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Llenado D_AGRUPADO_POSICION_ACREEDOR"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{3C6C3814-2D0C-4730-ABA9-8C09AE60ACD7}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Llenado D_AGRUPADO_POSICION_ACREEDOR"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{A7161898-9CA0-4E15-920D-09B3D39D44ED}"
+          SQLTask:SqlStatementSource="---- Borra la Tabla AUXILIAR que se va  utilizar&#xA;Truncate Table  AUX_D_AGRUPADO_POSICION_ACREEDOR&#xA;&#xA;---- Declara los periodos que se necesitan para cargar la AUXILIAR&#xA;Declare @PERIODO_ARANCELES_CONSUMO Int, @PERIODO_ARANCELES_CONSUMO_2MESES_ANTERIORES INT&#xA;SET @PERIODO_ARANCELES_CONSUMO = (select Max(id_periodo_prestacion) from H_ARANCELES_CONSUMO) &#xA;SET @PERIODO_ARANCELES_CONSUMO_2MESES_ANTERIORES = (select dbo.PeriodosAnteriores(@PERIODO_ARANCELES_CONSUMO,3) )&#xA;&#xA;&#xA;INSERT INTO AUX_D_AGRUPADO_POSICION_ACREEDOR&#xA;select  L.id_posicion, SUM(cant_comer_grupo_activo)/3 Cantidad_Asoc&#xA;from&#x9;H_COMER_STOCK_AFILIA&#x9;a11&#xA;&#x9;join&#x9;D_PLANES&#x9;a12&#xA;&#x9;  on &#x9;(a11.id_plan_producto = a12.id_plan_producto and &#xA;&#x9;a11.id_producto = a12.id_producto)&#xA;&#x9;join&#x9;D_PLANES_AGRUPADOS&#x9;a13&#xA;&#x9;  on &#x9;(a12.id_plan_agrupado = a13.id_plan_agrupado)&#xA;&#x9;join&#x9;D_PERSONAS&#x9;a14&#xA;&#x9;  on &#x9;(a11.id_persona = a14.id_persona)&#xA;&#x9;join&#x9;D_LOCALIDADES L&#xA;&#x9;  on&#x9;(a14.id_localidad_afiliado=L.id_localidad)&#xA;&#x9;join&#x9;D_POSICION P&#xA;&#x9;  on&#x9;(L.id_posicion=P.id_posicion)&#xA;&#x9;join&#x9;D_PRODUCTOS&#x9;a16&#xA;&#x9;  on &#x9;(a11.id_producto = a16.id_producto)&#xA;where&#x9;(a16.Id_Clase_Producto in ('S ')&#xA; and a12.Id_SubRubro_Ley in (1, 2, 3)&#xA; and not ((a11.id_producto = 16 and a11.id_plan_producto = 'CC   ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='CM   ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='CS1  ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='CS100')&#xA;   or  (a11.id_producto=4 and a11.id_plan_producto='M    ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='M    ')&#xA;   or  (a11.id_producto=20 and a11.id_plan_producto='M    ')&#xA;   or  (a11.id_producto=14 and a11.id_plan_producto='Z    ')&#xA;   or  (a11.id_producto=20 and a11.id_plan_producto='Z    ')&#xA;   or  (a11.id_producto=1 and a11.id_plan_producto='C    ')&#xA;   or  (a11.id_producto=4 and a11.id_plan_producto='Z    '))&#xA; and a11.id_periodo between @PERIODO_ARANCELES_CONSUMO_2MESES_ANTERIORES and @PERIODO_ARANCELES_CONSUMO&#xA; and a13.id_plan_agrupado_S not in (83, 82, 84, 85))&#xA;GROUP BY L.id_posicion&#xA;ORDER BY Cantidad_Asoc Desc&#xA;&#xA;DECLARE @Agrupado INT&#xA;SET @Agrupado = 0&#xA;UPDATE AUX_D_AGRUPADO_POSICION_ACREEDOR &#xA;SET @Agrupado = id_agrupado_acreedor = @Agrupado + 1 &#xA;&#xA;UPDATE AUX_D_AGRUPADO_POSICION_ACREEDOR &#xA;SET id_agrupado_acreedor = 16&#xA;WHERE id_agrupado_acreedor &gt;= 16&#xA;&#xA;UPDATE H_ARANCELES_CONSUMO&#xA;SET id_agrupado_posicion_acreedor = A.id_agrupado_acreedor&#xA;FROM H_ARANCELES_CONSUMO H &#xA;INNER JOIN D_ACREEDOR D ON (H.id_acreedor=D.id_acreedor)&#xA;INNER JOIN AUX_D_AGRUPADO_POSICION_ACREEDOR A ON (D.id_posicion_acreedor=A.id_posicion_acreedor)&#xA;WHERE D.id_tipo_prestador = 'P'&#xA;&#xA;----- Borra la D_AGRUPADO_POSICION_ACREEDOR , para llenarla con la info de la AUX&#xA;&#xA;Truncate Table  D_AGRUPADO_POSICION_ACREEDOR&#xA;&#xA;&#xA;INSERT INTO D_AGRUPADO_POSICION_ACREEDOR&#xA;SELECT DISTINCT id_agrupado_acreedor, ''&#xA;FROM AUX_D_AGRUPADO_POSICION_ACREEDOR&#xA;&#xA;UPDATE D_AGRUPADO_POSICION_ACREEDOR&#xA;SET de_agrupado_posicion_acreedor =&#xA;CASE&#xA;&#x9;WHEN D.id_agrupado_acreedor &lt;&gt; 16 THEN P.de_posicion_acreedor&#xA;&#x9;WHEN D.id_agrupado_acreedor = 16 THEN 'RESTO'&#xA;END&#xA;FROM D_AGRUPADO_POSICION_ACREEDOR A &#xA;INNER JOIN AUX_D_AGRUPADO_POSICION_ACREEDOR D ON (A.id_agrupado_posicion_acreedor=D.id_agrupado_acreedor)&#xA;INNER JOIN D_POSICION_ACREEDOR P ON (P.id_posicion_acreedor=D.id_posicion_acreedor)" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{30E8EC9C-C3FE-4AA1-AA38-DDBF9E7D3CE5}"
+      DTS:From="Package\Llenado D_AGRUPADO_ACREEDOR_NM"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Llenado D_AGRUPADO_ACREEDOR_NB-NU" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{358DAB9B-F41D-40FE-A31A-4DBBC12A6ECA}"
+      DTS:From="Package\Llenado D_AGRUPADO_POSICION_ACREEDOR"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Llenado D_AGRUPADO_ACREEDOR_NM" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="307,42"
+          Id="Package\Llenado D_AGRUPADO_ACREEDOR_NB-NU"
+          TopLeft="13.7201257861635,166.216981132075" />
+        <NodeLayout
+          Size="290,42"
+          Id="Package\Llenado D_AGRUPADO_ACREEDOR_NM"
+          TopLeft="22.2201257861635,85.8584905660377" />
+        <NodeLayout
+          Size="326,42"
+          Id="Package\Llenado D_AGRUPADO_POSICION_ACREEDOR"
+          TopLeft="4.22012578616352,5.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="167.220125786164,127.858490566038">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,38.3584905660377"
+              Start="0,0"
+              End="0,30.8584905660377">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,30.8584905660377" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="167.220125786164,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,38.3584905660377"
+              Start="0,0"
+              End="0,30.8584905660377">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,30.8584905660377" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

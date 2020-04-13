@@ -1,0 +1,63 @@
+{% load static%}
+<!DOCTYPE html>
+<html lang="es" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>Control Implementaciones | {% block title %}{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'core/css/bootstrap.min.css' %}">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  {{ form.media }}
+  {# Include FontAwesome; required for icon display #}
+  <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css">
+  <link rel="stylesheet" href="{% static 'core/css/simple-sidebar.css' %}">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script> -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
+
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
+
+  <!-- (Optional) Latest compiled and minified JavaScript translation files -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.12/js/i18n/defaults-es_ES.min.js"></script>
+
+  <script>
+    $('select').selectpicker();
+  </script>
+  {% block stylesheet %}
+  {% endblock stylesheet%}
+</head>
+
+<body>
+  {% block body %}
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Control Implementaciones</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+      aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-item nav-link {%if request.path == "/"%} active {%endif%}" href="{% url 'home'%}">Home <span
+            class="sr-only">(current)</span></a>
+        <a class="nav-item nav-link {%if request.path == "/proyectos/"%} active {%endif%}" href="{% url 'project:list'%}">Proyectos</a>
+        <a class="nav-item nav-link {%if request.path == "/proyectos/"%} active {%endif%}" href="{% url 'project:list'%}">Mis Solicitudes</a>
+      </div>
+    </div>
+  </nav>
+  {% block content %}
+  {% endblock content%}
+  {% endblock body %}
+  <script src="{% static 'core/js/jquery-3.4.1.min.js' %}"></script>
+  <script src="{% static 'core/js/popper.min.js' %}"></script>
+  <script src="{% static 'core/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'core/js/validaciones.js' %}"></script>
+
+  {% block javascript %}
+  {% endblock javascript%}
+</body>
+
+</html>

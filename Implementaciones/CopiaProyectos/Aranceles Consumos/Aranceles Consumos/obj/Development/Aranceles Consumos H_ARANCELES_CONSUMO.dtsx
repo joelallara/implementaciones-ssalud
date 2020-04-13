@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="1/18/2017 3:01:51 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AMS06X"
+  DTS:CreatorName="AMS\nborio"
+  DTS:DTSID="{FD27D20C-75DE-425D-A79F-D8E67B448D4B}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="Aranceles Consumos H_ARANCELES_CONSUMO"
+  DTS:PackageType="5"
+  DTS:VersionBuild="9"
+  DTS:VersionGUID="{F862221F-10E5-4B66-9349-C41645B09627}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{A1B8FD12-447D-4E63-9C03-74DD22B36B7E}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">1,7,OnError</DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnError"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{A1B8FD12-447D-4E63-9C03-74DD22B36B7E}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza H_ARANCELES_CONSUMO"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{7FAFFA01-9EDB-4B74-BEA9-219DB68FDC8E}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza H_ARANCELES_CONSUMO"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{A7161898-9CA0-4E15-920D-09B3D39D44ED}"
+          SQLTask:SqlStatementSource="SET DATEFORMAT 'YMD'&#xA;DECLARE @Periodo INT&#xA;SET @Periodo = (SELECT MAX(dbo.PeriodoSiguiente(CAST(dbo.Devuelve_Fecha(id_periodo_prestacion)AS VARCHAR(10)))) FROM H_ARANCELES_CONSUMO)&#xA;&#xA;WHILE @Periodo &lt;= (SELECT MAX(id_periodo) FROM H_ORD_INT_DET)&#xA;BEGIN&#xA;&#x9;IF RIGHT(@Periodo, 2) IN (01, 05, 06, 07, 11, 12)&#xA;&#x9;BEGIN&#x9;&#xA;&#x9;&#x9;DELETE H_ARANCELES_CONSUMO where id_periodo_prestacion = @Periodo&#xA;&#xA;&#x9;&#x9;select&#x9;a11.id_tipo_orden  id_tipo_orden,&#xA;&#x9;&#x9;&#x9;a12.id_subrubro_ley  id_subrubro_ley,&#xA;&#x9;&#x9;&#x9;a11.id_provision  id_provision,&#xA;&#x9;&#x9;&#x9;a11.id_prestacion  id_prestacion,&#xA;&#x9;&#x9;&#x9;a11.id_producto,&#xA;&#x9;&#x9;&#x9;a11.id_plan_producto,&#xA;&#x9;&#x9;&#x9;a13.Id_Plan_Agrupado_S  Id_Plan_Agrupado_S,&#xA;&#x9;&#x9;&#x9;a11.id_persona  id_persona,&#xA;&#x9;&#x9;&#x9;a11.id_periodo_prestacion  id_periodo_prestacion,&#xA;&#x9;&#x9;&#x9;a11.id_origen_prestacion  id_origen_prestacion,&#xA;&#x9;&#x9;&#x9;a11.id_orden_int  nro_orden,&#xA;&#x9;&#x9;&#x9;a11.id_acreedor  id_acreedor,&#xA;&#x9;&#x9;&#x9;a11.id_tipo_prestador  id_tipo_prestador,&#xA;&#x9;&#x9;&#x9;a11.id_profesional id_profesional,&#xA;&#x9;&#x9;&#x9;a11.id_no_facturador id_no_facturador, &#xA;&#x9;&#x9;&#x9;a11.id_prof_prescr id_prof_prescr,&#xA;&#x9;&#x9;&#x9;a11.id_tipo_profesional_preescribiente id_tipo_profesional_preescribiente,&#xA;&#x9;&#x9;&#x9;a11.id_tipo_internacion,&#xA;&#x9;&#x9;&#x9;sum(a11.cant_prest_int_acep)  WJXBFS1,&#xA;&#x9;&#x9;&#x9;sum(a11.imp_prest_int_pag)  WJXBFS2&#xA;&#x9;&#x9;into #ZZTLLI257TOSP000&#xA;&#x9;&#x9;from&#x9;H_ORD_INT_DET&#x9;a11&#xA;&#x9;&#x9;&#x9;join&#x9;D_PLANES&#x9;a12&#xA;&#x9;&#x9;&#x9;  on &#x9;(a11.id_plan_producto = a12.id_plan_producto and &#xA;&#x9;&#x9;&#x9;a11.id_producto = a12.id_producto)&#xA;&#x9;&#x9;&#x9;join&#x9;D_PLANES_AGRUPADOS&#x9;a13&#xA;&#x9;&#x9;&#x9;  on &#x9;(a12.id_plan_agrupado = a13.id_plan_agrupado)&#xA;&#x9;&#x9;&#x9;join&#x9;D_PRODUCTOS&#x9;a14&#xA;&#x9;&#x9;&#x9;  on &#x9;(a11.id_producto = a14.id_producto)&#xA;&#x9;&#x9;where&#x9;(a14.Id_Clase_Producto in ('S ')&#xA;&#x9;&#x9; and a11.id_marca_valorizacion in ('P')&#xA;&#x9;&#x9; and a14.id_segmento not in (3)&#xA;&#x9;&#x9; and not ((a11.id_producto = 16 and a11.id_plan_producto = 'CC   ')&#xA;&#x9;&#x9;   or  (a11.id_producto=16 and a11.id_plan_producto='CM   ')&#xA;&#x9;&#x9;   or  (a11.id_producto=16 and a11.id_plan_producto='CS1  ')&#xA;&#x9;&#x9;   or  (a11.id_producto=16 and a11.id_plan_producto='CS100')&#xA;&#x9;&#x9;   or  (a11.id_producto=4 and a11.id_plan_producto='M    ')&#xA;&#x9;&#x9;   or  (a11.id_producto=16 and a11.id_plan_producto='M    ')&#xA;&#x9;&#x9;   or  (a11.id_producto=20 and a11.id_plan_producto='M    ')&#xA;&#x9;&#x9;   or  (a11.id_producto=14 and a11.id_plan_producto='Z    ')&#xA;&#x9;&#x9;   or  (a11.id_producto=20 and a11.id_plan_producto='Z    ')&#xA;&#x9;&#x9;   or  (a11.id_producto=4 and a11.id_plan_producto='Z    ')&#xA;&#x9;&#x9;   or  (a11.id_producto=1 and a11.id_plan_producto='C  '))&#xA;&#x9;&#x9; and a11.id_reintegro = 'F'&#xA;&#x9;&#x9; and a11.id_periodo_prestacion = @Periodo)&#xA;&#x9;&#x9;group by&#x9;a11.id_tipo_orden,&#xA;&#x9;&#x9;&#x9;a12.id_subrubro_ley,&#xA;&#x9;&#x9;&#x9;a11.id_provision,&#xA;&#x9;&#x9;&#x9;a11.id_prestacion,&#xA;&#x9;&#x9;&#x9;a11.id_producto,&#xA;&#x9;&#x9;&#x9;a11.id_plan_producto,&#xA;&#x9;&#x9;&#x9;a13.Id_Plan_Agrupado_S,&#xA;&#x9;&#x9;&#x9;a11.id_persona,&#xA;&#x9;&#x9;&#x9;a11.id_periodo_prestacion,&#xA;&#x9;&#x9;&#x9;a11.id_origen_prestacion,&#xA;&#x9;&#x9;&#x9;a11.id_orden_int,&#xA;&#x9;&#x9;&#x9;a11.id_acreedor,&#xA;&#x9;&#x9;&#x9;a11.id_tipo_prestador,&#xA;&#x9;&#x9;&#x9;a11.id_profesional,&#xA;&#x9;&#x9;&#x9;a11.id_no_facturador,&#xA;&#x9;&#x9;&#x9;a11.id_prof_prescr,&#xA;&#x9;&#x9;&#x9;a11.id_tipo_profesional_preescribiente,&#xA;&#x9;&#x9;&#x9;a11.id_tipo_internacion&#xA;&#xA;&#x9;&#x9;select&#x9;a11.id_tipo_orden  id_tipo_orden,&#xA;&#x9;&#x9;&#x9;a12.id_subrubro_ley  id_subrubro_ley,&#xA;&#x9;&#x9;&#x9;a11.id_provision  id_provision,&#xA;&#x9;&#x9;&#x9;a11.id_prestacion  id_prestacion,&#xA;&#x9;&#x9;&#x9;a11.id_producto,&#xA;&#x9;&#x9;&#x9;a11.id_plan_producto,&#xA;&#x9;&#x9;&#x9;a13.Id_Plan_Agrupado_S  Id_Plan_Agrupado_S,&#xA;&#x9;&#x9;&#x9;a11.id_persona  id_persona,&#xA;&#x9;&#x9;&#x9;a11.id_periodo_prestacion  id_periodo_prestacion,&#xA;&#x9;&#x9;&#x9;a11.id_origen_prestacion  id_origen_prestacion,&#xA;&#x9;&#x9;&#x9;a11.nro_orden  nro_orden,&#xA;&#x9;&#x9;&#x9;a11.id_acreedor  id_acreedor,&#xA;&#x9;&#x9;&#x9;a11.id_tipo_prestador  id_tipo_prestador,&#xA;&#x9;&#x9;&#x9;a11.id_profesional id_profesional,&#xA;&#x9;&#x9;&#x9;a11.id_no_facturador id_no_facturador, &#xA;&#x9;&#x9;&#x9;a11.id_prof_prescr id_prof_prescr,&#xA;&#x9;&#x9;&#x9;a11.id_tipo_profesional_preescribiente id_tipo_profesional_preescribiente,&#xA;&#x9;&#x9;&#x9;sum(a11.cant_prest_amb_acep)  WJXBFS1,&#xA;&#x9;&#x9;&#x9;sum(a11.imp_pret_amb_pag)  WJXBFS2&#xA;&#x9;&#x9;into #ZZTJB0O578SSP001&#xA;&#x9;&#x9;from&#x9;H_ORD_AMB_DET&#x9;a11&#xA;&#x9;&#x9;&#x9;join&#x9;D_PLANES&#x9;a12&#xA;&#x9;&#x9;&#x9;  on &#x9;(a11.id_plan_producto = a12.id_plan_producto and &#xA;&#x9;&#x9;&#x9;a11.id_producto = a12.id_producto)&#xA;&#x9;&#x9;&#x9;join&#x9;D_PLANES_AGRUPADOS&#x9;a13&#xA;&#x9;&#x9;&#x9;  on &#x9;(a12.id_plan_agrupado = a13.id_plan_agrupado)&#xA;&#x9;&#x9;&#x9;join&#x9;D_PRODUCTOS&#x9;a14&#xA;&#x9;&#x9;&#x9;  on &#x9;(a11.id_producto = a14.id_producto)&#xA;&#x9;&#x9;where&#x9;(a14.Id_Clase_Producto in ('S ')&#xA;&#x9;&#x9; and a11.id_marca_valorizacion in ('P')&#xA;&#x9;&#x9; and a14.id_segmento not in (3)&#xA;&#x9;&#x9; and not ((a11.id_producto = 16 and a11.id_plan_producto = 'CC   ')&#xA;&#x9;&#x9;&#x9; or  (a11.id_producto=16 and a11.id_plan_producto='CM   ')&#xA;&#x9;&#x9;   or  (a11.id_producto=16 and a11.id_plan_producto='CS1  ')&#xA;&#x9;&#x9;   or  (a11.id_producto=16 and a11.id_plan_producto='CS100')&#xA;&#x9;&#x9;   or  (a11.id_producto=4 and a11.id_plan_producto='M    ')&#xA;&#x9;&#x9;   or  (a11.id_producto=16 and a11.id_plan_producto='M    ')&#xA;&#x9;&#x9;   or  (a11.id_producto=20 and a11.id_plan_producto='M    ')&#xA;&#x9;&#x9;   or  (a11.id_producto=14 and a11.id_plan_producto='Z    ')&#xA;&#x9;&#x9;   or  (a11.id_producto=20 and a11.id_plan_producto='Z    ')&#xA;&#x9;&#x9;   or  (a11.id_producto=4 and a11.id_plan_producto='Z    ')&#xA;&#x9;&#x9;   or  (a11.id_producto=1 and a11.id_plan_producto='C  '))&#xA;&#x9;&#x9; and a11.id_reintegro = 'F'&#xA;&#x9;&#x9; and a11.id_periodo_prestacion = @Periodo)&#xA;&#x9;&#x9;group by&#x9;a11.id_tipo_orden,&#xA;&#x9;&#x9;&#x9;a12.id_subrubro_ley,&#xA;&#x9;&#x9;&#x9;a11.id_provision,&#xA;&#x9;&#x9;&#x9;a11.id_prestacion,&#xA;&#x9;&#x9;&#x9;a11.id_producto,&#xA;&#x9;&#x9;&#x9;a11.id_plan_producto,&#xA;&#x9;&#x9;&#x9;a13.Id_Plan_Agrupado_S,&#xA;&#x9;&#x9;&#x9;a11.id_persona,&#xA;&#x9;&#x9;&#x9;a11.id_periodo_prestacion,&#xA;&#x9;&#x9;&#x9;a11.id_origen_prestacion,&#xA;&#x9;&#x9;&#x9;a11.nro_orden,&#xA;&#x9;&#x9;&#x9;a11.id_acreedor,&#xA;&#x9;&#x9;&#x9;a11.id_tipo_prestador,&#xA;&#x9;&#x9;&#x9;a11.id_profesional,&#xA;&#x9;&#x9;&#x9;a11.id_no_facturador,&#xA;&#x9;&#x9;&#x9;a11.id_prof_prescr,&#xA;&#x9;&#x9;&#x9;a11.id_tipo_profesional_preescribiente&#xA;&#xA;&#x9;&#x9;insert INTO H_ARANCELES_CONSUMO&#xA;&#x9;&#x9;select distinct coalesce(pa11.id_periodo_prestacion, pa12.id_periodo_prestacion),&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;0,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;coalesce(pa11.id_persona, pa12.id_persona),&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;coalesce(pa11.id_tipo_orden, pa12.id_tipo_orden),&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;coalesce(pa11.nro_orden, pa12.nro_orden),&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;coalesce(pa11.id_producto, pa12.id_producto),&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;coalesce(pa11.id_plan_producto, pa12.id_plan_producto),&#x9;&#x9;&#x9;&#x9;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;a14.id_nomenclador,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;coalesce(pa11.id_prestacion, pa12.id_prestacion),&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;coalesce(pa11.id_origen_prestacion, pa12.id_origen_prestacion),&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;coalesce(pa11.id_acreedor, pa12.id_acreedor),&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;coalesce(pa11.id_tipo_prestador, pa12.id_tipo_prestador),&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;0,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;SUM(ISNULL(pa11.WJXBFS1, 0)) + SUM(ISNULL(pa12.WJXBFS1, 0)),&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;SUM(ISNULL(pa11.WJXBFS2, 0)) + SUM(ISNULL(pa12.WJXBFS2, 0)),&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;pa11.id_tipo_internacion,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;0,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;0,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;0&#xA;&#x9;&#x9;from&#x9;#ZZTLLI257TOSP000&#x9;pa11&#xA;&#x9;&#x9;&#x9;full outer join&#x9;#ZZTJB0O578SSP001&#x9;pa12&#xA;&#x9;&#x9;&#x9;  on &#x9;(pa11.Id_Plan_Agrupado_S = pa12.Id_Plan_Agrupado_S and &#xA;&#x9;&#x9;&#x9;pa11.id_acreedor = pa12.id_acreedor and &#xA;&#x9;&#x9;&#x9;pa11.id_origen_prestacion = pa12.id_origen_prestacion and &#xA;&#x9;&#x9;&#x9;pa11.id_periodo_prestacion = pa12.id_periodo_prestacion and &#xA;&#x9;&#x9;&#x9;pa11.id_persona = pa12.id_persona and &#xA;&#x9;&#x9;&#x9;pa11.id_prestacion = pa12.id_prestacion and &#xA;&#x9;&#x9;&#x9;pa11.id_provision = pa12.id_provision and &#xA;&#x9;&#x9;&#x9;pa11.id_subrubro_ley = pa12.id_subrubro_ley and &#xA;&#x9;&#x9;&#x9;pa11.id_tipo_orden = pa12.id_tipo_orden and &#xA;&#x9;&#x9;&#x9;pa11.id_tipo_prestador = pa12.id_tipo_prestador and &#xA;&#x9;&#x9;&#x9;pa11.nro_orden = pa12.nro_orden)&#xA;&#x9;&#x9;&#x9;join&#x9;D_ACREEDOR&#x9;a13&#xA;&#x9;&#x9;&#x9;  on &#x9;(coalesce(pa11.id_acreedor, pa12.id_acreedor) = a13.id_acreedor and &#xA;&#x9;&#x9;&#x9;coalesce(pa11.id_tipo_prestador, pa12.id_tipo_prestador) = a13.id_tipo_prestador)&#xA;&#x9;&#x9;&#x9;join&#x9;D_PRESTACION&#x9;a14&#xA;&#x9;&#x9;&#x9;  on &#x9;(coalesce(pa11.id_prestacion, pa12.id_prestacion) = a14.id_prestacion)&#xA;&#x9;&#x9;&#x9;join&#x9;D_PERSONAS&#x9;a15&#xA;&#x9;&#x9;&#x9;  on &#x9;(coalesce(pa11.id_persona, pa12.id_persona) = a15.id_persona)&#xA;&#x9;&#x9;&#x9;join&#x9;D_LOCALIDADES_AFILIADO&#x9;a16&#xA;&#x9;&#x9;&#x9;  on &#x9;(a15.id_localidad_afiliado = a16.id_localidad_afiliado)&#xA;&#x9;&#x9;&#x9;join&#x9;D_ORIGEN_PRESTACION&#x9;a17&#xA;&#x9;&#x9;&#x9;  on &#x9;(coalesce(pa11.id_origen_prestacion, pa12.id_origen_prestacion) = a17.id_origen_prestacion)&#xA;&#x9;&#x9;&#x9;join&#x9;D_PLANES_AGRUPADOS_S&#x9;a18&#xA;&#x9;&#x9;&#x9;  on &#x9;(coalesce(pa11.Id_Plan_Agrupado_S, pa12.Id_Plan_Agrupado_S) = a18.Id_Plan_Agrupado_S)&#xA;&#x9;&#x9;&#x9;join&#x9;D_PROVISION&#x9;a19&#xA;&#x9;&#x9;&#x9;  on &#x9;(coalesce(pa11.id_provision, pa12.id_provision) = a19.id_provision)&#xA;&#x9;&#x9;&#x9;join&#x9;D_SUBRUBRO_LEY&#x9;a110&#xA;&#x9;&#x9;&#x9;  on &#x9;(coalesce(pa11.id_subrubro_ley, pa12.id_subrubro_ley) = a110.id_subrubro_ley)&#xA;&#x9;&#x9;&#x9;join&#x9;D_TIPO_ORDEN&#x9;a111&#xA;&#x9;&#x9;&#x9;  on &#x9;(coalesce(pa11.id_tipo_orden, pa12.id_tipo_orden) = a111.id_tipo_orden)&#xA;&#x9;&#x9;&#x9;join&#x9;D_LOCALIDADES&#x9;a112&#xA;&#x9;&#x9;&#x9;  on &#x9;(a13.id_localidad = a112.id_localidad)&#xA;&#x9;&#x9;&#x9;join&#x9;D_NOMENCLADOR&#x9;a113&#xA;&#x9;&#x9;&#x9;  on &#x9;(a14.id_nomenclador = a113.id_nomenclador)&#xA;&#x9;&#x9;&#x9;join&#x9;D_POSICION_ACREEDOR&#x9;a114&#xA;&#x9;&#x9;&#x9;  on &#x9;(a13.id_posicion_acreedor = a114.id_posicion_acreedor)&#xA;&#x9;&#x9;&#x9;join&#x9;D_POSICION&#x9;a115&#xA;&#x9;&#x9;&#x9;  on &#x9;(a16.id_posicion = a115.id_posicion)&#xA;&#x9;&#x9;&#x9;join&#x9;D_PROVINCIA&#x9;a116&#xA;&#x9;&#x9;&#x9;  on &#x9;(a13.id_provincia = a116.id_provincia)&#xA;&#x9;&#x9;GROUP BY&#x9;&#x9;coalesce(pa11.id_periodo_prestacion, pa12.id_periodo_prestacion),&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;coalesce(pa11.id_persona, pa12.id_persona),&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;coalesce(pa11.id_tipo_orden, pa12.id_tipo_orden),&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;coalesce(pa11.nro_orden, pa12.nro_orden),&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;coalesce(pa11.id_producto, pa12.id_producto),&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;coalesce(pa11.id_plan_producto, pa12.id_plan_producto),&#x9;&#x9;&#x9;&#x9;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;a14.id_nomenclador,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;coalesce(pa11.id_prestacion, pa12.id_prestacion),&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;coalesce(pa11.id_origen_prestacion, pa12.id_origen_prestacion),&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;coalesce(pa11.id_acreedor, pa12.id_acreedor),&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;coalesce(pa11.id_tipo_prestador, pa12.id_tipo_prestador),&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;pa11.id_tipo_internacion&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#xA;&#x9;&#x9;drop table #ZZTLLI257TOSP000&#xA;&#xA;&#x9;&#x9;drop table #ZZTJB0O578SSP001&#xA;&#xA;&#x9;&#x9;UPDATE H_ARANCELES_CONSUMO&#xA;&#x9;&#x9;SET id_trimestre_aranceles = T.id_trimestre_aranceles&#xA;&#x9;&#x9;FROM H_ARANCELES_CONSUMO A &#xA;&#x9;&#x9;INNER JOIN D_PERIODO_TRIMESTRE_ARANCELES P ON (A.id_periodo_prestacion=P.id_periodo_prestacion)&#xA;&#x9;&#x9;INNER JOIN D_TRIMESTRE_ARANCELES T ON (P.id_trimestre_aranceles=T.id_trimestre_aranceles)&#xA;&#x9;&#x9;WHERE A.id_periodo_prestacion = @Periodo&#xA;&#xA;&#x9;&#x9;UPDATE H_ARANCELES_CONSUMO&#xA;&#x9;&#x9;SET id_marca_caso_severo = 1&#xA;&#x9;&#x9;FROM H_ARANCELES_CONSUMO H INNER JOIN H_CASOS_SEVEROS C ON (H.id_periodo_prestacion=C.id_periodo and H.id_persona=C.id_persona)&#xA;&#x9;&#x9;WHERE id_periodo_prestacion = @Periodo&#xA;&#xA;&#x9;END&#xA;&#x9;SET @Periodo = (SELECT MAX(dbo.PeriodoSiguiente(CAST(dbo.Devuelve_Fecha(@Periodo)AS VARCHAR(10)))))&#x9;&#xA;END" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="271,42"
+          Id="Package\Actualiza H_ARANCELES_CONSUMO"
+          TopLeft="5.5,5.5" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

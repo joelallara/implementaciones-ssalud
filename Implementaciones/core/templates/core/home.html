@@ -1,0 +1,28 @@
+{% extends 'core/base.html' %}
+{% load static%}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h1 class="mb-2 mt-2">
+    Implementaciones Recientes
+  </h1>
+  <table class="table table-hover shadow mb-2 bg-white rounded">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for project in projects %}
+      <tr>
+        <th>{{project.project_name}}</th>
+      </tr>
+      {% empty %}
+      <td colspan="6" scope="col">No hay proyectos disponibles</td>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

@@ -1,0 +1,157 @@
+<?xml version="1.0"?><DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts" DTS:ExecutableType="SSIS.Package.2">
+<DTS:Property DTS:Name="PackageFormatVersion">3</DTS:Property>
+<DTS:Property DTS:Name="VersionComments"></DTS:Property>
+<DTS:Property DTS:Name="CreatorName">AMS\jtrinchier</DTS:Property>
+<DTS:Property DTS:Name="CreatorComputerName">AMS06X</DTS:Property>
+<DTS:Property DTS:Name="CreationDate" DTS:DataType="7">8/10/2017 7:58:27 AM</DTS:Property>
+<DTS:Property DTS:Name="PackageType">5</DTS:Property>
+<DTS:Property DTS:Name="ProtectionLevel">1</DTS:Property>
+<DTS:Property DTS:Name="MaxConcurrentExecutables">-1</DTS:Property>
+<DTS:Property DTS:Name="PackagePriorityClass">0</DTS:Property>
+<DTS:Property DTS:Name="VersionMajor">1</DTS:Property>
+<DTS:Property DTS:Name="VersionMinor">0</DTS:Property>
+<DTS:Property DTS:Name="VersionBuild">3</DTS:Property>
+<DTS:Property DTS:Name="VersionGUID">{F1253959-CF5A-4EAB-922C-72003D2196D9}</DTS:Property>
+<DTS:Property DTS:Name="EnableConfig">0</DTS:Property>
+<DTS:Property DTS:Name="CheckpointFileName"></DTS:Property>
+<DTS:Property DTS:Name="SaveCheckpoints">0</DTS:Property>
+<DTS:Property DTS:Name="CheckpointUsage">0</DTS:Property>
+<DTS:Property DTS:Name="SuppressConfigurationWarnings">0</DTS:Property>
+<DTS:ConnectionManager>
+<DTS:Property DTS:Name="DelayValidation">0</DTS:Property>
+<DTS:Property DTS:Name="ObjectName">AMS06X.DW_SALUD</DTS:Property>
+<DTS:Property DTS:Name="DTSID">{AE4AB771-770A-4E37-8D10-0DA731292A74}</DTS:Property>
+<DTS:Property DTS:Name="Description"></DTS:Property>
+<DTS:Property DTS:Name="CreationName">OLEDB</DTS:Property><DTS:ObjectData><DTS:ConnectionManager>
+<DTS:Property DTS:Name="Retain">0</DTS:Property>
+<DTS:Property DTS:Name="ConnectionString">Data Source=AMS06X;Initial Catalog=DW_SALUD;Provider=SQLNCLI10.1;Integrated Security=SSPI;Application Name=SSIS-s158_info_mercado_rango_etario-{AE4AB771-770A-4E37-8D10-0DA731292A74}AMS06X.DW_SALUD;Auto Translate=False;</DTS:Property></DTS:ConnectionManager></DTS:ObjectData></DTS:ConnectionManager>
+<DTS:ConnectionManager>
+<DTS:Property DTS:Name="DelayValidation">0</DTS:Property>
+<DTS:Property DTS:Name="ObjectName">AMS06X.msdb</DTS:Property>
+<DTS:Property DTS:Name="DTSID">{D8699D22-B76B-46DE-AA60-A0F175AB665F}</DTS:Property>
+<DTS:Property DTS:Name="Description"></DTS:Property>
+<DTS:Property DTS:Name="CreationName">OLEDB</DTS:Property><DTS:ObjectData><DTS:ConnectionManager>
+<DTS:Property DTS:Name="Retain">0</DTS:Property>
+<DTS:Property DTS:Name="ConnectionString">Data Source=AMS06X;Initial Catalog=msdb;Provider=SQLNCLI10.1;Integrated Security=SSPI;Application Name=SSIS-s158_info_mercado_rango_etario-{D8699D22-B76B-46DE-AA60-A0F175AB665F}AMS06X.msdb;Auto Translate=False;</DTS:Property></DTS:ConnectionManager></DTS:ObjectData></DTS:ConnectionManager>
+<DTS:LogProvider>
+<DTS:Property DTS:Name="ConfigString">AMS06X.msdb</DTS:Property>
+<DTS:Property DTS:Name="DelayValidation">0</DTS:Property>
+<DTS:Property DTS:Name="ObjectName">SSIS log provider for SQL Server</DTS:Property>
+<DTS:Property DTS:Name="DTSID">{DADEAC42-ECD8-44F0-8357-EF2594D0619D}</DTS:Property>
+<DTS:Property DTS:Name="Description">Writes log entries for events to a SQL Server database</DTS:Property>
+<DTS:Property DTS:Name="CreationName">DTS.LogProviderSQLServer.2</DTS:Property><DTS:ObjectData><InnerObject/></DTS:ObjectData></DTS:LogProvider>
+<DTS:Property DTS:Name="LastModifiedProductVersion">10.50.1600.1</DTS:Property>
+<DTS:Property DTS:Name="ForceExecValue">0</DTS:Property>
+<DTS:Property DTS:Name="ExecValue" DTS:DataType="3">0</DTS:Property>
+<DTS:Property DTS:Name="ForceExecutionResult">-1</DTS:Property>
+<DTS:Property DTS:Name="Disabled">0</DTS:Property>
+<DTS:Property DTS:Name="FailPackageOnFailure">0</DTS:Property>
+<DTS:Property DTS:Name="FailParentOnFailure">0</DTS:Property>
+<DTS:Property DTS:Name="MaxErrorCount">1</DTS:Property>
+<DTS:Property DTS:Name="ISOLevel">1048576</DTS:Property>
+<DTS:Property DTS:Name="LocaleID">11274</DTS:Property>
+<DTS:Property DTS:Name="TransactionOption">1</DTS:Property>
+<DTS:Property DTS:Name="DelayValidation">0</DTS:Property>
+<DTS:LoggingOptions>
+<DTS:Property DTS:Name="LoggingMode">1</DTS:Property>
+<DTS:Property DTS:Name="FilterKind">0</DTS:Property>
+<DTS:Property DTS:Name="EventFilter" DTS:DataType="8">1,7,OnError</DTS:Property>
+<DTS:Property DTS:Name="ColumnFilter" DTS:EventName="OnError">
+<DTS:Property DTS:Name="Computer">-1</DTS:Property>
+<DTS:Property DTS:Name="Operator">-1</DTS:Property>
+<DTS:Property DTS:Name="SourceName">-1</DTS:Property>
+<DTS:Property DTS:Name="SourceID">-1</DTS:Property>
+<DTS:Property DTS:Name="ExecutionID">-1</DTS:Property>
+<DTS:Property DTS:Name="MessageText">-1</DTS:Property>
+<DTS:Property DTS:Name="DataBytes">-1</DTS:Property></DTS:Property><DTS:SelectedLogProvider DTS:InstanceID="{DADEAC42-ECD8-44F0-8357-EF2594D0619D}"/></DTS:LoggingOptions>
+<DTS:Executable DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" DTS:ThreadHint="0">
+<DTS:Property DTS:Name="ExecutionLocation">0</DTS:Property>
+<DTS:Property DTS:Name="ExecutionAddress"></DTS:Property>
+<DTS:Property DTS:Name="TaskContact">Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1</DTS:Property>
+<DTS:Property DTS:Name="ForceExecValue">0</DTS:Property>
+<DTS:Property DTS:Name="ExecValue" DTS:DataType="3">0</DTS:Property>
+<DTS:Property DTS:Name="ForceExecutionResult">-1</DTS:Property>
+<DTS:Property DTS:Name="Disabled">0</DTS:Property>
+<DTS:Property DTS:Name="FailPackageOnFailure">0</DTS:Property>
+<DTS:Property DTS:Name="FailParentOnFailure">0</DTS:Property>
+<DTS:Property DTS:Name="MaxErrorCount">1</DTS:Property>
+<DTS:Property DTS:Name="ISOLevel">1048576</DTS:Property>
+<DTS:Property DTS:Name="LocaleID">-1</DTS:Property>
+<DTS:Property DTS:Name="TransactionOption">1</DTS:Property>
+<DTS:Property DTS:Name="DelayValidation">0</DTS:Property>
+<DTS:LoggingOptions>
+<DTS:Property DTS:Name="LoggingMode">0</DTS:Property>
+<DTS:Property DTS:Name="FilterKind">0</DTS:Property>
+<DTS:Property DTS:Name="EventFilter" DTS:DataType="8"></DTS:Property></DTS:LoggingOptions>
+<DTS:Property DTS:Name="ObjectName">Actualiza id_rango_etario_mercado</DTS:Property>
+<DTS:Property DTS:Name="DTSID">{717EE97E-4E10-4436-BC4C-CC26946FA45A}</DTS:Property>
+<DTS:Property DTS:Name="Description">Execute SQL Task</DTS:Property>
+<DTS:Property DTS:Name="CreationName">Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91</DTS:Property>
+<DTS:Property DTS:Name="DisableEventHandlers">0</DTS:Property><DTS:ObjectData><SQLTask:SqlTaskData SQLTask:Connection="{AE4AB771-770A-4E37-8D10-0DA731292A74}" SQLTask:TimeOut="0" SQLTask:IsStoredProc="False" SQLTask:BypassPrepare="True" SQLTask:SqlStmtSourceType="DirectInput" SQLTask:SqlStatementSource="&#xA;declare @periodo int = (select max(id_periodo) from AUX_PERIODO_MES_BORRA)&#xA;&#xA;&#xA;---- actualiza las personas de entre 18 y 25 años, al titular&#xA;&#xA;select h.afiliado&#xA;into #temp_rango_1&#xA;from H_COMER_STOCK_AFILIA H&#xA;where h.id_periodo = @periodo and 18 &lt;= h.edad_periodo and 25 &gt; = h.edad_periodo&#xA;and h.cant_comer_grupo_activo = 1&#xA;&#xA;CREATE NONCLUSTERED INDEX [IX_afiliado]&#xA;ON [dbo].[#temp_rango_1] ([afiliado])&#xA;&#xA;update H_COMER_STOCK_AFILIA set id_rango_etario_mercado  = 1&#xA;from  H_COMER_STOCK_AFILIA H&#xA;inner join #temp_rango_1 t on t.afiliado = h.afiliado&#xA;where  h.id_periodo = @periodo &#xA;&#xA;drop table #temp_rango_1&#xA;&#xA;---- actualiza las personas de entre 26 y 30 años, al titular&#xA;&#xA;select h.afiliado&#xA;into #temp_rango_2&#xA;from H_COMER_STOCK_AFILIA H&#xA;where h.id_periodo = @periodo and 26 &lt;= h.edad_periodo and 30 &gt; = h.edad_periodo&#xA;and h.cant_comer_grupo_activo = 1&#xA;&#xA;&#xA;CREATE NONCLUSTERED INDEX [IX_afiliado]&#xA;ON [dbo].[#temp_rango_2] ([afiliado])&#xA;&#xA;&#xA;&#xA;update H_COMER_STOCK_AFILIA set id_rango_etario_mercado  = 2&#xA;from  H_COMER_STOCK_AFILIA H &#xA;inner join #temp_rango_2 t on t.afiliado = h.afiliado&#xA;where h.id_periodo = @periodo &#xA;&#xA;drop table #temp_rango_2&#xA;&#xA;---- actualiza las personas de entre 31 y 39 años, al titular&#xA;select h.afiliado&#xA;into #temp_rango_3&#xA;from H_COMER_STOCK_AFILIA H&#xA;where h.id_periodo = @periodo and 31 &lt;= h.edad_periodo and 39 &gt; = h.edad_periodo&#xA;and h.cant_comer_grupo_activo = 1&#xA;&#xA;CREATE NONCLUSTERED INDEX [IX_afiliado]&#xA;ON [dbo].[#temp_rango_3] ([afiliado])&#xA;&#xA;update H_COMER_STOCK_AFILIA set id_rango_etario_mercado  = 3&#xA;from  H_COMER_STOCK_AFILIA H &#xA;inner join #temp_rango_3 t on t.afiliado = h.afiliado&#xA;where h.id_periodo = @periodo &#xA;&#xA;drop table #temp_rango_3&#xA;&#xA;---- actualiza las personas de entre 40 y 49 años, al titular&#xA;select h.afiliado&#xA;into #temp_rango_4&#xA;from H_COMER_STOCK_AFILIA H&#xA;where h.id_periodo = @periodo and 40 &lt;= h.edad_periodo and 49 &gt; = h.edad_periodo&#xA;and h.cant_comer_grupo_activo = 1&#xA;&#xA;CREATE NONCLUSTERED INDEX [IX_afiliado]&#xA;ON [dbo].[#temp_rango_4] ([afiliado])&#xA;&#xA;update H_COMER_STOCK_AFILIA set id_rango_etario_mercado  = 4&#xA;from  H_COMER_STOCK_AFILIA H &#xA;inner join #temp_rango_4 t on t.afiliado = h.afiliado&#xA;where h.id_periodo = @periodo&#xA;&#xA;&#xA;drop table #temp_rango_4&#xA;&#xA;&#xA;---- actualiza las personas de entre 50 y 59 años, al titular&#xA;select h.afiliado&#xA;into #temp_rango_5&#xA;from H_COMER_STOCK_AFILIA H&#xA;where h.id_periodo = @periodo and 50 &lt;= h.edad_periodo and 59 &gt; = h.edad_periodo&#xA;and h.cant_comer_grupo_activo = 1&#xA;&#xA;CREATE NONCLUSTERED INDEX [IX_afiliado]&#xA;ON [dbo].[#temp_rango_5] ([afiliado])&#xA;&#xA;update H_COMER_STOCK_AFILIA set id_rango_etario_mercado  = 5&#xA;from  H_COMER_STOCK_AFILIA H &#xA;inner join #temp_rango_5 t on t.afiliado = h.afiliado&#xA;where h.id_periodo = @periodo &#xA;&#xA;drop table #temp_rango_5&#xA;&#xA;&#xA;---- actualiza las personas de mas de 60, al titular&#xA;&#xA;&#xA;select h.afiliado&#xA;into #temp_rango_6&#xA;from H_COMER_STOCK_AFILIA H&#xA;where h.id_periodo = @periodo and 60 &lt; =  h.edad_periodo &#xA;and h.cant_comer_grupo_activo = 1&#xA;&#xA;CREATE NONCLUSTERED INDEX [IX_afiliado]&#xA;ON [dbo].[#temp_rango_6] ([afiliado])&#xA;&#xA;&#xA;update H_COMER_STOCK_AFILIA set id_rango_etario_mercado  = 6&#xA;from  H_COMER_STOCK_AFILIA H &#xA;inner join #temp_rango_6 t on t.afiliado = h.afiliado&#xA;where h.id_periodo = @periodo &#xA;&#xA;&#xA;drop table #temp_rango_6&#xA;&#xA;&#xA;---- actualiza las personas de menores a 18 años titular y a las personas que no tienen rango mercado&#xA;&#xA;update H_COMER_STOCK_AFILIA set id_rango_etario_mercado  = 0&#xA;from  H_COMER_STOCK_AFILIA H &#xA;where id_rango_etario_mercado is null and id_periodo = @periodo&#xA;" SQLTask:CodePage="1252" SQLTask:ResultType="ResultSetType_None" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask"/></DTS:ObjectData></DTS:Executable>
+<DTS:Property DTS:Name="ObjectName">s158_info_mercado_rango_etario</DTS:Property>
+<DTS:Property DTS:Name="DTSID">{E0D31557-2D1D-47D7-96D2-BB2F90867BD3}</DTS:Property>
+<DTS:Property DTS:Name="Description"></DTS:Property>
+<DTS:Property DTS:Name="CreationName">SSIS.Package.2</DTS:Property>
+<DTS:Property DTS:Name="DisableEventHandlers">0</DTS:Property>
+<DTS:PackageVariable>
+<DTS:Property DTS:Name="PackageVariableValue" DTS:DataType="8">&lt;Package xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ddl2="http://schemas.microsoft.com/analysisservices/2003/engine/2" xmlns:ddl2_2="http://schemas.microsoft.com/analysisservices/2003/engine/2/2" xmlns:ddl100_100="http://schemas.microsoft.com/analysisservices/2008/engine/100/100" xmlns:ddl200="http://schemas.microsoft.com/analysisservices/2010/engine/200" xmlns:ddl200_200="http://schemas.microsoft.com/analysisservices/2010/engine/200/200" xmlns:dwd="http://schemas.microsoft.com/DataWarehouse/Designer/1.0"&gt;&lt;dwd:DtsControlFlowDiagram&gt;&lt;dwd:Layout&gt;&lt;dds&gt;
+  &lt;diagram fontclsid="{0BE35203-8F91-11CE-9DE3-00AA004BB851}" mouseiconclsid="{0BE35204-8F91-11CE-9DE3-00AA004BB851}" defaultlayout="Microsoft.DataWarehouse.Layout.GraphLayout100" defaultlineroute="Microsoft.DataWarehouse.Layout.GraphLayout100" version="7" nextobject="5" scale="100" pagebreakanchorx="0" pagebreakanchory="0" pagebreaksizex="0" pagebreaksizey="0" scrollleft="0" scrolltop="0" gridx="150" gridy="150" marginx="1000" marginy="1000" zoom="100" x="17939" y="12197" backcolor="15334399" defaultpersistence="2" PrintPageNumbersMode="3" PrintMarginTop="0" PrintMarginBottom="635" PrintMarginLeft="0" PrintMarginRight="0" marqueeselectionmode="1" mousepointer="0" snaptogrid="0" autotypeannotation="1" showscrollbars="0" viewpagebreaks="0" donotforceconnectorsbehindshapes="1" backpictureclsid="{00000000-0000-0000-0000-000000000000}"&gt;
+    &lt;font&gt;
+      &lt;ddsxmlobjectstreamwrapper binary="01010000900180380100065461686f6d61" /&gt;
+    &lt;/font&gt;
+    &lt;mouseicon&gt;
+      &lt;ddsxmlobjectstreamwrapper binary="6c74000000000000" /&gt;
+    &lt;/mouseicon&gt;
+  &lt;/diagram&gt;
+  &lt;layoutmanager&gt;
+    &lt;ddsxmlobj /&gt;
+  &lt;/layoutmanager&gt;
+  &lt;ddscontrol controlprogid="DdsShapes.DdsObjectManagedBridge.2" tooltip="Execute SQL Task" left="0" top="2435" logicalid="2" controlid="1" masterid="0" hint1="0" hint2="0" width="5106" height="1164" noresize="0" nomove="0" nodefaultattachpoints="0" autodrag="1" usedefaultiddshape="1" selectable="1" showselectionhandles="1" allownudging="1" isannotation="0" dontautolayout="0" groupcollapsed="0" tabstop="1" visible="1" snaptogrid="0"&gt;
+    &lt;control&gt;
+      &lt;ddsxmlobjectstreaminitwrapper binary="00080000f21300008c040000" /&gt;
+    &lt;/control&gt;
+    &lt;layoutobject&gt;
+      &lt;ddsxmlobj&gt;
+        &lt;property name="LogicalObject" value="{717EE97E-4E10-4436-BC4C-CC26946FA45A}" vartype="8" /&gt;
+        &lt;property name="ShowConnectorSource" value="0" vartype="2" /&gt;
+      &lt;/ddsxmlobj&gt;
+    &lt;/layoutobject&gt;
+    &lt;shape groupshapeid="0" groupnode="0" /&gt;
+  &lt;/ddscontrol&gt;
+&lt;/dds&gt;&lt;/dwd:Layout&gt;&lt;/dwd:DtsControlFlowDiagram&gt;&lt;/Package&gt;</DTS:Property>
+<DTS:Property DTS:Name="Namespace">dts-designer-1.0</DTS:Property>
+<DTS:Property DTS:Name="ObjectName">{E0D31557-2D1D-47D7-96D2-BB2F90867BD3}</DTS:Property>
+<DTS:Property DTS:Name="DTSID">{3FA2A0DD-404E-49A9-AAB8-D1C2685D6900}</DTS:Property>
+<DTS:Property DTS:Name="Description"></DTS:Property>
+<DTS:Property DTS:Name="CreationName"></DTS:Property></DTS:PackageVariable>
+<DTS:PackageVariable>
+<DTS:Property DTS:Name="PackageVariableValue" DTS:DataType="8">&lt;Package xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ddl2="http://schemas.microsoft.com/analysisservices/2003/engine/2" xmlns:ddl2_2="http://schemas.microsoft.com/analysisservices/2003/engine/2/2" xmlns:ddl100_100="http://schemas.microsoft.com/analysisservices/2008/engine/100/100" xmlns:ddl200="http://schemas.microsoft.com/analysisservices/2010/engine/200" xmlns:ddl200_200="http://schemas.microsoft.com/analysisservices/2010/engine/200/200" xmlns:dwd="http://schemas.microsoft.com/DataWarehouse/Designer/1.0"&gt;&lt;dwd:DtsControlFlowDiagram&gt;&lt;dwd:Layout&gt;&lt;dds&gt;
+  &lt;diagram fontclsid="{0BE35203-8F91-11CE-9DE3-00AA004BB851}" mouseiconclsid="{0BE35204-8F91-11CE-9DE3-00AA004BB851}" defaultlayout="Microsoft.DataWarehouse.Layout.GraphLayout100" defaultlineroute="Microsoft.DataWarehouse.Layout.GraphLayout100" version="7" nextobject="5" scale="100" pagebreakanchorx="0" pagebreakanchory="0" pagebreaksizex="0" pagebreaksizey="0" scrollleft="0" scrolltop="0" gridx="150" gridy="150" marginx="1000" marginy="1000" zoom="100" x="17939" y="12197" backcolor="15334399" defaultpersistence="2" PrintPageNumbersMode="3" PrintMarginTop="0" PrintMarginBottom="635" PrintMarginLeft="0" PrintMarginRight="0" marqueeselectionmode="1" mousepointer="0" snaptogrid="0" autotypeannotation="1" showscrollbars="0" viewpagebreaks="0" donotforceconnectorsbehindshapes="1" backpictureclsid="{00000000-0000-0000-0000-000000000000}"&gt;
+    &lt;font&gt;
+      &lt;ddsxmlobjectstreamwrapper binary="01010000900180380100065461686f6d61" /&gt;
+    &lt;/font&gt;
+    &lt;mouseicon&gt;
+      &lt;ddsxmlobjectstreamwrapper binary="6c74000000000000" /&gt;
+    &lt;/mouseicon&gt;
+  &lt;/diagram&gt;
+  &lt;layoutmanager&gt;
+    &lt;ddsxmlobj /&gt;
+  &lt;/layoutmanager&gt;
+  &lt;ddscontrol controlprogid="DdsShapes.DdsObjectManagedBridge.2" tooltip="Execute SQL Task" left="0" top="2435" logicalid="2" controlid="1" masterid="0" hint1="0" hint2="0" width="5106" height="1164" noresize="0" nomove="0" nodefaultattachpoints="0" autodrag="1" usedefaultiddshape="1" selectable="1" showselectionhandles="1" allownudging="1" isannotation="0" dontautolayout="0" groupcollapsed="0" tabstop="1" visible="1" snaptogrid="0"&gt;
+    &lt;control&gt;
+      &lt;ddsxmlobjectstreaminitwrapper binary="00080000f21300008c040000" /&gt;
+    &lt;/control&gt;
+    &lt;layoutobject&gt;
+      &lt;ddsxmlobj&gt;
+        &lt;property name="LogicalObject" value="{717EE97E-4E10-4436-BC4C-CC26946FA45A}" vartype="8" /&gt;
+        &lt;property name="ShowConnectorSource" value="0" vartype="2" /&gt;
+      &lt;/ddsxmlobj&gt;
+    &lt;/layoutobject&gt;
+    &lt;shape groupshapeid="0" groupnode="0" /&gt;
+  &lt;/ddscontrol&gt;
+&lt;/dds&gt;&lt;/dwd:Layout&gt;&lt;/dwd:DtsControlFlowDiagram&gt;&lt;/Package&gt;</DTS:Property>
+<DTS:Property DTS:Name="Namespace">dts-designer-1.0</DTS:Property>
+<DTS:Property DTS:Name="ObjectName">package-diagram</DTS:Property>
+<DTS:Property DTS:Name="DTSID">{7D4B36C9-045C-4426-B605-98F7E1296712}</DTS:Property>
+<DTS:Property DTS:Name="Description"></DTS:Property>
+<DTS:Property DTS:Name="CreationName"></DTS:Property></DTS:PackageVariable></DTS:Executable>
