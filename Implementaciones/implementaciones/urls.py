@@ -4,6 +4,7 @@ from django.conf import settings
 
 from project.urls import project_patterns
 from profiles.urls import profiles_patterns
+from request.urls import request_patterns
 
 urlpatterns = [
     # Paths core
@@ -12,6 +13,9 @@ urlpatterns = [
     # Paths project
     path('proyectos/', include(project_patterns)),
 
+    # Paths request
+    path('solicitudes/', include(request_patterns)),
+
     # Paths del admin
     path('admin/', admin.site.urls),
 
@@ -19,6 +23,6 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/', include('registration.urls')),
 
-    #Paths de Profiles
+    # Paths de Profiles
     path('profiles/', include(profiles_patterns)),
 ]

@@ -11,7 +11,6 @@ class ProjectsPageView(ListView):
     queryset = Project.projects.all()
     context_object_name = 'projects'
     paginate_by = 10
-    ordering = ['-project_name']
 
 
 class ProjectPackagesView(View):

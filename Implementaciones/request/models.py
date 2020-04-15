@@ -1,16 +1,17 @@
 from django.db import models
 
+from core.models import TimeStampedModel
 from project.models import Project
+from django.contrib.auth.models import User
 
 
-class ImplementationRequestHeader(models.Model):
+class ImplementationRequestHeader(TimeStampedModel):
     IMPLEMENTED = 'IM'
     PENDING = 'PN'
     STATES = [
         (IMPLEMENTED, 'Implementado'),
         (PENDING, 'Pendiente'),
     ]
-    request_date = models.DateTimeField(auto_now=True)
     project = models.ForeignKey(
         Project,
         on_delete=models.CASCADE,
@@ -21,9 +22,13 @@ class ImplementationRequestHeader(models.Model):
         choices=STATES,
         default=PENDING,
     )
+    created_by = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=True, blank=True)
 
     class Meta:
-        ordering = ["-request_date"]
+        verbose_name = "solicitud Cabecera"
+        verbose_name_plural = "solicitudes Cabeceras"
+        ordering = ["-created"]
 
     def __str__(self):
         return self.project.project_name
@@ -39,6 +44,8 @@ class ImplementationRequestDetail(models.Model):
     observations = models.CharField(max_length=500, blank=False)
 
     class Meta:
+        verbose_name = "solicitud Detalle"
+        verbose_name_plural = "solicitudes Detalles"
         ordering = ["-package"]
 
     def __str__(self):
