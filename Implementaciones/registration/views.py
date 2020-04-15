@@ -8,6 +8,7 @@ from django.urls import reverse_lazy
 from django import forms
 from .models import Profile
 
+
 class SignUpView(CreateView):
     form_class = UserCreationFormWithEmail
     template_name = 'registration/signup.html'
