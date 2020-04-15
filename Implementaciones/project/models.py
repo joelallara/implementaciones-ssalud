@@ -30,7 +30,7 @@ class Project(TimeStampedModel, ActivedModel):
     class Meta:
         verbose_name = "proyecto"
         verbose_name_plural = "proyectos"
-        ordering = ['-project_name']
+        ordering = ['project_name']
 
     def __str__(self):
         return self.project_name

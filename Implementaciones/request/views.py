@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404
 from django.forms.models import model_to_dict
 from django.http import JsonResponse
 
-from .models import ImplementationRequestHeader
+from .models import ImplementationRequestHeader, ImplementationRequestDetail
 
 
 class ImplementationRequestHeaderListView(ListView):
@@ -21,4 +21,18 @@ class ImplementationRequestDetailView(View):
         details = header.request_details.all()
         data = dict()
         data['details'] = [model_to_dict(detail) for detail in details]
+        if not data['details']:
+            data['details'] = None
         return JsonResponse(data)
+
+
+class UserImplementationRequestHeaderListView(ListView):
+    model = ImplementationRequestHeader
+    template_name = 'request/request_list.html'
+    context_object_name = 'requests'
+    paginate_by = 10
+
+    def get_queryset(self):
+        """Return the current user requests"""
+        return ImplementationRequestHeader.objects.filter(
+            created_by=self.request.user)

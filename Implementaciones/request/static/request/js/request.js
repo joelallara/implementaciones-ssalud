@@ -9,10 +9,10 @@ function getDetails(el) {
     dataType: 'json',
     success: function (data) {
       let rows = '';
-      if (!data) {
+      if (!data.details) {
         rows += `
           <tr>
-            <td colspan="5">No hay detalles disponibles</td>
+            <td colspan="3">No hay detalles disponibles</td>
           </tr>`;
       } else {
         data.details.forEach(detail => {

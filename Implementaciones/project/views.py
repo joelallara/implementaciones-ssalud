@@ -19,6 +19,8 @@ class ProjectPackagesView(View):
         packages = project.packages.all()
         data = dict()
         data['packages'] = [model_to_dict(package) for package in packages]
+        if not data['packages']:
+            data['packages'] = None
         return JsonResponse(data)
 
 
@@ -28,7 +30,8 @@ class PackageTasksView(View):
         tasks = package.tasks.all()
         data = dict()
         data['tasks'] = [model_to_dict(task) for task in tasks]
-        print(data)
+        if not data['tasks']:
+            data['tasks'] = None
         return JsonResponse(data)
 
 

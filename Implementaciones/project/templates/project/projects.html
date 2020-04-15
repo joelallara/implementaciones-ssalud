@@ -46,7 +46,7 @@
       dataType: 'json',
       success: function (data) {
         let rows = '';
-        if (!data) {
+        if (!data.packages) {
           rows += `
             <tr>
               <td colspan="5">No hay paquetes disponibles</td>
@@ -86,7 +86,7 @@
       dataType: 'json',
       success: function (data) {
         let rows = '';
-        if (!data) {
+        if (!data.tasks) {
           rows += `
             <tr>
               <td colspan="5">No hay tareas disponibles</td>
