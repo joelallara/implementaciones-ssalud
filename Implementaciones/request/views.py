@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.views.generic.list import ListView, View
+from django.views.generic.edit import CreateView
 from django.shortcuts import get_object_or_404
 from django.forms.models import model_to_dict
 from django.http import JsonResponse
@@ -15,17 +16,6 @@ class ImplementationRequestHeaderListView(ListView):
     paginate_by = 10
 
 
-class ImplementationRequestDetailView(View):
-    def get(self, request, header_pk):
-        header = get_object_or_404(ImplementationRequestHeader, pk=header_pk)
-        details = header.request_details.all()
-        data = dict()
-        data['details'] = [model_to_dict(detail) for detail in details]
-        if not data['details']:
-            data['details'] = None
-        return JsonResponse(data)
-
-
 class UserImplementationRequestHeaderListView(ListView):
     model = ImplementationRequestHeader
     template_name = 'request/request_list.html'
@@ -36,3 +26,14 @@ class UserImplementationRequestHeaderListView(ListView):
         """Return the current user requests"""
         return ImplementationRequestHeader.objects.filter(
             created_by=self.request.user)
+
+
+class ImplementationRequestDetailView(View):
+    def get(self, request, header_pk):
+        header = get_object_or_404(ImplementationRequestHeader, pk=header_pk)
+        details = header.request_details.all()
+        data = dict()
+        data['details'] = [model_to_dict(detail) for detail in details]
+        if not data['details']:
+            data['details'] = None
+        return JsonResponse(data)

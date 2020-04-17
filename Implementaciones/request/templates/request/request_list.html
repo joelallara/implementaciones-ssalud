@@ -1,18 +1,108 @@
 {% extends 'core/base.html' %}
 {% load static%}
+
 {% block stylesheet %}
-<link rel="stylesheet" href="{% static 'request/css/request.css' %}">
-<script src="{% static 'request/js/request.js' %}"></script>
+<link rel="stylesheet" href="{% static 'request/css/request.css' %}" />
 {% endblock stylesheet%}
+
 {% block title %}Solicitudes{% endblock %}
+
 {% block content %}
 {% include 'request/includes/request_menu.html' %}
 <div class="container">
     <div class="row">
-        <div class="col-12 mt-2">
-            <h2>Historial de Solicitudes</h2>
+        {% if request.path == "/solicitudes/mis_solicitudes/" %}
+        <div class="col-3 mt-2">
+            <h2>Mis Solicitudes</h2>
         </div>
+        <div class="col-3 mt-2">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalNuevaSolicitud">Nueva
+                Solicitud</button>
+        </div>
+        <!-- MODAL SOLICITUD -->
+        <div class="modal fade" id="modalNuevaSolicitud" tabindex="-1">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+
+                    <!-- cabecera del diálogo -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Nueva Solicitud Implementacion</h4>
+                        <button type="button" class="close" data-dismiss="modal">X</button>
+                    </div>
+
+                    <!-- cuerpo del diálogo -->
+                    <div class="modal-body">
+                        <form id="implementationRequestForm">
+                            <div class="form-row">
+                                <div class="col-12 mt-2">
+                                    <div class="container-fluid">
+                                        <div class="row mb-2">
+                                            <div class="col-sm-4">
+                                                <label for="projectSelectpicker">Seleccione un proyecto:</label>
+                                                <select class="selectpicker form-control mb-2" id="projectSelectpicker"
+                                                    name="projectSelectpicker" title="-----" data-live-search="true"
+                                                    data-url="{% url 'request:json_project_list' %}">
+                                                </select>
+                                                <span class="project">Debe seleccionar un proyecto</span>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label for="packageSelectpicker">Seleccione un paquete:</label>
+                                                <select class="selectpicker form-control" data-live-search="true"
+                                                    id="packageSelectpicker" name="packageSelectpicker" title="-----">
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label for="tasksSelectpicker">Seleccione la/s tarea/s:</label>
+                                                <select class="selectpicker form-control" multiple
+                                                    data-live-search="true" id="tasksSelectpicker"
+                                                    name="tasksSelectpicker" title="-----">
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <div class="col-sm-12 mb-2">
+                                                <label for="observaciones">Ingrese una breve descripcion de los cambios
+                                                    realizados</label>
+                                                <textarea class="form-control" rows="5" id="observaciones"
+                                                    name="observaciones"></textarea>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <button type="button"
+                                                    class="btn btn-info add-new form-control">Agregar</button>
+                                            </div>
+                                        </div>
+                                        <table class="table table-hover" id="table-add">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th class="text-center">Paquete</th>
+                                                    <th class="text-center">Tareas</th>
+                                                    <th class="text-center">Observaciones</th>
+                                                    <th class="text-center">Borrar</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <!-- pie del diálogo -->
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary mb-2" data-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary mb-2" form="form1">Enviar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="col-12 mt-2">
+            <h2>Historial Solicitudes</h2>
+        </div>
+        {% endif %}
     </div>
+
 
     <table class="table table-hover" id="table-requests">
         <thead class="thead-light">
@@ -31,7 +121,7 @@
                 <td>{{request.project.project_name}}</td>
                 <td class="text-center align middle">
                     <a data-toggle="modal" data-target="#modalDetalles" href="" data-id="{{request.id}}"
-                        data-url="{% url 'request:detail' request.id %}" onClick="getDetails(this)">
+                        data-url="{% url 'request:detail' request.id %}" onClick="fillDetailsModal(this)">
                         <i class="material-icons">
                             list_alt
                         </i>
@@ -89,3 +179,7 @@
 
 </div>
 {% endblock %}
+
+{% block javascript %}
+<script src="{% static 'request/js/request.js' %}"></script>
+{% endblock javascript%}

@@ -13,6 +13,16 @@ class ProjectsPageView(ListView):
     paginate_by = 10
 
 
+class GetProjectsJsonList(View):
+    def get(self, request):
+        projects = Project.projects.all()
+        data = dict()
+        data['projects'] = [model_to_dict(project) for project in projects]
+        if not data['projects']:
+            data['projects'] = None
+        return JsonResponse(data)
+
+
 class ProjectPackagesView(View):
     def get(self, request, project_pk):
         project = get_object_or_404(Project, pk=project_pk)

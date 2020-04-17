@@ -11,6 +11,4 @@ project_patterns = ([
          PackageTasksView.as_view(),
          name="tasks"
          ),
-    # path('/paquetes/', HomePageView.as_view(), name="home"),
-    # path('projectos/actualizar/<project_name>/', start_thread, name="start"),
 ], "project")

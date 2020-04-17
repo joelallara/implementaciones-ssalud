@@ -10,10 +10,10 @@
     <div class="collapse navbar-collapse" id="nep">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'request:user_request_list' %}"><i>Mis Solicitudes</i></a>
+          <a class="nav-link {%if request.path == "/solicitudes/mis_solicitudes/"%} active {%endif%}" href="{% url 'request:user_request_list' %}"><i>Mis Solicitudes</i></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'request:list' %}"><i>Historial Solicitudes</i></a>
+          <a class="nav-link {%if request.path == "/solicitudes/"%} active {%endif%}" href="{% url 'request:list' %}"><i>Historial Solicitudes</i></a>
         </li>
       </ul>
     </div>

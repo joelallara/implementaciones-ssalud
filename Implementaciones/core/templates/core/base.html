@@ -5,28 +5,17 @@
 <head>
   <meta charset="utf-8">
   <title>Control Implementaciones | {% block title %}{% endblock %}</title>
-  <link rel="stylesheet" href="{% static 'core/css/bootstrap.min.css' %}">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  {{ form.media }}
-  {# Include FontAwesome; required for icon display #}
-  <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css">
-  <link rel="stylesheet" href="{% static 'core/css/simple-sidebar.css' %}">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script> -->
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
 
+  <!-- Styles-->
+  <link rel="stylesheet" href="{% static 'core/css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css">
   <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
+  <!--Fonts and Icons-->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  {{ form.media }}
+  {# Include FontAwesome; required for icon display #} 
 
-  <!-- Latest compiled and minified JavaScript -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
-
-  <!-- (Optional) Latest compiled and minified JavaScript translation files -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.12/js/i18n/defaults-es_ES.min.js"></script>
-
-  <script>
-    $('select').selectpicker();
-  </script>
   {% block stylesheet %}
   {% endblock stylesheet%}
 </head>
@@ -51,8 +40,8 @@
             href="{% url 'project:list'%}">Proyectos</a>
         </li>
         <li class="nav-item">
-          <a class="nav-item nav-link {%if request.path == "/solicitudes/"%} active {%endif%}"
-            href="{% url 'request:list'%}">Solicitudes</a>
+          <a class="nav-item nav-link {%if request.path == "/solicitudes/" or request.path == "/solicitudes/mis_solicitudes/"%} active {%endif%}"
+            href="{% url 'request:user_request_list'%}">Solicitudes</a>
         </li>
       </div>
       <ul class="navbar-nav">
@@ -77,13 +66,22 @@
   {% block content %}
   {% endblock content%}
   {% endblock body %}
-  <script src="{% static 'core/js/jquery-3.4.1.min.js' %}"></script>
-  <script src="{% static 'core/js/popper.min.js' %}"></script>
-  <script src="{% static 'core/js/bootstrap.min.js' %}"></script>
-  <script src="{% static 'core/js/validaciones.js' %}"></script>
 
-  {% block javascript %}
-  {% endblock javascript%}
 </body>
+
+<!--JavaScripts-->
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
+<script src="{% static 'core/js/jquery-3.4.1.min.js' %}"></script>
+<script src="{% static 'core/js/popper.min.js' %}"></script>
+<script src="{% static 'core/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'core/js/validaciones.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
+<!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script> -->
+
+<!-- (Optional) Latest compiled and minified JavaScript translation files -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.12/js/i18n/defaults-es_ES.min.js"></script>
+
+{% block javascript %}
+{% endblock javascript%}
 
 </html>
