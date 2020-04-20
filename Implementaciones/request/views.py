@@ -1,11 +1,13 @@
 from django.shortcuts import render
 from django.views.generic.list import ListView, View
 from django.views.generic.edit import CreateView
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.forms.models import model_to_dict
 from django.http import JsonResponse
+from django.urls import reverse_lazy
 
 from .models import ImplementationRequestHeader, ImplementationRequestDetail
+from project.models import Project
 
 
 class ImplementationRequestHeaderListView(ListView):
@@ -37,3 +39,27 @@ class ImplementationRequestDetailView(View):
         if not data['details']:
             data['details'] = None
         return JsonResponse(data)
+
+    def post(self, request):
+        project_pk = request.POST.get('projectSelectpicker', None)
+        print(project_pk)
+        project = get_object_or_404(Project, pk=project_pk)
+        #implementation_request_header = ImplementationRequestHeader.create(
+         #   project=project.id, created_by=request.user)
+        return redirect(reverse_lazy('request:user_request_list'))
+
+
+    #     def add_message(request, pk):
+    # json_response = {'created':False}
+    # if request.user.is_authenticated:
+    #     content = request.GET.get('content', None)
+    #     if content:
+    #         thread = get_object_or_404(Thread, pk=pk)
+    #         message = Message.objects.create(user=request.user, content=content)
+    #         thread.messages.add(message)
+    #         json_response['created'] = True
+    #         if len(thread.messages.all()) is 1:
+    #             json_response['first'] = True
+    # else:
+    #     raise Http404("User is not authenticated")
+    # return JsonResponse(json_response)

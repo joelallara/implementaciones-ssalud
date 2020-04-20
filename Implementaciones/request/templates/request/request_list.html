@@ -32,7 +32,8 @@
 
                     <!-- cuerpo del diálogo -->
                     <div class="modal-body">
-                        <form id="implementationRequestForm">
+                        <form method="POST" id="implementationRequestForm" action="nueva_solicitud/">
+                            {% csrf_token %}
                             <div class="form-row">
                                 <div class="col-12 mt-2">
                                     <div class="container-fluid">
@@ -67,10 +68,17 @@
                                                     name="observaciones"></textarea>
                                             </div>
                                             <div class="col-sm-12">
-                                                <button type="button"
-                                                    class="btn btn-info add-new form-control">Agregar</button>
+                                                <button type="button" class="btn btn-info add-new form-control">Agregar
+                                                    a
+                                                    detalles</button>
+                                            </div>
+                                            <div class="col-sm-12 mt-4">
+                                                <h5 class="modal-title text-center">Detalles Nueva Solicitud
+                                                    Implementacion
+                                                </h5>
                                             </div>
                                         </div>
+
                                         <table class="table table-hover" id="table-add">
                                             <thead class="thead-light">
                                                 <tr>
@@ -90,7 +98,8 @@
                         <!-- pie del diálogo -->
                         <div class="modal-footer">
                             <button class="btn btn-secondary mb-2" data-dismiss="modal">Cancelar</button>
-                            <button type="submit" class="btn btn-primary mb-2" form="form1">Enviar</button>
+                            <button type="submit" class="btn btn-primary mb-2"
+                                form="implementationRequestForm">Enviar</button>
                         </div>
                     </div>
                 </div>

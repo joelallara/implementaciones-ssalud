@@ -177,9 +177,9 @@ $(document).ready(function () {
       selectedPackage +
       '</td>' +
       '<td class="text-left align-middle">' +
-      '<ol>' +
+      '<ol id="tasklist">' +
       tasks +
-      '<ol>' +
+      '</ol>' +
       '</td>' +
       '<td class="text-justify align-middle">' +
       observation +

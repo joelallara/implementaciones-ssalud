@@ -8,6 +8,10 @@ request_patterns = ([
          name='user_request_list'),
     path('mis_solicitudes/listado_projectos/',
          GetProjectsJsonList.as_view(), name='json_project_list'),
+    path('mis_solicitudes/nueva_solicitud/',
+         ImplementationRequestDetailView.as_view(),
+         name="new_implementation_request"
+         ),
     path('<int:header_pk>/detalle',
          ImplementationRequestDetailView.as_view(),
          name="detail"
