@@ -1,0 +1,121 @@
+{% extends 'core/base.html' %}
+{% load static%}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="{% static 'project/css/project.css' %}" />
+
+{% endblock stylesheet%}
+
+{% block title %}Proyectos{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+
+  <div class="row">
+    <div class="col-12 mt-2">
+      <h2>Información de Proyectos</h2>
+    </div>
+  </div>
+  
+  <table class="table table-hover">
+    <thead class="thead-light">
+      <th scope="col">Nombre</th>
+      <th scope="col" class="text-center">Paquetes</th>
+      <th scope="col" class="text-center">Documentación</th>
+      <th scope="col" class="text-center">Ultima Actualización</th>
+      <th scope="col" class="text-center">Actualizar info</th>
+    </thead>
+    <tbody>
+      {% for project in projects %}
+      <tr>
+        <td>{{project.project_name}}</td>
+        <td class="text-center">
+          <a href="" data-toggle="modal" data-target="#modal1" data-id="{{project.id}}"
+            data-url="{% url 'project:packages' project.id %}" onClick="packagesList(this)">
+            <i class="material-icons">
+              list_alt
+            </i>
+          </a>
+        </td>
+        <td class="text-center">
+          <i class="material-icons">
+            link
+          </i>
+        </td>
+        <td class="text-center">{{project.modified|date:'d/m/y H:i'}}</td>
+        <td class="text-center">
+          <i class="material-icons">
+            update
+          </i>
+        </td>
+        {% empty %}
+        <td colspan="5" style="width: 70%">No hay projectos disponibles</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <!-- MODAL PAQUETES -->
+  <div class="modal fade bd-example-modal-lg" id="modal1" tabindex="-1" role="dialog" aria-labelledby="modal1Title"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+      <div class="modal-content">
+
+        <!-- cabecera del diálogo -->
+        <div class="modal-header">
+          <h4 class="modal-title">Paquetes</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <!-- cuerpo del diálogo -->
+        <div class="modal-body">
+          <table class="tabla table table-hover" id="table-packages">
+            <tbody>
+              <!-- {% for package in project.packages.all %}
+              <tr>
+                <td style="width: 70%">{{package.package_name}}</td>
+                <td style="width: 15%"><button type="button" class="btn btn-info btn-next">Tareas</button></td>
+                {% empty %}
+                <td colspan="5" style="width: 70%">No hay paquetes disponibles</td>
+              </tr>
+              {%endfor%} -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL TAREAS -->
+  <div class="modal fade bd-example-modal-sm" id="modal2" tabindex="-1" role="dialog" aria-labelledby="modal2Title"
+    aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+      <div class="modal-content">
+
+        <!-- cabecera del diálogo -->
+        <div class="modal-header">
+          <h4 class="modal-title">Nombre Paquete Tareas</h4>
+          <button type="button" class="close btn-prev" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <!-- cuerpo del diálogo -->
+        <div class="modal-body">
+          <table class="tabla table table-hover" id="table-tasks">
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script src="{% static 'project/js/project.js' %}"></script>
+{% endblock javascript%}
