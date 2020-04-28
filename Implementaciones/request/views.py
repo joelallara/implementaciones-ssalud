@@ -41,25 +41,31 @@ class ImplementationRequestDetailView(View):
         return JsonResponse(data)
 
     def post(self, request):
-        project_pk = request.POST.get('projectSelectpicker', None)
-        print(project_pk)
-        project = get_object_or_404(Project, pk=project_pk)
-        #implementation_request_header = ImplementationRequestHeader.create(
-         #   project=project.id, created_by=request.user)
+        project_pk = request.POST.get('selectedProjectid', None)
+        packages = request.POST.getlist('package', None)
+        project_instance = get_object_or_404(Project, pk=project_pk)
+        implementation_request_header = ImplementationRequestHeader.objects.create(
+           project=project_instance, created_by=request.user)
+        for package in packages:
+            tasks = request.POST.getlist(package+'task', None)
+            tasks_formated = ", ".join(tasks)
+            observations = request.POST.get(package+'observations', '-----')
+            if package[0:5] == '-----':
+                package = package[0:5]
+            implementation_request_detail = ImplementationRequestDetail.objects.create(
+                request_header=implementation_request_header,
+                package=package,
+                tasks=tasks_formated,
+                observations=observations)
+
+        #         tasks = request.POST.getlist(package+'task', None)
+        #         implementation_request_detail.tasks = ", ".join(tasks)
+        #         implementation_request_detail.save()
+        # else:
+        #     observations = request.POST.get(str(index)+'observations', '-----')
+        #     implementation_request_detail = ImplementationRequestDetail.objects.create(
+        #     request_header=implementation_request_header,
+        #     package='-----',
+        #     tasks='-----',
+        #     observations=observations)
         return redirect(reverse_lazy('request:user_request_list'))
-
-
-    #     def add_message(request, pk):
-    # json_response = {'created':False}
-    # if request.user.is_authenticated:
-    #     content = request.GET.get('content', None)
-    #     if content:
-    #         thread = get_object_or_404(Thread, pk=pk)
-    #         message = Message.objects.create(user=request.user, content=content)
-    #         thread.messages.add(message)
-    #         json_response['created'] = True
-    #         if len(thread.messages.all()) is 1:
-    #             json_response['first'] = True
-    # else:
-    #     raise Http404("User is not authenticated")
-    # return JsonResponse(json_response)

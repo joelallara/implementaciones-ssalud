@@ -50,7 +50,7 @@ class Package(TimeStampedModel, ActivedModel):
     class Meta:
         verbose_name = "paquete"
         verbose_name_plural = "paquetes"
-        ordering = ['-package_name']
+        ordering = ['package_name']
 
     def __str__(self):
         return self.package_name
@@ -67,7 +67,7 @@ class Task(TimeStampedModel, ActivedModel):
     class Meta:
         verbose_name = "tarea"
         verbose_name_plural = "tareas"
-        ordering = ['-task_name']
+        ordering = ['task_name']
 
     def __str__(self):
         return self.task_name

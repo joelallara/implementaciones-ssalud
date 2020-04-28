@@ -79,11 +79,43 @@ class SelectPicker {
 
 $(document).ready(function () {
 
+  function disableAddButton(){
+    $(".add-new").attr("disabled", "disabled");
+  }
+
+  function enableAddButton() {
+    $(".add-new").removeAttr("disabled");
+  }
+
+  function disableEnviarButton() {
+    $("#btnEnviar").attr("disabled", "disabled");
+  }
+
+  function enableEnviarButton(){
+    $("#btnEnviar").removeAttr("disabled");
+  }
+
+  function showProjectAlert(){
+    $('#projectAlert').removeClass("collapse");
+  }
+
+  function hideProjectAlert(){
+    $('#projectAlert').addClass("collapse");
+  }
+  
+  function showDetailAlert(){
+    $('#detailAlert').removeClass("collapse");
+  }
+
+  function hideDetailAlert(){
+    $('#detailAlert').addClass("collapse");
+  }
+
   //Create selectpickers
   var url = $('#projectSelectpicker').data('url');
   let projectsSelectPicker = new SelectPicker('#projectSelectpicker', 'projects', 'project', url);
-  let packagesSelectPicker = new SelectPicker(id='#packageSelectpicker', name='packages', djangoObject='package',);
-  let tasksSelectPicker = new SelectPicker(id='#tasksSelectpicker', name='tasks', 'task', djangoObject=url);
+  let packagesSelectPicker = new SelectPicker(id = '#packageSelectpicker', name = 'packages', djangoObject = 'package');
+  let tasksSelectPicker = new SelectPicker(id = '#tasksSelectpicker', name = 'tasks', 'task', djangoObject = url);
 
   // Fill the project SelectPicker
   projectsSelectPicker.fill();
@@ -106,8 +138,8 @@ $(document).ready(function () {
     // Enable or disable "Agregar" button if there is a project selected
     if (isProjectSelected) {
       var url = '/proyectos/' + projectsSelectPicker.getIdOptionSelected() + '/paquetes';
-      $("span.project").removeClass("error");
-      $(".add-new").removeAttr("disabled");
+      hideProjectAlert();
+      enableAddButton();
 
 
       tasksSelectPicker.setTitle('-----');
@@ -118,7 +150,8 @@ $(document).ready(function () {
       packagesSelectPicker.enable();
       packagesSelectPicker.refresh();
 
-      
+      enableEnviarButton();
+
     }
   });
 
@@ -135,7 +168,7 @@ $(document).ready(function () {
   });
 
   // Verify if there is any row on #add-table
-  var isTableEmpty = function () {
+  function isTableEmpty() {
     var count = $("#table-add tbody tr").length;
     if (count >= 1) {
       return false;
@@ -144,46 +177,116 @@ $(document).ready(function () {
     }
   };
 
-  // Append table with add row form on add new button click
+  // Enable o Disable "Enviar" button if is or not a project selected or if there is no row on add-table
+  $("#btnEnviar").click(function () {
+    var isProjectSelected = projectsSelectPicker.isOptionSelected();
+    if (!isProjectSelected) {
+      showProjectAlert();
+      disableAddButton();
+      disableEnviarButton();
+      return;
+    } else {
+      hideProjectAlert();
+      enableAddButton();
+      projectsSelectPicker.refresh();
+      if (isTableEmpty()) {
+        showDetailAlert();
+        disableEnviarButton();
+        return;
+      } else {
+        enableEnviarButton();
+      }
+    }
+  });
+
+  var rowIndex = 0;
+  // Append table detail row
   $(".add-new").click(function () {
     var isProjectSelected = projectsSelectPicker.isOptionSelected();
-    $('.container-fluid').find(".error").focus();
 
     if (isProjectSelected) {
-      $(".add-new").removeAttr("disabled");
-      projectsSelectPicker.disable();
-      projectsSelectPicker.refresh();
+      enableAddButton();
+      // projectsSelectPicker.disable();
+      // projectsSelectPicker.refresh();
     } else {
-      $("span.project").addClass("error");
-      $(".add-new").attr("disabled", "disabled");
-      //return;
+      showProjectAlert();
+      disableAddButton();
+      disableEnviarButton();
+      // projectsSelectPicker.enable();
+      // projectsSelectPicker.refresh();
       return;
     }
 
     var observation = $.trim($("#observacionesInput").val());
     var index = $("#table-add tbody tr:last-child").index();
-    // var selectedProject = packagesSelectPicker.getValueOptionSelected();
     var selectedProject = $(projectsSelectPicker.id + ' option:selected').val();
-    var selectedPackage = packagesSelectPicker.getValueOptionSelected();
-    var selectedTasks = $(tasksSelectPicker.id).find('option:selected');
     var values = [];
 
-    selectedTasks.each(function () {
-      values.push('<li>' + $(this).text());
-    });
-    tasks = values.join("</li>");
+    // Create Package Detail Row
+    var selectedPackage;
+    var packageDetailRow;
+    if (packagesSelectPicker.isOptionSelected()) {
+      selectedPackage = packagesSelectPicker.getValueOptionSelected();
+      packageDetailRow = selectedPackage + 
+      '<input type="hidden" value="'+ selectedPackage +'" name="package"/>';
+    } else {
+      selectedPackage = '-----'+ rowIndex;
+      packageDetailRow = '-----' + 
+      '<input type="hidden" value="'+ selectedPackage + '" name="package"/>';
+    }
+
+    // Create Tasks Detail Row
+    var tasks;
+    var tasksDetailRow;
+    if (tasksSelectPicker.isOptionSelected()) {
+      tasks = '<ol>';
+      var selectedTasks = $(tasksSelectPicker.id).find('option:selected');
+      selectedTasks.each(function () {
+        values.push('<li>' + $(this).text() +
+          '</li><input type="hidden" value="' +
+          $(this).text() + '" name="' + selectedPackage + 'task"/>');
+      });
+      tasks += values.join("");
+      tasks += '</ol>';
+      tasksDetailRow = '<td class="text-left align-middle">' + tasks + '</td>';
+    } else {
+      tasks = '-----';
+      tasksDetailRow = '<td class="text-center align-middle">' +
+        tasks +
+        '<input type="hidden" value="' + tasks + '" name="' + selectedPackage + 'task"/>'+
+        '</td>';
+    }
+
+    // Create Observation Detail Row
+    var observationDetailRow;
+    if (observation) {
+      observationDetailRow =
+        '<td class="text-justify align-middle">' +
+        observation +
+        '<input type="hidden" value="' + observation + '" name="' + selectedPackage + 'observations"/>' +
+        '</td>';
+    } else {
+      if (!packagesSelectPicker.isOptionSelected()){
+        showDetailAlert();
+        return;
+      } else {
+        hideDetailAlert();
+      }
+      observation = '-----'
+      observationDetailRow =
+        '<td class="text-center align-middle">' +
+        observation +
+        '<input type="hidden" value="' + observation + '" name="' + selectedPackage + 'observations"/>' +
+        '</td>';
+    }
+
+    //Create Detail table row
     var row = '<tr>' +
       '<td class="text-center align-middle">' +
-      selectedPackage +
+      packageDetailRow +
       '</td>' +
-      '<td class="text-left align-middle">' +
-      '<ol id="tasklist">' +
-      tasks +
-      '</ol>' +
-      '</td>' +
-      '<td class="text-justify align-middle">' +
-      observation +
-      '</td>' +
+      tasksDetailRow +
+      observationDetailRow +
       '<td class="text-center align-middle">' +
       '<a class="delete" title="Delete"><i class="material-icons">&#xE872;</i></a>' +
       '</td>' +
@@ -191,22 +294,35 @@ $(document).ready(function () {
     $("#table-add").append(row);
     $("#table-add tbody tr").eq(index + 4).find(".delete").toggle();
 
-    if (!isTableEmpty()) {
+    hideDetailAlert();
+
+    if (isTableEmpty()) {
+      disableEnviarButton();
+      projectsSelectPicker.enable();
+      projectsSelectPicker.refresh();
+    } else {
+      enableEnviarButton();
       $('#table-add').show();
+      projectsSelectPicker.disable();
+      projectsSelectPicker.refresh();
     }
 
-    
+
     // Reset form
     $('#implementationRequestForm').trigger("reset");
 
     // Keeps the value of the selected project
     projectsSelectPicker.setValueOptionSelected(selectedProject);
 
+    // Set the id value on the hidden input to pass it through POST request
+    $('#selectedProjectid').val(selectedProject);
+
     // Refresh selectpickers
     projectsSelectPicker.refresh();
     packagesSelectPicker.refresh();
     tasksSelectPicker.refresh();
 
+    rowIndex++;
 
   });
 

@@ -38,6 +38,7 @@ class PackageTasksView(View):
     def get(self, request, package_pk):
         package = get_object_or_404(Package, pk=package_pk)
         tasks = package.tasks.all()
+        print(tasks)
         data = dict()
         data['tasks'] = [model_to_dict(task) for task in tasks]
         if not data['tasks']:

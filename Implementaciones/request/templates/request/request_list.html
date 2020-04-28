@@ -36,6 +36,14 @@
                             {% csrf_token %}
                             <div class="form-row">
                                 <div class="col-12 mt-2">
+                                    <div class="alert alert-danger collapse" role="alert" id="projectAlert">
+                                        Debe seleccionar un proyecto.
+                                    </div>
+                                    <div class="alert alert-danger collapse" role="alert" id="detailAlert">
+                                        Debe agregar al menos una observación a los detalles.
+                                    </div>
+                                </div>
+                                <div class="col-12 mt-2">
                                     <div class="container-fluid">
                                         <div class="row mb-2">
                                             <div class="col-sm-4">
@@ -44,7 +52,7 @@
                                                     name="projectSelectpicker" title="-----" data-live-search="true"
                                                     data-url="{% url 'request:json_project_list' %}">
                                                 </select>
-                                                <span class="project">Debe seleccionar un proyecto</span>
+                                                <input type="hidden" id="selectedProjectid" name="selectedProjectid" />
                                             </div>
                                             <div class="col-sm-4">
                                                 <label for="packageSelectpicker">Seleccione un paquete:</label>
@@ -68,14 +76,11 @@
                                                     name="observaciones"></textarea>
                                             </div>
                                             <div class="col-sm-12">
-                                                <button type="button" class="btn btn-info add-new form-control">Agregar
-                                                    a
-                                                    detalles</button>
+                                                <button type="button"
+                                                    class="btn btn-info add-new form-control">Agregar</button>
                                             </div>
                                             <div class="col-sm-12 mt-4">
-                                                <h5 class="modal-title text-center">Detalles Nueva Solicitud
-                                                    Implementacion
-                                                </h5>
+                                                <h5 class="modal-title text-center">Detalles</h5>
                                             </div>
                                         </div>
 
@@ -98,8 +103,8 @@
                         <!-- pie del diálogo -->
                         <div class="modal-footer">
                             <button class="btn btn-secondary mb-2" data-dismiss="modal">Cancelar</button>
-                            <button type="submit" class="btn btn-primary mb-2"
-                                form="implementationRequestForm">Enviar</button>
+                            <button type="submit" class="btn btn-primary mb-2" form="implementationRequestForm"
+                                id="btnEnviar">Enviar</button>
                         </div>
                     </div>
                 </div>
@@ -149,6 +154,11 @@
             </tr>
         </tbody>
     </table>
+    <div class="row">
+        <div class="col-12 mt-2">
+        {% include 'core/includes/pagination.html' %}
+        </div>
+    </div>
 
 
     <!-- MODAL DETALLES SOLICITUD -->
