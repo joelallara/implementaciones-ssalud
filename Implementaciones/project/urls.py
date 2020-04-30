@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import ProjectsPageView, ProjectPackagesView, PackageTasksView
+from .views import ProjectsPageView, ProjectPackagesView, PackageTasksView, update_projects_info
 
 project_patterns = ([
     path('', ProjectsPageView.as_view(), name="list"),
@@ -10,5 +10,9 @@ project_patterns = ([
     path('<int:package_pk>/tareas',
          PackageTasksView.as_view(),
          name="tasks"
+         ),
+     path('actualizar_info_projectos',
+         update_projects_info,
+         name="update_projects_info"
          ),
 ], "project")

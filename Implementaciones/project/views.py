@@ -2,7 +2,9 @@ from django.views.generic import ListView, View
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
 from django.forms.models import model_to_dict
+from django.urls import reverse_lazy
 
+from .buscadorSSIS import get_projects_data
 from project.models import Project, Package
 
 
@@ -46,9 +48,7 @@ class PackageTasksView(View):
         return JsonResponse(data)
 
 
-# def update_project_info(request, project_name):
-#     project = get_object_or_404(Project, project_name=project_name)
-
-#     user = get_object_or_404(User, username=username)
-#     thread = Thread.objects.find_or_create(user, request.user)
-#     return redirect(reverse_lazy('messenger:detail', args=[thread.pk]))
+def update_projects_info(request):
+    projects = get_projects_data()
+    print(projects)
+    return redirect(reverse_lazy('project:list'))

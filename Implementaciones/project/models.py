@@ -2,22 +2,11 @@ from django.db import models
 from datetime import datetime
 
 from core.models import TimeStampedModel, ActivedModel
-from BuscadorSSIS.BuscadorSSIS import get_projects_names_from_store
 
 
 class ProjectManager(models.Manager):
     def get_queryset(self):
         return super(ProjectManager, self).get_queryset().filter(actived=True)
-
-    def find_or_create(self, project_name):
-        project_list = get_projects_names_from_store()
-        for project_name in project_list:
-            queryset = self.filter(project_name=project_name)
-            if queryset:
-                queryset.modified = datetime.now()
-            else:
-                project = Project.projects.create(project_name=project_name)
-        return thread
 
 
 class Project(TimeStampedModel, ActivedModel):
