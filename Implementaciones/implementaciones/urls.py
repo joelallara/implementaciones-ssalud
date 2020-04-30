@@ -5,6 +5,7 @@ from django.conf import settings
 from project.urls import project_patterns
 from profiles.urls import profiles_patterns
 from request.urls import request_patterns
+from deploy.urls import deploy_patterns
 
 urlpatterns = [
     # Paths core
@@ -15,6 +16,9 @@ urlpatterns = [
 
     # Paths request
     path('solicitudes/', include(request_patterns)),
+
+    # Paths deploy
+    path('implementaciones/', include(deploy_patterns)),
 
     # Paths del admin
     path('admin/', admin.site.urls),

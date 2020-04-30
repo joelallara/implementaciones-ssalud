@@ -43,6 +43,10 @@
           <a class="nav-item nav-link {%if request.path == "/solicitudes/" or request.path == "/solicitudes/mis_solicitudes/"%} active {%endif%}"
             href="{% url 'request:user_request_list'%}">Solicitudes</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-item nav-link {%if request.path == "/implementaciones/"%} active {%endif%}"
+            href="{% url 'deploy:list'%}">Implementaciones</a>
+        </li>
       </div>
       <ul class="navbar-nav">
         {% if not request.user.is_authenticated %}

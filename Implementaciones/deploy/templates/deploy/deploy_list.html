@@ -1,0 +1,94 @@
+{% extends 'core/base.html' %}
+{% load static%}
+
+
+{% block title %}Implementaciones{% endblock %}
+
+{% block content %}
+{% include 'deploy/includes/deploy_menu.html' %}
+<div class="container">
+    <div class="row">
+        <div class="col-12 mt-2">
+            <h2>Historial Implementaciones</h2>
+        </div>
+    </div>
+
+
+    <table class="table table-hover" id="table-requests">
+        <thead class="thead-light">
+            <tr>
+                <th>Fecha implementación</th>
+                <th>Proyecto</th>
+                <th class="text-center">Detalles</th>
+                <th class="text-center">Usuario Solicitante</th>
+                <th class="text-center">Usuario Implementador</th>
+                <th class="text-center">LSN</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for deploy in deploys %}
+            <tr>
+                <td>{{deploy.deploy_date|date:'d/m/y H:i'}}</td>
+                <td>{{deploy.request_header.project.project_name}}</td>
+                <td class="text-center align middle">
+                    <a data-toggle="modal" data-target="#modalDetalles" href="" data-id="{{deploy.request_header.id}}"
+                        data-url="{% url 'deploy:detail' deploy.request_header.id %}" onClick="fillDetailsModal(this)">
+                        <i class="material-icons">
+                            list_alt
+                        </i>
+                    </a>
+                </td>
+                <td class="text-center">{{deploy.request_header.created_by}}</td>
+                <td class="text-center">{{deploy.deploy_by}}</td>
+                <td class="text-center">{{deploy.lsn}}</td>
+                {% empty %}
+                <td colspan="6">No hay implementaciones disponibles</td>
+            </tr>
+            {% endfor %}
+            </tr>
+        </tbody>
+    </table>
+    <div class="row">
+        <div class="col-12 mt-2">
+            {% include 'core/includes/pagination.html' %}
+        </div>
+    </div>
+    <!-- MODAL DETALLES SOLICITUD -->
+    <div class="modal fade" id="modalDetalles" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+
+                <!-- cabecera del diálogo -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Detalles</h4>
+                    <button type="button" class="close" data-dismiss="modal">X</button>
+                </div>
+
+                <!-- cuerpo del diálogo -->
+                <div class="modal-body">
+
+                    <div class="col-12 mt-2">
+                        <div class="container-fluid">
+                            <table class="table table-hover" id="table-details">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th class="text-center">Paquete/s</th>
+                                        <th class="text-center">Tarea/s</th>
+                                        <th class="text-center">Observaciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script src="{% static 'deploy/js/deploy.js' %}"></script>
+{% endblock javascript%}

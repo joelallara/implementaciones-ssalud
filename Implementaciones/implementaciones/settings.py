@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'project',
     'request',
     'profiles',
+    'deploy',
 ]
 
 MIDDLEWARE = [

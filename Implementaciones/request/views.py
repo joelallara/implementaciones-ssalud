@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic.list import ListView, View
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 from django.shortcuts import get_object_or_404, redirect
 from django.forms.models import model_to_dict
 from django.http import JsonResponse
@@ -14,6 +14,14 @@ class ImplementationRequestHeaderListView(ListView):
     model = ImplementationRequestHeader
     template_name = 'request/request_list.html'
     queryset = ImplementationRequestHeader.objects.all()
+    context_object_name = 'requests'
+    paginate_by = 10
+
+
+class PendingImplementationRequestHeaderListView(ListView):
+    model = ImplementationRequestHeader
+    template_name = 'request/pending_request_list.html'
+    queryset = ImplementationRequestHeader.objects.filter(state='PN')
     context_object_name = 'requests'
     paginate_by = 10
 
@@ -57,15 +65,5 @@ class ImplementationRequestDetailView(View):
                 package=package,
                 tasks=tasks_formated,
                 observations=observations)
-
-        #         tasks = request.POST.getlist(package+'task', None)
-        #         implementation_request_detail.tasks = ", ".join(tasks)
-        #         implementation_request_detail.save()
-        # else:
-        #     observations = request.POST.get(str(index)+'observations', '-----')
-        #     implementation_request_detail = ImplementationRequestDetail.objects.create(
-        #     request_header=implementation_request_header,
-        #     package='-----',
-        #     tasks='-----',
-        #     observations=observations)
         return redirect(reverse_lazy('request:user_request_list'))
+        

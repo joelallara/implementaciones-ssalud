@@ -1,0 +1,126 @@
+{% extends 'core/base.html' %}
+{% load static%}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="{% static 'request/css/request.css' %}" />
+{% endblock stylesheet%}
+
+{% block title %}Solicitudes{% endblock %}
+
+{% block content %}
+{% include 'deploy/includes/deploy_menu.html' %}
+<div class="container">
+    <div class="row">
+        <div class="col-12 mt-2">
+            <h2>Solicitudes Pendientes</h2>
+        </div>
+        <!-- MODAL DEPLOY -->
+        <div class="modal fade" id="modalNuevaSolicitud" tabindex="-1">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+
+                    <!-- cabecera del diálogo -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Nueva Solicitud Implementacion</h4>
+                        <button type="button" class="close" data-dismiss="modal">X</button>
+                    </div>
+
+                    <!-- cuerpo del diálogo -->
+                    <div class="modal-body">
+                        <!-- pie del diálogo -->
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary mb-2" data-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary mb-2" form="implementationRequestForm"
+                                id="btnEnviar">Enviar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <table class="table table-hover" id="table-requests">
+        <thead class="thead-light">
+            <tr>
+                <th>Fecha solicitud</th>
+                <th>Proyecto</th>
+                <th class="text-center">Detalles</th>
+                <th class="text-center">Usuario Solicitante</th>
+                <th class="text-center">Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for request in requests %}
+            <tr>
+                <td>{{request.created|date:'d/m/y H:i'}}</td>
+                <td>{{request.project.project_name}}</td>
+                <td class="text-center align middle">
+                    <a data-toggle="modal" data-target="#modalDetalles" href="" data-id="{{request.id}}"
+                        data-url="{% url 'request:detail' request.id %}" onClick="fillDetailsModal(this)">
+                        <i class="material-icons">
+                            list_alt
+                        </i>
+                    </a>
+                </td>
+                <td class="text-center">{{request.created_by}}</td>
+                <td class="text-center">
+                    <span class="badge {%if request.state == 'PN' %} badge-danger {% else %} badge-success {%endif%}">
+                        {{request.get_state_display}}
+                    </span>
+                </td>
+                {% empty %}
+                <td colspan="5">No hay solicitudes disponibles</td>
+            </tr>
+            {% endfor %}
+            </tr>
+        </tbody>
+    </table>
+    <div class="row">
+        <div class="col-12 mt-2">
+        {% include 'core/includes/pagination.html' %}
+        </div>
+    </div>
+
+
+    <!-- MODAL DETALLES SOLICITUD -->
+    <div class="modal fade" id="modalDetalles" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+
+                <!-- cabecera del diálogo -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Detalles</h4>
+                    <button type="button" class="close" data-dismiss="modal">X</button>
+                </div>
+
+                <!-- cuerpo del diálogo -->
+                <div class="modal-body">
+
+                    <div class="col-12 mt-2">
+                        <div class="container-fluid">
+                            <table class="table table-hover" id="table-details">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th class="text-center">Paquete/s</th>
+                                        <th class="text-center">Tarea/s</th>
+                                        <th class="text-center">Observaciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script src="{% static 'request/js/request.js' %}"></script>
+{% endblock javascript%}

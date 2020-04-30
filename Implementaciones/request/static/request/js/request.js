@@ -345,7 +345,7 @@ $(document).ready(function () {
 });
 
 //Fill Details Modal
-function fillDetailsModal(el) {
+export function fillDetailsModal(el) {
   $('#modal1').modal('hide');
   packageId = $(el).data('id');
   url = $(el).data('url');
