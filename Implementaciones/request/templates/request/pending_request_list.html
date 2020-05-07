@@ -3,6 +3,7 @@
 
 {% block stylesheet %}
 <link rel="stylesheet" href="{% static 'request/css/request.css' %}" />
+<link rel="stylesheet" href="{% static 'deploy/css/deploy.css' %}" />
 {% endblock stylesheet%}
 
 {% block title %}Solicitudes{% endblock %}
@@ -10,28 +11,83 @@
 {% block content %}
 {% include 'deploy/includes/deploy_menu.html' %}
 <div class="container">
-    <div class="row">
-        <div class="col-12 mt-2">
+    <div class="row mt-4 mb-2">
+        <div class="col-12">
             <h2>Solicitudes Pendientes</h2>
         </div>
         <!-- MODAL DEPLOY -->
-        <div class="modal fade" id="modalNuevaSolicitud" tabindex="-1">
-            <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal fade " id="modalDeploy" tabindex="-1">
+            <div class="modal-dialog modal-sm modal-dialog-centered">
                 <div class="modal-content">
 
                     <!-- cabecera del diálogo -->
                     <div class="modal-header">
-                        <h4 class="modal-title">Nueva Solicitud Implementacion</h4>
+                        <h4 class="modal-title">Implementar</h4>
                         <button type="button" class="close" data-dismiss="modal">X</button>
                     </div>
 
                     <!-- cuerpo del diálogo -->
-                    <div class="modal-body">
+                    <div class="modal-body" id="modalBody">
+                        <div class="row mb-2">
+                            <div class="container-fluid">
+                                <div class="col-sm-12">
+                                    <div class="row">
+                                        <div class="col-sm-2">
+                                            <span class="material-icons">
+                                                folder
+                                            </span>
+                                        </div>
+                                        <div class="col-sm-10">
+                                            <h5 id="requestProject" class="align-middle">
+                                            </h5>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-2">
+                                            <span class="material-icons">
+                                                calendar_today
+                                            </span>
+                                        </div>
+                                        <div class="col-sm-10">
+                                            <p id="requestDate" class="align-middle">
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-2">
+                                            <span class="material-icons">
+                                                person
+                                            </span>
+                                        </div>
+                                        <div class="col-sm-10">
+                                            <p id="requestUser" class="align-middle">
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 mb-2">
+                                    <form method="POST" id="deployForm" action="implementar/">
+                                        {% csrf_token %}
+                                        <input type="hidden" id="requestHeader" name="requestHeader"/>
+                                        <div class="form-row text-center align-middle">
+                                            <div class="col-2">
+                                                <label for="lsn" class="mt-2">LSN:</label>
+                                            </div>
+                                            <div class="col-10">
+                                                <input class="form-control" type="number" id="lsn" name="lsn" min="0"
+                                                    max="999999" required />
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- pie del diálogo -->
-                        <div class="modal-footer">
+                        <div class="modal-footer" id="modalFooter">
                             <button class="btn btn-secondary mb-2" data-dismiss="modal">Cancelar</button>
-                            <button type="submit" class="btn btn-primary mb-2" form="implementationRequestForm"
-                                id="btnEnviar">Enviar</button>
+                            <button type="submit" class="btn btn-primary mb-2" form="deployForm"
+                                id="btnEnviarDeploy">Enviar</button>
                         </div>
                     </div>
                 </div>
@@ -47,27 +103,28 @@
                 <th>Proyecto</th>
                 <th class="text-center">Detalles</th>
                 <th class="text-center">Usuario Solicitante</th>
-                <th class="text-center">Estado</th>
+                <th class="text-center">Implementar</th>
             </tr>
         </thead>
         <tbody>
             {% for request in requests %}
             <tr>
-                <td>{{request.created|date:'d/m/y H:i'}}</td>
-                <td>{{request.project.project_name}}</td>
-                <td class="text-center align middle">
+                <td class="align-middle">{{request.created|date:'d/m/y H:i'}}</td>
+                <td class="align-middle">{{request.project.project_name}}</td>
+                <td class="text-center align-middle">
                     <a data-toggle="modal" data-target="#modalDetalles" href="" data-id="{{request.id}}"
                         data-url="{% url 'request:detail' request.id %}" onClick="fillDetailsModal(this)">
-                        <i class="material-icons">
+                        <i class="material-icons align-middle">
                             list_alt
                         </i>
                     </a>
                 </td>
-                <td class="text-center">{{request.created_by}}</td>
-                <td class="text-center">
-                    <span class="badge {%if request.state == 'PN' %} badge-danger {% else %} badge-success {%endif%}">
-                        {{request.get_state_display}}
-                    </span>
+                <td class="text-center align-middle">{{request.created_by}}</td>
+                <td class="text-center align-middle" id="deploy-td">
+                    <a data-toggle="modal" data-target="#modalDeploy" href="" data-id="{{request.id}}"
+                        data-url="{% url 'deploy:deploy_modal' request.id %}" onClick="fillDeployModal(this)">
+                        <span class="material-icons deploy-link"></span>
+                    </a>
                 </td>
                 {% empty %}
                 <td colspan="5">No hay solicitudes disponibles</td>
@@ -78,7 +135,7 @@
     </table>
     <div class="row">
         <div class="col-12 mt-2">
-        {% include 'core/includes/pagination.html' %}
+            {% include 'core/includes/pagination.html' %}
         </div>
     </div>
 
@@ -96,7 +153,6 @@
 
                 <!-- cuerpo del diálogo -->
                 <div class="modal-body">
-
                     <div class="col-12 mt-2">
                         <div class="container-fluid">
                             <table class="table table-hover" id="table-details">
@@ -123,4 +179,5 @@
 
 {% block javascript %}
 <script src="{% static 'request/js/request.js' %}"></script>
+<script src="{% static 'deploy/js/deploy.js' %}"></script>
 {% endblock javascript%}

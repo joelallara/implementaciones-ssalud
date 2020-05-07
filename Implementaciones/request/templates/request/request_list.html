@@ -10,14 +10,15 @@
 {% block content %}
 {% include 'request/includes/request_menu.html' %}
 <div class="container">
-    <div class="row">
+    <div class="row mt-4 mb-2 align-middle">
         {% if request.path == "/solicitudes/mis_solicitudes/" %}
-        <div class="col-3 mt-2">
-            <h2>Mis Solicitudes</h2>
-        </div>
-        <div class="col-3 mt-2">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalNuevaSolicitud">Nueva
-                Solicitud</button>
+        <div class="col-12">
+            <h2 class="d-inline">Mis Solicitudes</h2>
+            <a href="" class="d-inline" data-toggle="modal" data-target="#modalNuevaSolicitud">
+                <span class="material-icons">
+                    add_circle
+                </span>
+            </a>
         </div>
         <!-- MODAL SOLICITUD -->
         <div class="modal fade" id="modalNuevaSolicitud" tabindex="-1">
@@ -111,7 +112,7 @@
             </div>
         </div>
         {% else %}
-        <div class="col-12 mt-2">
+        <div class="col-12">
             <h2>Historial Solicitudes</h2>
         </div>
         {% endif %}
@@ -131,18 +132,18 @@
         <tbody>
             {% for request in requests %}
             <tr>
-                <td>{{request.created|date:'d/m/y H:i'}}</td>
-                <td>{{request.project.project_name}}</td>
-                <td class="text-center align middle">
+                <td class="align-middle">{{request.created|date:'d/m/y H:i'}}</td>
+                <td class="align-middle">{{request.project.project_name}}</td>
+                <td class="text-center align-middle">
                     <a data-toggle="modal" data-target="#modalDetalles" href="" data-id="{{request.id}}"
                         data-url="{% url 'request:detail' request.id %}" onClick="fillDetailsModal(this)">
-                        <i class="material-icons">
+                        <i class="material-icons align-middle">
                             list_alt
                         </i>
                     </a>
                 </td>
-                <td class="text-center">{{request.created_by}}</td>
-                <td class="text-center">
+                <td class="text-center align-middle">{{request.created_by}}</td>
+                <td class="text-center align-middle">
                     <span class="badge {%if request.state == 'PN' %} badge-danger {% else %} badge-success {%endif%}">
                         {{request.get_state_display}}
                     </span>
@@ -156,7 +157,7 @@
     </table>
     <div class="row">
         <div class="col-12 mt-2">
-        {% include 'core/includes/pagination.html' %}
+            {% include 'core/includes/pagination.html' %}
         </div>
     </div>
 

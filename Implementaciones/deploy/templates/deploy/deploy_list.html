@@ -1,14 +1,17 @@
 {% extends 'core/base.html' %}
 {% load static%}
 
+{% block stylesheet %}
+<link rel="stylesheet" href="{% static 'deploy/css/deploy.css' %}" />
+{% endblock stylesheet%}
 
 {% block title %}Implementaciones{% endblock %}
 
 {% block content %}
 {% include 'deploy/includes/deploy_menu.html' %}
 <div class="container">
-    <div class="row">
-        <div class="col-12 mt-2">
+    <div class="row mt-4 mb-2">
+        <div class="col-12">
             <h2>Historial Implementaciones</h2>
         </div>
     </div>
@@ -18,6 +21,7 @@
         <thead class="thead-light">
             <tr>
                 <th>Fecha implementación</th>
+                <th>Fecha solicitud</th>
                 <th>Proyecto</th>
                 <th class="text-center">Detalles</th>
                 <th class="text-center">Usuario Solicitante</th>
@@ -29,8 +33,9 @@
             {% for deploy in deploys %}
             <tr>
                 <td>{{deploy.deploy_date|date:'d/m/y H:i'}}</td>
+                <td>{{deploy.request_header.created|date:'d/m/y H:i'}}</td>
                 <td>{{deploy.request_header.project.project_name}}</td>
-                <td class="text-center align middle">
+                <td class="text-center align_middle">
                     <a data-toggle="modal" data-target="#modalDetalles" href="" data-id="{{deploy.request_header.id}}"
                         data-url="{% url 'deploy:detail' deploy.request_header.id %}" onClick="fillDetailsModal(this)">
                         <i class="material-icons">

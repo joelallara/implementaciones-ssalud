@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 from request.models import ImplementationRequestHeader
 
 
-
 class DeployInfo(models.Model):
     deploy_date = models.DateTimeField(
         auto_now_add=True,
@@ -18,7 +17,6 @@ class DeployInfo(models.Model):
         on_delete=models.CASCADE,
         related_name="deploy_info")
     lsn = models.PositiveIntegerField()
-    
 
     class Meta:
         verbose_name = "implementación Detalle"

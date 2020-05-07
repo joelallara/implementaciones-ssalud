@@ -77,7 +77,7 @@ function tasksList(el) {
             } else {
                 data.tasks.forEach(task => {
                     rows += `
-                    <a href="#" class="list-group-item list-group-item-action">
+                    <a href="#" class="list-group-item list-group-item-action list-group-item-success">
                         ${task.task_name}
                     </a>`;
                 });
