@@ -5,6 +5,10 @@ from django.shortcuts import get_object_or_404, redirect
 from django.forms.models import model_to_dict
 from django.http import JsonResponse
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
+from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth.decorators import login_required
+
 
 from .models import ImplementationRequestHeader, ImplementationRequestDetail
 from project.models import Project
@@ -18,6 +22,7 @@ class ImplementationRequestHeaderListView(ListView):
     paginate_by = 10
 
 
+@method_decorator(staff_member_required, name='dispatch')
 class PendingImplementationRequestHeaderListView(ListView):
     model = ImplementationRequestHeader
     template_name = 'request/pending_request_list.html'
@@ -25,7 +30,7 @@ class PendingImplementationRequestHeaderListView(ListView):
     context_object_name = 'requests'
     paginate_by = 10
 
-
+@method_decorator(login_required, name='dispatch')
 class UserImplementationRequestHeaderListView(ListView):
     model = ImplementationRequestHeader
     template_name = 'request/request_list.html'
@@ -60,7 +65,7 @@ class ImplementationRequestDetailView(View):
             observations = request.POST.get(package+'observations', '-----')
             if package[0:5] == '-----':
                 package = package[0:5]
-            implementation_request_detail = ImplementationRequestDetail.objects.create(
+            ImplementationRequestDetail.objects.create(
                 request_header=implementation_request_header,
                 package=package,
                 tasks=tasks_formated,

@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django import forms
 from .models import Profile
+from django.contrib.auth.views import LoginView
 
 
 class SignUpView(CreateView):
@@ -55,3 +56,7 @@ class EmailUpdate(UpdateView):
         # Modificar en tiempo real el form para no aplastar los widgets originales
         form.fields['email'].widget = forms.EmailInput(attrs={'class':'form-control mb-2', 'placeholder': 'Dirección email'})
         return form
+
+
+class LoginStaffView(LoginView):
+    template_name = 'registration/login_staff.html'

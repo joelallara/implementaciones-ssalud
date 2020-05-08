@@ -19,7 +19,6 @@ function fillDeployModal(el) {
         $("#requestDate").text(data.created);
         $("#requestUser").text(data.created_by);
       }
-      
     }
   });
 };
