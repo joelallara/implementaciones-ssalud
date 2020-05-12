@@ -10,7 +10,6 @@ def custom_upload_to(instance, file_name):
     return 'profiles/' + file_name
 
 
-# Create your models here.
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     avatar = models.ImageField(upload_to=custom_upload_to, null=True, blank=True)

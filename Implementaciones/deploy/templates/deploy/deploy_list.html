@@ -22,7 +22,7 @@
             <tr>
                 <th>Fecha implementación</th>
                 <th>Fecha solicitud</th>
-                <th>Proyecto</th>
+                <th class="text-center">Proyecto</th>
                 <th class="text-center">Detalles</th>
                 <th class="text-center">Usuario Solicitante</th>
                 <th class="text-center">Usuario Implementador</th>
@@ -32,20 +32,21 @@
         <tbody>
             {% for deploy in deploys %}
             <tr>
-                <td>{{deploy.deploy_date|date:'d/m/y H:i'}}</td>
-                <td>{{deploy.request_header.created|date:'d/m/y H:i'}}</td>
-                <td>{{deploy.request_header.project.project_name}}</td>
+                <td class="align-middle">{{deploy.deploy_date|date:'d/m/y H:i'}}</td>
+                <td class="align-middle">{{deploy.request_header.created|date:'d/m/y H:i'}}</td>
+                <td class="align-middle">{{deploy.request_header.project.project_name}}</td>
                 <td class="text-center align_middle">
                     <a data-toggle="modal" data-target="#modalDetalles" href="" data-id="{{deploy.request_header.id}}"
-                        data-url="{% url 'request:detail' deploy.request_header.id %}" onClick="fillDetailsModal(this)">
-                        <i class="material-icons">
+                        data-url="{% url 'request:detail' deploy.request_header.id %}" onClick="fillDetailsModal(this)"
+                        class="text-center align-middle">
+                        <i class="material-icons text-center align-middle">
                             list_alt
                         </i>
                     </a>
                 </td>
-                <td class="text-center">{{deploy.request_header.created_by}}</td>
-                <td class="text-center">{{deploy.deploy_by}}</td>
-                <td class="text-center">{{deploy.lsn}}</td>
+                <td class="text-center align-middle">{{deploy.request_header.created_by}}</td>
+                <td class="text-center align-middle">{{deploy.deploy_by}}</td>
+                <td class="text-center align-middle">{{deploy.lsn}}</td>
                 {% empty %}
                 <td colspan="6">No hay implementaciones disponibles</td>
             </tr>

@@ -135,11 +135,15 @@ LOGIN_URL = 'login'
 
 # Emails
 if DEBUG:
-    EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
-    EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
-else:
-    # Configuracion de email real para produccion
-    pass
+    #EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+    #EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
+#else:
+    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+    EMAIL_HOST_USER = 'joel.allara@gmail.com'
+    EMAIL_HOST = 'smtp.gmail.com'
+    EMAIL_PORT = 578
+    EMAIL_USE_TLS = True
+    EMAIL_HOST_PASSWORD = "subccomp85"
 
 
 # Media Files

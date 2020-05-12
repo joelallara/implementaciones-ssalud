@@ -11,6 +11,7 @@ from django.contrib.auth.decorators import login_required
 
 from .models import DeployInfo
 from request.models import ImplementationRequestHeader
+from core.views import email
 
 
 @method_decorator(login_required, name='dispatch')
@@ -28,7 +29,8 @@ class DeployRequest(View):
         header = get_object_or_404(ImplementationRequestHeader, pk=header_pk)
         project_name = header.project.project_name
         created_by = header.created_by.username
-        created = timezone.localtime(header.created).strftime('%d/%m/%y %H:%M') #header.created.strftime("%d/%m/%y")
+        created = timezone.localtime(header.created).strftime(
+            '%d/%m/%y %H:%M')  # header.created.strftime("%d/%m/%y")
         data = dict()
         data['header'] = header.id
         data['project_name'] = project_name
@@ -39,8 +41,18 @@ class DeployRequest(View):
     def post(self, request):
         header_pk = request.POST.get('requestHeader', None)
         lsn = request.POST.get('lsn', None)
-        request_header = get_object_or_404(ImplementationRequestHeader, pk=header_pk)
-        DeployInfo.objects.create(deploy_by=request.user, request_header=request_header, lsn=lsn)
+        request_header = get_object_or_404(
+            ImplementationRequestHeader, pk=header_pk)
+        DeployInfo.objects.create(
+            deploy_by=request.user, request_header=request_header, lsn=lsn)
         request_header.state = "IM"
         request_header.save()
-        return redirect(reverse_lazy('deploy:pending'))
+
+        # Email Sending
+        subject = 'Deploy a Produccion del proyecto ' + \
+            request_header.project.project_name
+        message = 'Los cambios que ha realizado sobre el proyecto "' + \
+            request_header.project.project_name + '" ya se encuentran en Produccion'
+        email_receive = 'joel.allara@sancorsalud.com.ar'
+        # email(request, subject, message, email_receive)
+        return redirect(reverse_lazy('deploy:pending') + '?project_name=' + request_header.project.project_name)
