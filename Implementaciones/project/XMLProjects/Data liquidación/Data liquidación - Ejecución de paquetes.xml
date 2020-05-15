@@ -11,8 +11,8 @@
   DTS:LocaleID="11274"
   DTS:ObjectName="Data Liquidación - Ejecución de paquetes"
   DTS:PackageType="5"
-  DTS:VersionBuild="75"
-  DTS:VersionGUID="{4E26DA81-BA85-44CA-97DF-256942998CBA}">
+  DTS:VersionBuild="76"
+  DTS:VersionGUID="{187BAF04-2A72-43E3-8B21-30ECA66D6CED}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -190,28 +190,6 @@
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
-          DTS:refId="Package\Backup de archivos ya procesados\Copiar Liquidacion Bonificada"
-          DTS:CreationName="Microsoft.FileSystemTask"
-          DTS:Description="File System Task"
-          DTS:Disabled="True"
-          DTS:DTSID="{0575ec0e-f0c0-4fc4-b624-db335aa4c7c7}"
-          DTS:ExecutableType="Microsoft.FileSystemTask"
-          DTS:LocaleID="-1"
-          DTS:ObjectName="Copiar Liquidacion Bonificada"
-          DTS:TaskContact="File System Task;Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
-          DTS:ThreadHint="0">
-          <DTS:Variables />
-          <DTS:LoggingOptions
-            DTS:FilterKind="0" />
-          <DTS:ObjectData>
-            <FileSystemData
-              TaskOverwriteDestFile="True"
-              TaskSourcePath="{EFF8A224-AF99-4591-A0B3-7B670070E8F5}"
-              TaskDestinationPath="User::Path"
-              TaskIsDestinationVariable="True" />
-          </DTS:ObjectData>
-        </DTS:Executable>
-        <DTS:Executable
           DTS:refId="Package\Backup de archivos ya procesados\Crear Carpeta"
           DTS:CreationName="Microsoft.FileSystemTask"
           DTS:Description="File System Task"
@@ -243,14 +221,6 @@
           DTS:LogicalAnd="True"
           DTS:ObjectName="Constraint"
           DTS:To="Package\Backup de archivos ya procesados\Copiar DWC014" />
-        <DTS:PrecedenceConstraint
-          DTS:refId="Package\Backup de archivos ya procesados.PrecedenceConstraints[Constraint 1]"
-          DTS:CreationName=""
-          DTS:DTSID="{018AB2F2-C3A7-44DF-8735-894CC8DF92EB}"
-          DTS:From="Package\Backup de archivos ya procesados\Copiar LIQUIDA"
-          DTS:LogicalAnd="True"
-          DTS:ObjectName="Constraint 1"
-          DTS:To="Package\Backup de archivos ya procesados\Copiar Liquidacion Bonificada" />
         <DTS:PrecedenceConstraint
           DTS:refId="Package\Backup de archivos ya procesados.PrecedenceConstraints[Constraint 3]"
           DTS:CreationName=""
@@ -515,10 +485,6 @@
           Id="Package\Backup de archivos ya procesados\Copiar LIQUIDA"
           TopLeft="45.6910377358491,236.867924528302" />
         <NodeLayout
-          Size="225,42"
-          Id="Package\Backup de archivos ya procesados\Copiar Liquidacion Bonificada"
-          TopLeft="15.1910377358491,314.867924528302" />
-        <NodeLayout
           Size="149,42"
           Id="Package\Backup de archivos ya procesados\Crear Carpeta"
           TopLeft="54.6910377358491,8.47169811320759" />
@@ -536,28 +502,6 @@
                   Capacity="5">
                   <mssgle:LineSegment
                     End="0,20.4811320754717" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Backup de archivos ya procesados.PrecedenceConstraints[Constraint 1]"
-          TopLeft="126.191037735849,278.867924528302">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,35.9999999999999"
-              Start="0,0"
-              End="0,28.4999999999999">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,28.4999999999999" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -613,8 +557,8 @@
         <ContainerLayout
           HeaderHeight="43.924528301886795"
           IsExpanded="True"
-          PanelSize="272,436"
-          Size="272,480"
+          PanelSize="238,298"
+          Size="238,342"
           Id="Package\Backup de archivos ya procesados"
           TopLeft="135.650943396226,615.80188679245" />
         <NodeLayout
@@ -786,30 +730,18 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 1]"
-          TopLeft="261.858490566038,588.707547169811">
+          TopLeft="258.254716981132,588.707547169811">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="9.79245283018804,27.0943396226389"
+              EndConnector="0,27.0943396226389"
               Start="0,0"
-              End="9.79245283018804,19.5943396226389">
+              End="0,19.5943396226389">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,9.54716981131946" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,9.54716981131946"
-                    Point2="0,13.5471698113195"
-                    Point3="4,13.5471698113195" />
-                  <mssgle:LineSegment
-                    End="5.79245283018804,13.5471698113195" />
-                  <mssgle:CubicBezierSegment
-                    Point1="5.79245283018804,13.5471698113195"
-                    Point2="9.79245283018804,13.5471698113195"
-                    Point3="9.79245283018804,17.5471698113195" />
-                  <mssgle:LineSegment
-                    End="9.79245283018804,19.5943396226389" />
+                    End="0,19.5943396226389" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>

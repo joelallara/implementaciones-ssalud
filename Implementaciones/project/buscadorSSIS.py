@@ -8,7 +8,7 @@ import json
 global SERVER_PROJECTS_FOLDER_PATH
 global XML_PROJECTS_FOLDER
 global PROJECT_EXCEPTIONS
-SERVER_PROJECTS_FOLDER_PATH = 'Z:/02 - Proyectos SSIS'#'D:/Django/implementaciones-ssalud/Implementaciones/project/ProjectsCopy'
+SERVER_PROJECTS_FOLDER_PATH = '//p-is-01.ams.red/ssis2017$/02 - Proyectos SSIS'#'D:/Django/implementaciones-ssalud/Implementaciones/project/ProjectsCopy'
 XML_PROJECTS_FOLDER = 'project/XMLProjects/'
 PROJECT_EXCEPTIONS = {'Indicadores Estrategicos': 1,
                       'Presupuesto vs Balance': 1,
