@@ -1,0 +1,1539 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="9/19/2017 11:01:56 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AMS06X"
+  DTS:CreatorName="AMS\jtrinchier"
+  DTS:DTSID="{26D1FD7A-363F-4065-965E-D28B701B8D12}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="Afiliaciones_Ejecucion Paquetes_SSIS"
+  DTS:PackageType="5"
+  DTS:VersionBuild="169"
+  DTS:VersionGUID="{6DBF4D4E-7209-4514-BDAA-72B8CAD07D45}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{65FEEEB1-76C9-4B9D-B86A-B71DE6E1EBC5}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="Periodo">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{9CAEBBBE-866F-4815-A281-BC22ED2A060D}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;E:\\DW_Salud\\Archivos_txt\\Afiliaciones\\&quot; + (DT_WSTR, 8) @[User::Periodo] "
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="vNombreCarpeta">
+      <DTS:VariableValue
+        DTS:DataType="8">E:\DW_Salud\Archivos_txt\Afiliaciones\0</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="2">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">1,7,OnError</DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnError"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Afiliaciones_AUX_PERIODO_MES_BORRA"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Execute Package Task"
+      DTS:DTSID="{F3F8144C-7B8C-4B7B-8E7A-A500F830BFA6}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Afiliaciones_AUX_PERIODO_MES_BORRA"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>Afiliaciones_AUX_PERIODO_MES_BORRA.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Afiliaciones_H_ALTAS_COMP_GRUPO"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Execute Package Task"
+      DTS:DTSID="{bbaf8ec1-737f-41c5-a95a-d9f791f5eefb}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Afiliaciones_H_ALTAS_COMP_GRUPO"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>Afiliaciones_H_ALTAS_COMP_GRUPO.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Afiliaciones_H_ALTAS_PERSONAS"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Execute Package Task"
+      DTS:DTSID="{618fe8f6-db97-44cd-ad63-60e17fae3c12}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Afiliaciones_H_ALTAS_PERSONAS"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>Afiliaciones_H_ALTAS_PERSONAS.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Afiliaciones_H_APO_AFI"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Execute Package Task"
+      DTS:DTSID="{4043f005-dcfe-495d-ab06-145810b60aa9}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Afiliaciones_H_APO_AFI"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>Afiliaciones_H_APO_AFI.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Afiliaciones_H_APO_AFI_DET"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Execute Package Task"
+      DTS:DTSID="{1015ca58-a4e8-4dbe-bf68-cff052ee0abb}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Afiliaciones_H_APO_AFI_DET"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>Afiliaciones_H_APO_AFI_DET.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Afiliaciones_H_BAJAS_COMP_GRUPO"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Execute Package Task"
+      DTS:DTSID="{887e66d3-1d9a-4f27-9a3c-d852ec146187}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Afiliaciones_H_BAJAS_COMP_GRUPO"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>Afiliaciones_H_BAJAS_COMP_GRUPO.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Afiliaciones_H_BAJAS_PERSONAS"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Execute Package Task"
+      DTS:DTSID="{3b335027-133b-4b42-a947-ff7d06b443e5}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Afiliaciones_H_BAJAS_PERSONAS"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>Afiliaciones_H_BAJAS_PERSONAS.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Afiliaciones_H_CAMBIO_PLAN_DET"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Execute Package Task"
+      DTS:DTSID="{2eb0c608-d879-42ed-a789-943f84f49728}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Afiliaciones_H_CAMBIO_PLAN_DET"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>Afiliaciones_H_CAMBIO_PLAN_DET.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Afiliaciones_H_CAMBIO_PLAN_PERS"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Execute Package Task"
+      DTS:DTSID="{da159084-5c69-4be0-943a-3e5073cc76d5}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Afiliaciones_H_CAMBIO_PLAN_PERS"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>Afiliaciones_H_CAMBIO_PLAN_PERS.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Afiliaciones_H_COMP_GRUPO_ACTIVO"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Execute Package Task"
+      DTS:DTSID="{c9e36c3e-b969-4372-b10f-f1ee811ff360}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Afiliaciones_H_COMP_GRUPO_ACTIVO"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>Afiliaciones_H_COMP_GRUPO_ACTIVO.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Afiliaciones_H_GRUPO_ACTIVO"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Execute Package Task"
+      DTS:DTSID="{a42eda42-ac58-4105-bbb6-a2099e42d213}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Afiliaciones_H_GRUPO_ACTIVO"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>Afiliaciones_H_GRUPO_ACTIVO.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Afiliaciones_H_GRUPO_ALTA"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Execute Package Task"
+      DTS:DTSID="{ecc2abf9-abcf-4efc-b594-35067ee19c67}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Afiliaciones_H_GRUPO_ALTA"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>Afiliaciones_H_GRUPO_ALTA.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Afiliaciones_H_GRUPO_BAJA"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Execute Package Task"
+      DTS:DTSID="{fab4f267-48bd-4875-bdaf-4b26e370bc4c}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Afiliaciones_H_GRUPO_BAJA"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>Afiliaciones_H_GRUPO_BAJA.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Afiliaciones_H_LLAVES_ALERTAS_AFILIADOS"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Execute Package Task"
+      DTS:DTSID="{820edeb8-4ca3-4b96-9f5d-d6b67a03a79f}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Afiliaciones_H_LLAVES_ALERTAS_AFILIADOS"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>Afiliaciones_H_LLAVES_ALERTAS_AFILIADOS.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Afiliaciones_Tabla_Cuentas_PADRES"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Execute Package Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{57486e5f-21c3-4ac4-acf7-3034c9e4e4f2}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Afiliaciones_Tabla_Cuentas_PADRES"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>Afiliaciones_Tabla_Cuentas_PADRES.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Backup Archivos"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Execute Package Task"
+      DTS:DTSID="{2f26d308-274a-4d48-b9ae-7849b4b6c715}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Backup Archivos"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>Afiliaciones_Backup_Archivos_Procesados.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Copia Archivos"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Execute Package Task"
+      DTS:DTSID="{ccf76f44-8c6a-4292-b51b-bb11c6bdc652}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Copia Archivos"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>Afiliaciones_Copia_Archivos.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\TABLAS DE DIMENSION"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{6D031A51-6C8B-4FB8-AFE2-30EB4C1586D2}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="TABLAS DE DIMENSION">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\TABLAS DE DIMENSION\Afiliaciones_D_CLASE_PRODUCTO"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{ccc99673-320d-404f-8a5c-68c0b9a4acad}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Afiliaciones_D_CLASE_PRODUCTO"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>Afiliaciones_D_CLASE_PRODUCTO.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\TABLAS DE DIMENSION\Afiliaciones_D_DATEROS"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{381FACAD-3261-494C-B420-161A33BCA047}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Afiliaciones_D_DATEROS"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>Afiliaciones_D_DATEROS.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\TABLAS DE DIMENSION\Afiliaciones_D_EMPRESAS"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{646a47b7-84d0-4e29-ac29-b0f2fb4112dd}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Afiliaciones_D_EMPRESAS"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>Afiliaciones_D_EMPRESAS.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\TABLAS DE DIMENSION\Afiliaciones_D_ENTIDADES"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{ff2e5385-2ec6-4799-b15e-251ad6044dc6}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Afiliaciones_D_ENTIDADES"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>Afiliaciones_D_ENTIDADES.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\TABLAS DE DIMENSION\Afiliaciones_D_FORMA_PAGO"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{b4c21f51-31c5-496f-ad70-781cf4acb434}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Afiliaciones_D_FORMA_PAGO"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>Afiliaciones_D_FORMA_PAGO.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\TABLAS DE DIMENSION\Afiliaciones_D_LOCALIDADES"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{876e66f2-7910-4f5f-b89f-50e01d46caca}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Afiliaciones_D_LOCALIDADES"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>Afiliaciones_D_LOCALIDADES.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\TABLAS DE DIMENSION\Afiliaciones_D_MOTIVOS_ALERTA"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{99ad53fd-c2cf-41de-990c-3ed7ea6da626}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Afiliaciones_D_MOTIVOS_ALERTA"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>Afiliaciones_D_MOTIVOS_ALERTA.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\TABLAS DE DIMENSION\Afiliaciones_D_MOTIVO_BAJA"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{ad5c19b7-ec9f-48ac-bf78-d232d2dff564}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Afiliaciones_D_MOTIVO_BAJA"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>Afiliaciones_D_MOTIVO_BAJA.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\TABLAS DE DIMENSION\Afiliaciones_D_OCUPACION"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{12dda3bc-5382-4da0-bf6a-7bcaefcd882e}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Afiliaciones_D_OCUPACION"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>Afiliaciones_D_OCUPACION.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\TABLAS DE DIMENSION\Afiliaciones_D_OS_PROVENIENTE"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{7e0e7dcf-963e-4ca9-8b12-392f43e831e2}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Afiliaciones_D_OS_PROVENIENTE"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>Afiliaciones_D_OS_PROVENIENTE.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\TABLAS DE DIMENSION\Afiliaciones_D_PERSONAS"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{0c5015b9-706a-4550-b3b7-693d6cc7570f}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Afiliaciones_D_PERSONAS"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>Afiliaciones_D_PERSONAS.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\TABLAS DE DIMENSION\Afiliaciones_D_PLANES"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{6ed01b0e-e95f-4950-bce2-b80882a6e8fc}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Afiliaciones_D_PLANES"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>Afiliaciones_D_PLANES.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\TABLAS DE DIMENSION\Afiliaciones_D_PRODUCTOS"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{28d87ac9-2291-4dc5-9f83-ae0291eada36}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Afiliaciones_D_PRODUCTOS"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>Afiliaciones_D_PRODUCTOS.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\TABLAS DE DIMENSION\Afiliaciones_D_PROMOTOR"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{edcdbfc4-35a4-44c6-a1d3-5343af1fc7c2}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Afiliaciones_D_PROMOTOR"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>Afiliaciones_D_PROMOTOR.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\TABLAS DE DIMENSION\Afiliaciones_D_SEGMENTO"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{de720028-1519-48a2-95dd-cbd7935d67ab}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Afiliaciones_D_SEGMENTO"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>Afiliaciones_D_SEGMENTO.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\TABLAS DE DIMENSION\Afiliaciones_D_SUBGRUPO_PLAN"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{e8f22e1c-6329-4de1-bdd5-ab2b5650424e}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Afiliaciones_D_SUBGRUPO_PLAN"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>Afiliaciones_D_SUBGRUPO_PLAN.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\TABLAS DE DIMENSION\Afiliaciones_D_SUBPRODUCTO"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{2e131dda-5369-4b30-a886-556eee3f9053}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Afiliaciones_D_SUBPRODUCTO"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>Afiliaciones_D_SUBPRODUCTO.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\TABLAS DE DIMENSION\Afiliaciones_D_TIPO_PRODUCTO"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{51cf89a6-e224-4ab3-9aee-db2665e91a25}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Afiliaciones_D_TIPO_PRODUCTO"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>Afiliaciones_D_TIPO_PRODUCTO.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\TABLAS DE DIMENSION\Afiliaciones_D_TIPO_SEGMENTO"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{cc979458-7ebf-466f-9c19-9820c24247ea}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Afiliaciones_D_TIPO_SEGMENTO"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>Afiliaciones_D_TIPO_SEGMENTO.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\TABLAS DE DIMENSION\Afiliaciones_D_ZONA_COMERCIAL"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{482bb96a-87d0-4b08-af0f-2e8cecd4384d}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Afiliaciones_D_ZONA_COMERCIAL"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>Afiliaciones_D_ZONA_COMERCIAL.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\TRANS_PERIODOS"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Execute Package Task"
+      DTS:DTSID="{0AF578B8-6490-41CD-9759-FFEA354DC168}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="TRANS_PERIODOS"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>Afiliaciones_TRANS_PERIODOS.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{1C18B00C-13F9-40EC-ADA7-901EBBD29E72}"
+      DTS:From="Package\TABLAS DE DIMENSION"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Afiliaciones_H_COMP_GRUPO_ACTIVO" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{82F47EA2-7963-4D6A-8B5F-0B0A95EE2013}"
+      DTS:From="Package\Afiliaciones_H_CAMBIO_PLAN_PERS"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Afiliaciones_H_APO_AFI" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{8501D662-848B-481A-87C2-BC8E845459B3}"
+      DTS:From="Package\Afiliaciones_H_APO_AFI_DET"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\TRANS_PERIODOS" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
+      DTS:CreationName=""
+      DTS:DTSID="{D7237E64-9D13-466B-B8DC-16E47AE5527F}"
+      DTS:From="Package\Copia Archivos"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 4"
+      DTS:To="Package\Afiliaciones_AUX_PERIODO_MES_BORRA" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 5]"
+      DTS:CreationName=""
+      DTS:DTSID="{AD02367C-1E28-4FD9-974F-EE6A69F278D5}"
+      DTS:From="Package\TRANS_PERIODOS"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 5"
+      DTS:To="Package\Backup Archivos" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 52]"
+      DTS:CreationName=""
+      DTS:DTSID="{35E3000A-3CF1-4E08-8DC6-2FBCE4C62275}"
+      DTS:From="Package\Afiliaciones_H_COMP_GRUPO_ACTIVO"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 52"
+      DTS:To="Package\Afiliaciones_H_ALTAS_COMP_GRUPO" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 54]"
+      DTS:CreationName=""
+      DTS:DTSID="{6342D5D8-F5CB-43B7-8E7F-6C29B1DB1F47}"
+      DTS:From="Package\Afiliaciones_H_ALTAS_COMP_GRUPO"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 54"
+      DTS:To="Package\Afiliaciones_H_ALTAS_PERSONAS" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 54 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{e1390d50-f50f-438e-b753-e96a416de43f}"
+      DTS:From="Package\Afiliaciones_H_GRUPO_BAJA"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 54 1"
+      DTS:To="Package\Afiliaciones_H_LLAVES_ALERTAS_AFILIADOS" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 55]"
+      DTS:CreationName=""
+      DTS:DTSID="{379388A9-CFDC-42E8-91FC-570F5C620ACC}"
+      DTS:From="Package\Afiliaciones_H_ALTAS_PERSONAS"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 55"
+      DTS:To="Package\Afiliaciones_H_BAJAS_COMP_GRUPO" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 55 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{3eb26fe1-d88e-4b94-a60a-26dc413ad35c}"
+      DTS:From="Package\Afiliaciones_H_LLAVES_ALERTAS_AFILIADOS"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 55 1"
+      DTS:To="Package\Afiliaciones_H_CAMBIO_PLAN_DET" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 56]"
+      DTS:CreationName=""
+      DTS:DTSID="{C997C5AD-C419-4547-9B01-CA3A8DDB7CB5}"
+      DTS:From="Package\Afiliaciones_H_BAJAS_COMP_GRUPO"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 56"
+      DTS:To="Package\Afiliaciones_H_BAJAS_PERSONAS" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 56 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{c425e00a-aae0-4b4a-803d-de5e477581e3}"
+      DTS:From="Package\Afiliaciones_H_CAMBIO_PLAN_DET"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 56 1"
+      DTS:To="Package\Afiliaciones_H_CAMBIO_PLAN_PERS" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 57]"
+      DTS:CreationName=""
+      DTS:DTSID="{CEABB9AB-AD7B-49A8-B24E-BC30B9870987}"
+      DTS:From="Package\Afiliaciones_H_BAJAS_PERSONAS"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 57"
+      DTS:To="Package\Afiliaciones_H_GRUPO_ACTIVO" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 58]"
+      DTS:CreationName=""
+      DTS:DTSID="{0478AD31-3604-4B3D-BC58-9856BDA98389}"
+      DTS:From="Package\Afiliaciones_H_GRUPO_ACTIVO"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 58"
+      DTS:To="Package\Afiliaciones_H_GRUPO_ALTA" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 59]"
+      DTS:CreationName=""
+      DTS:DTSID="{61DC1CD1-50D1-4BC6-AEF4-D74EA50E71E5}"
+      DTS:From="Package\Afiliaciones_H_GRUPO_ALTA"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 59"
+      DTS:To="Package\Afiliaciones_H_GRUPO_BAJA" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 6]"
+      DTS:CreationName=""
+      DTS:DTSID="{87022AB0-8463-4711-B231-F1E4B99477F4}"
+      DTS:From="Package\Afiliaciones_AUX_PERIODO_MES_BORRA"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 6"
+      DTS:To="Package\TABLAS DE DIMENSION" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 62]"
+      DTS:CreationName=""
+      DTS:DTSID="{89884D4F-4DBD-4413-9735-907C1045B2F2}"
+      DTS:From="Package\Afiliaciones_H_APO_AFI"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 62"
+      DTS:To="Package\Afiliaciones_H_APO_AFI_DET" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--Esta sección CDATA contiene la información de diseño del paquete. Esta sección incluye información como, por ejemplo, las coordenadas (x,y), el ancho y el alto.-->
+<!--Si edita manualmente esta sección y comete un error, puede eliminarlo. -->
+<!--El paquete podrá cargarse normalmente, pero se perderá la información de diseño anterior y el diseñador reorganizará los elementos automáticamente en la superficie de diseño.-->
+<Objects
+  Version="8">
+  <!--Cada uno de los nodos siguientes contiene propiedades que no afectan al comportamiento en tiempo de ejecución.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="64" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="295,42"
+          Id="Package\Afiliaciones_AUX_PERIODO_MES_BORRA"
+          TopLeft="327.467343976778,75.7169811320755" />
+        <NodeLayout
+          Size="275,42"
+          Id="Package\Afiliaciones_H_ALTAS_COMP_GRUPO"
+          TopLeft="311.467343976778,378.47169811321" />
+        <NodeLayout
+          Size="257,42"
+          Id="Package\Afiliaciones_H_ALTAS_PERSONAS"
+          TopLeft="320.467343976778,439.56603773585" />
+        <NodeLayout
+          Size="201,42"
+          Id="Package\Afiliaciones_H_APO_AFI"
+          TopLeft="348.467343976778,1057.16981132075" />
+        <NodeLayout
+          Size="229,42"
+          Id="Package\Afiliaciones_H_APO_AFI_DET"
+          TopLeft="334.467343976778,1132.69811320755" />
+        <NodeLayout
+          Size="275,42"
+          Id="Package\Afiliaciones_H_BAJAS_COMP_GRUPO"
+          TopLeft="311.467343976778,506.35849056604" />
+        <NodeLayout
+          Size="257,42"
+          Id="Package\Afiliaciones_H_BAJAS_PERSONAS"
+          TopLeft="320.467343976778,570.47169811321" />
+        <NodeLayout
+          Size="261,42"
+          Id="Package\Afiliaciones_H_CAMBIO_PLAN_DET"
+          TopLeft="318.467343976778,913.03773584906" />
+        <NodeLayout
+          Size="269,42"
+          Id="Package\Afiliaciones_H_CAMBIO_PLAN_PERS"
+          TopLeft="315.467343976778,981.50943396226" />
+        <NodeLayout
+          Size="281,42"
+          Id="Package\Afiliaciones_H_COMP_GRUPO_ACTIVO"
+          TopLeft="308.467343976778,311.75471698113" />
+        <NodeLayout
+          Size="242,42"
+          Id="Package\Afiliaciones_H_GRUPO_ACTIVO"
+          TopLeft="327.967343976778,635.64150943396" />
+        <NodeLayout
+          Size="229,42"
+          Id="Package\Afiliaciones_H_GRUPO_ALTA"
+          TopLeft="334.467343976778,696.54716981132" />
+        <NodeLayout
+          Size="229,42"
+          Id="Package\Afiliaciones_H_GRUPO_BAJA"
+          TopLeft="334.467343976778,762.28301886792" />
+        <NodeLayout
+          Size="316,42"
+          Id="Package\Afiliaciones_H_LLAVES_ALERTAS_AFILIADOS"
+          TopLeft="290.967343976778,839" />
+        <NodeLayout
+          Size="267,42"
+          Id="Package\Afiliaciones_Tabla_Cuentas_PADRES"
+          TopLeft="586.467343976778,17.2641509434" />
+        <NodeLayout
+          Size="161,42"
+          Id="Package\Backup Archivos"
+          TopLeft="363,1290" />
+        <NodeLayout
+          Size="153,42"
+          Id="Package\Copia Archivos"
+          TopLeft="399,0" />
+        <NodeLayout
+          Size="260,42"
+          Id="Package\TABLAS DE DIMENSION\Afiliaciones_D_CLASE_PRODUCTO"
+          TopLeft="20.217343976778,356.314465408803" />
+        <NodeLayout
+          Size="208,42"
+          Id="Package\TABLAS DE DIMENSION\Afiliaciones_D_DATEROS"
+          TopLeft="18.217343976778,17.2767295597487" />
+        <NodeLayout
+          Size="216,42"
+          Id="Package\TABLAS DE DIMENSION\Afiliaciones_D_EMPRESAS"
+          TopLeft="19.217343976778,79.2641509433963" />
+        <NodeLayout
+          Size="218,42"
+          Id="Package\TABLAS DE DIMENSION\Afiliaciones_D_ENTIDADES"
+          TopLeft="15.217343976778,141.157232704403" />
+        <NodeLayout
+          Size="233,42"
+          Id="Package\TABLAS DE DIMENSION\Afiliaciones_D_FORMA_PAGO"
+          TopLeft="304.467343976778,431.849056603774" />
+        <NodeLayout
+          Size="232,42"
+          Id="Package\TABLAS DE DIMENSION\Afiliaciones_D_LOCALIDADES"
+          TopLeft="291.967343976778,17.2767295597487" />
+        <NodeLayout
+          Size="232,42"
+          Id="Package\TABLAS DE DIMENSION\Afiliaciones_D_MOTIVO_BAJA"
+          TopLeft="293.967343976778,79.2641509433963" />
+        <NodeLayout
+          Size="255,42"
+          Id="Package\TABLAS DE DIMENSION\Afiliaciones_D_MOTIVOS_ALERTA"
+          TopLeft="549.967343976778,290.12578616352" />
+        <NodeLayout
+          Size="222,42"
+          Id="Package\TABLAS DE DIMENSION\Afiliaciones_D_OCUPACION"
+          TopLeft="289.967343976778,141.157232704403" />
+        <NodeLayout
+          Size="256,42"
+          Id="Package\TABLAS DE DIMENSION\Afiliaciones_D_OS_PROVENIENTE"
+          TopLeft="549.967343976778,17.2767295597487" />
+        <NodeLayout
+          Size="216,42"
+          Id="Package\TABLAS DE DIMENSION\Afiliaciones_D_PERSONAS"
+          TopLeft="549.967343976778,79.2641509433963" />
+        <NodeLayout
+          Size="198,42"
+          Id="Package\TABLAS DE DIMENSION\Afiliaciones_D_PLANES"
+          TopLeft="551.967343976778,209.226415094341" />
+        <NodeLayout
+          Size="225,42"
+          Id="Package\TABLAS DE DIMENSION\Afiliaciones_D_PRODUCTOS"
+          TopLeft="17.217343976778,290.12578616352" />
+        <NodeLayout
+          Size="220,42"
+          Id="Package\TABLAS DE DIMENSION\Afiliaciones_D_PROMOTOR"
+          TopLeft="551.967343976778,142.157232704403" />
+        <NodeLayout
+          Size="218,42"
+          Id="Package\TABLAS DE DIMENSION\Afiliaciones_D_SEGMENTO"
+          TopLeft="293.967343976778,211.12578616352" />
+        <NodeLayout
+          Size="253,42"
+          Id="Package\TABLAS DE DIMENSION\Afiliaciones_D_SUBGRUPO_PLAN"
+          TopLeft="17.217343976778,209.226415094341" />
+        <NodeLayout
+          Size="241,42"
+          Id="Package\TABLAS DE DIMENSION\Afiliaciones_D_SUBPRODUCTO"
+          TopLeft="564.967343976778,356.314465408803" />
+        <NodeLayout
+          Size="250,42"
+          Id="Package\TABLAS DE DIMENSION\Afiliaciones_D_TIPO_PRODUCTO"
+          TopLeft="290.967343976778,292.314465408803" />
+        <NodeLayout
+          Size="250,42"
+          Id="Package\TABLAS DE DIMENSION\Afiliaciones_D_TIPO_SEGMENTO"
+          TopLeft="22.217343976778,435.15094339623" />
+        <NodeLayout
+          Size="257,42"
+          Id="Package\TABLAS DE DIMENSION\Afiliaciones_D_ZONA_COMERCIAL"
+          TopLeft="297.217343976778,352.15094339623" />
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="831,532"
+          Size="831,575"
+          Id="Package\TABLAS DE DIMENSION"
+          TopLeft="56,162" />
+        <NodeLayout
+          Size="180,42"
+          Id="Package\TRANS_PERIODOS"
+          TopLeft="351,1210" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="471.5,737">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-22.532656023222,-425.24528301887"
+              Start="0,0"
+              End="-22.532656023222,-417.74528301887">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-208.622641509435" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,-208.622641509435"
+                    Point2="0,-212.622641509435"
+                    Point3="-4,-212.622641509435" />
+                  <mssgle:LineSegment
+                    End="-18.532656023222,-212.622641509435" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-18.532656023222,-212.622641509435"
+                    Point2="-22.532656023222,-212.622641509435"
+                    Point3="-22.532656023222,-216.622641509435" />
+                  <mssgle:LineSegment
+                    End="-22.532656023222,-417.74528301887" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="449.467343976778,1023.50943396226">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,33.6603773584899"
+              Start="0,0"
+              End="0,26.1603773584899">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26.1603773584899" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="444.983671988389,1174.69811320755">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,35.30188679245"
+              Start="0,0"
+              End="0,27.80188679245">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,27.80188679245" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="475.233671988389,42">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,33.7169811320755"
+              Start="0,0"
+              End="0,26.2169811320755">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26.2169811320755" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 5]"
+          TopLeft="442.25,1252">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,38"
+              Start="0,0"
+              End="0,30.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,30.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 52]"
+          TopLeft="448.967343976778,353.75471698113">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,24.7169811320755"
+              Start="0,0"
+              End="0,17.2169811320755">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,17.2169811320755" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 54]"
+          TopLeft="311.467343976778,399.47169811321">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="9,61.0943396226417"
+              Start="0,0"
+              End="1.5,61.0943396226417">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="-18.5,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-18.5,0"
+                    Point2="-22.5,0"
+                    Point3="-22.5,4" />
+                  <mssgle:LineSegment
+                    End="-22.5,57.0943396226417" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-22.5,57.0943396226417"
+                    Point2="-22.5,61.0943396226417"
+                    Point3="-18.5,61.0943396226417" />
+                  <mssgle:LineSegment
+                    End="1.5,61.0943396226417" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 54 1]"
+          TopLeft="448.967343976778,804.28301886792">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,34.7169811320755"
+              Start="0,0"
+              End="0,27.2169811320755">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,27.2169811320755" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 55]"
+          TopLeft="448.967343976778,481.56603773585">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,24.7924528301885"
+              Start="0,0"
+              End="0,17.2924528301885">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,17.2924528301885" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 55 1]"
+          TopLeft="448.967343976778,881">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,32.03773584906"
+              Start="0,0"
+              End="0,24.53773584906">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,24.53773584906" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 56]"
+          TopLeft="311.467343976778,527.35849056604">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="9,64.1132075471701"
+              Start="0,0"
+              End="1.5,64.1132075471701">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="-18.5,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-18.5,0"
+                    Point2="-22.5,0"
+                    Point3="-22.5,4" />
+                  <mssgle:LineSegment
+                    End="-22.5,60.1132075471701" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-22.5,60.1132075471701"
+                    Point2="-22.5,64.1132075471701"
+                    Point3="-18.5,64.1132075471701" />
+                  <mssgle:LineSegment
+                    End="1.5,64.1132075471701" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 56 1]"
+          TopLeft="449.467343976778,955.03773584906">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,26.4716981132"
+              Start="0,0"
+              End="0,18.9716981132">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18.9716981132" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 57]"
+          TopLeft="448.967343976778,612.47169811321">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,23.1698113207544"
+              Start="0,0"
+              End="0,15.6698113207544">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,15.6698113207544" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 58]"
+          TopLeft="327.967343976778,656.64150943396">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="6.5,60.9056603773583"
+              Start="0,0"
+              End="-1,60.9056603773583">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="-18.5,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-18.5,0"
+                    Point2="-22.5,0"
+                    Point3="-22.5,4" />
+                  <mssgle:LineSegment
+                    End="-22.5,56.9056603773583" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-22.5,56.9056603773583"
+                    Point2="-22.5,60.9056603773583"
+                    Point3="-18.5,60.9056603773583" />
+                  <mssgle:LineSegment
+                    End="-1,60.9056603773583" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 59]"
+          TopLeft="448.967343976778,738.54716981132">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,23.7358490566039"
+              Start="0,0"
+              End="0,16.2358490566039">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,16.2358490566039" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 6]"
+          TopLeft="473.233671988389,117.716981132076">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,44.2830188679245"
+              Start="0,0"
+              End="0,36.7830188679245">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,36.7830188679245" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 62]"
+          TopLeft="448.967343976778,1099.16981132075">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,33.5283018867999"
+              Start="0,0"
+              End="0,26.0283018867999">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26.0283018867999" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

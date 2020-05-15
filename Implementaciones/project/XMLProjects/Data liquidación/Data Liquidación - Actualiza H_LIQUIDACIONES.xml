@@ -1,0 +1,135 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="10/8/2019 8:13:09 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="DES6103"
+  DTS:CreatorName="AMS\jallara"
+  DTS:DTSID="{38600E68-E846-482A-95D6-5BE3AB60A99A}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="Data Liquidación - Actualiza H_LIQUIDACIONES"
+  DTS:PackageType="5"
+  DTS:VersionBuild="8"
+  DTS:VersionGUID="{BBC12647-1627-4DA2-8A90-26E71D6198CB}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{334FB58F-CD1B-4152-B1EC-4D61AD064449}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{334FB58F-CD1B-4152-B1EC-4D61AD064449}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza H_LIQUIDACIONES"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{3eba572c-66bc-4943-b574-c606fac17dd4}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza H_LIQUIDACIONES"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{D1D8B567-413D-48C6-94DF-64F9711899FF}"
+          SQLTask:SqlStatementSource="DECLARE @Periodo INT&#xA;SET @Periodo = (SELECT MAX(id_periodo) from CONSULTAS_DW.DBO.AUX_PERIODO_MES_BORRA_LIQUIDACIONES)&#xA;&#xA;/* ACTUALIZO ID_TIPO_ENTIIDAD */&#xA;update H_LIQUIDACIONES &#xA;set Id_Tipo_Entidad = 'E'&#xA;where id_tipo_cuenta = 'E'&#xA;and id_periodo = @Periodo&#xA;&#xA;&#xA;update H_LIQUIDACIONES &#xA;set Id_Tipo_Entidad = 'X'&#xA;where id_tipo_cuenta &lt;&gt; 'E'&#xA;and id_periodo = @Periodo&#xA;&#xA;&#xA;---- Script que actualiza id_periodo_comprobante_liquidacion y fecha_comprobante_liquidacion_nuevo en H_Liquidaciones&#xA;         &#xA;Update  H_LIQUIDACIONES  &#xA;set id_periodo_comprobante_liquidacion = dbo.DevuelvePeriodo(convert(datetime ,H.fecha_comprobante_liquidacion)),&#xA;fecha_comprobante_liquidacion_nuevo = convert(datetime ,H.fecha_comprobante_liquidacion)&#xA;from H_LIQUIDACIONES H&#xA;where id_periodo = @Periodo&#xA;&#xA;&#xA;/* Busco las personas que se dieron de alta en el periodo */&#xA;select distinct id_persona &#xA;into #temp_ALTAS&#xA;from H_ALTAS_GENUINAS where id_periodo = @Periodo&#xA;&#xA;&#xA;/* Se Actualiza con un 1 en la marca a las personas que se dieron de Alta en dicho periodo de liquidacion */&#xA;UPDATE H_LIQUIDACIONES SET id_marca_alta = 1&#xA;      FROM H_LIQUIDACIONES H &#xA;Inner Join #temp_ALTAS T ON T.id_persona = H.id_persona&#xA;where id_periodo_liquidacion = @Periodo&#xA;&#xA;&#xA;/* Para los casos donde no hay un alta le asigna un 0  */&#xA;UPDATE H_LIQUIDACIONES SET id_marca_alta = 0&#xA;      FROM H_LIQUIDACIONES H &#xA;where id_periodo_liquidacion = @Periodo&#xA;and id_marca_alta is null&#xA;&#xA;&#xA;&#xA;--- recupera que producto / subproducto / Plan de salud tiene un afiliado en un periodo de liquidacion&#xA;Update H_LIQUIDACIONES&#xA;set id_producto_salud = s.id_producto,&#xA; id_subproducto_salud = s.id_subproducto,&#xA; id_plan_producto_salud = s.id_plan_producto&#xA;from H_LIQUIDACIONES L&#xA;inner join H_COMER_STOCK_AFILIA S ON (l.afiliado = s.afiliado&#xA;and l.id_persona = s.id_persona and l.id_periodo_liquidacion = s.id_periodo)&#xA;where l.id_periodo= @Periodo&#xA;and L.id_producto_salud is null&#xA;&#xA;--- Todo lo que no encontro en el paso previo, buscarlo para ese afiliado en el ultimo periodo de stock previo al &#xA;--- periodo de liquidacion&#xA;&#xA;SELECT MAX(S.id_periodo) id_periodo, S.afiliado, S.id_persona&#xA;INTO #TEMP &#xA;FROM H_COMER_STOCK_AFILIA  S &#xA;INNER JOIN H_LIQUIDACIONES L &#xA;ON (L.afiliado = S.afiliado and L.id_persona = S.id_persona and S.id_periodo &lt;= L.id_periodo)&#xA;WHERE L.id_subproducto_salud is null AND L.id_periodo = @Periodo&#xA;GROUP BY S.afiliado,S.id_persona&#xA;&#xA;SELECT DISTINCT id_periodo, S.afiliado, S.id_persona, S.id_producto, S.id_subproducto, S.id_plan_producto&#xA;into #STOCK &#xA;FROM H_COMER_STOCK_AFILIA S&#xA;WHERE EXISTS (SELECT * FROM #TEMP T WHERE &#xA;T.afiliado = S.afiliado and T.id_persona = S.id_persona and S.id_periodo=T.id_periodo)&#xA;&#xA;Update H_LIQUIDACIONES&#xA;set id_producto_salud = s.id_producto,&#xA; id_subproducto_salud = s.id_subproducto,&#xA; id_plan_producto_salud = s.id_plan_producto&#xA;from H_LIQUIDACIONES L&#xA;join #STOCK s on (l.afiliado = s.afiliado and l.id_persona = s.id_persona)&#xA;where l.id_producto_salud is null&#xA;and l.id_periodo = @Periodo&#xA;&#xA;--Actualizacion segun id_producto los casos que no se pudieron completar con la lógica anterior&#xA;&#xA;UPDATE H_LIQUIDACIONES&#xA;SET id_producto_salud = (CASE&#xA; WHEN id_producto = 1 &#xA; THEN 1&#xA;    WHEN id_producto = 16&#xA;    THEN 16&#xA;    WHEN id_producto not in (1,16)&#xA;    THEN 9999&#xA;    END),&#xA;      &#xA;    id_subproducto_salud = (CASE&#xA;    WHEN id_producto = 1 &#xA;    THEN 0&#xA;    WHEN id_producto = 16&#xA;    THEN 0&#xA;    WHEN id_producto not in (1,16)&#xA;    THEN 0&#xA;    END),&#xA;      &#xA;    id_plan_producto_salud = (CASE&#xA; WHEN id_producto = 1 &#xA;    THEN '99999'&#xA;    WHEN id_producto = 16&#xA;    THEN '99999'&#xA;    WHEN id_producto not in (1,16)&#xA;    THEN ''&#xA;    END)&#xA;FROM H_LIQUIDACIONES&#xA;WHERE id_producto_salud is null&#xA;and id_periodo = @Periodo&#xA;&#xA;&#xA;if exists (SELECT * FROM consultas_dw.dbo.sysobjects WHERE name = 'TempH01FCAB') begin drop table Consultas_DW.dbo.TempH01FCAB end&#xA;&#xA;&#xA;-- ACTUALIZACIONES EN CAMPO ID_FORMA_PAGO&#xA;--Crea tabla temporal con datos de la tabla H01FCAB de as400&#xA;select * &#xA;into Consultas_DW.dbo.TempH01FCAB&#xA;from openquery (host03,'&#xA;&#x9;SELECT&#xA;&#x9;&#x9;    T01.W01TCO, &#xA;&#x9;&#x9;&#x9;T01.W01TAL,&#xA;&#x9;&#x9;&#x9;T01.W01NCO,&#xA;&#x9;&#x9;&#x9;T01.W01FPA&#xA;&#x9;FROM SMPLIBD.H01FCAB T01 &#xA;&#x9;&#x9;&#x9;') &#xA;&#xA;&#xA;if exists (SELECT * FROM consultas_dw.dbo.sysobjects WHERE name = 'TempC01FCAB') begin drop table Consultas_DW.dbo.TempC01FCAB end&#xA;&#xA;&#xA;--Crea tabla temporal con datos de la tabla C01FCAB de as400&#xA;select * &#xA;into Consultas_DW.dbo.TempC01FCAB&#xA;from openquery (host03,'&#xA;&#x9;SELECT&#xA;&#x9;&#x9;    T01.W01TCO, &#xA;&#x9;&#x9;&#x9;T01.W01TAL,&#xA;&#x9;&#x9;&#x9;T01.W01NCO,&#xA;&#x9;&#x9;&#x9;T01.W01FPA&#xA;&#x9;FROM SMPLIBD.C01FCAB T01 &#xA;&#x9;&#x9;&#x9;')&#xA;&#xA;&#xA;/* Actualización de la Forma de Pago */&#xA;&#xA;-- Actualiza campo id_forma_pago buscando en TempH01FCAB&#xA;update H_LIQUIDACIONES&#xA;set id_forma_pago = opq.W01FPA&#xA;from H_LIQUIDACIONES&#xA;join Consultas_DW.dbo.TempH01FCAB opq&#xA;on (id_comprobante_liquidacion = W01TCO COLLATE Modern_spanish_CI_AS and id_talonario_liquidacion = W01TAL and numero_interno_liquidacion = W01NCO)&#xA;where id_periodo = @Periodo&#xA; &#xA;&#xA;-- Todo lo que no encontro en el paso previo, buscarlo en TempC01FCAB&#xA;update H_LIQUIDACIONES&#xA;set id_forma_pago = opq.W01FPA&#xA;from H_LIQUIDACIONES&#xA;join Consultas_DW.dbo.TempC01FCAB opq&#xA;on (id_comprobante_liquidacion = W01TCO COLLATE Modern_spanish_CI_AS and id_talonario_liquidacion = W01TAL and numero_interno_liquidacion = W01NCO)&#xA;where id_periodo = @Periodo and id_forma_pago is NULL&#xA;&#xA;&#xA;-- Para los restantes asigna id_forma_pago = 999&#xA;update H_LIQUIDACIONES&#xA;set id_forma_pago = '999'&#xA;where id_forma_pago is NULL and id_periodo = @Periodo&#xA;&#xA;&#xA;/* Borra el concepto de liquidacion --- 2183 */&#xA;&#xA;Delete from H_LIQUIDACIONES&#xA;where id_periodo = @Periodo and id_concepto_liquidacion = 2183&#xA;&#xA;&#xA;if exists (SELECT * FROM consultas_dw.dbo.sysobjects WHERE name = 'TempH01FCAB') begin drop table Consultas_DW.dbo.TempH01FCAB end&#xA;if exists (SELECT * FROM consultas_dw.dbo.sysobjects WHERE name = 'TempC01FCAB') begin drop table Consultas_DW.dbo.TempC01FCAB end&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza Proyecto Empresa H_LIQUIDACIONES"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{013acaaa-7c8a-4d8d-97b7-3f6d52f9ee9e}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza Proyecto Empresa H_LIQUIDACIONES"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{D1D8B567-413D-48C6-94DF-64F9711899FF}"
+          SQLTask:SqlStatementSource="declare @Periodo int = (select MAX(id_periodo)  from CONSULTAS_DW.DBO.AUX_PERIODO_MES_BORRA_LIQUIDACIONES)&#xA;&#xA;&#xA;/* PRIMER BARRIDO POR CLAVEL COMPUESTA CTA/SCTA/SCIA  */&#xA;update H_LIQUIDACIONES&#xA;set id_empresa_PE_liq = S.id_empresa_PE,&#xA;id_tipo_entidad_PE_liq = S.id_tipo_entidad_PE,&#xA;id_marca_PE_liq = S.id_marca_PE,&#xA;id_convenio_especial_liq = S.id_convenio_especial&#xA;from H_LIQUIDACIONES L &#xA;join H_COMER_STOCK_AFILIA S on (L.id_periodo = S.id_periodo and L.afiliado = S.afiliado and L.subnumero = S.subnumero and L.secuencia = S.secuencia)&#xA;where L.id_periodo = @Periodo&#xA;&#xA;&#xA;/* si no la encuentro en el mismo periodo, busco la info del maximo periodo de stock de la afiliacion para recuperar la info  */&#xA;SELECT MAX(S.id_periodo) id_periodo, S.afiliado,S.subnumero,S.secuencia &#xA;INTO #TEMP &#xA;FROM H_COMER_STOCK_AFILIA S INNER JOIN H_LIQUIDACIONES R ON (R.afiliado = S.afiliado and R.subnumero = S.subnumero and R.secuencia = S.secuencia)&#xA;WHERE R.id_marca_PE_liq is null and S.id_periodo &lt;= @Periodo&#xA;AND R.id_periodo = @Periodo&#xA;GROUP BY S.afiliado,S.subnumero,S.secuencia&#xA;&#xA;SELECT DISTINCT id_periodo, S.afiliado,S.subnumero,S.secuencia, id_tipo_entidad_PE, id_empresa_PE, id_marca_PE, id_convenio_especial &#xA;into #STOCK &#xA;FROM H_COMER_STOCK_AFILIA S&#xA;WHERE EXISTS (SELECT * FROM #TEMP T WHERE T.afiliado = S.afiliado and T.subnumero = S.subnumero and T.secuencia = S.secuencia and S.id_periodo=T.id_periodo)&#xA;&#xA;&#xA;CREATE NONCLUSTERED INDEX [CUENTA_SUBCUENTA_SECUENCIA]&#xA;ON [dbo].[#STOCK] (afiliado,subnumero,secuencia)&#xA;INCLUDE (id_tipo_entidad_PE, id_empresa_PE, id_marca_PE, id_convenio_especial)&#xA;&#xA;&#xA;update H_LIQUIDACIONES&#xA;set id_empresa_PE_liq = S.id_empresa_PE,&#xA;id_tipo_entidad_PE_liq = S.id_tipo_entidad_PE,&#xA;id_marca_PE_liq = S.id_marca_PE,&#xA;id_convenio_especial_liq = S.id_convenio_especial&#xA;from H_LIQUIDACIONES L &#xA;join #STOCK S on (L.afiliado = S.afiliado and L.subnumero = S.subnumero and L.secuencia = S.secuencia)&#xA;where L.id_periodo = @Periodo and id_marca_PE_liq is null&#xA;&#xA;DROP TABLE #STOCK&#xA;DROP TABLE #TEMP&#xA;&#xA;/* BARRIDO POR PERSONA, PARA SOLUCIONAR LO CUOTA SOCIAL SSPRO Y DEMAS QUE NO TIENEN LA MISMA AFILIACION  */&#xA;update H_LIQUIDACIONES&#xA;set id_empresa_PE_liq = S.id_empresa_PE,&#xA;id_tipo_entidad_PE_liq = S.id_tipo_entidad_PE,&#xA;id_marca_PE_liq = S.id_marca_PE,&#xA;id_convenio_especial_liq = S.id_convenio_especial&#xA;from H_LIQUIDACIONES L &#xA;join H_COMER_STOCK_AFILIA S on (L.id_periodo = S.id_periodo AND L.id_persona = S.id_persona)&#xA;where L.id_periodo = @Periodo&#xA;and id_marca_PE_liq is null&#xA;&#xA;&#xA;/* ACTUALIZACION DE NOTAS DE CREDITO HECHAS A EMPRESAS CON AFILIADO EN 0  */&#xA;update H_LIQUIDACIONES&#xA;set id_empresa_PE_liq = L.id_empresa,&#xA;id_tipo_entidad_PE_liq = L.Id_Tipo_Entidad,&#xA;id_marca_PE_liq = S.id_marca_PE,&#xA;id_convenio_especial_liq = S.id_convenio_especial &#xA;from H_LIQUIDACIONES L join (select id_empresa_PE, max(id_marca_PE) as id_marca_PE, max(id_convenio_especial) as id_convenio_especial&#xA;       from H_COMER_STOCK_AFILIA&#xA;       where id_periodo = @Periodo&#xA;       group by id_empresa_PE) S&#xA;on (L.id_empresa = S.id_empresa_PE)&#xA;WHERE L.id_periodo = @Periodo and L.id_marca_PE_liq is null and id_tipo_cuenta = 'E' and afiliado = 0&#xA;&#xA;&#xA;/* SI ESTA MARCADO COMO OSPACA PERO NO TIENE PRODCUTO 78 LO PASAMOS COMO INDIVIDUAL */&#xA;update H_LIQUIDACIONES&#xA;set id_empresa_PE_liq = 0,&#xA;id_tipo_entidad_PE_liq = 'I',&#xA;id_marca_PE_liq = 7,&#xA;id_convenio_especial_liq = 0&#xA;where id_marca_PE_liq = 10 and id_periodo = @Periodo and id_producto &lt;&gt; 78&#xA;&#xA;&#xA;/* SI ESTA MARCADO COMO AMPS PERO NO TIENE PRODCUTO 18 LO PASAMOS COMO INDIVIDUAL */&#xA;update H_LIQUIDACIONES&#xA;set id_empresa_PE_liq = 0,&#xA;id_tipo_entidad_PE_liq = 'I',&#xA;id_marca_PE_liq = 7,&#xA;id_convenio_especial_liq = 0&#xA;where id_marca_PE_liq = 9 and id_periodo = @Periodo and id_producto &lt;&gt; 18&#xA;&#xA;&#xA;&#xA;/*  LO QUE QUEDA COMO NULL LO PONEMOS COMO F/D PARA LUEGO PODER PULIRLO MEJOR SI ES QUE SE PUEDE   */&#xA;update H_LIQUIDACIONES&#xA;set id_empresa_PE_liq = 0,&#xA;id_tipo_entidad_PE_liq = 'I',&#xA;id_marca_PE_liq = 7,&#xA;id_convenio_especial_liq = 0&#xA;WHERE id_periodo = @Periodo and id_marca_PE_liq is null&#xA;&#xA;&#xA;&#xA;-- ACTUALIZA CONVENIOS&#xA;&#xA;&#xA;/* PRIMER BARRIDO POR CLAVEL COMPUESTA CTA/SCTA/SCIA  */&#xA;update H_LIQUIDACIONES&#xA;set id_convenio = S.id_convenio,&#xA;id_tipo_entidad_convenio = S.id_tipo_entidad_convenio&#xA;from H_LIQUIDACIONES L &#xA;join H_COMER_STOCK_AFILIA S on (L.id_periodo = S.id_periodo and L.afiliado = S.afiliado and L.subnumero = S.subnumero and L.secuencia = S.secuencia)&#xA;where L.id_periodo = @Periodo&#xA;&#xA;&#xA;/* si no la encuentro en el mismo periodo, busco la info del maximo periodo de stock de la afiliacion para recuperar la info  */&#xA;SELECT MAX(S.id_periodo) id_periodo, S.afiliado,S.subnumero,S.secuencia &#xA;INTO #TEMP2 &#xA;FROM H_COMER_STOCK_AFILIA S INNER JOIN H_LIQUIDACIONES R ON (R.afiliado = S.afiliado and R.subnumero = S.subnumero and R.secuencia = S.secuencia)&#xA;WHERE R.id_marca_PE_liq is null and S.id_periodo &lt;= @Periodo&#xA;AND R.id_periodo = @Periodo&#xA;GROUP BY S.afiliado,S.subnumero,S.secuencia&#xA;&#xA;SELECT DISTINCT id_periodo, S.afiliado,S.subnumero,S.secuencia,id_convenio,id_tipo_entidad_convenio&#xA;into #STOCK2 &#xA;FROM H_COMER_STOCK_AFILIA S&#xA;WHERE EXISTS (SELECT * FROM #TEMP2 T WHERE T.afiliado = S.afiliado and T.subnumero = S.subnumero and T.secuencia = S.secuencia and S.id_periodo=T.id_periodo)&#xA;&#xA;&#xA;&#xA;update H_LIQUIDACIONES&#xA;set id_convenio = S.id_convenio,&#xA;id_tipo_entidad_convenio = S.id_tipo_entidad_convenio&#xA;from H_LIQUIDACIONES L &#xA;join #STOCK2 S on (L.afiliado = S.afiliado and L.subnumero = S.subnumero and L.secuencia = S.secuencia)&#xA;where L.id_periodo = @Periodo and     L.id_convenio is null&#xA;&#xA;DROP TABLE #STOCK2&#xA;DROP TABLE #TEMP2&#xA;&#xA;/* BARRIDO POR PERSONA, PARA SOLUCIONAR LO CUOTA SOCIAL SSPRO Y DEMAS QUE NO TIENEN LA MISMA AFILIACION  */&#xA;update H_LIQUIDACIONES&#xA;set id_convenio = S.id_convenio,&#xA;id_tipo_entidad_convenio = S.id_tipo_entidad_convenio&#xA;from H_LIQUIDACIONES L &#xA;join H_COMER_STOCK_AFILIA S on (L.id_periodo = S.id_periodo AND L.id_persona = S.id_persona)&#xA;where L.id_periodo = @Periodo&#xA;and L.id_convenio is null&#xA;&#xA;&#xA;/*  LO QUE QUEDA COMO NULL LO PONEMOS COMO F/D PARA LUEGO PODER PULIRLO MEJOR SI ES QUE SE PUEDE   */&#xA;update H_LIQUIDACIONES&#xA;set id_convenio = 0,&#xA;id_tipo_entidad_convenio = 'I'&#xA;WHERE id_periodo = @Periodo and id_convenio is null&#xA;&#xA;&#xA;&#xA;select distinct id_convenio,id_tipo_entidad_convenio,0 as id_periodo_maximo into #convenios_nuevos &#xA;from H_LIQUIDACIONES h&#xA;where  not exists  (select id_convenio ,id_tipo_entidad_convenio &#xA;     from H_CONVENIOS_EMPRESAS C where id_periodo = @periodo&#xA;     and h.id_periodo =  c.id_periodo and h.id_convenio = c.id_convenio and h.id_tipo_entidad_convenio = c.id_tipo_entidad_convenio) &#xA;  and id_periodo = @periodo&#xA;&#xA;update #convenios_nuevos&#xA;set id_periodo_maximo = maximo_periodo from&#xA;#convenios_nuevos c inner join (&#xA;select t.id_convenio, max(h.id_periodo) as maximo_periodo from #convenios_nuevos t inner join H_CONVENIOS_EMPRESAS h on t.id_convenio = h.id_convenio&#xA; and t.id_tipo_entidad_convenio = h.id_tipo_entidad_convenio&#xA;group by t.id_convenio) A on c.id_convenio = a.id_convenio&#xA;&#xA;&#xA;insert into H_CONVENIOS_EMPRESAS&#xA;select @periodo,c.id_convenio,c.id_tipo_entidad_convenio,e.id_subtipo_venta,id_rango_stock,id_rango_costo,id_blindaje,interes_comercial,es_mutual&#xA;,id_holding,'Liqui' from #convenios_nuevos c inner join H_CONVENIOS_EMPRESAS e&#xA;on  c.id_convenio = e.id_convenio and c.id_periodo_maximo = e.id_periodo and c.id_tipo_entidad_convenio = e.id_tipo_entidad_convenio&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{40b1f7bf-c876-4632-b2aa-dc23dcf405c7}"
+      DTS:From="Package\Actualiza H_LIQUIDACIONES"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Actualiza Proyecto Empresa H_LIQUIDACIONES" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="227,42"
+          Id="Package\Actualiza H_LIQUIDACIONES"
+          TopLeft="70.5,13" />
+        <NodeLayout
+          Size="320,42"
+          Id="Package\Actualiza Proyecto Empresa H_LIQUIDACIONES"
+          TopLeft="24,89.150943396227" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="184,55">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,34.1509433962264"
+              Start="0,0"
+              End="0,26.6509433962264">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26.6509433962264" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

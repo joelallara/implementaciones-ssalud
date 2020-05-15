@@ -1,0 +1,574 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="9/12/2019 3:14:57 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="DES6103"
+  DTS:CreatorName="AMS\jallara"
+  DTS:DTSID="{27DF04B0-CFF5-444C-8584-0389AAD2FBF8}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="Mayoría de edad Copia archivos"
+  DTS:PackageType="5"
+  DTS:VersionBuild="50"
+  DTS:VersionGUID="{CC813839-C473-49CB-AE73-560AB1447803}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[File_Detalle Consumos y Recaudacion Mayoria de Edad_Source]"
+      DTS:CreationName="FILE"
+      DTS:DTSID="{EF9C935D-D4FB-40B1-A7CF-E108B133A338}"
+      DTS:ObjectName="File_Detalle Consumos y Recaudacion Mayoria de Edad_Source">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="\\P-IS-01\SSIS2017$\03 - Archivos\Mayoría de edad\Detalle Consumos y Recaudacion Mayoria de Edad.xls" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[File_m06_afedad_Source]"
+      DTS:CreationName="FILE"
+      DTS:DTSID="{EC7B5EBD-C2E0-434F-8AB8-DA4149E31FDA}"
+      DTS:ObjectName="File_m06_afedad_Source">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="\\P-IS-01\SSIS2017$\03 - Archivos\Mayoría de edad\m06_afedad.xls" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[File_Mayoria_de_Edad_Source]"
+      DTS:CreationName="FILE"
+      DTS:DTSID="{FD5416C9-77A2-4F76-8B58-1AEDFD4E02F6}"
+      DTS:ObjectName="File_Mayoria_de_Edad_Source">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="\\P-IS-01\SSIS2017$\03 - Archivos\Mayoría de edad\Mayoria_de_Edad.xls" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[ProcesoPlanillasEstadisticas_Destination_Path]"
+      DTS:CreationName="FILE"
+      DTS:DTSID="{60EC986C-63EC-4772-A6B3-09EFB60869BA}"
+      DTS:ObjectName="ProcesoPlanillasEstadisticas_Destination_Path">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:FileUsageType="2"
+          DTS:ConnectionString="\\ams12\procesoplanillasestadisticas$\Proceso mayoria de edad" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{4F8B5CED-A3BB-4AD1-BF87-5E24D9952E17}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{6020D312-06DA-4F36-8F92-008C0DD3231F}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="Periodo">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{2A1F65FE-A25D-4D8D-82DA-EDA27F71E736}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;\\\\P-IS-01\\SSIS2017$\\03 - Archivos\\Mayoría de edad\\Historico\\&quot; + (DT_WSTR, 8) @[User::Periodo]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="vNombreCarpetaHistorico">
+      <DTS:VariableValue
+        DTS:DataType="8">\\P-IS-01\SSIS2017$\03 - Archivos\Mayoría de edad\Historico\0</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{4F8B5CED-A3BB-4AD1-BF87-5E24D9952E17}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Backup archivo Detalle Consumos y Recaudacion Mayoria de Edad en Historico - Periodo"
+      DTS:CreationName="Microsoft.FileSystemTask"
+      DTS:Description="File System Task"
+      DTS:DTSID="{cc5d38e8-35f9-497e-95b4-805cfb1ebfc0}"
+      DTS:ExecutableType="Microsoft.FileSystemTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Backup archivo Detalle Consumos y Recaudacion Mayoria de Edad en Historico - Periodo"
+      DTS:TaskContact="File System Task;Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <FileSystemData
+          TaskOperationType="MoveFile"
+          TaskOverwriteDestFile="True"
+          TaskSourcePath="{EF9C935D-D4FB-40B1-A7CF-E108B133A338}"
+          TaskDestinationPath="User::vNombreCarpetaHistorico"
+          TaskIsDestinationVariable="True" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Backup archivo m06_afedad en Historico - Periodo"
+      DTS:CreationName="Microsoft.FileSystemTask"
+      DTS:DelayValidation="True"
+      DTS:Description="File System Task"
+      DTS:DTSID="{5447f2a6-5cb9-490e-8016-5839828924f8}"
+      DTS:ExecutableType="Microsoft.FileSystemTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Backup archivo m06_afedad en Historico - Periodo"
+      DTS:TaskContact="File System Task;Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <FileSystemData
+          TaskOperationType="MoveFile"
+          TaskOverwriteDestFile="True"
+          TaskSourcePath="{EC7B5EBD-C2E0-434F-8AB8-DA4149E31FDA}"
+          TaskDestinationPath="User::vNombreCarpetaHistorico"
+          TaskIsDestinationVariable="True" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Backup archivo Mayoria_de_Edad en Historico - Periodo"
+      DTS:CreationName="Microsoft.FileSystemTask"
+      DTS:Description="File System Task"
+      DTS:DTSID="{727cb7a1-c166-4c5a-b999-64c95f877d92}"
+      DTS:ExecutableType="Microsoft.FileSystemTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Backup archivo Mayoria_de_Edad en Historico - Periodo"
+      DTS:TaskContact="File System Task;Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <FileSystemData
+          TaskOperationType="MoveFile"
+          TaskOverwriteDestFile="True"
+          TaskSourcePath="{FD5416C9-77A2-4F76-8B58-1AEDFD4E02F6}"
+          TaskDestinationPath="User::vNombreCarpetaHistorico"
+          TaskIsDestinationVariable="True" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Copia archivo Detalle Consumos y Recaudacion Mayoria de Edad en Unidad"
+      DTS:CreationName="Microsoft.FileSystemTask"
+      DTS:Description="Tarea Sistema de archivos"
+      DTS:DTSID="{0B654625-7D32-47AD-88E4-EFEDAF9B5D50}"
+      DTS:ExecutableType="Microsoft.FileSystemTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Copia archivo Detalle Consumos y Recaudacion Mayoria de Edad en Unidad"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <FileSystemData
+          TaskOverwriteDestFile="True"
+          TaskSourcePath="{EF9C935D-D4FB-40B1-A7CF-E108B133A338}"
+          TaskDestinationPath="{60EC986C-63EC-4772-A6B3-09EFB60869BA}" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Copia archivo m06_afedad en Unidad"
+      DTS:CreationName="Microsoft.FileSystemTask"
+      DTS:Description="Tarea Sistema de archivos"
+      DTS:DTSID="{A452BE99-849D-4732-B13D-E2FBA6C18770}"
+      DTS:ExecutableType="Microsoft.FileSystemTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Copia archivo m06_afedad en Unidad"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <FileSystemData
+          TaskOverwriteDestFile="True"
+          TaskSourcePath="{EC7B5EBD-C2E0-434F-8AB8-DA4149E31FDA}"
+          TaskDestinationPath="{60EC986C-63EC-4772-A6B3-09EFB60869BA}" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Copia archivo Mayoria_de_Edad en Unidad"
+      DTS:CreationName="Microsoft.FileSystemTask"
+      DTS:Description="Tarea Sistema de archivos"
+      DTS:DTSID="{6255D456-C2DB-4777-92AE-447657D9D790}"
+      DTS:ExecutableType="Microsoft.FileSystemTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Copia archivo Mayoria_de_Edad en Unidad"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <FileSystemData
+          TaskOverwriteDestFile="True"
+          TaskSourcePath="{FD5416C9-77A2-4F76-8B58-1AEDFD4E02F6}"
+          TaskDestinationPath="{60EC986C-63EC-4772-A6B3-09EFB60869BA}" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Crea Carpeta Periodo en Historico"
+      DTS:CreationName="Microsoft.FileSystemTask"
+      DTS:Description="Crea Carpeta"
+      DTS:DTSID="{d0e630ed-0826-42d5-a059-e68543477818}"
+      DTS:ExecutableType="Microsoft.FileSystemTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Crea Carpeta Periodo en Historico"
+      DTS:TaskContact="File System Task;Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <FileSystemData
+          TaskOperationType="CreateDirectory"
+          TaskOverwriteDestFile="True"
+          TaskSourcePath="User::vNombreCarpetaHistorico"
+          TaskIsSourceVariable="True"
+          TaskDestinationPath="User::vNombreCarpeta"
+          TaskIsDestinationVariable="True" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Obtiene Periodo Variable"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{24ee34c2-a250-4f1e-b304-d7949aec1b04}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Obtiene Periodo Variable"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{FA1D09C2-9A41-4022-820A-64C1B460422E}"
+          SQLTask:SqlStatementSource="select MAX(id_periodo) as id_periodo from Consultas_DW.dbo.AUX_H_MAYORIA_EDAD"
+          SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="id_periodo"
+            SQLTask:DtsVariableName="User::Periodo" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{63E9E724-B107-4DC8-949E-075A74D8A884}"
+      DTS:From="Package\Crea Carpeta Periodo en Historico"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Copia archivo m06_afedad en Unidad" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{5f26aa56-b56f-4cf7-9eb7-eff31aa32bdc}"
+      DTS:From="Package\Obtiene Periodo Variable"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Crea Carpeta Periodo en Historico" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{D900E690-5A11-4321-AA71-FA85B64DC9A6}"
+      DTS:From="Package\Copia archivo m06_afedad en Unidad"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Backup archivo m06_afedad en Historico - Periodo" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{AD0AC614-E94F-4845-97DC-EBD1C7B44A06}"
+      DTS:From="Package\Backup archivo m06_afedad en Historico - Periodo"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Copia archivo Mayoria_de_Edad en Unidad" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
+      DTS:CreationName=""
+      DTS:DTSID="{7256C027-09B8-4DD9-BEE8-E4AC1A135E72}"
+      DTS:From="Package\Backup archivo Mayoria_de_Edad en Historico - Periodo"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 4"
+      DTS:To="Package\Copia archivo Detalle Consumos y Recaudacion Mayoria de Edad en Unidad" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 5]"
+      DTS:CreationName=""
+      DTS:DTSID="{7437A22F-94E6-4122-914F-E45031C81ABC}"
+      DTS:From="Package\Copia archivo Mayoria_de_Edad en Unidad"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 5"
+      DTS:To="Package\Backup archivo Mayoria_de_Edad en Historico - Periodo" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 6]"
+      DTS:CreationName=""
+      DTS:DTSID="{CCB43CC5-405B-4C93-9CE0-6D24C9E3FDA0}"
+      DTS:From="Package\Copia archivo Detalle Consumos y Recaudacion Mayoria de Edad en Unidad"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 6"
+      DTS:To="Package\Backup archivo Detalle Consumos y Recaudacion Mayoria de Edad en Historico - Periodo" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib">
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="326.5,181">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,124"
+              Start="0,0"
+              End="0,116.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,116.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="247,42"
+          Id="Package\Crea Carpeta Periodo en Historico"
+          TopLeft="25.6666666666667,76.5" />
+        <NodeLayout
+          Size="202,42"
+          Id="Package\Obtiene Periodo Variable"
+          TopLeft="48.1666666666667,5.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="149.166666666667,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,29"
+              Start="0,0"
+              End="0,21.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,21.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <GroupLayout
+          Text="Group "
+          ParentId="Package"
+          HeaderHeight="43.924528301886795"
+          IsExpanded="True"
+          PanelSize="310,174"
+          Size="310,218"
+          Id="d7db4e93-a057-4317-b45d-8f475ea3e479"
+          TopLeft="173.5,19">
+          <GroupLayout.ChildrenIds>
+            <s:String>Package\Crea Carpeta Periodo en Historico</s:String>
+            <s:String>Package\Obtiene Periodo Variable</s:String>
+            <s:String>Package.PrecedenceConstraints[Constraint 1]</s:String>
+          </GroupLayout.ChildrenIds>
+        </GroupLayout>
+        <NodeLayout
+          Size="327,42"
+          Id="Package\Backup archivo m06_afedad en Historico - Periodo"
+          TopLeft="107.833333333333,82.7" />
+        <NodeLayout
+          Size="355,42"
+          Id="Package\Backup archivo Mayoria_de_Edad en Historico - Periodo"
+          TopLeft="93.8333333333333,223.1" />
+        <NodeLayout
+          Size="517,42"
+          Id="Package\Backup archivo Detalle Consumos y Recaudacion Mayoria de Edad en Historico - Periodo"
+          TopLeft="12.8333333333333,363.5" />
+        <NodeLayout
+          Size="263,42"
+          Id="Package\Copia archivo m06_afedad en Unidad"
+          TopLeft="139.833333333333,12.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="271.333333333333,54.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,28.2"
+              Start="0,0"
+              End="0,20.7">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.7" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="291,42"
+          Id="Package\Copia archivo Mayoria_de_Edad en Unidad"
+          TopLeft="125.833333333333,152.9" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="271.333333333333,124.7">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,28.2"
+              Start="0,0"
+              End="0,20.7">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.7" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 5]"
+          TopLeft="271.333333333333,194.9">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,28.2"
+              Start="0,0"
+              End="0,20.7">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.7" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="454,42"
+          Id="Package\Copia archivo Detalle Consumos y Recaudacion Mayoria de Edad en Unidad"
+          TopLeft="44.3333333333333,293.3" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="271.333333333333,265.1">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,28.2"
+              Start="0,0"
+              End="0,20.7">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.7" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 6]"
+          TopLeft="271.333333333333,335.3">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,28.2"
+              Start="0,0"
+              End="0,20.7">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.7" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <GroupLayout
+          Text="Group "
+          ParentId="Package"
+          HeaderHeight="43.924528301886795"
+          IsExpanded="True"
+          PanelSize="549,460"
+          Size="549,504"
+          Id="8115cc70-5d0c-4973-8b51-677133cd1c4a"
+          TopLeft="58,249">
+          <GroupLayout.ChildrenIds>
+            <s:String>Package\Backup archivo m06_afedad en Historico - Periodo</s:String>
+            <s:String>Package\Backup archivo Mayoria_de_Edad en Historico - Periodo</s:String>
+            <s:String>Package\Backup archivo Detalle Consumos y Recaudacion Mayoria de Edad en Historico - Periodo</s:String>
+            <s:String>Package\Copia archivo m06_afedad en Unidad</s:String>
+            <s:String>Package.PrecedenceConstraints[Constraint 2]</s:String>
+            <s:String>Package\Copia archivo Mayoria_de_Edad en Unidad</s:String>
+            <s:String>Package.PrecedenceConstraints[Constraint 3]</s:String>
+            <s:String>Package.PrecedenceConstraints[Constraint 5]</s:String>
+            <s:String>Package\Copia archivo Detalle Consumos y Recaudacion Mayoria de Edad en Unidad</s:String>
+            <s:String>Package.PrecedenceConstraints[Constraint 4]</s:String>
+            <s:String>Package.PrecedenceConstraints[Constraint 6]</s:String>
+          </GroupLayout.ChildrenIds>
+        </GroupLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

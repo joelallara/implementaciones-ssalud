@@ -1,0 +1,243 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="6/14/2018 11:10:23 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AMS06X"
+  DTS:CreatorName="AMS\mpaludi"
+  DTS:DTSID="{4A4A6101-43D3-4FD0-A0B5-A7FEB702C8AF}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="ConsumosFuturos H_CONSUMOS_REINTEGROS_ESTIMADOS"
+  DTS:PackageType="5"
+  DTS:VersionBuild="17"
+  DTS:VersionGUID="{31958B32-7DFA-4E32-8A14-1E8D299B9C26}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{61A129EA-D785-43F0-B22A-44919A5798FA}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">1,7,OnError</DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnError"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{61A129EA-D785-43F0-B22A-44919A5798FA}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza H_CONSUMO_MEDICAMENTOS_CAPITAS"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{544ec431-12bd-4bb2-aaca-fa3ff97eb345}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza H_CONSUMO_MEDICAMENTOS_CAPITAS"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{D711229E-AB20-4E7C-99E7-BB2F444CD0D1}"
+          SQLTask:SqlStatementSource="&#xA;/*Solo se ejecuta cuando hay nuevo periodo de consumo*/&#xA;DECLARE @PeriodoMaxConsumoMedicamento Int SET @PeriodoMaxConsumoMedicamento = (select MAX(id_periodo) from H_CONSUMOS_MEDICAMENTOS where id_origen_dato = 1)&#xA; DECLARE @PeriodoMaxDataConsumo Int SET @PeriodoMaxDataConsumo = (Select MAX(id_periodo) from D_PERIODO where vigente_consumo = 1)&#xA;  &#xA; IF @PeriodoMaxDataConsumo &gt; @PeriodoMaxConsumoMedicamento&#xA;&#xA; begin&#xA;&#xA;&#xA;  truncate table T_consumos_medicamentos_capitas&#xA;&#xA;&#xA;  /*Selecciona los periodos deseados*/&#xA;  declare @ultimo_periodo int&#xA;  set @ultimo_periodo = (select top 1 id_periodo &#xA;        from D_PERIODO where vigente_consumo = 1 order by id_periodo desc)&#xA;  declare @ultimos_periodos1 int&#xA;  set @ultimos_periodos1 = (select top 1 dbo.PeriodosAnteriores(id_periodo,2) &#xA;        from D_PERIODO where vigente_consumo = 1 order by id_periodo desc)&#xA;  declare @ultimos_periodos2 int&#xA;  set @ultimos_periodos2 = (select top 1 dbo.PeriodosAnteriores(id_periodo,3) &#xA;       from D_PERIODO where vigente_consumo = 1 order by id_periodo desc)&#xA;&#xA;&#xA;  /*Inserta los compañia, porcentaje, y calcula el total pagado desde la h_consumos medicamentos*/&#xA;  insert into T_consumos_medicamentos_capitas&#xA;  select id_compañia, porcentaje_cobertura_stock, sum(imp_pagado_medicamento), 0, 0&#xA;  from H_CONSUMOS_MEDICAMENTOS h inner join D_PLANES dp on dp.id_producto = h.id_producto and dp.id_plan_producto = h.id_plan_producto&#xA;            inner join D_SUBRUBRO_LEY d on dp.id_SubRubro_ley = d.Id_SubRubro_Ley&#xA;            inner join D_RUBRO_LEY dl on dl.Id_Rubro_ley = d.id_Rubro_Ley&#xA;            inner join D_PRODUCTOS DPr on dpr.id_producto = h.id_producto&#xA;            inner join D_PRESTACION pr on pr.id_prestacion = h.id_prestacion&#xA;  where id_periodo in (@ultimo_periodo, @ultimos_periodos1,@ultimos_periodos2) and&#xA;  pr.id_accion_farmacologica not in(904,633) and&#xA;  (DPr.Id_Clase_Producto in ('S ')&#xA;   and dp.Id_SubRubro_Ley in (1, 2, 3, 5, 6, 7)&#xA;   and not ((h.id_producto = 16 and h.id_plan_producto = 'CC   ')&#xA;     or  (h.id_producto=16 and h.id_plan_producto='CM   ')&#xA;     or  (h.id_producto=16 and h.id_plan_producto='CS1  ')&#xA;     or  (h.id_producto=16 and h.id_plan_producto='CS100')&#xA;     or  (h.id_producto=4 and h.id_plan_producto='M    ')&#xA;     or  (h.id_producto=16 and h.id_plan_producto='M    ')&#xA;     or  (h.id_producto=20 and h.id_plan_producto='M    ')&#xA;     or  (h.id_producto=14 and h.id_plan_producto='Z    ')&#xA;     or  (h.id_producto=20 and h.id_plan_producto='Z    ')&#xA;     or  (h.id_producto=1 and h.id_plan_producto='C    ')&#xA;     or  (h.id_producto=4 and h.id_plan_producto='Z    ')))&#xA;  group by id_compañia, porcentaje_cobertura_stock&#xA;&#xA;&#xA;  /*Calcula la cantidad del stock*/&#xA;  select id_compañia, porcentaje_cobertura_stock, sum(comer_cant_grupo_activo) as cantidad&#xA;  into #tempcantidadactivo&#xA;  from H_COMER_STOCK_AFILIA h inner join D_PLANES dp on dp.id_producto = h.id_producto and dp.id_plan_producto = h.id_plan_producto&#xA;            inner join D_SUBRUBRO_LEY d on dp.id_SubRubro_ley = d.Id_SubRubro_Ley&#xA;            inner join D_RUBRO_LEY dl on dl.Id_Rubro_ley = d.id_Rubro_Ley&#xA;            inner join D_PRODUCTOS DPr on dpr.id_producto = h.id_producto&#xA;  where id_periodo in (@ultimo_periodo, @ultimos_periodos1,@ultimos_periodos2) and&#xA;  (DPr.Id_Clase_Producto in ('S ')&#xA;   and dp.Id_SubRubro_Ley in (1, 2, 3, 5, 6, 7)&#xA;   and not ((h.id_producto = 16 and h.id_plan_producto = 'CC   ')&#xA;     or  (h.id_producto=16 and h.id_plan_producto='CM   ')&#xA;     or  (h.id_producto=16 and h.id_plan_producto='CS1  ')&#xA;     or  (h.id_producto=16 and h.id_plan_producto='CS100')&#xA;     or  (h.id_producto=4 and h.id_plan_producto='M    ')&#xA;     or  (h.id_producto=16 and h.id_plan_producto='M    ')&#xA;     or  (h.id_producto=20 and h.id_plan_producto='M    ')&#xA;     or  (h.id_producto=14 and h.id_plan_producto='Z    ')&#xA;     or  (h.id_producto=20 and h.id_plan_producto='Z    ')&#xA;     or  (h.id_producto=1 and h.id_plan_producto='C    ')&#xA;     or  (h.id_producto=4 and h.id_plan_producto='Z    '))) &#xA;  group by id_compañia, porcentaje_cobertura_stock&#xA;&#xA;  /*Actualiza la cantidad del stock*/&#xA;  update T_consumos_medicamentos_capitas&#xA;  set cant_stock_afiliado = cantidad&#xA;  from T_consumos_medicamentos_capitas h inner join #tempcantidadactivo t on t.id_compañia = h.id_compania &#xA;            and t.porcentaje_cobertura_stock = h.porcentaje_cobertura &#xA;&#xA;&#xA;  drop table #tempcantidadactivo&#xA;&#xA;  /*Actualiza la capita por medicamento*/&#xA;  update T_consumos_medicamentos_capitas&#xA;  set capita_medicamento = total_imp_pagado_medicamentos / cant_stock_afiliado&#xA;  where cant_stock_afiliado &lt;&gt; 0&#xA;&#xA; end&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza TAUMENTO_MEDICAMENTOS_NOF4F8"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{77b0af4a-0d22-497f-bb4d-204024903a04}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza TAUMENTO_MEDICAMENTOS_NOF4F8"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{D711229E-AB20-4E7C-99E7-BB2F444CD0D1}"
+          SQLTask:SqlStatementSource=" &#xA;SET DATEFORMAT 'YMD'&#xA;&#xA;/* Calcula Periodos (Desde - Hasta) a procesar de consumo */&#xA; -- Minimo periodo de los ultimos 12 meses vigentes de consumo&#xA; DECLARE @Periodo_Desde_Consumo INT&#xA; SET @Periodo_Desde_Consumo = (select min(id_periodo) from D_periodo where id_periodo in (select top 12 id_periodo from D_PERIODO&#xA;          where vigente_consumo = 1&#xA;        group by  id_periodo&#xA;        order by id_periodo desc))&#xA;                            &#xA; -- Maximo periodo de Consumo                                &#xA; DECLARE @Periodo_Hasta_Consumo INT&#xA; SET @Periodo_Hasta_Consumo = (select MAX(id_periodo) from D_PERIODO where vigente_consumo = 1)&#xA;&#xA; -- Periodo siguiente al ultimo vigente de consumo.&#xA; DECLARE @Periodo_Siguiente_Consumo_Cerrado INT&#xA; SET @Periodo_Siguiente_Consumo_Cerrado = (select dbo.PeriodosPosteriores(@Periodo_Hasta_Consumo, 2))&#xA;&#xA; declare @periodo_hasta int&#xA; set @periodo_hasta = (select top 1 H.id_periodo &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;from D_PERIODO H where H.vigente_comercial=1 group by  H.id_periodo order by H.id_periodo desc)&#xA;&#xA; -- Obtener el mes 10 de U12M de consumo.&#xA; DECLARE @mes10 INT&#xA; SET @mes10 =  ( select dbo.PeriodosPosteriores(@Periodo_Desde_Consumo,10))&#xA;&#xA; -- Calculo del % de aumento a aplicar a partir del mes 10 de consumo.&#xA; DECLARE @aumento FLOAT&#xA; SET @aumento = (select SUM(aumento_medicamentos) from H_ARANCELES_AUMENTOS where id_periodo &gt;= @mes10 &#xA; and id_periodo &lt;= @Periodo_Hasta_Consumo)/2&#xA;&#xA;/* Calcula nueva tabla aumento. */&#xA; drop table TAumento_Medicamentos_noF4F8&#xA;&#xA; create table TAumento_Medicamentos_noF4F8&#xA; ( id_periodo int primary key,&#xA;  id_periodo_anterior int,&#xA;  medicamentos float,&#xA;  aumento_mes_medicamentos float,&#xA;  aumento_acu_medicamentos float,&#xA;  aumento_medicamentos float )&#xA;&#xA; INSERT TAumento_Medicamentos_noF4F8&#xA;    SELECT id_periodo, 0 as id_periodo_anterior, 0 as medicamentos, 0 as aumento_mes_medicamentos, 0 as aumento_acu_medicamentos, 0 as aumento_medicamentos &#xA;    FROM D_PERIODO &#xA; WHERE id_periodo &gt;= @Periodo_Siguiente_Consumo_Cerrado and id_periodo &lt;= @periodo_hasta&#xA; &#xA; UPDATE TAumento_Medicamentos_noF4F8&#xA;  SET id_periodo_anterior = dbo.PeriodoAnteriorP(id_periodo)&#xA; &#xA; UPDATE TAumento_Medicamentos_noF4F8&#xA;  SET medicamentos = ARA.aumento_medicamentos&#xA; FROM TAumento_Medicamentos_noF4F8 AUM inner join H_ARANCELES_AUMENTOS ARA on (ARA.id_periodo = AUM.id_periodo) &#xA;&#xA; UPDATE TAumento_Medicamentos_noF4F8&#xA;  SET aumento_mes_medicamentos = 1 + medicamentos&#xA; FROM TAumento_Medicamentos_noF4F8 AUM inner join H_ARANCELES_AUMENTOS ARA on (ARA.id_periodo = AUM.id_periodo) &#xA;&#xA; UPDATE TAumento_Medicamentos_noF4F8&#xA;  SET aumento_acu_medicamentos = (1 + @aumento) &#xA; FROM TAumento_Medicamentos_noF4F8 AUM where id_periodo = @Periodo_Siguiente_Consumo_Cerrado&#xA;&#xA; UPDATE TAumento_Medicamentos_noF4F8&#xA;  SET aumento_medicamentos = aumento_mes_medicamentos * aumento_acu_medicamentos -1&#xA; FROM TAumento_Medicamentos_noF4F8 AUM where id_periodo = @Periodo_Siguiente_Consumo_Cerrado&#xA;&#xA;&#xA;WHILE (SELECT MIN(id_periodo) FROM TAumento_Medicamentos_noF4F8 where id_periodo &gt; @Periodo_Siguiente_Consumo_Cerrado &#xA;and aumento_medicamentos = 0) &#xA;&lt;= (SELECT MAX(id_periodo) FROM TAumento_Medicamentos_noF4F8)&#xA;&#xA; BEGIN&#xA;  SELECT id_periodo_Anterior id_periodo, &#xA;  aumento_medicamentos&#xA;  INTO #paso FROM TAumento_Medicamentos_noF4F8 where aumento_medicamentos = 0&#xA;  &#xA;  update #paso&#xA;  set aumento_medicamentos = aum.aumento_medicamentos&#xA;  from #paso pas inner join TAumento_Medicamentos_noF4F8 Aum on (pas.id_periodo = aum.id_periodo)&#xA;  where aum.aumento_medicamentos &lt;&gt; 0&#xA;  &#xA;  UPDATE TAumento_Medicamentos_noF4F8&#xA;  SET aumento_acu_medicamentos = (pas.aumento_medicamentos + 1)&#xA;  FROM TAumento_Medicamentos_noF4F8 Aum inner join #paso Pas on (Aum.id_periodo_anterior = Pas.id_Periodo)&#xA;  where pas.aumento_medicamentos &lt;&gt; 0&#xA;  &#xA;  UPDATE TAumento_Medicamentos_noF4F8&#xA;  SET aumento_medicamentos = aumento_mes_medicamentos * aumento_acu_medicamentos - 1&#xA;  FROM TAumento_Medicamentos_noF4F8 Aum inner join #paso Pas on (Aum.id_periodo_anterior = Pas.id_Periodo)&#xA;  where aum.aumento_acu_medicamentos &lt;&gt; 0&#xA;  &#xA;  drop table #paso&#xA;  &#xA; END&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Actualizar H_CONSUMOS_MEDICAMENTOS_ESTIMADOS"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{e8f25517-6ffc-4cbd-a322-a1e1637167d6}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualizar H_CONSUMOS_MEDICAMENTOS_ESTIMADOS"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{D711229E-AB20-4E7C-99E7-BB2F444CD0D1}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE H_CONSUMOS_MEDICAMENTOS_ESTIMADOS&#xA;&#xA;/*Calculo el primer period despues del consumo cerrado y el ultimo vigente*/&#xA;declare @periodo_ultimo_consumo int&#xA;set @periodo_ultimo_consumo = (select top 1 id_periodo &#xA;      from D_PERIODO where vigente_consumo = 1 order by id_periodo desc)&#xA;&#xA;declare @periodo_desde int&#xA;set @periodo_desde = dbo.Periodosposteriores(@periodo_ultimo_consumo,2)&#xA;declare @periodo_hasta int&#xA;set @periodo_hasta = (select top 1 H.id_periodo &#xA;     from D_PERIODO H where H.vigente_comercial=1 group by  H.id_periodo order by H.id_periodo desc)&#xA;&#xA;&#xA;/*Inserto en la tabla los periodos correspondientes */&#xA;&#xA;insert into H_CONSUMOS_MEDICAMENTOS_estimados&#xA;select a11.id_periodo,&#xA; a16.id_compania ,&#xA; a13.id_posicion,&#xA; a11.id_producto,&#xA; a11.id_plan_producto,&#xA; a17.id_plan_agrupado_G,&#xA; a11.id_empresa_PE,&#xA; a11.id_tipo_entidad_PE,&#xA; a11.id_marca_PE,&#xA; a11.id_convenio_especial,&#xA; a11.porcentaje_cobertura_stock,&#xA; sum(a11.comer_cant_grupo_activo),&#xA; 0, -- importe capita &#xA; 0, -- importe capita ajustada&#xA; 0, -- importe capita ajustada con vacuna antigripal&#xA; 0, -- importe consumo medicamento estimado&#xA; a11.id_convenio,&#xA; a11.id_tipo_entidad_convenio&#xA;from H_COMER_STOCK_AFILIA a11&#xA; join D_PERSONAS a12&#xA;   on  (a11.id_persona = a12.id_persona)&#xA; join D_LOCALIDADES_AFILIADO a13&#xA;   on  (a12.id_localidad_afiliado = a13.id_localidad_afiliado)&#xA; join D_PLANES a14&#xA;   on  (a11.id_plan_producto = a14.id_plan_producto and &#xA; a11.id_producto = a14.id_producto)&#xA; join D_SUBRUBRO_LEY a15&#xA;   on  (a14.Id_SubRubro_Ley = a15.Id_SubRubro_Ley)&#xA; join D_RUBRO_LEY a16&#xA;   on  (a15.Id_Rubro_ley = a16.Id_Rubro_ley)&#xA; join D_PLANES_AGRUPADOS a17&#xA;   on  (a14.id_plan_agrupado = a17.id_plan_agrupado)&#xA; join D_PRODUCTOS a18&#xA;   on  (a11.id_producto = a18.id_producto)&#xA; join D_CONVENIOS_ESPECIALES a19&#xA;   on  (a11.id_convenio_especial = a19.id_convenio_especial)&#xA; join D_EMPRESAS_PE a110&#xA;   on  (a11.id_empresa_PE = a110.id_empresa_PE and &#xA; a11.id_tipo_entidad_PE = a110.id_tipo_entidad_PE)&#xA; join D_POSICION a111&#xA;   on  (a13.id_posicion = a111.id_posicion)&#xA; join D_MARCA_PROYECTO_EMPRESA a112&#xA;   on  (a11.id_marca_PE = a112.id_marca_PE)&#xA; join D_PLANES_AGRUPADOS_G a113&#xA;   on  (a17.id_plan_agrupado_G = a113.id_plan_agrupado_G)&#xA; join D_COMPANIA a114&#xA;   on  (a16.id_compania = a114.id_compania)&#xA;where (a18.Id_Clase_Producto in ('S ')&#xA; and a14.Id_SubRubro_Ley in (1, 2, 3, 5, 6, 7)&#xA; and a11.id_periodo between @periodo_desde and @periodo_hasta&#xA; and porcentaje_cobertura_stock &gt; 0&#xA; and not ((a11.id_producto = 16 and a11.id_plan_producto = 'CC   ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='CM   ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='CS1  ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='CS100')&#xA;   or  (a11.id_producto=4 and a11.id_plan_producto='M    ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='M    ')&#xA;   or  (a11.id_producto=20 and a11.id_plan_producto='M    ')&#xA;   or  (a11.id_producto=14 and a11.id_plan_producto='Z    ')&#xA;   or  (a11.id_producto=20 and a11.id_plan_producto='Z    ')&#xA;   or  (a11.id_producto=1 and a11.id_plan_producto='C    ')&#xA;   or  (a11.id_producto=4 and a11.id_plan_producto='Z    ')))&#xA;group by a16.id_compania,&#xA; a17.id_plan_agrupado_G,&#xA; a11.porcentaje_cobertura_stock,&#xA; a11.id_convenio_especial,&#xA; a11.id_marca_PE,&#xA; a11.id_empresa_PE,&#xA; a11.id_tipo_entidad_PE,&#xA; a11.id_periodo,&#xA; a13.id_posicion,&#xA; a11.id_producto,&#xA; a11.id_plan_producto,&#xA; a11.id_convenio,&#xA; a11.id_tipo_entidad_convenio&#xA;order by id_periodo&#xA;&#xA;&#xA;/*Actualizo los importe por capita desde T_CONSUMOS_MEDICAMENTOS_CAPITAS*/&#xA;&#xA;update h_consumos_medicamentos_estimados&#xA;set imp_capita_medicamentos_cf = c.capita_medicamento&#xA;from h_consumos_medicamentos_estimados h&#xA; inner join T_CONSUMOS_MEDICAMENTOS_CAPITAS c on h.porcentaje_cobertura_medicamentos = c.porcentaje_cobertura &#xA;            and c.id_compania = h.id_compañia&#xA;&#xA;/* Actualizo el importe ajustado segun los aumento calculados*/&#xA;update h_consumos_medicamentos_estimados&#xA;set imp_capita_medicamentos_ajustados_cf = imp_capita_medicamentos_cf * (aumento_medicamentos + 1)&#xA;from h_consumos_medicamentos_estimados h inner join TAumento_Medicamentos_noF4F8  a on a.id_periodo = h.id_periodo&#xA;&#xA;/*Actualiza el importe ajustado en los meses en los que se agrega el aumento por vacunas antigripales son los meses 04/05/06/07 en los que se aumentan*/&#xA;update H_CONSUMOS_MEDICAMENTOS_ESTIMADOS&#xA;set imp_capita_medicamentos_ajustados_vacunas_antigrapales_cf = imp_capita_medicamentos_ajustados_cf  * t.aumento_participacion_vacunas_antigripales&#xA;from H_CONSUMOS_MEDICAMENTOS_ESTIMADOS h inner join [TAumento_vacunas_antigripales] t on right(cast(h.id_periodo as nvarchar(6)),2) = t.mes&#xA;&#xA;/*Calculo el importe final*/&#xA;update H_CONSUMOS_MEDICAMENTOS_ESTIMADOS&#xA;set imp_consumo_medicamentos_estimado = imp_capita_medicamentos_ajustados_vacunas_antigrapales_cf * cant_stock_medicamentos_cf&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 8]"
+      DTS:CreationName=""
+      DTS:DTSID="{6bc61b51-1206-4499-a442-27bcc8cd9373}"
+      DTS:From="Package\Actualiza TAUMENTO_MEDICAMENTOS_NOF4F8"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 8"
+      DTS:To="Package\Actualizar H_CONSUMOS_MEDICAMENTOS_ESTIMADOS" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 9]"
+      DTS:CreationName=""
+      DTS:DTSID="{ee9715dc-7fab-4184-946c-697bfab8180c}"
+      DTS:From="Package\Actualiza H_CONSUMO_MEDICAMENTOS_CAPITAS"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 9"
+      DTS:To="Package\Actualiza TAUMENTO_MEDICAMENTOS_NOF4F8" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssge="clr-namespace:Microsoft.SqlServer.Graph.Extended;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+        <NodeLayout
+          Size="347,42"
+          Id="Package\Actualiza H_CONSUMO_MEDICAMENTOS_CAPITAS"
+          TopLeft="16.4779874213837,6.29245283018867" />
+        <NodeLayout
+          Size="333,42"
+          Id="Package\Actualiza TAUMENTO_MEDICAMENTOS_NOF4F8"
+          TopLeft="23.4779874213837,83.4622641509434" />
+        <NodeLayout
+          Size="376,42"
+          Id="Package\Actualizar H_CONSUMOS_MEDICAMENTOS_ESTIMADOS"
+          TopLeft="1.97798742138366,160.632075471698" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 8]"
+          TopLeft="189.977987421384,125.462264150943">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,35.1698113207546"
+              Start="0,0"
+              End="0,27.6698113207546">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,27.6698113207546" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 9]"
+          TopLeft="189.977987421384,48.2924528301887">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,35.1698113207547"
+              Start="0,0"
+              End="0,27.6698113207547">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,27.6698113207547" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <AnnotationLayout
+          Text="Solo se ejecuta cuando hay un periodo nuevo "
+          ParentId="Package"
+          Size="259,38"
+          Id="e42ea14f-473d-444f-9aa5-f35a61e1c616"
+          TopLeft="372.971698113208,5.5">
+          <AnnotationLayout.FontInfo>
+            <mssge:FontInfo
+              Family="Tahoma"
+              Size="11.25"
+              Color="#FF080000">
+              <mssge:FontInfo.TextDecorations>
+                <av:TextDecorationCollection />
+              </mssge:FontInfo.TextDecorations>
+            </mssge:FontInfo>
+          </AnnotationLayout.FontInfo>
+        </AnnotationLayout>
+        <AnnotationLayout
+          Text="de consumo"
+          ParentId="Package"
+          Size="89,38"
+          Id="2075a75d-fa12-456e-9d4c-784a31369fbd"
+          TopLeft="372.971698113208,20.4811320754717">
+          <AnnotationLayout.FontInfo>
+            <mssge:FontInfo
+              Family="Tahoma"
+              Size="11.25"
+              Color="#FF080000">
+              <mssge:FontInfo.TextDecorations>
+                <av:TextDecorationCollection />
+              </mssge:FontInfo.TextDecorations>
+            </mssge:FontInfo>
+          </AnnotationLayout.FontInfo>
+        </AnnotationLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

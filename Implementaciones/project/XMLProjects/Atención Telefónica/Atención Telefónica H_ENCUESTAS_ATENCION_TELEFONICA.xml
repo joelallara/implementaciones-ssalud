@@ -1,0 +1,101 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="10/26/2017 1:17:24 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AMS06X"
+  DTS:CreatorName="AMS\jtrinchier"
+  DTS:DTSID="{B6233F2F-7E25-4311-9405-8B1DF226FD08}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="Atención Telefónica H_ENCUESTAS_ATENCION_TELEFONICA"
+  DTS:PackageType="5"
+  DTS:VersionBuild="41"
+  DTS:VersionGUID="{D7D928BD-80A2-4AE5-B14B-A8EBAD576729}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{7787C422-C696-4802-BF83-D6E9735CB95B}"
+      DTS:ObjectName="SSIS log provider for SQL Server1">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">1,7,OnError</DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnError"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{7787C422-C696-4802-BF83-D6E9735CB95B}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza H_ENCUESTAS_ATENCION_TELEFONICA"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{305CE728-459A-4857-B656-C8B03D65DF5D}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza H_ENCUESTAS_ATENCION_TELEFONICA"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{58454B55-6F22-4144-A3E3-01AE826FF475}"
+          SQLTask:SqlStatementSource="&#xA;----- Se Declara un de Variable tomando la maxima fecha de la H_ENCUESTAS_ATENCION_TELEFONICA&#xA;Declare @Fecha date&#xA;set @Fecha = (select (CAST((select  max([fecha_encuesta]) from H_ENCUESTAS_ATENCION_TELEFONICA ) as date)))&#xA;Declare @Fechadesde datetime&#xA;set @Fechadesde = (select MAX([fecha_encuesta]) from H_ENCUESTAS_ATENCION_TELEFONICA)&#xA;&#xA;&#xA;---- Borra la información del día (en caso de realizar un reproceso)&#xA;&#xA;--Delete from H_ENCUESTAS_ATENCION_TELEFONICA&#xA;--WHERE cast([fecha_encuesta] as date) &gt; @Fecha&#xA;&#xA;&#xA;---- Inserta toda la nueva información del día&#xA;&#xA;insert into H_ENCUESTAS_ATENCION_TELEFONICA &#xA;(id_periodo,nro_renglon_encuesta_atencion_telefonica ,fecha_encuesta,id_agente_atencion_telefonica,id_encuesta_atencion_telefonica,id_pregunta_atencion_telefonica,respuesta_encuesta,cant_respuesta, id_llamada)&#xA;SELECT dbo.DevuelvePeriodo([Fecha_Hora]) as id_periodo,&#xA;       ID as nro_renglon_encuesta_atencion_telefonica&#xA;&#x9;  ,[Fecha_Hora]&#xA;      ,[Agente]&#xA;      ,[ID_Encuesta]&#xA;      ,[Pregunta]&#xA;      ,[Respuesta]&#xA;&#x9;  ,1 as cant_respuesta&#xA;&#x9;  ,IDLLAMADA as id_llamada&#xA;  FROM [IVR-417].[ContactCenter].[dbo].[Encuestas]&#xA;WHERE cast([Fecha_Hora] as date) &gt; @Fecha&#xA;and [ID_Encuesta]  not  in  (select distinct [Agente] from [IVR-417].[ContactCenter].[dbo].[Encuestas] where agente &lt;&gt; 0  )&#xA;&#xA;&#xA;----- Actualiza el campo id_usuario_supervisor&#xA;UPDATE H_ENCUESTAS_ATENCION_TELEFONICA&#xA;SET id_usuario_supervisor = ss.id_usuario_supervisor&#xA;from H_SUPERVISORES_SSALUD SS&#xA;    join H_ENCUESTAS_ATENCION_TELEFONICA h&#xA;&#x9;   on(ss.id_periodo = h.id_periodo and ss.id_login_dalpad = h.id_agente_atencion_telefonica)&#xA;where cast([fecha_encuesta] as date) &gt; @Fecha&#xA;&#xA;&#xA;&#xA;UPDATE H_ENCUESTAS_ATENCION_TELEFONICA&#xA;SET id_usuario_supervisor = S.nro_documento_supervisor&#xA;FROM H_ENCUESTAS_ATENCION_TELEFONICA H &#xA;INNER JOIN D_AGENTES_ATENCION_TELEFONICA A ON (A.id_agente_atencion_telefonica=H.id_agente_atencion_telefonica)&#xA;INNER JOIN H_SUPERVISORES_ATENTO S ON (S.id_agente_atencion_telefonica=A.id_agente_atencion_telefonica and H.id_periodo=S.id_periodo)&#xA;WHERE A.id_grupo_agente_telefonico in ( 22, 26)&#xA;and cast([fecha_encuesta] as date) &gt; @Fecha&#xA;&#xA;&#xA;UPDATE H_ENCUESTAS_ATENCION_TELEFONICA&#xA;SET objetivo_encuestas_atencion_telefonica = &#xA;CASE &#xA;&#x9;WHEN id_periodo &lt;= 201804 THEN 8.0&#xA;&#x9;WHEN id_periodo BETWEEN 201805 AND 201907 THEN 9.0&#xA;&#x9;WHEN id_periodo &gt;= 201908 THEN 9.5&#xA;&#x9;ELSE 0&#xA;END&#xA;&#xA;&#xA;/* Actualización id_compania en H_ENCUESTAS_ATENCION_TELEFONICA */&#xA;&#xA;UPDATE H_ENCUESTAS_ATENCION_TELEFONICA SET id_compania = H.id_compania&#xA;from H_ENCUESTAS_ATENCION_TELEFONICA E&#xA;inner join H_ATENCION_TELEFONICA H ON H.id_llamada = E.id_llamada&#xA;where fecha_encuesta &gt;= @Fecha&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--Esta sección CDATA contiene la información de diseño del paquete. Esta sección incluye información como, por ejemplo, las coordenadas (x,y), el ancho y el alto.-->
+<!--Si edita manualmente esta sección y comete un error, puede eliminarlo. -->
+<!--El paquete podrá cargarse normalmente, pero se perderá la información de diseño anterior y el diseñador reorganizará los elementos automáticamente en la superficie de diseño.-->
+<Objects
+  Version="8">
+  <!--Cada uno de los nodos siguientes contiene propiedades que no afectan al comportamiento en tiempo de ejecución.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="346,42"
+          Id="Package\Actualiza H_ENCUESTAS_ATENCION_TELEFONICA"
+          TopLeft="5.5,5.5" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

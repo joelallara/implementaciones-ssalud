@@ -1,0 +1,136 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="7/27/2016 8:30:04 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AMS06X"
+  DTS:CreatorName="AMS\nprida"
+  DTS:DTSID="{65AA3B00-99DA-40AD-B381-0BF26AC67369}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="Tablero_Consumos_Practicas_Medicas"
+  DTS:PackageType="5"
+  DTS:VersionBuild="23"
+  DTS:VersionGUID="{8475E548-88CB-471C-8A3B-A8A01E8AF505}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{51B86B8B-33C2-4453-B4F4-1D8B94F7AA9C}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{51B86B8B-33C2-4453-B4F4-1D8B94F7AA9C}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\DM_PRACTICAS_MEDICAS"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tarea Ejecutar SQL"
+      DTS:DTSID="{85D0C450-BC7B-4644-91EB-B231850A2AB4}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DM_PRACTICAS_MEDICAS"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{BF595323-C78F-4C6D-A7DC-EA2565A19B14}"
+          SQLTask:SqlStatementSource="-- AQ - 27.12.2019 Se ajusta ETL para detallar en cada sentencia los campos para asegurarnos consistencia, y además, estaba invertido subtipo_venta con plan_agrupado_G&#xA;-- AQ 02.01.2020 &#xA;-- Se ajusta ETL para pasar a tabla definitiva el total de registros para que luego en los reportes coincidan los totales tanto de &#xA;-- reportes de Consumos como de T3, porque con la lógica de Top10 se lograba Total=Amb+Int, pero este total era menor al de Consumos&#xA;&#xA;&#xA;&#xA;if exists (select * from sysobjects where name = 'AUX_DM_PRACTICAS')&#xA;  begin&#xA;     drop table AUX_DM_PRACTICAS&#xA;  end&#xA;GO&#xA;&#xA;Truncate Table DM_PRACTICAS_MEDICAS&#xA;&#xA;&#xA;-----calculo ambulatorio&#xA;&#xA;select    &#xA;    a11.Id_Prestacion  Id_Prestacion,&#xA;    a17.id_posicion, DRL.id_compania,&#xA;    a11.id_origen_prestacion  id_origen_prestacion,&#xA;    sum(a11.imp_prest_int_pag)  IMP_PAG,&#xA;&#x9;CE.id_subtipo_venta as id_subtipo_venta,&#xA;&#x9;a14.id_plan_agrupado_G&#xA;Into AUX_DM_PRACTICAS&#xA;from    H_ORD_INT_DET    a11&#xA;    join    D_PRESTACION    a12&#xA;      on     (a11.Id_Prestacion = a12.Id_Prestacion)&#xA;    join    D_PLANES    a13&#xA;      on     (a11.id_plan_producto = a13.id_plan_producto and a11.id_producto = a13.id_producto)&#xA;    join D_SUBRUBRO_LEY DSL&#xA;      on (a13.id_SubRubro_ley = DSL.Id_SubRubro_Ley)&#xA;    join D_RUBRO_LEY DRL&#xA;      on (DRL.Id_Rubro_ley = DSL.id_Rubro_Ley)&#xA;    join    D_PLANES_AGRUPADOS    a14&#xA;      on     (a13.id_plan_agrupado = a14.id_plan_agrupado)&#xA;    join    D_PRODUCTOS    a15&#xA;      on     (a11.id_producto = a15.id_producto)&#xA;     join D_PERSONAS a16&#xA;   on  (a11.id_persona = a16.id_persona)&#xA; join D_LOCALIDADES_AFILIADO a17&#xA;   on  (a16.id_localidad_afiliado = a17.id_localidad_afiliado)&#xA;   join H_CONVENIOS_EMPRESAS CE ON CE.id_convenio = a11.id_convenio and a11.id_tipo_entidad_convenio = CE.id_tipo_entidad_convenio and a11.id_periodo = CE.id_periodo &#xA;where    a11.ccosto2 = 1&#xA; and a15.id_segmento not in (3)&#xA; and a13.id_SubRubro_ley in (1,2,3,5,6,7)&#xA; and a11.id_reintegro in ('F', 'R')&#xA; and not EXISTS (select fpp.id_producto, fpp.id_plan_producto from FILTRO_PLAN_PRODUCTO fpp where fpp.id_producto = a11.id_producto and fpp.id_plan_producto = a11.id_plan_producto)&#xA; and a11.id_periodo in (select top 12 H.id_periodo from D_PERIODO H where H.vigente_consumo = 1 group by  H.id_periodo order by H.id_periodo DESC)&#xA; and a12.id_nomenclador in ('NM')&#xA; AND imp_prest_int_pag &lt;&gt; 0&#xA;group by    &#xA;    a11.Id_Prestacion,&#xA;    a17.id_posicion, DRL.id_compania,&#xA;    a11.id_origen_prestacion,&#xA;&#x9;CE.id_subtipo_venta, a14.id_plan_agrupado_G&#xA;&#xA;----calculo internaciones&#xA;insert Into AUX_DM_PRACTICAS&#xA;select  a11.Id_Prestacion  Id_Prestacion,&#xA;    a17.id_posicion, DRL.id_compania,&#xA;    a11.id_origen_prestacion  id_origen_prestacion,&#xA;    sum(a11.imp_pret_amb_pag)  IMP_PAG,&#xA;&#x9;CE.id_subtipo_venta as id_subtipo_venta,&#xA;&#x9;a14.id_plan_agrupado_G&#xA;from    H_ORD_AMB_DET    a11&#xA;    join    D_PRESTACION    a12&#xA;      on     (a11.Id_Prestacion = a12.Id_Prestacion)&#xA;    join    D_PLANES    a13&#xA;      on     (a11.id_plan_producto = a13.id_plan_producto and a11.id_producto = a13.id_producto)&#xA;    join    D_PLANES_AGRUPADOS    a14&#xA;      on     (a13.id_plan_agrupado = a14.id_plan_agrupado)&#xA;    join    D_PRODUCTOS    a15&#xA;      on     (a11.id_producto = a15.id_producto)&#xA;    join D_SUBRUBRO_LEY DSL&#xA;      on (a13.id_SubRubro_ley = DSL.Id_SubRubro_Ley)&#xA;    join D_RUBRO_LEY DRL&#xA;      on (DRL.Id_Rubro_ley = DSL.id_Rubro_Ley)&#xA;    join D_PERSONAS a16&#xA;      on  (a11.id_persona = a16.id_persona)&#xA;    join D_LOCALIDADES_AFILIADO a17&#xA;      on  (a16.id_localidad_afiliado = a17.id_localidad_afiliado)&#xA;&#x9;  join H_CONVENIOS_EMPRESAS CE ON CE.id_convenio = a11.id_convenio and a11.id_tipo_entidad_convenio = CE.id_tipo_entidad_convenio and a11.id_periodo = CE.id_periodo &#xA;where    ccosto2 = 1&#xA; and a15.id_segmento not in (3)&#xA; and a13.id_SubRubro_ley in (1,2,3,5,6,7)&#xA; and a11.id_reintegro in ('F', 'R')&#xA; and not EXISTS (select fpp.id_producto, fpp.id_plan_producto from FILTRO_PLAN_PRODUCTO fpp where fpp.id_producto = a11.id_producto and fpp.id_plan_producto = a11.id_plan_producto)&#xA; and a11.id_periodo in (select top 12 H.id_periodo from D_PERIODO H where H.vigente_consumo=1 group by  H.id_periodo order by H.id_periodo DESC)&#xA; and a12.id_nomenclador in ('NM')&#xA; AND imp_pret_amb_pag &lt;&gt; 0&#xA;group by    &#xA;    a11.Id_Prestacion,&#xA;    a17.id_posicion, DRL.id_compania,&#xA;    a11.id_origen_prestacion, &#xA;&#x9;CE.id_subtipo_venta, a14.id_plan_agrupado_G&#xA;&#xA;----CALCULAMOS ORIGEN DE PRESTACION TOTAL&#xA;insert into AUX_DM_PRACTICAS (Id_Prestacion, id_posicion, id_compania, id_origen_prestacion, IMP_PAG, id_subtipo_venta, id_plan_agrupado_G)&#xA;Select Id_Prestacion, id_posicion, id_compania, 'T' as id_origen_prestacion, sum(IMP_PAG) IMP_PAG, id_subtipo_venta, id_plan_agrupado_G&#xA;from AUX_DM_PRACTICAS&#xA;group by  Id_Prestacion, id_posicion, id_compania, id_subtipo_venta , id_plan_agrupado_G&#xA;&#xA;&#xA;-- Traspaso de datos a DM Definitiva&#xA;insert into DM_PRACTICAS_MEDICAS -- (AQ Se agrega campo por campo para asegurar se pase bien el dato)&#xA;&#x9;(Id_Prestacion, &#xA;&#x9;id_posicion, &#xA;&#x9;id_compania, &#xA;&#x9;id_origen_prestacion, &#xA;&#x9;imp_pag_may_practicas_T3, &#xA;&#x9;id_empresa_PE_T3, &#xA;&#x9;id_tipo_entidad_PE_T3, &#xA;&#x9;id_marca_PE_T3, &#xA;&#x9;id_subtipo_venta, &#xA;&#x9;id_plan_agrupado_G)&#xA;select &#xA;&#x9;AUX.Id_Prestacion, &#xA;&#x9;AUX.id_posicion, &#xA;&#x9;AUX.id_compania, &#xA;&#x9;AUX.id_origen_prestacion, &#xA;&#x9;AUX.IMP_PAG,&#xA;&#x9;0 as id_empresa_PE_T3 , &#xA;&#x9;'I' as id_tipo_entidad_PE_T3 ,&#xA;&#x9;0 as id_marca_PE_T3,&#xA;&#x9;AUX.id_subtipo_venta,&#xA;&#x9;AUX.id_plan_agrupado_G&#xA;from AUX_DM_PRACTICAS AUX &#xA;&#xA;&#xA;if exists (select * from sysobjects where name = 'AUX_DM_PRACTICAS')&#xA;  begin&#xA;     drop table AUX_DM_PRACTICAS&#xA;  end&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\DM_PRACTICAS_MEDICAS_DETALLE"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tarea Ejecutar SQL"
+      DTS:Disabled="True"
+      DTS:DTSID="{21B6568C-9A2C-448B-BE69-555DFE7C656C}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DM_PRACTICAS_MEDICAS_DETALLE"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{BF595323-C78F-4C6D-A7DC-EA2565A19B14}"
+          SQLTask:SqlStatementSource="if exists (select * from sysobjects where name = 'AUX_DM_PRACTICAS_DETALLE')&#xA;  begin&#xA;     drop table AUX_DM_PRACTICAS_DETALLE&#xA;  end&#xA; &#xA;Truncate table DM_PRACTICAS_MEDICAS_DETALLE&#xA;&#xA;&#xA;select&#x9;DRL.id_compania, a12.Id_Prestacion, A11.id_acreedor, A11.id_Tipo_Prestador,&#x9;sum(a11.imp_pret_amb_pag)  IMP_PAG, DM.id_subtipo_venta, DM.id_plan_agrupado_G&#xA;Into AUX_DM_PRACTICAS_DETALLE&#xA;from&#x9;DM_PRACTICAS_MEDICAS DM &#xA;&#x9;join H_ORD_AMB_DET&#x9;a11 on (a11.id_prestacion = DM.id_prestacion)&#xA;&#x9;join H_CONVENIOS_EMPRESAS CE on CE.id_convenio = a11.id_convenio and CE.id_tipo_entidad_convenio  = a11.id_tipo_entidad_convenio and a11.id_periodo = CE.id_periodo and CE.id_subtipo_venta = DM.id_subtipo_venta&#xA;&#x9;join&#x9;D_PRESTACION&#x9;a12&#xA;&#x9;  on &#x9;(a11.Id_Prestacion = a12.Id_Prestacion)&#xA;&#x9;join&#x9;D_PLANES&#x9;a13&#xA;&#x9;  on &#x9;(a11.id_plan_producto = a13.id_plan_producto and a11.id_producto = a13.id_producto)&#xA;&#x9;join D_SUBRUBRO_LEY DSL &#xA;&#x9;  on (a13.id_SubRubro_ley = DSL.Id_SubRubro_Ley)&#xA;&#x9;join D_RUBRO_LEY DRL on DSL.id_Rubro_Ley = DRL.Id_Rubro_ley&#xA;&#x9;join&#x9;D_PLANES_AGRUPADOS&#x9;a14&#xA;&#x9;  on &#x9;(a13.id_plan_agrupado = a14.id_plan_agrupado and DM.id_plan_agrupado_G = a14.id_plan_agrupado_G)&#xA;&#x9;join&#x9;D_PRODUCTOS&#x9;a15&#xA;&#x9;  on &#x9;(a11.id_producto = a15.id_producto)&#xA;&#x9; join D_PERSONAS a16&#xA;   on  (a11.id_persona = a16.id_persona)&#xA; join D_LOCALIDADES_AFILIADO a17&#xA;   on  (a16.id_localidad_afiliado = a17.id_localidad_afiliado and a17.id_posicion = DM.id_posicion)&#xA;where&#x9;a11.ccosto2 = 1&#xA; and a15.id_segmento not in (3)&#xA; and a13.id_SubRubro_ley in (1,2,3,5,6,7)&#xA; and a11.id_reintegro in ('F', 'R')&#xA; and not EXISTS (select fpp.id_producto, fpp.id_plan_producto from FILTRO_PLAN_PRODUCTO fpp where fpp.id_producto = a11.id_producto and fpp.id_plan_producto = a11.id_plan_producto)&#xA; and a11.id_periodo in (select top 12 H.id_periodo from D_PERIODO H where H.vigente_consumo = 1 group by  H.id_periodo order by H.id_periodo DESC)&#xA; and a12.id_nomenclador in ('NM')&#xA; and DM.id_origen_prestacion = 'T'&#xA;group by&#x9;A12.Id_Prestacion,&#xA;&#x9;DM.id_posicion, DRL.id_compania, a12.de_prestacion, A11.id_acreedor, A11.id_Tipo_Prestador, DM.id_subtipo_venta, DM.id_plan_agrupado_G&#xA;&#xA;insert Into AUX_DM_PRACTICAS_DETALLE&#x9;&#xA;select&#x9;DRL.id_compania, a12.Id_Prestacion, A11.id_acreedor, A11.id_Tipo_Prestador,&#x9;sum(a11.imp_prest_int_pag)  IMP_PAG, DM.id_subtipo_venta, DM.id_plan_agrupado_G&#xA;from&#x9;DM_PRACTICAS_MEDICAS DM &#xA;&#x9;join H_ORD_INT_DET&#x9;a11 on (a11.id_prestacion = DM.id_prestacion)&#xA;&#x9;join H_CONVENIOS_EMPRESAS CE on CE.id_convenio = a11.id_convenio and CE.id_tipo_entidad_convenio  = a11.id_tipo_entidad_convenio and a11.id_periodo = CE.id_periodo and CE.id_subtipo_venta = DM.id_subtipo_venta&#xA;&#x9;join&#x9;D_PRESTACION&#x9;a12&#xA;&#x9;  on &#x9;(a11.Id_Prestacion = a12.Id_Prestacion)&#xA;&#x9;join&#x9;D_PLANES&#x9;a13&#xA;&#x9;  on &#x9;(a11.id_plan_producto = a13.id_plan_producto and a11.id_producto = a13.id_producto)&#xA;&#x9;join D_SUBRUBRO_LEY DSL &#xA;&#x9;  on (a13.id_SubRubro_ley = DSL.Id_SubRubro_Ley)&#xA;&#x9;join D_RUBRO_LEY DRL on DSL.id_Rubro_Ley = DRL.Id_Rubro_ley&#xA;&#x9;join&#x9;D_PLANES_AGRUPADOS&#x9;a14&#xA;&#x9;  on &#x9;(a13.id_plan_agrupado = a14.id_plan_agrupado and DM.id_plan_agrupado_G = a14.id_plan_agrupado_G)&#xA;&#x9;join&#x9;D_PRODUCTOS&#x9;a15&#xA;&#x9;  on &#x9;(a11.id_producto = a15.id_producto)&#xA;&#x9; join D_PERSONAS a16&#xA;   on  (a11.id_persona = a16.id_persona)&#xA; join D_LOCALIDADES_AFILIADO a17&#xA;   on  (a16.id_localidad_afiliado = a17.id_localidad_afiliado and a17.id_posicion = DM.id_posicion)&#xA;where&#x9;a11.ccosto2 = 1&#xA; and a15.id_segmento not in (3)&#xA; and a13.id_SubRubro_ley in (1,2,3,5,6,7)&#xA; and a11.id_reintegro in ('F', 'R')&#xA; and not EXISTS (select fpp.id_producto, fpp.id_plan_producto from FILTRO_PLAN_PRODUCTO fpp where fpp.id_producto = a11.id_producto and fpp.id_plan_producto = a11.id_plan_producto)&#xA; and a11.id_periodo in (select top 12 H.id_periodo from D_PERIODO H where H.vigente_consumo = 1 group by  H.id_periodo order by H.id_periodo DESC)&#xA; and a12.id_nomenclador in ('NM')&#xA; and DM.id_origen_prestacion = 'T'&#xA;group by&#x9;A12.Id_Prestacion,&#xA;&#x9;DM.id_posicion, DRL.id_compania, a12.de_prestacion, A11.id_acreedor, A11.id_Tipo_Prestador, DM.id_subtipo_venta, DM.id_plan_agrupado_G&#xA;&#xA;&#x9;&#xA;INSERT INTO DM_PRACTICAS_MEDICAS_DETALLE&#xA;SELECT [id_compania]&#xA;      ,[id_prestacion]&#xA;      ,[id_acreedor]&#xA;      ,[id_tipo_prestador]&#xA;      ,IMP_PAG,&#xA;&#x9;  0 as id_empresa_PE_T3, 'I' as id_tipo_entidad_PE_T3,&#xA;       0 AS id_marca_PE_T3, &#xA;&#x9;   id_plan_agrupado_G,&#xA;&#x9;   0 as id_convenio, 'I' as id_tipo_entidad_convenio,&#xA;&#x9;   id_subtipo_venta AS id_subtipo_venta&#xA;       &#xA;  FROM AUX_DM_PRACTICAS_DETALLE&#xA;  &#xA;     &#xA;if exists (select * from sysobjects where name = 'AUX_DM_PRACTICAS_DETALLE')&#xA;  begin&#xA;     drop table AUX_DM_PRACTICAS_DETALLE&#xA;  end&#xA;&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{36A59D02-71B7-49ED-8E2C-C32891665D5B}"
+      DTS:From="Package\DM_PRACTICAS_MEDICAS"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\DM_PRACTICAS_MEDICAS_DETALLE" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="221,42"
+          Id="Package\DM_PRACTICAS_MEDICAS"
+          TopLeft="31.2311320754717,5.5" />
+        <NodeLayout
+          Size="276,42"
+          Id="Package\DM_PRACTICAS_MEDICAS_DETALLE"
+          TopLeft="3.73113207547169,106.367924528302" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="141.731132075472,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,58.867924528302"
+              Start="0,0"
+              End="0,51.367924528302">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,51.367924528302" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

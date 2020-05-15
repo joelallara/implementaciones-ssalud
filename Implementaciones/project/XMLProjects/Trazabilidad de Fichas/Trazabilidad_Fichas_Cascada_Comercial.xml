@@ -1,0 +1,77 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="9/23/2019 3:11:40 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="LA22676-08835"
+  DTS:CreatorName="AMS\nprida"
+  DTS:DTSID="{851094F5-F993-4CE7-9F02-75D0FD426DC2}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="Trazabilidad_Fichas_Cascada_Comercial"
+  DTS:PackageType="5"
+  DTS:VersionBuild="2"
+  DTS:VersionGUID="{FCCB07C9-AE67-471A-B208-AC7F6CAA319B}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{363BE67B-129F-4A75-B233-639F12C40DCD}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{363BE67B-129F-4A75-B233-639F12C40DCD}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Cascada Comercial en H_TRAZABILIDAD_FICHAS"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tarea Ejecutar SQL"
+      DTS:DTSID="{AC0A04DA-29E0-4EC1-A62C-FD3927D762F8}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Cascada Comercial en H_TRAZABILIDAD_FICHAS"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{5B962E97-F748-4463-B2EC-EB00E61A8CFD}"
+          SQLTask:SqlStatementSource="--- Declara el periodo, el mismo debe ser el maximo periodo produccion de H_Trazabilidad_Fichas&#xA;&#xA;Declare @Periodo int&#xA;Set @Periodo = (select MAX(id_periodo_produccion) from H_TRAZABILIDAD_FICHAS)&#xA;&#xA;&#xA;--- Actualizar campo de supervisor &#xA;&#xA;update H_TRAZABILIDAD_FICHAS&#xA;set id_asesor_superior_cascada_comercial =  ca.id_asesor_superior_cascada_comercial, &#xA; id_tipo_puesto_superior_cascada_comercial = ca.id_tipo_puesto_superior_cascada_comercial&#xA;from H_TRAZABILIDAD_FICHAS tr&#xA;inner join H_CASCADA_COMERCIAL ca on (tr.id_promotor = ca.id_asesor_cascada_comercial and &#xA;tr.id_periodo_produccion = ca.id_periodo)&#xA;where id_periodo_produccion &gt; = @Periodo&#xA;&#xA;--- inicializo el gerente zonal &#xA;&#xA;update H_TRAZABILIDAD_FICHAS&#xA;set id_asesor_gerente_zonal =  0, &#xA; id_tipo_puesto_gerente_zonal = 0&#xA; where id_periodo_produccion &gt; = @Periodo&#xA; &#xA;--- Me fijo si ese supervisor es Gerente Zonal y lo asigno a su campo&#xA;&#xA;update H_TRAZABILIDAD_FICHAS&#xA;set id_asesor_gerente_zonal = id_asesor_superior_cascada_comercial,&#xA;&#x9;id_tipo_puesto_gerente_zonal = id_tipo_puesto_superior_cascada_comercial, &#xA;&#x9;id_tipo_puesto_superior_cascada_comercial = 0,&#xA;&#x9;id_asesor_superior_cascada_comercial = 0&#xA;where id_tipo_puesto_superior_cascada_comercial in ( 5, 25)  and id_periodo_produccion &gt; = @Periodo&#xA;&#xA;--- Me fijo si ese supervisor es Asesor Lider y lo asigno a su campo &#xA;&#xA;update H_TRAZABILIDAD_FICHAS&#xA;set id_asesor_lider_cascada_comercial = id_asesor_superior_cascada_comercial,&#xA;&#x9;id_tipo_puesto_asesor_lider_cascada_comercial = id_tipo_puesto_superior_cascada_comercial, &#xA;&#x9;id_tipo_puesto_superior_cascada_comercial = 0,&#xA;&#x9;id_asesor_superior_cascada_comercial = 0&#xA;where id_tipo_puesto_superior_cascada_comercial = 2 and id_periodo_produccion &gt; = @Periodo&#xA;&#xA;--- Actualizar si es asesor lider su supervisor &#xA;&#xA;update H_TRAZABILIDAD_FICHAS&#xA;set id_asesor_superior_cascada_comercial =  ca.id_asesor_superior_cascada_comercial, &#xA; id_tipo_puesto_superior_cascada_comercial = ca.id_tipo_puesto_superior_cascada_comercial&#xA;from H_TRAZABILIDAD_FICHAS tr&#xA;inner join H_CASCADA_COMERCIAL ca on (tr.id_asesor_lider_cascada_comercial = ca.id_asesor_cascada_comercial&#xA;and tr.id_periodo_produccion = ca.id_periodo)&#xA;where id_periodo_produccion &gt; = @Periodo and id_tipo_puesto_asesor_lider_cascada_comercial = 2&#xA;&#xA;update H_TRAZABILIDAD_FICHAS &#xA;set id_supervisor = id_asesor_superior_cascada_comercial&#xA;where id_periodo_produccion &gt; = @Periodo and id_asesor_superior_cascada_comercial is not null&#xA;&#xA;&#xA;--- Actualizar campo de gerente zonal &#xA;&#xA;update H_TRAZABILIDAD_FICHAS&#xA;set id_asesor_gerente_zonal =  ca.id_asesor_superior_cascada_comercial, &#xA; id_tipo_puesto_gerente_zonal = ca.id_tipo_puesto_superior_cascada_comercial&#xA;from H_TRAZABILIDAD_FICHAS tr&#xA;inner join H_CASCADA_COMERCIAL ca on (tr.id_supervisor = ca.id_asesor_cascada_comercial and tr.id_periodo_produccion = ca.id_periodo)&#xA;where id_periodo_produccion &gt; = @Periodo&#xA;&#xA;update H_TRAZABILIDAD_FICHAS&#xA;set id_gerente_zonal = gz.id_gerente_zonal&#xA;from H_TRAZABILIDAD_FICHAS tr &#xA;inner join D_GERENTE_ZONAL gz on (gz.id_asesor_cascada_comercial = tr.id_asesor_gerente_zonal)&#xA;where id_periodo_produccion &gt; = @Periodo&#xA;&#xA;update H_TRAZABILIDAD_FICHAS&#xA;set id_gerente_zonal = 99&#xA;where id_gerente_zonal is null and id_periodo_produccion &gt; = @Periodo&#xA;&#xA;--- Actualizar campo de gerente regional&#xA;&#xA;update H_TRAZABILIDAD_FICHAS&#xA;set id_asesor_gerente_regional =  ca.id_asesor_superior_cascada_comercial, &#xA; id_tipo_puesto_gerente_regional = ca.id_tipo_puesto_superior_cascada_comercial&#xA;from H_TRAZABILIDAD_FICHAS tr&#xA;inner join H_CASCADA_COMERCIAL ca on (tr.id_asesor_gerente_zonal = ca.id_asesor_cascada_comercial and tr.id_periodo_produccion = ca.id_periodo)&#xA;where id_periodo_produccion &gt; = @Periodo&#xA;&#xA;update H_TRAZABILIDAD_FICHAS&#xA;set id_gerente_regional = gz.id_gerente_regional&#xA;from H_TRAZABILIDAD_FICHAS tr &#xA;inner join D_GERENTE_REGIONAL gz on (gz.id_asesor_cascada_comercial = tr.id_asesor_gerente_regional)&#xA;where id_periodo_produccion &gt; = @Periodo&#xA;&#xA;update H_TRAZABILIDAD_FICHAS&#xA;set id_gerente_regional = 99&#xA;where id_gerente_regional is null and id_periodo_produccion &gt; = @Periodo&#xA;&#xA;--- Casos especiales&#xA;&#xA;update H_TRAZABILIDAD_FICHAS&#xA;set id_supervisor = 510&#xA;where id_periodo_produccion &gt; = @Periodo and id_marca_informe_trazabilidad = 1&#xA;and id_asesor_superior_cascada_comercial = 0 and id_promotor = 513&#xA;&#xA;&#xA;update H_TRAZABILIDAD_FICHAS &#xA;set id_supervisor = id_promotor,&#xA;id_asesor_superior_cascada_Comercial = id_promotor,&#xA;id_tipo_puesto_superior_cascada_comercial = 3&#xA;where id_promotor in (5004, 5042)and id_marca_informe_trazabilidad = 1&#xA;and id_periodo_produccion &gt; = @Periodo&#xA;&#xA;&#xA;&#xA;&#xA;--- Actualizar campo de supervisor &#xA;&#xA;update H_TRAZABILIDAD_FICHAS&#xA;set id_zona_comercial_promotor = ca.id_zona_comercial_promotor&#xA;from H_TRAZABILIDAD_FICHAS tr&#xA;inner join H_CASCADA_COMERCIAL ca on (tr.id_promotor = ca.id_asesor_cascada_comercial and &#xA;tr.id_periodo_produccion = ca.id_periodo)&#xA;where id_periodo_produccion &gt; = @Periodo&#xA;&#xA;&#xA;&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--Esta sección CDATA contiene la información de diseño del paquete. Esta sección incluye información como, por ejemplo, las coordenadas (x,y), el ancho y el alto.-->
+<!--Si edita manualmente esta sección y comete un error, puede eliminarlo. -->
+<!--El paquete podrá cargarse normalmente, pero se perderá la información de diseño anterior y el diseñador reorganizará los elementos automáticamente en la superficie de diseño.-->
+<Objects
+  Version="8">
+  <!--Cada uno de los nodos siguientes contiene propiedades que no afectan al comportamiento en tiempo de ejecución.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="332,42"
+          Id="Package\Cascada Comercial en H_TRAZABILIDAD_FICHAS"
+          TopLeft="273,119" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

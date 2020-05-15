@@ -5,41 +5,24 @@ from shutil import copyfile, rmtree
 from pathlib import Path
 import json
 
-
-def main():
-    global SERVER_PROJECTS_FOLDER_PATH
-    global XML_PROJECTS_FOLDER
-    global PROJECT_EXCEPTIONS
-    #PROJECTS_FOLDER_PATH = '//P-IS-01/SSIS2017$/02 - Proyectos SSIS'
-    SERVER_PROJECTS_FOLDER_PATH = 'D:/Django/implementaciones-ssalud/Implementaciones/project/ProjectsCopy'
-    XML_PROJECTS_FOLDER = 'XMLProjects/'
-    PROJECT_EXCEPTIONS = {'Indicadores Estrategicos': 1,
+global SERVER_PROJECTS_FOLDER_PATH
+global XML_PROJECTS_FOLDER
+global PROJECT_EXCEPTIONS
+SERVER_PROJECTS_FOLDER_PATH = 'Z:/02 - Proyectos SSIS'#'D:/Django/implementaciones-ssalud/Implementaciones/project/ProjectsCopy'
+XML_PROJECTS_FOLDER = 'project/XMLProjects/'
+PROJECT_EXCEPTIONS = {'Indicadores Estrategicos': 1,
                       'Presupuesto vs Balance': 1,
                       'Trazabilidad de Fichas': 1,
                       'Data Comercial': 1,
-                      'Data Ordenes e Internaciones': 2}
+                      'Data Ordenes e Internaciones': 2,
+                      'Web Centrix': 3}
+
+
+def main():
     print(get_projects_data())
     #delete_file_resultado_txt()
     #is_input_empty()
     #results()
-
-
-# global SERVER_PROJECTS_FOLDER_PATH
-# global XML_PROJECTS_FOLDER
-# global PROJECT_EXCEPTIONS
-# SERVER_PROJECTS_FOLDER_PATH = 'D:/Django/implementaciones-ssalud/Implementaciones/project/ProjectsCopy'
-# XML_PROJECTS_FOLDER = 'XMLProjects/'
-# PROJECT_EXCEPTIONS = {'Indicadores Estrategicos': 1,
-#                       'Presupuesto vs Balance': 1,
-#                       'Trazabilidad de Fichas': 1,
-#                       'Data Comercial': 1,
-#                       'Data Ordenes e Internaciones': 2}
-
-
-class ProjectList:
-    def __init__(self, p_name, p_packages={}):
-        self.name = p_name
-        self.packages = p_packages
 
 
 def resolver_ruta(ruta_relativa):
@@ -57,33 +40,28 @@ def get_projects_data():
             print("Error: No existen proyectos en la ruta " + SERVER_PROJECTS_FOLDER_PATH + "\n")
             pass
         else:
-            i = 0
-            projects_data = []
-            projects_data_dict = {}
-            project_package_dict = {}
+            projects = []
             for each_project in projects_list:
                 project_name = each_project
-                projects_data_dict[i] = {'project_name':project_name}
+                project = {"project_name": project_name, "packages": []}
                 files_list = os.listdir(get_project_path_files_from(project_name, SERVER_PROJECTS_FOLDER_PATH))
                 project_dtsx_files_list = [each_file for each_file in files_list if each_file[-5:] == ".dtsx"]
                 project_files_list = copy_project_dtsx_files_to_XML_folder(project_name, project_dtsx_files_list)
-                project = ProjectList(project_name)
-                projects_data_dict.append(project_name)
                 if project_files_list:
                     for each_package in project_files_list:
                         package_name = each_package[:-4]
-                        project_package_tasks_names = get_package_task_data(project_name, package_name)
-                    project.packages = project_package_dict
-                    projects_data_dict["packages"] = project_package_dict
-                    projects_data.append(project)
-                else:
-                    print("No existen paquetes para el proyecto: "+ project_name +"\n")
-                    pass
-                i += 1
-            return projects_data_dict      
+                        package_tasks_list = get_package_task_data(project_name, package_name)
+                        package = {"package_name": package_name, "tasks":[]}
+                        for each_task in package_tasks_list:
+                            package["tasks"].append({"task_name": each_task})
+                        project["packages"].append(package)
+                    projects.append(project)
+            projects_json = json.dumps(projects)
+            return projects_json
     except FileNotFoundError as err:
         print("Error de carpeta: No existe la ruta proporcionada o no tiene permisos"+str(err)+"\n")
-        sys.exit()
+        error = json.dumps({"Error"})
+        return error
 
 """Copia los archivos DSTX de cada proyecto a la carpeta local XMLProjects"""
 def copy_project_dtsx_files_to_XML_folder(project_name, project_dtsx_files_list=[]):
@@ -109,7 +87,9 @@ def get_project_path_files_from(project_name,folder=None):
             if PROJECT_EXCEPTIONS[project_name] == 1:
                 project_files_path = folder+"/"+project_name
             elif PROJECT_EXCEPTIONS[project_name] == 2:
-                project_files_path = folder+"/Data Ordenes e Internaciones Vigente"
+                project_files_path = folder+"/Data Ordenes e Internaciones/Data Ordenes e Internaciones Vigente"
+            elif PROJECT_EXCEPTIONS[project_name] == 3:
+                project_files_path = folder+"/Web Centrix/WebCentrix"
         else:
             project_files_path = folder +'/'+ project_name +'/'+ project_name
     return project_files_path
@@ -129,17 +109,14 @@ def delete_XMLProjects_folder_files():
 
 """Devuelve listas con las task pertenecientes al package"""
 def get_package_task_data(project_name, package_name):
-    # project_package_tasks_names = []
-    project_package_tasks_names_dict = {}
+    project_package_tasks_names = []
     doc = xml.dom.minidom.parse(XML_PROJECTS_FOLDER+project_name+"/"+package_name+".xml")
     dts_padre = doc.getElementsByTagName("DTS:Executables")
     for pprop in dts_padre:
         dts_hijo = pprop.getElementsByTagName("DTS:Executable")
         for hprop in dts_hijo:
             task = hprop.attributes._attrs['DTS:ObjectName'].nodeValue
-            # project_package_tasks_names.append(task)
-            project_package_tasks_names_dict["task_name"].append(task)
-            
+            project_package_tasks_names.append(task)     
     return project_package_tasks_names
 
 
@@ -156,7 +133,8 @@ def is_folder_empty():
 
 """Obtiene listado de proyectos que se encuentran en el servidor P-IS-01"""
 def get_projects_list_from_server():
-    projects_list = os.listdir(SERVER_PROJECTS_FOLDER_PATH)
+    #projects_list = os.listdir(SERVER_PROJECTS_FOLDER_PATH)
+    projects_list = [ name for name in os.listdir(SERVER_PROJECTS_FOLDER_PATH) if os.path.isdir(os.path.join(SERVER_PROJECTS_FOLDER_PATH, name)) ]
     return projects_list
 
 """Obtiene el listado de proyectos que se encuentran en la carpeta local XMLProjects"""
@@ -232,3 +210,4 @@ def find_in_txt(string_search, package, task):
 
 if __name__ == "__main__":
     main()
+

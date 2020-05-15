@@ -1,0 +1,156 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/30/2017 8:43:57 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AMS06X"
+  DTS:CreatorName="AMS\pgonzalez"
+  DTS:DTSID="{B7A6517B-958E-4415-BB65-494C42BC6941}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="Aranceles Evolucion D_TIPOS_GALENOS_UNIDADES"
+  DTS:PackageType="5"
+  DTS:VersionBuild="16"
+  DTS:VersionGUID="{4B8F3556-7F3A-4965-AE98-3CD2AA4E6A4D}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{3796D864-0F05-4935-98F2-E29EBA7FEC2D}"
+      DTS:ObjectName="SSIS log provider for SQL Server1">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">1,7,OnError</DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnError"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{3796D864-0F05-4935-98F2-E29EBA7FEC2D}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza D_TIPOS_GALENOS_UNIDADES"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{435DA1C2-CF9E-4315-A217-FF63C8400D64}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza D_TIPOS_GALENOS_UNIDADES"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{7705AE95-4A1E-4600-AF08-B019CC52882F}"
+          SQLTask:SqlStatementSource="&#xA;&#xA;&#xA;/* Actualiza Descripciones. */&#xA;&#x9;UPDATE D_TIPOS_GALENOS_UNIDADES&#xA;&#x9;SET de_galeno_unidad = A.TGG_DES&#xA;&#x9;FROM HOST03.HOST03.DESARROLLO.ACR026 A&#xA;&#x9;JOIN D_TIPOS_GALENOS_UNIDADES T on A.TGG_COD = T.id_galeno_unidad&#xA;&#xA;/* Actualiza nuevos ID. */&#xA;&#x9;INSERT INTO D_TIPOS_GALENOS_UNIDADES&#xA;&#x9;(id_galeno_unidad, de_galeno_unidad, id_tipo_galeno_unidad)&#xA;&#x9;SELECT TGG_COD as id_galeno_unidad, TGG_DES as de_galeno_unidad, 'X' as id_tipo_galeno_unidad&#xA;&#x9;FROM HOST03.HOST03.DESARROLLO.ACR026&#xA;&#x9;WHERE TGG_COD not in (select distinct id_galeno_unidad from D_TIPOS_GALENOS_UNIDADES)&#xA;&#x9;&#xA;&#x9;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Detecta Nuevos ID e Informa"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{D713C353-9807-4FAD-AAFA-159ECDF648D4}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Detecta Nuevos ID e Informa"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{7705AE95-4A1E-4600-AF08-B019CC52882F}"
+          SQLTask:SqlStatementSource="IF (select COUNT(TGG_COD) &#xA;FROM HOST03.HOST03.DESARROLLO.ACR026&#xA;WHERE TGG_COD not in (select distinct id_galeno_unidad from D_TIPOS_GALENOS_UNIDADES)) &gt; 0&#xA;&#xA;&#x9;begin&#xA;&#xA;EXEC msdb.dbo.sp_send_dbmail&#xA;&#x9;&#x9;&#x9;@profile_name = 'Soporte MicroStrategy',&#xA;&#x9;&#x9;&#x9;@recipients = 'nicolas.borio@sancorsalud.com.ar; nicolas.prida@sancorsalud.com.ar; juanfrancisco.trinchieri@sancorsalud.com.ar,',&#xA;&#x9;&#x9;&#x9;@subject = 'Data Arancesles: Nuevo Tipo de Galeno o Unidad.',&#xA;&#x9;&#x9;&#x9;@body = 'Se detecto un nuevo Codigo de galeno o unidad en Data de Aranceles. Solo hay que averiguar si es Galeno o Unidad Sanatorial y actualizar la siguiente tabla: &#xA;&#x9;&#x9;&#x9;&#x9;&#xA;&#x9;&#x9;&#x9;&#x9;Proyecto: Data Aranceles.&#xA;&#x9;&#x9;&#x9;&#x9;Paquete: Actualiza_D_TIPOS_GALENOS_UNIDADES.dtsx&#xA;&#x9;&#x9;&#x9;&#x9;Tabla: &quot;D_TIPOS_GALENOS_UNIDADES&quot; &#xA;&#x9;&#x9;&#x9;&#x9;Campo: &quot;id_tipo_galeno_unidad = Debe ser G (Galeno) o U (Unidad Sanatorial).&quot;&#xA;&#xA;Las descripciones que traen los campos son bien intuitivas.&#xA;&#xA;',&#xA;&#xA;@query = 'SELECT TGG_COD as id_galeno_unidad, TGG_DES as de_galeno_unidad&#xA;FROM HOST03.HOST03.DESARROLLO.ACR026&#xA;WHERE TGG_COD not in (select distinct id_galeno_unidad from D_TIPOS_GALENOS_UNIDADES)',&#xA;&#x9;&#x9;&#x9;&#x9;@query_result_separator = '|',&#xA;&#x9;&#x9;&#x9;&#x9;@execute_query_database = 'DW_SALUD';&#xA;&#xA;end" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{0EEB5702-1B1D-409C-B931-FD99AC6563A0}"
+      DTS:From="Package\Detecta Nuevos ID e Informa"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Actualiza D_TIPOS_GALENOS_UNIDADES" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="296,42"
+          Id="Package\Actualiza D_TIPOS_GALENOS_UNIDADES"
+          TopLeft="0.632075471698101,86.6698113207547" />
+        <NodeLayout
+          Size="220,42"
+          Id="Package\Detecta Nuevos ID e Informa"
+          TopLeft="38.6320754716981,5.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="148.632075471698,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,39.1698113207547"
+              Start="0,0"
+              End="0,31.6698113207547">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.6698113207547" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

@@ -1,0 +1,315 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/3/2019 2:14:42 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AMS06X"
+  DTS:CreatorName="AMS\jtrinchier"
+  DTS:DTSID="{2BE932A5-2738-4924-8CEE-A353887F446B}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="Atención Personal H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL"
+  DTS:PackageType="5"
+  DTS:VersionBuild="21"
+  DTS:VersionGUID="{D7DF1A92-2A44-44EA-AC10-EE08597D95A4}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{ADFE1760-4F19-4A40-9BDE-CA81EF4BEE6B}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">1,7,OnError</DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnError"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{ADFE1760-4F19-4A40-9BDE-CA81EF4BEE6B}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza  AUX_H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{64e5a750-de4e-49fe-90b3-eb663fbfdbd2}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza  AUX_H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{4081693F-AEA7-4256-9077-CD881119B1DE}"
+          SQLTask:SqlStatementSource="--- Variable para tomar información 7 días antes del día actual, para procesar toda la info de un mes para atras.&#xA;Declare @fecha_proceso_7_días_atras date&#xA;Set @fecha_proceso_7_días_atras = (SELECT (cast(GETDATE() - 7  as datetime)))&#xA;&#xA;/*  Inserta en la H_respuestas_encuesta_atencion_personal */&#xA;&#xA;SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED&#xA;&#xA;INSERT INTO Consultas_dw.dbo.AUX_H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL ([id_periodo], [fecha_respuesta_encuesta_turno], [respuesta_recibida_turno], [cant_respuestas_recibidas], [objetivo_encuesta_atencion_personal], [id_usuario_turno], [id_posicion], [telefono_respuesta_encuesta], [customer_id])&#xA;SELECT dbo.DevuelvePeriodo(E.answered_at) AS id_periodo, E.answered_at as fecha_respuesta_encuesta_turno, CASE WHEN ISNUMERIC(filtered_answer)=1 AND filtered_answer IN ('1', '2', '3', '4', '5', '6', '7', '8', '9', '10') THEN filtered_answer ELSE 0 END as respuesta_recibida_turno, 1 as cant_respuestas_recibidas, 0 as objetivo_encuesta_atencion_personal, u.id as id_usuario_turno, P.id_posicion as id_posicion, E.phone as telefono_respuesta_encuesta, E.id as customer_id&#xA;FROM OPENQUERY([ENCUESTAS_DEBMEDIA],&#xA;'SELECT a.filtered_answer, answered_at, tf.field_value, sq.survey_id, sq.id as id_pregunta, sy.branch_id, c.phone, c.id&#xA;FROM debqsurvey.answer_sancorsalud a&#xA;INNER JOIN debqsurvey.answer_tf_sancorsalud atf on (atf.answer_id=a.id)&#xA;INNER JOIN debqsurvey.track_field_sancorsalud tf on (atf.track_field_id=tf.id)&#xA;INNER JOIN debqsurvey.survey_question_sancorsalud sq on (sq.id=a.question_id)&#xA;INNER JOIN debqsurvey.survey_sancorsalud sy on (sq.survey_id=sy.id)&#xA;INNER JOIN debqsurvey.customer_sancorsalud c on (c.id=a.customer_id) &#xA;WHERE field_name = ''quser.id''') E&#xA;INNER JOIN [DEBQCLIENTSDB.DEBMEDIA.COM].[debq].[dbo].[qusers_sancorsalud] q ON (q.id=E.field_value)&#xA;INNER JOIN [DEBQCLIENTSDB.DEBMEDIA.COM].[debq].[dbo].[uusers_sancorsalud] u ON (Q.u_user_id=u.id)&#xA;INNER JOIN D_POSICION_BRANCH_TURNOS P ON (P.id_totem_encuesta=E.branch_id)&#xA;WHERE e.answered_at &gt;=  @fecha_proceso_7_días_atras  ---- crear variable de tiempo para hacer el proceso dinamico&#xA;group by dbo.DevuelvePeriodo(E.answered_at),&#xA;        E.answered_at,&#xA;        filtered_answer,&#xA;        u.id,&#xA;        P.id_posicion,        &#xA;        E.phone,&#xA;        E.id&#xA;&#xA;&#xA;/* Actualiza el nro_documento_encuesta_turno buscando por codigo cliente */&#xA;&#xA;UPDATE  Consultas_dw.dbo.AUX_H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL&#xA;SET nro_documento_encuesta_turno = dbo.RemoverChars(C.dni)&#xA;FROM  Consultas_dw.dbo.AUX_H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL  E &#xA;INNER JOIN [DEBQCLIENTSDB.DEBMEDIA.COM].[debq].[dbo].[qcustomers_sancorsalud] C &#xA;ON (C.survey_customer_id  = e.customer_id)&#xA;WHERE nro_documento_encuesta_turno IS NULL&#xA;&#xA;/* Actualiza el nro_documento_encuesta_turno */&#xA;&#xA;UPDATE  Consultas_dw.dbo.AUX_H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL&#xA;SET nro_documento_encuesta_turno = dbo.RemoverChars(C.dni)&#xA;FROM  Consultas_dw.dbo.AUX_H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL  E &#xA;INNER JOIN [DEBQCLIENTSDB.DEBMEDIA.COM].[debq].[dbo].[qcustomers_sancorsalud] C ON (C.phone COLLATE SQL_Latin1_General_CP850_CI_AI=E.telefono_respuesta_encuesta)&#xA;WHERE nro_documento_encuesta_turno IS NULL&#xA;&#xA;UPDATE  Consultas_dw.dbo.AUX_H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL&#xA;SET nro_documento_encuesta_turno = 0&#xA;WHERE nro_documento_encuesta_turno IS NULL&#xA;&#xA;UPDATE Consultas_dw.dbo.AUX_H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL&#xA;SET objetivo_encuesta_atencion_personal = &#xA;CASE &#xA;&#x9;WHEN id_periodo &lt;= 201907 THEN 9.0&#xA;&#x9;WHEN id_periodo &gt;= 201908 THEN 9.5&#xA;&#x9;ELSE 0&#xA;END" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza Campos en null por valores por defecto"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{6377BA7F-AA38-4332-9216-51078C175477}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza Campos en null por valores por defecto"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{4081693F-AEA7-4256-9077-CD881119B1DE}"
+          SQLTask:SqlStatementSource="--- Actualiza campos en null H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL con valores por defecto para Gerente&#xA;&#xA;UPDATE  H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL  SET id_empresa_legajo_gerente  = 'F/D'&#xA;from H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL where id_empresa_legajo_gerente is null&#xA;&#xA;UPDATE  H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL  SET id_legajo_gerente  = 0&#xA;from H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL where id_legajo_gerente is null&#xA;&#xA;--- Actualiza campos en null H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL con valores por defecto para Jefe Regional&#xA;&#xA;UPDATE  H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL  SET id_empresa_legajo_jefe_regional  = 'F/D'&#xA;from H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL where id_empresa_legajo_jefe_regional is null&#xA;&#xA;UPDATE  H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL  SET id_legajo_jefe_regional  = 0&#xA;from H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL where id_legajo_jefe_regional is null&#xA;&#xA;--- Actualiza campos en null H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL con valores por defecto para Supervisor Zonal&#xA;&#xA;UPDATE  H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL  SET id_empresa_legajo_supervisor_zonal  = 'F/D'&#xA;from H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL where id_empresa_legajo_supervisor_zonal is null&#xA;&#xA;UPDATE  H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL  SET id_legajo_supervisor_zonal  = 0&#xA;from H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL where id_legajo_supervisor_zonal is null&#xA;&#xA;--- Actualiza campos en null H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL con valores por defecto para Responsable CAR&#xA;&#xA;UPDATE  H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL  SET id_empresa_legajo_responsable_car  = 'F/D'&#xA;from H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL where id_empresa_legajo_responsable_car is null&#xA;&#xA;UPDATE  H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL  SET id_legajo_responsable_car  = 0&#xA;from H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL where id_legajo_responsable_car is null&#xA;&#xA;--- Actualiza campos en null H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL con valores por defecto para Oficial Atención&#xA;&#xA;UPDATE  H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL  SET id_empresa_legajo_oficial_atencion  = 'F/D'&#xA;from H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL where id_empresa_legajo_oficial_atencion is null&#xA;&#xA;UPDATE  H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL  SET id_legajo_oficial_atencion  = 0&#xA;from H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL where id_legajo_oficial_atencion is null" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{a09cc705-c81b-4fb7-86b6-dc892f3dbc45}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{4081693F-AEA7-4256-9077-CD881119B1DE}"
+          SQLTask:SqlStatementSource="---- Actualizacion a la   H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL  por id_empresa_legajo_supervisor_zonal e id_legajo_supervisor_zonal&#xA;UPDATE H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL&#xA;SET id_empresa_legajo_gerente = h.id_empresa_legajo_gerente,&#xA;id_legajo_gerente =  h.id_legajo_gerente,&#xA; id_empresa_legajo_jefe_regional = h.id_empresa_legajo_jefe_regional,&#xA;id_legajo_jefe_regional = h.id_legajo_jefe_regional,&#xA;id_empresa_legajo_supervisor_zonal =  h.id_empresa_legajo_supervisor_zonal,&#xA;id_legajo_supervisor_zonal = h.id_legajo_supervisor_zonal,&#xA;id_empresa_legajo_responsable_car = h.id_empresa_legajo_responsable_car,&#xA;id_legajo_responsable_car = h.id_legajo_responsable_car,&#xA;id_empresa_legajo_oficial_atencion = h.id_empresa_legajo_oficial_atencion,&#xA;id_legajo_oficial_atencion =  h.id_legajo_oficial_atencion&#xA;from H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL T&#xA;inner join D_USUARIOS_TURNOS U on U.id_usuario_turno = T.id_usuario_turno&#xA;inner join D_PERSONAS_CASCADA_ATENCION P on P.email_usuario_turno = U.email_usuario_turno &#xA;inner join H_CASCADA_ATENCION H on H.id_empresa_legajo_supervisor_zonal = p.id_empresa_legajo&#xA;and h.id_legajo_supervisor_zonal = p.id_legajo&#xA;and T.id_periodo = H.id_periodo&#xA;----- &#xA;---- Actualizacion a la   H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL  por id_empresa_legajo_responsable_car e id_legajo_responsable_car&#xA;UPDATE H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL&#xA;SET id_empresa_legajo_gerente = h.id_empresa_legajo_gerente,&#xA;id_legajo_gerente =  h.id_legajo_gerente,&#xA; id_empresa_legajo_jefe_regional = h.id_empresa_legajo_jefe_regional,&#xA;id_legajo_jefe_regional = h.id_legajo_jefe_regional,&#xA;id_empresa_legajo_supervisor_zonal =  h.id_empresa_legajo_supervisor_zonal,&#xA;id_legajo_supervisor_zonal = h.id_legajo_supervisor_zonal,&#xA;id_empresa_legajo_responsable_car = h.id_empresa_legajo_responsable_car,&#xA;id_legajo_responsable_car = h.id_legajo_responsable_car,&#xA;id_empresa_legajo_oficial_atencion = h.id_empresa_legajo_oficial_atencion,&#xA;id_legajo_oficial_atencion =  h.id_legajo_oficial_atencion&#xA;from H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL T&#xA;inner join D_USUARIOS_TURNOS U on U.id_usuario_turno = T.id_usuario_turno&#xA;inner join D_PERSONAS_CASCADA_ATENCION P on P.email_usuario_turno = U.email_usuario_turno &#xA;inner join H_CASCADA_ATENCION H on H.id_empresa_legajo_responsable_car = p.id_empresa_legajo&#xA;and h.id_legajo_responsable_car = p.id_legajo&#xA;and T.id_periodo = H.id_periodo&#xA;&#xA;---- Actualizacion a la   H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL  por id_empresa_legajo_oficial_atencion e id_legajo_oficial_atencion&#xA;&#xA;UPDATE H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL&#xA;SET id_empresa_legajo_gerente = h.id_empresa_legajo_gerente,&#xA;id_legajo_gerente =  h.id_legajo_gerente,&#xA; id_empresa_legajo_jefe_regional = h.id_empresa_legajo_jefe_regional,&#xA;id_legajo_jefe_regional = h.id_legajo_jefe_regional,&#xA;id_empresa_legajo_supervisor_zonal =  h.id_empresa_legajo_supervisor_zonal,&#xA;id_legajo_supervisor_zonal = h.id_legajo_supervisor_zonal,&#xA;id_empresa_legajo_responsable_car = h.id_empresa_legajo_responsable_car,&#xA;id_legajo_responsable_car = h.id_legajo_responsable_car,&#xA;id_empresa_legajo_oficial_atencion = h.id_empresa_legajo_oficial_atencion,&#xA;id_legajo_oficial_atencion =  h.id_legajo_oficial_atencion&#xA;from H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL T&#xA;inner join D_USUARIOS_TURNOS U on U.id_usuario_turno = T.id_usuario_turno&#xA;inner join D_PERSONAS_CASCADA_ATENCION P on P.email_usuario_turno = U.email_usuario_turno &#xA;inner join H_CASCADA_ATENCION H on H.id_empresa_legajo_oficial_atencion = p.id_empresa_legajo&#xA;and h.id_legajo_oficial_atencion = p.id_legajo&#xA;and T.id_periodo = H.id_periodo&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Borra AUX_H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{dc1521d4-7859-4112-9081-5e6adc100909}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Borra AUX_H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{FFCB1F0F-D2F2-4FB8-BCF6-274B5B994DFC}"
+          SQLTask:SqlStatementSource="/* Borra la Tabla Auxiliar */&#xA;&#xA;  Truncate Table  Consultas_dw.dbo.AUX_H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Inserta en H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{a4d8d568-e02d-4225-ad32-a9d05ae24c93}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Inserta en H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{4081693F-AEA7-4256-9077-CD881119B1DE}"
+          SQLTask:SqlStatementSource="--- Variable para tomar información 7 días antes del día actual, para procesar toda la info de un mes para atras.&#xA;Declare @fecha_proceso_7_días_atras date&#xA;Set @fecha_proceso_7_días_atras = (SELECT (cast(GETDATE() - 7  as datetime)))&#xA;&#xA;--INSERTA LA UNION DE AMBAS TABLAS EN LA TABLA PRINCIPAL.&#xA;&#xA;--- Borra en la Tabla H_ENCUESTAS_ATENCION_PERSONAL las que se van a procesar para no duplicar información.&#xA;&#xA;DELETE H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL WHERE  fecha_respuesta_encuesta_turno  &gt; =  @fecha_proceso_7_días_atras &#xA;&#xA;/*  Inserta en la H_respuestas_encuesta_atencion_personal */&#xA;&#xA;INSERT INTO H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL ([id_periodo], [fecha_respuesta_encuesta_turno], [respuesta_recibida_turno], [cant_respuestas_recibidas], [objetivo_encuesta_atencion_personal], [id_usuario_turno], [id_posicion], [telefono_respuesta_encuesta], [nro_documento_encuesta_turno])&#xA;SELECT id_periodo, fecha_respuesta_encuesta_turno, respuesta_recibida_turno, cant_respuestas_recibidas, objetivo_encuesta_atencion_personal, id_usuario_turno, id_posicion, telefono_respuesta_encuesta, nro_documento_encuesta_turno&#xA;FROM Consultas_dw.dbo.AUX_H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL&#xA;WHERE fecha_respuesta_encuesta_turno &gt;=  @fecha_proceso_7_días_atras" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{37647A14-AB70-40E6-86D8-BA6214C2F4DB}"
+      DTS:From="Package\Actualiza H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Actualiza Campos en null por valores por defecto" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{00b736ea-7416-43b6-8f70-fd625b715fa7}"
+      DTS:From="Package\Actualiza  AUX_H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Inserta en H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{65d5d5d4-9889-48b7-b66f-4a1bdbc92e68}"
+      DTS:From="Package\Borra AUX_H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Actualiza  AUX_H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{E02D57D3-E290-48F2-AAB5-C0DAEF64E4F7}"
+      DTS:From="Package\Inserta en H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Actualiza H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--Esta sección CDATA contiene la información de diseño del paquete. Esta sección incluye información como, por ejemplo, las coordenadas (x,y), el ancho y el alto.-->
+<!--Si edita manualmente esta sección y comete un error, puede eliminarlo. -->
+<!--El paquete podrá cargarse normalmente, pero se perderá la información de diseño anterior y el diseñador reorganizará los elementos automáticamente en la superficie de diseño.-->
+<Objects
+  Version="8">
+  <!--Cada uno de los nodos siguientes contiene propiedades que no afectan al comportamiento en tiempo de ejecución.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="448,42"
+          Id="Package\Actualiza  AUX_H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL"
+          TopLeft="5.25094339622643,76.4056603773585" />
+        <NodeLayout
+          Size="318,42"
+          Id="Package\Actualiza Campos en null por valores por defecto"
+          TopLeft="70.2509433962264,289.122641509434" />
+        <NodeLayout
+          Size="417,42"
+          Id="Package\Actualiza H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL"
+          TopLeft="20.7509433962264,218.216981132075" />
+        <NodeLayout
+          Size="428,42"
+          Id="Package\Borra AUX_H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL"
+          TopLeft="15.2509433962264,5.5" />
+        <NodeLayout
+          Size="421,42"
+          Id="Package\Inserta en H_RESPUESTAS_ENCUESTAS_ATENCION_PERSONAL"
+          TopLeft="18.7509433962264,147.311320754717" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="229.250943396226,260.216981132075">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,28.905660377359"
+              Start="0,0"
+              End="0,21.405660377359">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,21.405660377359" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="229.250943396226,118.405660377359">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,28.9056603773585"
+              Start="0,0"
+              End="0,21.4056603773585">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,21.4056603773585" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="229.250943396226,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,28.9056603773585"
+              Start="0,0"
+              End="0,21.4056603773585">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,21.4056603773585" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="229.250943396226,189.311320754717">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,28.905660377358"
+              Start="0,0"
+              End="0,21.405660377358">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,21.405660377358" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

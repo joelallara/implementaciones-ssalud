@@ -1,0 +1,2593 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="3/14/2019 1:13:33 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="DES3070"
+  DTS:CreatorName="AMS\mpaludi"
+  DTS:DelayValidation="True"
+  DTS:DTSID="{2F834F4E-5480-4179-BDA8-681750A841AA}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="3082"
+  DTS:ObjectName="SubsidiosSuprasuf H_SUBSIDIOS_SUPRA_SUF"
+  DTS:PackageType="5"
+  DTS:VersionBuild="81"
+  DTS:VersionGUID="{38D9C319-0830-4CC4-B533-A43FE6E74B42}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{EF514134-478C-425B-93EF-60313038EA62}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{019B9553-F95C-4F3B-B612-94D45DD2F457}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="periodo">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">1,7,OnError</DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnError"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{EF514134-478C-425B-93EF-60313038EA62}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza AUX"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{3af87d7d-35c4-4f08-89e0-bdd6d43356a2}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza AUX"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{D6E65282-2246-4414-A5A0-E6DE8100BF77}"
+          SQLTask:SqlStatementSource="-- Calcula Periodo &#xA;update aux_h_supra&#xA;set id_periodo = cast(left(fecha_liquidacion_pago,6) as int) &#xA;&#xA; -- Unifica en un solo evento el caso de pago de subsidio a más de un heredero &#xA;select a0.SBS_NEV, suma into #temp_prorateo from &#xA;as400.host03.desarrollo.sbs000 a0 inner join &#xA;(select EVE_NRO, sum(SBF_IMP) suma from as400.host03.desarrollo.sbs003 group by EVE_NRO) T on a0.SBS_NEV = t.EVE_NRO&#xA;&#xA;update aux_h_supra&#xA;set imp_cod_pag = t.suma&#xA;from aux_h_supra A   inner join #temp_prorateo t on a.id_codigo_evento = t.SBS_NEV&#xA;where id_subsidio_supra_suf = 2&#xA;&#xA; &#xA;update aux_h_supra&#xA;set id_plan_producto = id_plan_producto collate Modern_Spanish_CI_AS&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza tablas de dimension"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{3c7154f5-0862-4772-bfb6-166042ef2a47}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza tablas de dimension"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{D6E65282-2246-4414-A5A0-E6DE8100BF77}"
+          SQLTask:SqlStatementSource=" select id_prestacion,left(id_prestacion,2) as id_nomenclador, right(rtrim(id_prestacion),len(id_prestacion)-2) as de_codigo_prestacion ,cast ('' as varchar(50)) as de_prestacion,99 as id_capitulo,&#xA; 99 as id_subcapitulo, 99 as id_seccion, 'N' as id_seguir_prestacion, 99 as id_grupo_prestacion, 99 as id_subgrupo_prestacion, 9999 as id_accion_farmacologica,99 as id_servicio_prest,&#xA; 'S' as id_catalogada, 9 as id_cod_resolucion, 999 as id_nivel_capacitacion, 999 as id_complegidad, 0 as id_provision_prest, '' as id_subro_ind_consumo,&#xA; 'N' as id_prestacion_oncologica, null as id_prestacion_homologada, 0 as id_marca_recupero_sur, 0 as simulador_convenio, 0 as evolucion_pareto, 0 as orden_parteo, null as id_grupo_prestaciones_irp&#xA;  into #temp_prest_nuevas &#xA; from H_SUBSIDIO_SUPRA_SUf where id_prestacion not in (select id_prestacion from d_prestacion)&#xA; group by id_prestacion&#xA;&#xA; update #temp_prest_nuevas&#xA; set de_prestacion = nmc_des collate Modern_Spanish_CI_AS&#xA; from #temp_prest_nuevas h inner join as400.host03.desarrollo.QRG008 q8 &#xA; on q8.nmc_cod collate Modern_Spanish_CI_AS = h.de_codigo_prestacion&#xA;&#xA;&#xA;insert into d_prestacion&#xA;select *, null as id_requiere_informe from #temp_prest_nuevas" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza Variable"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{60115D2A-E37E-478F-B40F-A6163FF3E78E}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza Variable"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{D6E65282-2246-4414-A5A0-E6DE8100BF77}"
+          SQLTask:SqlStatementSource="select dbo.periodosanteriores(dbo.devuelveperiodo(getdate()),7) *100+1 as periodo&#xA;&#xA;--select 201801as periodo&#xA;"
+          SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="periodo"
+            SQLTask:DtsVariableName="User::periodo" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Borro Tabla"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{50D29956-4B94-4100-9200-62EEB3675084}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Borro Tabla"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{D6E65282-2246-4414-A5A0-E6DE8100BF77}"
+          SQLTask:SqlStatementSource="Truncate table aux_h_supra" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Carga Suf"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:DelayValidation="True"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{215c4ce3-027e-423a-b486-1c9115b3b569}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Carga Suf"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <pipeline
+          BLOBTempStoragePath=""
+          bufferTempStoragePath=""
+          version="1">
+          <components>
+            <component
+              refId="Package\Carga Suf\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[AUX_H_SUPRA]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Carga Suf\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="{D6E65282-2246-4414-A5A0-E6DE8100BF77}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DS_DW_SALUD]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ID_CODIGO_EVENTO]"
+                      cachedDataType="decimal"
+                      cachedName="ID_CODIGO_EVENTO"
+                      externalMetadataColumnId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_codigo_evento]"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_CODIGO_EVENTO]" />
+                    <inputColumn
+                      refId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ID_PRODUCTO]"
+                      cachedDataType="decimal"
+                      cachedName="ID_PRODUCTO"
+                      externalMetadataColumnId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_producto]"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_PRODUCTO]" />
+                    <inputColumn
+                      refId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ID_PLAN_PRODUCTO]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="5"
+                      cachedName="ID_PLAN_PRODUCTO"
+                      externalMetadataColumnId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_plan_producto]"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_PLAN_PRODUCTO]" />
+                    <inputColumn
+                      refId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ID_CLASE_PRODUCTO]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="ID_CLASE_PRODUCTO"
+                      externalMetadataColumnId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_clase_producto]"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_CLASE_PRODUCTO]" />
+                    <inputColumn
+                      refId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ID_PERSONA]"
+                      cachedDataType="decimal"
+                      cachedName="ID_PERSONA"
+                      externalMetadataColumnId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_persona]"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_PERSONA]" />
+                    <inputColumn
+                      refId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ID_ACREEDOR]"
+                      cachedDataType="decimal"
+                      cachedName="ID_ACREEDOR"
+                      externalMetadataColumnId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_acreedor]"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_ACREEDOR]" />
+                    <inputColumn
+                      refId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ID_TIPO_PRESTADOR]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="ID_TIPO_PRESTADOR"
+                      externalMetadataColumnId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_tipo_prestador]"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_TIPO_PRESTADOR]" />
+                    <inputColumn
+                      refId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[CANT_COD]"
+                      cachedDataType="i4"
+                      cachedName="CANT_COD"
+                      externalMetadataColumnId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[cant_cod]"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[CANT_COD]" />
+                    <inputColumn
+                      refId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[CANT_COD_PAG]"
+                      cachedDataType="i4"
+                      cachedName="CANT_COD_PAG"
+                      externalMetadataColumnId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[cant_cod_pag]"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[CANT_COD_PAG]" />
+                    <inputColumn
+                      refId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[IMP_COD_PAG]"
+                      cachedDataType="decimal"
+                      cachedName="IMP_COD_PAG"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[imp_cod_pag]"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[IMP_COD_PAG]" />
+                    <inputColumn
+                      refId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[FECHA_PRESTACION]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="8"
+                      cachedName="FECHA_PRESTACION"
+                      externalMetadataColumnId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_prestacion]"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[FECHA_PRESTACION]" />
+                    <inputColumn
+                      refId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[FECHA_RECEPCION]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="8"
+                      cachedName="FECHA_RECEPCION"
+                      externalMetadataColumnId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_recepcion]"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[FECHA_RECEPCION]" />
+                    <inputColumn
+                      refId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[FECHA_LIQUIDACION_PAGO]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="8"
+                      cachedName="FECHA_LIQUIDACION_PAGO"
+                      externalMetadataColumnId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_liquidacion_pago]"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[FECHA_LIQUIDACION_PAGO]" />
+                    <inputColumn
+                      refId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[NUMERO_CHEQUE]"
+                      cachedDataType="decimal"
+                      cachedName="NUMERO_CHEQUE"
+                      externalMetadataColumnId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[numero_cheque]"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[NUMERO_CHEQUE]" />
+                    <inputColumn
+                      refId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[IMPORTE_CHEQUE]"
+                      cachedDataType="numeric"
+                      cachedName="IMPORTE_CHEQUE"
+                      cachedPrecision="11"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[importe_cheque]"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[IMPORTE_CHEQUE]" />
+                    <inputColumn
+                      refId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ID_NOMENCLADOR]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="ID_NOMENCLADOR"
+                      externalMetadataColumnId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_nomenclador]"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_NOMENCLADOR]" />
+                    <inputColumn
+                      refId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ID_TIPO_EVENTO]"
+                      cachedDataType="i4"
+                      cachedName="ID_TIPO_EVENTO"
+                      externalMetadataColumnId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_tipo_evento_subsidio_suf]"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_TIPO_EVENTO]" />
+                    <inputColumn
+                      refId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ID_ESTADO_EVENTO]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="ID_ESTADO_EVENTO"
+                      externalMetadataColumnId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_estado_evento_suf]"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_ESTADO_EVENTO]" />
+                    <inputColumn
+                      refId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[COD_SUBSIDIO]"
+                      cachedDataType="i4"
+                      cachedName="COD_SUBSIDIO"
+                      externalMetadataColumnId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_subsidio_supra_suf]"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[COD_SUBSIDIO]" />
+                    <inputColumn
+                      refId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ID_PRESTACION]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="8"
+                      cachedName="ID_PRESTACION"
+                      externalMetadataColumnId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_prestacion]"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_PRESTACION]" />
+                    <inputColumn
+                      refId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[USUARIO_CARGA]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="15"
+                      cachedName="USUARIO_CARGA"
+                      externalMetadataColumnId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[usuario_carga]"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[USUARIO_CARGA]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_periodo]"
+                      dataType="i4"
+                      name="id_periodo" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_codigo_evento]"
+                      dataType="i4"
+                      name="id_codigo_evento" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_subsidio_supra_suf]"
+                      dataType="i4"
+                      name="id_subsidio_supra_suf" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_producto]"
+                      dataType="i4"
+                      name="id_producto" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_plan_producto]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      name="id_plan_producto" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_clase_producto]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="id_clase_producto" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_persona]"
+                      dataType="i4"
+                      name="id_persona" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_acreedor]"
+                      dataType="i4"
+                      name="id_acreedor" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_tipo_prestador]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="id_tipo_prestador" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_prestacion]"
+                      dataType="i4"
+                      name="id_prestacion" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_tipo_evento_subsidio_suf]"
+                      dataType="i4"
+                      name="id_tipo_evento_subsidio_suf" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_estado_evento_suf]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="id_estado_evento_suf" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[cant_cod]"
+                      dataType="i4"
+                      name="cant_cod" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[cant_cod_pag]"
+                      dataType="i4"
+                      name="cant_cod_pag" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[imp_cod_pag]"
+                      dataType="numeric"
+                      name="imp_cod_pag"
+                      precision="12"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[eventos_distintos]"
+                      dataType="i4"
+                      name="eventos_distintos" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[usuario_carga]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      name="usuario_carga" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_prestacion]"
+                      dataType="i4"
+                      name="fecha_prestacion" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_recepcion]"
+                      dataType="i4"
+                      name="fecha_recepcion" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_liquidacion_pago]"
+                      dataType="i4"
+                      name="fecha_liquidacion_pago" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[numero_cheque]"
+                      dataType="i4"
+                      name="numero_cheque" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[importe_cheque]"
+                      dataType="numeric"
+                      name="importe_cheque"
+                      precision="12"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_nomenclador]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="id_nomenclador" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Carga Suf\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Carga Suf\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Carga Suf\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Carga Suf\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Carga Suf\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Carga Suf\OLE DB Source"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE DB Source"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select  a0.SBS_NEV  as id_codigo_evento, 
+ 2 as cod_subsidio,
+ 0 as id_producto, 
+ a0.sbs_pla as id_plan_producto,
+ '' as id_clase_producto,
+ a0.sbs_npe as id_persona, 
+ 0 as id_acreedor, 
+ '0' as id_tipo_prestador,
+ 0 as id_prestacion,
+ a0.SBS_TVC as id_tipo_evento, 
+ SBS_ESC  as id_estado_evento,
+ 1 as cant_cod, 
+ 0 cant_cod_pag, 
+ 0 as imp_cod_pag, 
+ '' as usuario_carga,
+ '0' as fecha_prestacion,
+ '0' as fecha_recepcion,
+ a0.sbs_fpa as fecha_liquidacion_pago, 
+ 0 as numero_cheque,
+ 0 as importe_cheque,
+ '' as id_nomenclador
+ from desarrollo.sbs000 a0
+ where a0.sbs_fpa &gt;= ?</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping">"""00001""",{019B9553-F95C-4F3B-B612-94D45DD2F457};</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Carga Suf\OLE DB Source.Connections[OleDbConnection]"
+                  connectionManagerID="{3BAE3609-AB7A-4FE4-BFD8-D10FB2214777}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DS_HOST03]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_CODIGO_EVENTO]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_CODIGO_EVENTO]"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_CODIGO_EVENTO]"
+                      name="ID_CODIGO_EVENTO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_PRODUCTO]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_PRODUCTO]"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_PRODUCTO]"
+                      name="ID_PRODUCTO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_PLAN_PRODUCTO]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_PLAN_PRODUCTO]"
+                      length="5"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_PLAN_PRODUCTO]"
+                      name="ID_PLAN_PRODUCTO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_CLASE_PRODUCTO]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_CLASE_PRODUCTO]"
+                      length="1"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_CLASE_PRODUCTO]"
+                      name="ID_CLASE_PRODUCTO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_PERSONA]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_PERSONA]"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_PERSONA]"
+                      name="ID_PERSONA"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_ACREEDOR]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_ACREEDOR]"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_ACREEDOR]"
+                      name="ID_ACREEDOR"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_TIPO_PRESTADOR]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_TIPO_PRESTADOR]"
+                      length="1"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_TIPO_PRESTADOR]"
+                      name="ID_TIPO_PRESTADOR"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_PRESTACION]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_PRESTACION]"
+                      length="8"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_PRESTACION]"
+                      name="ID_PRESTACION"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_TIPO_EVENTO]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_TIPO_EVENTO]"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_TIPO_EVENTO]"
+                      name="ID_TIPO_EVENTO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_ESTADO_EVENTO]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_ESTADO_EVENTO]"
+                      length="1"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_ESTADO_EVENTO]"
+                      name="ID_ESTADO_EVENTO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[CANT_COD]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CANT_COD]"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[CANT_COD]"
+                      name="CANT_COD"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[CANT_COD_PAG]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CANT_COD_PAG]"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[CANT_COD_PAG]"
+                      name="CANT_COD_PAG"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[IMP_COD_PAG]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[IMP_COD_PAG]"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[IMP_COD_PAG]"
+                      name="IMP_COD_PAG"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[USUARIO_CARGA]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[USUARIO_CARGA]"
+                      length="15"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[USUARIO_CARGA]"
+                      name="USUARIO_CARGA"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[FECHA_PRESTACION]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[FECHA_PRESTACION]"
+                      length="8"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[FECHA_PRESTACION]"
+                      name="FECHA_PRESTACION"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[FECHA_RECEPCION]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[FECHA_RECEPCION]"
+                      length="8"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[FECHA_RECEPCION]"
+                      name="FECHA_RECEPCION"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[FECHA_LIQUIDACION_PAGO]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[FECHA_LIQUIDACION_PAGO]"
+                      length="8"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[FECHA_LIQUIDACION_PAGO]"
+                      name="FECHA_LIQUIDACION_PAGO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[NUMERO_CHEQUE]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[NUMERO_CHEQUE]"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[NUMERO_CHEQUE]"
+                      name="NUMERO_CHEQUE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[IMPORTE_CHEQUE]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[IMPORTE_CHEQUE]"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[IMPORTE_CHEQUE]"
+                      name="IMPORTE_CHEQUE"
+                      precision="11"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_NOMENCLADOR]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_NOMENCLADOR]"
+                      length="1"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_NOMENCLADOR]"
+                      name="ID_NOMENCLADOR"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[COD_SUBSIDIO]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[COD_SUBSIDIO]"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].Columns[COD_SUBSIDIO]"
+                      name="COD_SUBSIDIO"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_CODIGO_EVENTO]"
+                      dataType="decimal"
+                      name="ID_CODIGO_EVENTO" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_PRODUCTO]"
+                      dataType="i4"
+                      name="ID_PRODUCTO" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_PLAN_PRODUCTO]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      name="ID_PLAN_PRODUCTO" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_CLASE_PRODUCTO]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="ID_CLASE_PRODUCTO" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_PERSONA]"
+                      dataType="decimal"
+                      name="ID_PERSONA" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_ACREEDOR]"
+                      dataType="i4"
+                      name="ID_ACREEDOR" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_TIPO_PRESTADOR]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="ID_TIPO_PRESTADOR" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_PRESTACION]"
+                      dataType="i4"
+                      name="ID_PRESTACION" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_TIPO_EVENTO]"
+                      dataType="decimal"
+                      name="ID_TIPO_EVENTO" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_ESTADO_EVENTO]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="ID_ESTADO_EVENTO" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CANT_COD]"
+                      dataType="i4"
+                      name="CANT_COD" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CANT_COD_PAG]"
+                      dataType="i4"
+                      name="CANT_COD_PAG" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[IMP_COD_PAG]"
+                      dataType="i4"
+                      name="IMP_COD_PAG" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[USUARIO_CARGA]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="USUARIO_CARGA" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[FECHA_PRESTACION]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="FECHA_PRESTACION" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[FECHA_RECEPCION]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="FECHA_RECEPCION" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[FECHA_LIQUIDACION_PAGO]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      name="FECHA_LIQUIDACION_PAGO" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[NUMERO_CHEQUE]"
+                      dataType="i4"
+                      name="NUMERO_CHEQUE" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[IMPORTE_CHEQUE]"
+                      dataType="i4"
+                      name="IMPORTE_CHEQUE" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_NOMENCLADOR]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="ID_NOMENCLADOR" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[COD_SUBSIDIO]"
+                      dataType="i4"
+                      name="COD_SUBSIDIO" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_CODIGO_EVENTO]"
+                      dataType="decimal"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_CODIGO_EVENTO]"
+                      name="ID_CODIGO_EVENTO" />
+                    <outputColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[COD_SUBSIDIO]"
+                      dataType="i4"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[COD_SUBSIDIO]"
+                      name="COD_SUBSIDIO" />
+                    <outputColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_PRODUCTO]"
+                      dataType="i4"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_PRODUCTO]"
+                      name="ID_PRODUCTO" />
+                    <outputColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_PLAN_PRODUCTO]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_PLAN_PRODUCTO]"
+                      name="ID_PLAN_PRODUCTO" />
+                    <outputColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_CLASE_PRODUCTO]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_CLASE_PRODUCTO]"
+                      name="ID_CLASE_PRODUCTO" />
+                    <outputColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_PERSONA]"
+                      dataType="decimal"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_PERSONA]"
+                      name="ID_PERSONA" />
+                    <outputColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_ACREEDOR]"
+                      dataType="i4"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_ACREEDOR]"
+                      name="ID_ACREEDOR" />
+                    <outputColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_TIPO_PRESTADOR]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_TIPO_PRESTADOR]"
+                      name="ID_TIPO_PRESTADOR" />
+                    <outputColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_PRESTACION]"
+                      dataType="i4"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_PRESTACION]"
+                      name="ID_PRESTACION" />
+                    <outputColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_TIPO_EVENTO]"
+                      dataType="decimal"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_TIPO_EVENTO]"
+                      name="ID_TIPO_EVENTO" />
+                    <outputColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_ESTADO_EVENTO]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_ESTADO_EVENTO]"
+                      name="ID_ESTADO_EVENTO" />
+                    <outputColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CANT_COD]"
+                      dataType="i4"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CANT_COD]"
+                      name="CANT_COD" />
+                    <outputColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CANT_COD_PAG]"
+                      dataType="i4"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CANT_COD_PAG]"
+                      name="CANT_COD_PAG" />
+                    <outputColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[IMP_COD_PAG]"
+                      dataType="i4"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[IMP_COD_PAG]"
+                      name="IMP_COD_PAG" />
+                    <outputColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[USUARIO_CARGA]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[USUARIO_CARGA]"
+                      name="USUARIO_CARGA" />
+                    <outputColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[FECHA_PRESTACION]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[FECHA_PRESTACION]"
+                      name="FECHA_PRESTACION" />
+                    <outputColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[FECHA_RECEPCION]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[FECHA_RECEPCION]"
+                      name="FECHA_RECEPCION" />
+                    <outputColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[FECHA_LIQUIDACION_PAGO]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[FECHA_LIQUIDACION_PAGO]"
+                      name="FECHA_LIQUIDACION_PAGO" />
+                    <outputColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[NUMERO_CHEQUE]"
+                      dataType="i4"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[NUMERO_CHEQUE]"
+                      name="NUMERO_CHEQUE" />
+                    <outputColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[IMPORTE_CHEQUE]"
+                      dataType="i4"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[IMPORTE_CHEQUE]"
+                      name="IMPORTE_CHEQUE" />
+                    <outputColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_NOMENCLADOR]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_NOMENCLADOR]"
+                      name="ID_NOMENCLADOR" />
+                    <outputColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Carga Suf.Paths[OLE DB Source Output]"
+              endId="Package\Carga Suf\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\Carga Suf\OLE DB Source.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Carga Supra"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:DelayValidation="True"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{7BFBBA3A-9EE9-4B11-B9E6-C2D604C74924}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Carga Supra"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <pipeline
+          BLOBTempStoragePath=""
+          bufferTempStoragePath=""
+          version="1">
+          <components>
+            <component
+              refId="Package\Carga Supra\Data Conversion 1"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Data Conversion;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Data Conversion"
+              localeId="3082"
+              name="Data Conversion 1"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Carga Supra\Data Conversion 1.Inputs[Data Conversion Input]"
+                  name="Data Conversion Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Carga Supra\Data Conversion 1.Inputs[Data Conversion Input].Columns[ID_PRESTACION]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="8"
+                      cachedName="ID_PRESTACION"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_PRESTACION]"
+                      name="ID_PRESTACION" />
+                    <inputColumn
+                      refId="Package\Carga Supra\Data Conversion 1.Inputs[Data Conversion Input].Columns[USUARIO_CARGA]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="15"
+                      cachedName="USUARIO_CARGA"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[USUARIO_CARGA]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Carga Supra\Data Conversion 1.Outputs[Data Conversion Output]"
+                  exclusionGroup="1"
+                  name="Data Conversion Output"
+                  synchronousInputId="Package\Carga Supra\Data Conversion 1.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Carga Supra\Data Conversion 1.Outputs[Data Conversion Output].Columns[Copy of ID_PRESTACION]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Carga Supra\Data Conversion 1.Outputs[Data Conversion Output].Columns[Copy of ID_PRESTACION]"
+                      name="Copy of ID_PRESTACION"
+                      precision="18"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_PRESTACION]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Carga Supra\Data Conversion 1.Outputs[Data Conversion Output].Columns[Copy of USUARIO_CARGA]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\Carga Supra\Data Conversion 1.Outputs[Data Conversion Output].Columns[Copy of USUARIO_CARGA]"
+                      name="Copy of USUARIO_CARGA"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[USUARIO_CARGA]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Carga Supra\Data Conversion 1.Outputs[Data Conversion Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Data Conversion Error Output"
+                  synchronousInputId="Package\Carga Supra\Data Conversion 1.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Carga Supra\Data Conversion 1.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Carga Supra\Data Conversion 1.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Carga Supra\Data Conversion 1.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Carga Supra\Data Conversion 1.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Carga Supra\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[AUX_H_SUPRA]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Carga Supra\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="{D6E65282-2246-4414-A5A0-E6DE8100BF77}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DS_DW_SALUD]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ID_CODIGO_EVENTO]"
+                      cachedDataType="decimal"
+                      cachedName="ID_CODIGO_EVENTO"
+                      externalMetadataColumnId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_codigo_evento]"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_CODIGO_EVENTO]" />
+                    <inputColumn
+                      refId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ID_PRODUCTO]"
+                      cachedDataType="decimal"
+                      cachedName="ID_PRODUCTO"
+                      externalMetadataColumnId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_producto]"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_PRODUCTO]" />
+                    <inputColumn
+                      refId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ID_PLAN_PRODUCTO]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="5"
+                      cachedName="ID_PLAN_PRODUCTO"
+                      externalMetadataColumnId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_plan_producto]"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_PLAN_PRODUCTO]" />
+                    <inputColumn
+                      refId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ID_CLASE_PRODUCTO]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="ID_CLASE_PRODUCTO"
+                      externalMetadataColumnId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_clase_producto]"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_CLASE_PRODUCTO]" />
+                    <inputColumn
+                      refId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ID_PERSONA]"
+                      cachedDataType="decimal"
+                      cachedName="ID_PERSONA"
+                      externalMetadataColumnId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_persona]"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_PERSONA]" />
+                    <inputColumn
+                      refId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ID_ACREEDOR]"
+                      cachedDataType="decimal"
+                      cachedName="ID_ACREEDOR"
+                      externalMetadataColumnId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_acreedor]"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_ACREEDOR]" />
+                    <inputColumn
+                      refId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ID_TIPO_PRESTADOR]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="ID_TIPO_PRESTADOR"
+                      externalMetadataColumnId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_tipo_prestador]"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_TIPO_PRESTADOR]" />
+                    <inputColumn
+                      refId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[CANT_COD]"
+                      cachedDataType="i4"
+                      cachedName="CANT_COD"
+                      externalMetadataColumnId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[cant_cod]"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[CANT_COD]" />
+                    <inputColumn
+                      refId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[CANT_COD_PAG]"
+                      cachedDataType="i4"
+                      cachedName="CANT_COD_PAG"
+                      externalMetadataColumnId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[cant_cod_pag]"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[CANT_COD_PAG]" />
+                    <inputColumn
+                      refId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[IMP_COD_PAG]"
+                      cachedDataType="decimal"
+                      cachedName="IMP_COD_PAG"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[imp_cod_pag]"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[IMP_COD_PAG]" />
+                    <inputColumn
+                      refId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[FECHA_PRESTACION]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="8"
+                      cachedName="FECHA_PRESTACION"
+                      externalMetadataColumnId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_prestacion]"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[FECHA_PRESTACION]" />
+                    <inputColumn
+                      refId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[FECHA_RECEPCION]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="8"
+                      cachedName="FECHA_RECEPCION"
+                      externalMetadataColumnId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_recepcion]"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[FECHA_RECEPCION]" />
+                    <inputColumn
+                      refId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[FECHA_LIQUIDACION_PAGO]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="8"
+                      cachedName="FECHA_LIQUIDACION_PAGO"
+                      externalMetadataColumnId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_liquidacion_pago]"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[FECHA_LIQUIDACION_PAGO]" />
+                    <inputColumn
+                      refId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[NUMERO_CHEQUE]"
+                      cachedDataType="decimal"
+                      cachedName="NUMERO_CHEQUE"
+                      externalMetadataColumnId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[numero_cheque]"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[NUMERO_CHEQUE]" />
+                    <inputColumn
+                      refId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[IMPORTE_CHEQUE]"
+                      cachedDataType="numeric"
+                      cachedName="IMPORTE_CHEQUE"
+                      cachedPrecision="11"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[importe_cheque]"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[IMPORTE_CHEQUE]" />
+                    <inputColumn
+                      refId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ID_NOMENCLADOR]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="ID_NOMENCLADOR"
+                      externalMetadataColumnId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_nomenclador]"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_NOMENCLADOR]" />
+                    <inputColumn
+                      refId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[COD_SUBSIDIOS]"
+                      cachedDataType="i4"
+                      cachedName="COD_SUBSIDIOS"
+                      externalMetadataColumnId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_subsidio_supra_suf]"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[COD_SUBSIDIOS]" />
+                    <inputColumn
+                      refId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ID_TIPO_EVENTO]"
+                      cachedDataType="i4"
+                      cachedName="ID_TIPO_EVENTO"
+                      externalMetadataColumnId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_tipo_evento_subsidio_suf]"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_TIPO_EVENTO]" />
+                    <inputColumn
+                      refId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ID_ESTADO_EVENTO]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="ID_ESTADO_EVENTO"
+                      externalMetadataColumnId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_estado_evento_suf]"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_ESTADO_EVENTO]" />
+                    <inputColumn
+                      refId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of USUARIO_CARGA]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="Copy of USUARIO_CARGA"
+                      externalMetadataColumnId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[usuario_carga]"
+                      lineageId="Package\Carga Supra\Data Conversion 1.Outputs[Data Conversion Output].Columns[Copy of USUARIO_CARGA]" />
+                    <inputColumn
+                      refId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of ID_PRESTACION]"
+                      cachedDataType="numeric"
+                      cachedName="Copy of ID_PRESTACION"
+                      cachedPrecision="18"
+                      externalMetadataColumnId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_prestacion]"
+                      lineageId="Package\Carga Supra\Data Conversion 1.Outputs[Data Conversion Output].Columns[Copy of ID_PRESTACION]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_periodo]"
+                      dataType="i4"
+                      name="id_periodo" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_codigo_evento]"
+                      dataType="i4"
+                      name="id_codigo_evento" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_subsidio_supra_suf]"
+                      dataType="i4"
+                      name="id_subsidio_supra_suf" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_producto]"
+                      dataType="i4"
+                      name="id_producto" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_plan_producto]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      name="id_plan_producto" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_clase_producto]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="id_clase_producto" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_persona]"
+                      dataType="i4"
+                      name="id_persona" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_acreedor]"
+                      dataType="i4"
+                      name="id_acreedor" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_tipo_prestador]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="id_tipo_prestador" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_prestacion]"
+                      dataType="i4"
+                      name="id_prestacion" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_tipo_evento_subsidio_suf]"
+                      dataType="i4"
+                      name="id_tipo_evento_subsidio_suf" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_estado_evento_suf]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="id_estado_evento_suf" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[cant_cod]"
+                      dataType="i4"
+                      name="cant_cod" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[cant_cod_pag]"
+                      dataType="i4"
+                      name="cant_cod_pag" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[imp_cod_pag]"
+                      dataType="numeric"
+                      name="imp_cod_pag"
+                      precision="12"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[eventos_distintos]"
+                      dataType="i4"
+                      name="eventos_distintos" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[usuario_carga]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      name="usuario_carga" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_prestacion]"
+                      dataType="i4"
+                      name="fecha_prestacion" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_recepcion]"
+                      dataType="i4"
+                      name="fecha_recepcion" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_liquidacion_pago]"
+                      dataType="i4"
+                      name="fecha_liquidacion_pago" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[numero_cheque]"
+                      dataType="i4"
+                      name="numero_cheque" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[importe_cheque]"
+                      dataType="numeric"
+                      name="importe_cheque"
+                      precision="12"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_nomenclador]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="id_nomenclador" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Carga Supra\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Carga Supra\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Carga Supra\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Carga Supra\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Carga Supra\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Carga Supra\OLE DB Source"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE DB Source"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select a10.eve_co as id_codigo_evento,
+1 as cod_subsidios ,
+a10.EVE_SRC as id_producto,
+a10.eve_pla as id_plan_producto,
+''as id_clase_producto, 
+a10.eve_npe as id_persona,
+a10.eve_prc as id_acreedor, 
+'P' as id_tipo_prestador,
+a11.NMC_COD as id_prestacion, 
+0 as id_tipo_evento, 
+'0' as id_estado_evento,
+1 as cant_cod,
+1 as  cant_cod_pag,
+EVE_IMP as imp_cod_pag, 
+a11.EVE_USR as usuario_carga, 
+a11.EVE_REA as fecha_prestacion,
+a11.EVE_REC as fecha_recepcion, 
+a10.EVE_FLI as fecha_liquidacion_pago,
+a10.eve_nch as numero_cheque,
+a10.EVE_impch as importe_cheque,  
+''  as id_nomenclador 
+from desarrollo.QRG010 a10 inner join  desarrollo.QRG011 a11 on a10.eve_co = a11.eve_co					
+ where EVE_FLI &gt;= ?</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping">"""00001""",{019B9553-F95C-4F3B-B612-94D45DD2F457};</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Carga Supra\OLE DB Source.Connections[OleDbConnection]"
+                  connectionManagerID="{3BAE3609-AB7A-4FE4-BFD8-D10FB2214777}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DS_HOST03]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_CODIGO_EVENTO]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_CODIGO_EVENTO]"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_CODIGO_EVENTO]"
+                      name="ID_CODIGO_EVENTO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[COD_SUBSIDIOS]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[COD_SUBSIDIOS]"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[COD_SUBSIDIOS]"
+                      name="COD_SUBSIDIOS"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_PRODUCTO]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_PRODUCTO]"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_PRODUCTO]"
+                      name="ID_PRODUCTO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_PLAN_PRODUCTO]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_PLAN_PRODUCTO]"
+                      length="5"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_PLAN_PRODUCTO]"
+                      name="ID_PLAN_PRODUCTO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_CLASE_PRODUCTO]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_CLASE_PRODUCTO]"
+                      length="1"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_CLASE_PRODUCTO]"
+                      name="ID_CLASE_PRODUCTO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_PERSONA]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_PERSONA]"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_PERSONA]"
+                      name="ID_PERSONA"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_ACREEDOR]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_ACREEDOR]"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_ACREEDOR]"
+                      name="ID_ACREEDOR"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_TIPO_PRESTADOR]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_TIPO_PRESTADOR]"
+                      length="1"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_TIPO_PRESTADOR]"
+                      name="ID_TIPO_PRESTADOR"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_PRESTACION]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_PRESTACION]"
+                      length="8"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_PRESTACION]"
+                      name="ID_PRESTACION"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_TIPO_EVENTO]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_TIPO_EVENTO]"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_TIPO_EVENTO]"
+                      name="ID_TIPO_EVENTO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_ESTADO_EVENTO]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_ESTADO_EVENTO]"
+                      length="1"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_ESTADO_EVENTO]"
+                      name="ID_ESTADO_EVENTO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[CANT_COD]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CANT_COD]"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[CANT_COD]"
+                      name="CANT_COD"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[CANT_COD_PAG]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CANT_COD_PAG]"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[CANT_COD_PAG]"
+                      name="CANT_COD_PAG"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[IMP_COD_PAG]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[IMP_COD_PAG]"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[IMP_COD_PAG]"
+                      name="IMP_COD_PAG"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[USUARIO_CARGA]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[USUARIO_CARGA]"
+                      length="15"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[USUARIO_CARGA]"
+                      name="USUARIO_CARGA"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[FECHA_PRESTACION]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[FECHA_PRESTACION]"
+                      length="8"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[FECHA_PRESTACION]"
+                      name="FECHA_PRESTACION"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[FECHA_RECEPCION]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[FECHA_RECEPCION]"
+                      length="8"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[FECHA_RECEPCION]"
+                      name="FECHA_RECEPCION"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[FECHA_LIQUIDACION_PAGO]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[FECHA_LIQUIDACION_PAGO]"
+                      length="8"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[FECHA_LIQUIDACION_PAGO]"
+                      name="FECHA_LIQUIDACION_PAGO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[NUMERO_CHEQUE]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[NUMERO_CHEQUE]"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[NUMERO_CHEQUE]"
+                      name="NUMERO_CHEQUE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[IMPORTE_CHEQUE]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[IMPORTE_CHEQUE]"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[IMPORTE_CHEQUE]"
+                      name="IMPORTE_CHEQUE"
+                      precision="11"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_NOMENCLADOR]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_NOMENCLADOR]"
+                      length="1"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_NOMENCLADOR]"
+                      name="ID_NOMENCLADOR"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_CODIGO_EVENTO]"
+                      dataType="decimal"
+                      name="ID_CODIGO_EVENTO" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[COD_SUBSIDIOS]"
+                      dataType="i4"
+                      name="COD_SUBSIDIOS" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_PRODUCTO]"
+                      dataType="decimal"
+                      name="ID_PRODUCTO" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_PLAN_PRODUCTO]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      name="ID_PLAN_PRODUCTO" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_CLASE_PRODUCTO]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="ID_CLASE_PRODUCTO" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_PERSONA]"
+                      dataType="decimal"
+                      name="ID_PERSONA" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_ACREEDOR]"
+                      dataType="decimal"
+                      name="ID_ACREEDOR" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_TIPO_PRESTADOR]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="ID_TIPO_PRESTADOR" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_PRESTACION]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      name="ID_PRESTACION" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_TIPO_EVENTO]"
+                      dataType="i4"
+                      name="ID_TIPO_EVENTO" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_ESTADO_EVENTO]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="ID_ESTADO_EVENTO" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CANT_COD]"
+                      dataType="i4"
+                      name="CANT_COD" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CANT_COD_PAG]"
+                      dataType="i4"
+                      name="CANT_COD_PAG" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[IMP_COD_PAG]"
+                      dataType="decimal"
+                      name="IMP_COD_PAG"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[USUARIO_CARGA]"
+                      codePage="1252"
+                      dataType="str"
+                      length="15"
+                      name="USUARIO_CARGA" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[FECHA_PRESTACION]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      name="FECHA_PRESTACION" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[FECHA_RECEPCION]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      name="FECHA_RECEPCION" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[FECHA_LIQUIDACION_PAGO]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      name="FECHA_LIQUIDACION_PAGO" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[NUMERO_CHEQUE]"
+                      dataType="decimal"
+                      name="NUMERO_CHEQUE" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[IMPORTE_CHEQUE]"
+                      dataType="numeric"
+                      name="IMPORTE_CHEQUE"
+                      precision="11"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_NOMENCLADOR]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="ID_NOMENCLADOR" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_CODIGO_EVENTO]"
+                      dataType="decimal"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_CODIGO_EVENTO]"
+                      name="ID_CODIGO_EVENTO" />
+                    <outputColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[COD_SUBSIDIOS]"
+                      dataType="i4"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[COD_SUBSIDIOS]"
+                      name="COD_SUBSIDIOS" />
+                    <outputColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_PRODUCTO]"
+                      dataType="decimal"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_PRODUCTO]"
+                      name="ID_PRODUCTO" />
+                    <outputColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_PLAN_PRODUCTO]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_PLAN_PRODUCTO]"
+                      name="ID_PLAN_PRODUCTO" />
+                    <outputColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_CLASE_PRODUCTO]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_CLASE_PRODUCTO]"
+                      name="ID_CLASE_PRODUCTO" />
+                    <outputColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_PERSONA]"
+                      dataType="decimal"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_PERSONA]"
+                      name="ID_PERSONA" />
+                    <outputColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_ACREEDOR]"
+                      dataType="decimal"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_ACREEDOR]"
+                      name="ID_ACREEDOR" />
+                    <outputColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_TIPO_PRESTADOR]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_TIPO_PRESTADOR]"
+                      name="ID_TIPO_PRESTADOR" />
+                    <outputColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_PRESTACION]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_PRESTACION]"
+                      name="ID_PRESTACION" />
+                    <outputColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_TIPO_EVENTO]"
+                      dataType="i4"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_TIPO_EVENTO]"
+                      name="ID_TIPO_EVENTO" />
+                    <outputColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_ESTADO_EVENTO]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_ESTADO_EVENTO]"
+                      name="ID_ESTADO_EVENTO" />
+                    <outputColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CANT_COD]"
+                      dataType="i4"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CANT_COD]"
+                      name="CANT_COD" />
+                    <outputColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CANT_COD_PAG]"
+                      dataType="i4"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CANT_COD_PAG]"
+                      name="CANT_COD_PAG" />
+                    <outputColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[IMP_COD_PAG]"
+                      dataType="decimal"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[IMP_COD_PAG]"
+                      name="IMP_COD_PAG"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[USUARIO_CARGA]"
+                      codePage="1252"
+                      dataType="str"
+                      length="15"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[USUARIO_CARGA]"
+                      name="USUARIO_CARGA" />
+                    <outputColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[FECHA_PRESTACION]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[FECHA_PRESTACION]"
+                      name="FECHA_PRESTACION" />
+                    <outputColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[FECHA_RECEPCION]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[FECHA_RECEPCION]"
+                      name="FECHA_RECEPCION" />
+                    <outputColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[FECHA_LIQUIDACION_PAGO]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[FECHA_LIQUIDACION_PAGO]"
+                      name="FECHA_LIQUIDACION_PAGO" />
+                    <outputColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[NUMERO_CHEQUE]"
+                      dataType="decimal"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[NUMERO_CHEQUE]"
+                      name="NUMERO_CHEQUE" />
+                    <outputColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[IMPORTE_CHEQUE]"
+                      dataType="numeric"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[IMPORTE_CHEQUE]"
+                      name="IMPORTE_CHEQUE"
+                      precision="11"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_NOMENCLADOR]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_NOMENCLADOR]"
+                      name="ID_NOMENCLADOR" />
+                    <outputColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Carga Supra.Paths[Data Conversion Output]"
+              endId="Package\Carga Supra\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="Data Conversion Output"
+              startId="Package\Carga Supra\Data Conversion 1.Outputs[Data Conversion Output]" />
+            <path
+              refId="Package\Carga Supra.Paths[OLE DB Source Output]"
+              endId="Package\Carga Supra\Data Conversion 1.Inputs[Data Conversion Input]"
+              name="OLE DB Source Output"
+              startId="Package\Carga Supra\OLE DB Source.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Execute SQL Task"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{08695D87-C9A1-4A71-AED2-893EC339FB43}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Execute SQL Task"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{D6E65282-2246-4414-A5A0-E6DE8100BF77}"
+          SQLTask:SqlStatementSource="-- Obtiene el nomenclador &#xA;update aux_h_supra&#xA; set id_nomenclador = NMC_TNO&#xA; from aux_h_supra a11&#xA; inner join  as400.host03.desarrollo.QRG008 q08 on q08.nmc_cod = a11.id_prestacion and id_subsidio_supra_suf = 1&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Inserto en H_SUBSIDIO_SUPRA_SUF"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{e7e5fa2b-52ba-40a5-acd0-c38e6dc4d594}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Inserto en H_SUBSIDIO_SUPRA_SUF"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{D6E65282-2246-4414-A5A0-E6DE8100BF77}"
+          SQLTask:SqlStatementSource="delete from  H_SUBSIDIO_SUPRA_SUF where id_periodo &gt;= dbo.periodosanteriores(dbo.devuelveperiodo(getdate()),7)&#xA;&#xA;&#xA;-- Inserta de Auxiliar a Definitiva H&#xA; insert into H_SUBSIDIO_SUPRA_SUF&#xA; select  &#xA; id_periodo,&#xA; id_codigo_evento,&#xA; id_subsidio_supra_suf,&#xA; isnull(id_producto,0), &#xA; id_plan_producto,&#xA; id_clase_producto,&#xA; id_persona,&#xA; ISNULL(id_acreedor,999999),&#xA; id_tipo_prestador,&#xA; id_tipo_evento_subsidio_suf,&#xA; id_estado_evento_suf,&#xA; cant_cod,&#xA; imp_cod_pag, &#xA; usuario_carga, &#xA;case when fecha_prestacion &lt;&gt; '00000000' then cast(CAST(ISNULL(fecha_prestacion,'1900-01-01')AS VARCHAR) as datetime) else '1900-01-01' end,-- as fecha_prestacion &#xA; case when fecha_recepcion  &lt;&gt; '00000000' then cast(CAST(ISNULL(fecha_recepcion,'1900-01-01') AS VARCHAR)  as datetime) else '1900-01-01' end,-- as fecha_recepcion  &#xA;case when fecha_liquidacion_pago &lt;&gt; '00000000' then cast(CAST(ISNULL(fecha_liquidacion_pago,'1900-01-01')AS VARCHAR) as datetime) else '1900-01-01' end,-- as fecha_liquidacion_pago,&#xA; case when numero_cheque &lt;&gt; 0 then 0 else 1 end, -- id_forma_pago_subsidio, --  id_forma_pago_cursograma -- tinyint en H -  D_FORMA_PAGO_CURSOGRAMA&#xA; importe_cheque,&#xA;id_nomenclador + cast(id_prestacion as varchar)&#xA; from aux_h_supra&#xA;&#xA;&#xA;&#xA;&#xA;update H_SUBSIDIO_SUPRA_SUf&#xA;set id_producto  = case when l.id_subrubro_ley = 1 then 32 -- Gravado&#xA;      when l.id_SubRubro_ley = 2 then 15 -- No gravado &#xA;      end&#xA;from H_SUBSIDIO_SUPRA_SUf s inner join H_COMER_STOCK_AFILIA h on h.id_persona = s.id_persona&#xA;             inner join d_planes d on h.id_producto = d.id_producto and h.id_plan_producto = d.id_plan_producto&#xA;             inner join D_SUBRUBRO_LEY l on d.id_SubRubro_ley = l.id_subrubro_ley&#xA;where id_subsidio_supra_suf = 2&#xA;&#xA;&#xA;-- Setea la clase producto a travez del producto&#xA; update H_SUBSIDIO_SUPRA_SUf&#xA; set id_clase_producto =  d.id_clase_producto&#xA; from H_SUBSIDIO_SUPRA_SUf h inner join D_PRODUCTOS d on h.id_producto = d.id_producto&#xA;&#xA;&#xA; select h.* from H_SUBSIDIO_SUPRA_SUf s inner join H_COMER_STOCK_AFILIA h on h.id_persona = s.id_persona&#xA;             inner join d_planes d on h.id_producto = d.id_producto and h.id_plan_producto = d.id_plan_producto&#xA;             inner join D_SUBRUBRO_LEY l on d.id_SubRubro_ley = l.id_subrubro_ley&#xA;where id_subsidio_supra_suf = 2&#xA;&#xA;update h_subsidio_supra_suf&#xA;set id_prestacion = 'XX0'&#xA;where id_subsidio_supra_suf = 2&#xA;&#xA;update h_subsidio_supra_suf&#xA;set id_producto = 0 where id_producto is null" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{C6F02BA9-2EFF-4689-9C13-88E2E1551ED3}"
+      DTS:From="Package\Actualiza Variable"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Borro Tabla" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{3E9A88E3-989C-48B0-ABF1-B1BB3EDAB86E}"
+      DTS:From="Package\Carga Supra"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Execute SQL Task" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{3CEEADE0-0A2B-4E74-B9F8-B25A867F33AA}"
+      DTS:From="Package\Execute SQL Task"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Carga Suf" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{7A4D7F4D-C345-4A69-BCB1-6D7F247AEDA7}"
+      DTS:From="Package\Carga Suf"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Actualiza AUX" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
+      DTS:CreationName=""
+      DTS:DTSID="{9355bd7c-1e0d-4f5f-8afa-488bb8c84f2f}"
+      DTS:From="Package\Actualiza AUX"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 4"
+      DTS:To="Package\Inserto en H_SUBSIDIO_SUPRA_SUF" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 5]"
+      DTS:CreationName=""
+      DTS:DTSID="{ea23cd13-4013-43d9-af8d-9bdbde81c593}"
+      DTS:From="Package\Inserto en H_SUBSIDIO_SUPRA_SUF"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 5"
+      DTS:To="Package\Actualiza tablas de dimension" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 6]"
+      DTS:CreationName=""
+      DTS:DTSID="{EFF31FAA-9C81-4A16-8468-E4647BCBF593}"
+      DTS:From="Package\Borro Tabla"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 6"
+      DTS:To="Package\Carga Supra" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="149,42"
+          Id="Package\Actualiza AUX"
+          TopLeft="65.5,353.963611859838" />
+        <NodeLayout
+          Size="224,42"
+          Id="Package\Actualiza tablas de dimension"
+          TopLeft="28,493.349056603774" />
+        <NodeLayout
+          Size="167,42"
+          Id="Package\Actualiza Variable"
+          TopLeft="56.5,5.5" />
+        <NodeLayout
+          Size="136,42"
+          Id="Package\Borro Tabla"
+          TopLeft="72,75.1927223719676" />
+        <NodeLayout
+          Size="128,42"
+          Id="Package\Carga Suf"
+          TopLeft="76,284.270889487871" />
+        <NodeLayout
+          Size="141,42"
+          Id="Package\Carga Supra"
+          TopLeft="69.5,144.885444743935" />
+        <NodeLayout
+          Size="170,42"
+          Id="Package\Execute SQL Task"
+          TopLeft="55,214.578167115903" />
+        <NodeLayout
+          Size="269,42"
+          Id="Package\Inserto en H_SUBSIDIO_SUPRA_SUF"
+          TopLeft="5.5,423.656334231806" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="140,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,27.6927223719676"
+              Start="0,0"
+              End="0,20.1927223719676">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.1927223719676" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="140,186.885444743935">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,27.6927223719676"
+              Start="0,0"
+              End="0,20.1927223719676">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.1927223719676" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="140,256.578167115903">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,27.6927223719676"
+              Start="0,0"
+              End="0,20.1927223719676">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.1927223719676" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="140,326.270889487871">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,27.6927223719676"
+              Start="0,0"
+              End="0,20.1927223719676">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.1927223719676" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="140,395.963611859838">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,27.6927223719676"
+              Start="0,0"
+              End="0,20.1927223719676">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.1927223719676" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 5]"
+          TopLeft="140,465.656334231806">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,27.6927223719676"
+              Start="0,0"
+              End="0,20.1927223719676">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.1927223719676" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 6]"
+          TopLeft="140,117.192722371968">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,27.6927223719676"
+              Start="0,0"
+              End="0,20.1927223719676">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.1927223719676" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Carga Suf">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="177,42"
+          Id="Package\Carga Suf\OLE DB Destination"
+          TopLeft="0.5,125.311320754717" />
+        <NodeLayout
+          Size="157,42"
+          Id="Package\Carga Suf\OLE DB Source"
+          TopLeft="10.5,5.5" />
+        <EdgeLayout
+          Id="Package\Carga Suf.Paths[OLE DB Source Output]"
+          TopLeft="89,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,77.811320754717"
+              Start="0,0"
+              End="0,70.311320754717">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,70.311320754717" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Carga Suf\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Carga Suf\OLE DB Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Carga Supra">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="157,42"
+          Id="Package\Carga Supra\OLE DB Source"
+          TopLeft="30.9245283018868,5.5" />
+        <NodeLayout
+          Size="177,42"
+          Id="Package\Carga Supra\OLE DB Destination"
+          TopLeft="20.9245283018868,140.292452830189" />
+        <NodeLayout
+          Size="170,42"
+          Id="Package\Carga Supra\Data Conversion 1"
+          TopLeft="24.4245283018868,72.8962264150943" />
+        <EdgeLayout
+          Id="Package\Carga Supra.Paths[OLE DB Source Output]"
+          TopLeft="109.424528301887,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,25.3962264150943"
+              Start="0,0"
+              End="0,17.8962264150943">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,17.8962264150943" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Carga Supra.Paths[Data Conversion Output]"
+          TopLeft="109.424528301887,114.896226415094">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,25.3962264150943"
+              Start="0,0"
+              End="0,17.8962264150943">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,17.8962264150943" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Carga Supra\OLE DB Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Carga Supra\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

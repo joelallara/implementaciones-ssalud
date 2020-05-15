@@ -1,0 +1,101 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="11/28/2017 10:15:33 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AMS06X"
+  DTS:CreatorName="AMS\jtrinchier"
+  DTS:DTSID="{2C2327A1-6CAB-4D7B-8E1E-571DDF61819F}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="Atención Telefónica H_DISPONIBILIDAD_ATENCION"
+  DTS:PackageType="5"
+  DTS:VersionBuild="39"
+  DTS:VersionGUID="{646EF7A7-CE08-4BFB-874B-D608072B9A4A}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{EC2C6642-F810-46B1-9C8B-C321A2812DC2}"
+      DTS:ObjectName="SSIS log provider for SQL Server1">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">1,7,OnError</DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnError"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{EC2C6642-F810-46B1-9C8B-C321A2812DC2}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza H_DISPONIBILIDAD_ATENCION"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{882F4C85-8405-4D12-B5D8-614700A8077D}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza H_DISPONIBILIDAD_ATENCION"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{58454B55-6F22-4144-A3E3-01AE826FF475}"
+          SQLTask:SqlStatementSource="--- Declara la variable tomando como referencia la maxima fecha de la tabla.&#xA;declare @Fechadesde datetime&#xA;set @Fechadesde = (select MAX(fecha) from H_DISPONIBILIDAD_ATENCION)&#xA;&#xA;&#xA;--- Inserta la informacion de la IVR-417 . DetalleXAgente_Diario, cargando la info que sea mayor a la ultima de H_DISPONIBILIDAD_ATENCION&#xA;INSERT INTO H_DISPONIBILIDAD_ATENCION&#xA;SELECT&#x9;DBO.DevuelvePeriodo(FechaDesde)  as id_periodo&#xA;&#x9;&#x9;,Agente&#xA;&#x9;&#x9;,0 as id_usuario_supervisor&#xA;&#x9;&#x9;,FechaDesde&#xA;&#x9;&#x9;,Listo -- tiempo_listo&#xA;&#x9;&#x9;,LLDirecta -- tiempo_llamada_directa&#xA;&#x9;&#x9;,LLACD -- tiempo_llamada_atendida&#xA;&#x9;&#x9;,DescansoWU -- tiempo_descanso&#xA;&#x9;&#x9;,pausa13 -- tiempo_virtual&#xA;&#x9;&#x9;,ACDIN_CANTLLAMADAS -- cant_llamadas_disponibilidad&#xA;&#x9;&#x9;,0 cant_respuestas_virtuales&#xA;&#x9;&#x9;,0 as  cant_dias_habiles&#xA;&#x9;&#x9;, 0 as id_jefe_Contact_center&#xA;FROM [IVR-417].[ContactCenter].[dbo].[DetalleXAgente_Diario] D &#xA;WHERE FechaDesde &gt; @Fechadesde   --- &gt; fecha variable&#xA;&#xA;&#xA;--- Actualiza el campo  &quot; cant_respuestas_virtuales &quot;&#xA;UPDATE H_DISPONIBILIDAD_ATENCION&#xA;SET cant_respuestas_virtuales = ISNULL(resolutionEvents_WS, 0)&#xA;FROM INTRANET.[IntranetX].[dbo].[ObjetivosCallCenterWebCentrix] O &#xA;INNER JOIN D_AGENTES_ATENCION_TELEFONICA A ON (O.Usuario_WC COLLATE SQL_Latin1_General_CP850_CI_AI=A.usuario_web_centrix)&#xA;INNER JOIN H_DISPONIBILIDAD_ATENCION D ON D.fecha = fecha_WC AND D.id_agente_atencion_telefonica=a.id_agente_atencion_telefonica&#xA;WHERE fecha &gt;= @Fechadesde &#xA;&#xA;&#xA;--- Insert casos adicionales&#xA;&#xA;INSERT INTO H_DISPONIBILIDAD_ATENCION&#xA;SELECT DBO.DevuelvePeriodo(FechaDesde) as  id_periodo, A.id_agente_atencion_telefonica ,0 as id_usuario_supervisor&#xA;,O.fecha_WC as fecha, 0 as tiempo_listo, 0 as tiempo_llamada_directa, 0 as tiempo_llamada_atendida&#xA;, 0 as tiempo_descanso, D.pausa13 as tiempo_virtual, 0 as cant_llamadas_disponibilidad&#xA;, ISNULL(resolutionEvents_WS, 0)  as cant_respuestas_virtuales,0 as cant_dias_habiles_disponibilidad , 0 as id_jefe_Contact_center&#xA;FROM INTRANET.[IntranetX].[dbo].[ObjetivosCallCenterWebCentrix] O&#xA;INNER JOIN D_AGENTES_ATENCION_TELEFONICA A ON (O.Usuario_WC COLLATE SQL_Latin1_General_CP850_CI_AI=A.usuario_web_centrix)&#xA;INNER JOIN [IVR-417].[ContactCenter].[dbo].[DetalleXAgente_Diario] D ON (D.Agente=A.id_agente_atencion_telefonica and O.fecha_WC=D.FechaDesde)&#xA;WHERE NOT EXISTS (SELECT * FROM H_DISPONIBILIDAD_ATENCION H WHERE H.id_agente_atencion_telefonica=A.id_agente_atencion_telefonica AND H.fecha=O.fecha_WC)&#xA;&#xA;&#xA;--- Actualiza el campo  &quot; id_usuario_supervisor &quot;&#xA;&#xA;UPDATE H_DISPONIBILIDAD_ATENCION&#xA;SET id_usuario_supervisor = ss.id_usuario_supervisor&#xA;from H_SUPERVISORES_SSALUD SS&#xA;    join H_DISPONIBILIDAD_ATENCION h&#xA;&#x9;   on(ss.id_periodo = h.id_periodo and ss.id_login_dalpad = h.id_agente_atencion_telefonica)&#xA;WHERE H.fecha &gt;= @Fechadesde&#xA;&#xA;&#xA;--Setea la cantidad de dias habiles que hay en el mes hasta ese momento &#xA;&#xA;Update H_DISPONIBILIDAD_ATENCION&#xA;set cant_dias_habiles_disponibilidad = C.cant_dias_habiles&#xA;from H_DISPONIBILIDAD_ATENCION T&#xA;inner join D_CANTIDAD_DIAS_HABILES C on T.id_periodo = C.id_periodo&#xA;&#xA;-- Elimina los registros en donde el agente no realizo acciones &#xA;delete H_DISPONIBILIDAD_ATENCION &#xA;where tiempo_listo = 0 and tiempo_llamada_directa = 0 and tiempo_llamada_atendida = 0&#xA;and tiempo_descanso = 0 and tiempo_virtual = 0 and cant_llamadas_disponibilidad = 0 and cant_respuestas_virtuales = 0&#xA;&#xA;&#xA;&#xA;UPDATE H_DISPONIBILIDAD_ATENCION &#xA;SET id_usuario_supervisor = S.nro_documento_supervisor&#xA;FROM H_DISPONIBILIDAD_ATENCION H &#xA;INNER JOIN D_AGENTES_ATENCION_TELEFONICA A ON (A.id_agente_atencion_telefonica=H.id_agente_atencion_telefonica)&#xA;INNER JOIN H_SUPERVISORES_ATENTO S ON (S.id_agente_atencion_telefonica=A.id_agente_atencion_telefonica and H.id_periodo=S.id_periodo)&#xA;WHERE A.id_grupo_agente_telefonico= 22&#xA;and cast([fecha] as date) &gt; @Fechadesde&#xA;&#xA;&#xA;/*  Script actualiza el id_jefe_contact_center */&#xA;&#xA;UPDATE H_DISPONIBILIDAD_ATENCION&#xA;SET id_jefe_contact_center = &#xA;CASE&#x9;&#xA;&#x9;WHEN id_grupo_agente_telefonico = 1 THEN 1&#xA;&#x9;WHEN id_grupo_agente_telefonico = 22 THEN 2&#xA;&#x9;ELSE 0&#xA;END&#xA;FROM H_DISPONIBILIDAD_ATENCION T INNER JOIN D_AGENTES_ATENCION_TELEFONICA D ON (T.id_agente_atencion_telefonica=D.id_agente_atencion_telefonica)&#xA;where id_jefe_contact_center is null and &#xA;cast([fecha] as date) &gt; @Fechadesde&#xA;&#xA;update H_DISPONIBILIDAD_ATENCION&#xA;set id_jefe_contact_center = a.id_jefe_contact_center&#xA;from H_DISPONIBILIDAD_ATENCION T inner join H_ATENCION_TELEFONICA a on t.id_periodo = a.id_periodo &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;and T.id_agente_atencion_telefonica = a.id_agente_atencion_telefonica&#xA;where t.id_jefe_contact_center = 0 and cast([fecha] as date) &gt; @Fechadesde&#xA;&#xA;update H_DISPONIBILIDAD_ATENCION&#xA;set id_jefe_contact_center = 0&#xA;where id_jefe_contact_center is null&#xA;&#xA;&#xA;/* Desde el periodo Mayo 2019 es Ana Julia Luques (jefe contact = 4 ) */&#xA;&#xA;UPDATE H_DISPONIBILIDAD_ATENCION SET id_jefe_contact_center = 4&#xA;from H_DISPONIBILIDAD_ATENCION&#xA;where id_jefe_contact_center = 1 and id_periodo &gt;= 201905&#xA;&#xA;&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="292,42"
+          Id="Package\Actualiza H_DISPONIBILIDAD_ATENCION"
+          TopLeft="5.5,5.5" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

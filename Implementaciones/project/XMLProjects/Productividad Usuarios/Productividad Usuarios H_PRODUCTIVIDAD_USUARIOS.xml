@@ -1,0 +1,209 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="2/26/2019 2:49:03 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AMS06X"
+  DTS:CreatorName="AMS\mpaludi"
+  DTS:DTSID="{94C3104F-3585-4066-A07F-5CEAB5A5A68F}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="Productividad Usuarios H_PRODUCTIVIDAD_USUARIOS"
+  DTS:PackageType="5"
+  DTS:VersionBuild="35"
+  DTS:VersionGUID="{E09CEFBC-9046-4774-A4C7-78D8A7F0AD7F}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{253CBD72-967F-4BDE-B4F2-A974F6E4639E}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">1,7,OnError</DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnError"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{253CBD72-967F-4BDE-B4F2-A974F6E4639E}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza Tablas de Dimension"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{cf2a26bd-1ba3-4e4b-9087-e35ccb6f5381}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza Tablas de Dimension"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{28607849-787D-4D9F-9EA2-441BA78EA98B}"
+          SQLTask:SqlStatementSource="&#xA;delete from [D_USUARIO_SECTOR_PRESTACIONES]&#xA;where id_usuario_sector_prestaciones &lt;&gt; 0&#xA;&#xA;insert into [D_USUARIO_SECTOR_PRESTACIONES]&#xA;select id,usuario,isnull(fechabaja,'1900-01-01 00:00:00.000'),isnull(fechaalta,'1900-01-01 00:00:00.000'),case when email = '' then 'F/D' else email end,&#xA;usuarios_equipos_id&#xA; from INDICADORES_SALUD.Indicadores_salud.[dbo].usuarios&#xA;&#xA;&#xA;insert into [D_EQUIPO_USUARIO_Sector_PRESTACIONES]&#xA;select *,0,0,0 from INDICADORES_SALUD.Indicadores_salud.[dbo].usuarios_equipos&#xA;where id not in (select id_equipo_sector_prestaciones from [D_EQUIPO_USUARIO_Sector_PRESTACIONES])" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Borro Periodo Actual"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{FCC70612-C6BD-4259-A27E-6F885B634A8D}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Borro Periodo Actual"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{28607849-787D-4D9F-9EA2-441BA78EA98B}"
+          SQLTask:SqlStatementSource="-- Calculo periodo actual segun productividad, de 21 anterior a 20 actual&#xA;declare @periodo int &#xA;set @periodo = (case when datepart(dd,getdate()) &lt;= 21 then dbo.devuelveperiodo(getdate())&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;when  datepart (dd,getdate()) &gt; 21 then dbo.PeriodosPosteriores(dbo.devuelveperiodo(getdate()),2) end)&#xA;-- Borro periodo actual&#xA;DELETE from H_PRODUCTIVIDAD_USUARIO&#xA;where id_periodo_productividad_prestaciones =  @periodo" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Carga H_PRODUCTIVIDAD_USUARIOS"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{2D310B16-97CC-4BBF-B330-FF1B03249988}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Carga H_PRODUCTIVIDAD_USUARIOS"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{28607849-787D-4D9F-9EA2-441BA78EA98B}"
+          SQLTask:SqlStatementSource="&#xA;-- Calculo periodo actual segun productividad, de 21 anterior a 20 actual&#xA;declare @periodo int &#xA;set @periodo = (case when datepart(dd,getdate()) &lt;= 21 then dbo.devuelveperiodo(getdate())&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;when  datepart (dd,getdate()) &gt; 21 then dbo.PeriodosPosteriores(dbo.devuelveperiodo(getdate()),2) end)&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#xA;&#xA;/*&#xA;declare @fecha_desde int = dbo.periodosanteriores(@periodo,2) * 100+21&#xA;declare @fecha_hasta int = @periodo * 100+20&#xA;declare @fecha_debito  datetime = '2017-09-01'&#xA;*/&#xA;&#xA;delete from h_productividad_usuario where id_periodo_productividad_prestaciones = @periodo&#xA;&#xA;insert into h_productividad_usuario&#xA;select @periodo as id_periodo_productividad_prestaciones,&#xA;u.id as id_usuario_sector_prestaciones, &#xA;ue.id as id_equipo_sector_prestaciones,&#xA; case when p.ip is null then 0 else p.ip end as indice_productividad_usuario,&#xA; case when d_cargados is null then 0 else p.d_cargados end as cant_debitos_cargados,&#xA; case when d_indicados is null then 0 else p.d_indicados end as cant_debitos_indicados,&#xA; case when d_cargados is null then 0 else p.d_cargados  * 1.5 end + case when d_indicados is null then 0 else p.d_indicados  * 4 end as  cant_debitos_total,&#xA; case when cp_cerrados is null then 0 else p.cp_cerrados end as cant_cursogramas_cerrados_usuarios,&#xA; 0 as total_indice_nivel_productividad_usuario,&#xA; 0 as id_rango_nivel_productividad,&#xA; 1 as cant_usuario_sector_prestaciones&#xA; from INDICADORES_SALUD.Indicadores_salud.dbo.productividad p&#xA;inner join INDICADORES_SALUD.Indicadores_salud.[dbo].usuarios u  on LTRIM(Rtrim(p.usuario))=LTRIM(Rtrim(u.usuario))&#xA;join INDICADORES_SALUD.Indicadores_salud.[dbo].usuarios_equipos ue on u.usuarios_equipos_id=ue.id&#xA;where p.periodo = @periodo and u.fechabaja is null&#xA;&#xA;-- Actualiza el indice de productividad&#xA;update h_productividad_usuario&#xA;set total_indice_nivel_productividad_usuario = cant_debitos_total + cant_cursogramas_cerrados_usuario + indice_productividad_usuario&#xA;where id_periodo_productividad_prestaciones = @periodo&#xA;&#xA;&#xA;-- Actualizar id_rango_nivel_productividad &#xA;-- Segun la tabla de equipo se calcula el nivel de productividad &#xA;update H_PRODUCTIVIDAD_USUARIO set id_rango_nivel_productividad =&#xA;        (case when h.total_indice_nivel_productividad_usuario &lt; d.limite_nivel_1_equipo_sector_prestaciones   then 0&#xA;&#x9;&#x9;&#x9;when h.total_indice_nivel_productividad_usuario &gt;= d.limite_nivel_1_equipo_sector_prestaciones and h.total_indice_nivel_productividad_usuario &lt; limite_nivel_2_equipo_sector_prestaciones  then 1 -- Minimo&#xA;              when h.total_indice_nivel_productividad_usuario &gt;  d.limite_nivel_1_equipo_sector_prestaciones and &#xA;                   h.total_indice_nivel_productividad_usuario &gt;= d.limite_nivel_2_equipo_sector_prestaciones and h.total_indice_nivel_productividad_usuario &lt; d.limite_nivel_3_equipo_sector_prestaciones  then 2  -- Medio&#xA;                  when h.total_indice_nivel_productividad_usuario &gt;=  d.limite_nivel_3_equipo_sector_prestaciones then 3   -- Maximo&#xA;     end)&#xA;     from H_PRODUCTIVIDAD_USUARIO h&#xA;        inner join [D_EQUIPO_USUARIO_Sector_PRESTACIONES] D  -- unión para tener total por usuario/equipo&#xA;    on h.id_equipo_sector_prestaciones = d.id_equipo_sector_prestaciones&#xA;where  id_periodo_productividad_prestaciones = @periodo&#xA;&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{1D63581A-9415-41D9-B9DD-7D45A62B4AA7}"
+      DTS:From="Package\Actualiza Tablas de Dimension"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Carga H_PRODUCTIVIDAD_USUARIOS" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{10535040-4E43-4CD7-8225-979B45B80761}"
+      DTS:From="Package\Borro Periodo Actual"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Actualiza Tablas de Dimension" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--Esta sección CDATA contiene la información de diseño del paquete. Esta sección incluye información como, por ejemplo, las coordenadas (x,y), el ancho y el alto.-->
+<!--Si edita manualmente esta sección y comete un error, puede eliminarlo. -->
+<!--El paquete podrá cargarse normalmente, pero se perderá la información de diseño anterior y el diseñador reorganizará los elementos automáticamente en la superficie de diseño.-->
+<Objects
+  Version="8">
+  <!--Cada uno de los nodos siguientes contiene propiedades que no afectan al comportamiento en tiempo de ejecución.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="230,42"
+          Id="Package\Actualiza Tablas de Dimension"
+          TopLeft="35.7893081761006,98.8396226415094" />
+        <NodeLayout
+          Size="180,42"
+          Id="Package\Borro Periodo Actual"
+          TopLeft="60.7893081761006,5.5" />
+        <NodeLayout
+          Size="280,42"
+          Id="Package\Carga H_PRODUCTIVIDAD_USUARIOS"
+          TopLeft="10.7893081761006,192.179245283019" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="150.789308176101,140.839622641509">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,51.3396226415094"
+              Start="0,0"
+              End="0,43.8396226415094">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,43.8396226415094" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="150.789308176101,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,51.3396226415094"
+              Start="0,0"
+              End="0,43.8396226415094">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,43.8396226415094" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

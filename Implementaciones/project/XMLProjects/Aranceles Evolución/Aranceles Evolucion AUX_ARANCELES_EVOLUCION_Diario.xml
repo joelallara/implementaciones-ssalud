@@ -1,0 +1,444 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="10/12/2016 12:44:11 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AMS06X"
+  DTS:CreatorName="AMS\pgonzalez"
+  DTS:DTSID="{524B6435-6E6F-4867-A5CF-40EEC6FFC79D}"
+  DTS:EnableConfig="True"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="Aranceles Evolución - Ejecución de paquetes - Diario"
+  DTS:PackageType="5"
+  DTS:VersionBuild="328"
+  DTS:VersionGUID="{32362F5A-93D0-4592-B0D0-14A17A0113A5}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{B6B0D7B5-1214-4FA2-BDD0-9868CC55F076}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">1,7,OnError</DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnError"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{B6B0D7B5-1214-4FA2-BDD0-9868CC55F076}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza  AUX_ARANCELES_EVOLUCION Excepcion"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tarea Ejecutar SQL"
+      DTS:DTSID="{EDFD71F1-59FD-4823-8E99-8A602B537289}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza  AUX_ARANCELES_EVOLUCION Excepcion"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{7705AE95-4A1E-4600-AF08-B019CC52882F}"
+          SQLTask:SqlStatementSource="DECLARE @Periodo VARCHAR(8),&#xA;&#x9;&#x9;@OPENQUERY nvarchar(4000),&#xA;&#x9;&#x9;@Servidor nvarchar(4000)&#xA;&#xA;SET @Periodo = (SELECT CAST(dbo.PeriodosAnteriores(MAX(id_periodo), 4) AS VARCHAR(6))+'01' FROM H_ARANCELES_EVOLUCION WHERE inconsistencia = 0)&#xA;SET @Servidor = 'HOST03' &#xA;SET @OPENQUERY = 'INSERT INTO AUX_ARANCELES_EVOLUCION SELECT fecha_vigencia_desde, id_acreedor, id_tipo_prestador, id_cod_tarifa, id_producto, id_plan_producto, NULL, NULL, importe_excepcion, id_tipo_valorizacion, NULL, id_nomenclador, de_codigo_prestacion, id_plan_agrupado_convenio, id_categoria, id_origen_prestacion, marca_prestacion, incorporado_posterior, Fecha_Vigencia_Hasta, id_especialidad, NULL, Fecha_Fin_Vigencia_Convenio, marca_ultimo_modelo, NULL, fecha_carga&#xA;&#x9;&#x9;FROM OPENQUERY('+ @Servidor +',''SELECT TAECOD as id_cod_tarifa, TAEACR id_acreedor, ''''P'''' as id_tipo_prestador, TAESRV as id_producto, TAEPLA as id_plan_producto, TAETNO as id_nomenclador, TAECPR as de_codigo_prestacion, TAEFVI as fecha_vigencia_desde, TAETPR as importe_excepcion, ''''E'''' as id_tipo_valorizacion, (CASE when TAEORI = '''''''' then ''''V'''' else TAEORI end) as id_origen_prestacion, (CASE when TAECAT = '''''''' then ''''V'''' else TAECAT end) as id_categoria, 1 as incorporado_posterior, TAEFFV as Fecha_Vigencia_Hasta, 0 as id_especialidad, 0 as marca_prestacion, 0 as marca_ultimo_modelo, ''''00000000'''' as fecha_fin_vigencia_convenio, 999 as id_plan_agrupado_convenio, MAX(TAEFEC) as Fecha_Carga&#xA;FROM  DESARROLLO.VAL000E V &#xA;INNER JOIN  LORENA.ARAN2    A ON V.TAEACR =   A.ACRE &#xA;where TAEPLA in (''''C'''',''''S500'''',''''S1000'''',''''S1500'''',''''S2000'''',''''S3000'''',''''S4000'''',''''S4500'''',''''S5000'''',''''G3000'''')&#xA;and TAEFVI &gt;= '+ @Periodo +'&#xA;and TAESRV = 16&#xA;and TAETNO in (''''NM'''', ''''NO'''')&#xA;and TAECAT not in  (''''1'''',''''2'''',''''3'''',''''4'''') &#xA;GROUP BY TAECOD, TAEACR, TAESRV, TAEPLA, TAETNO, TAECPR, TAETPR, TAEFVI, TAEORI, TAECAT, TAEFFV'')'&#xA;&#xA;EXEC (@OPENQUERY)&#xA;&#x9;&#x9;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza AUX_ARANCELES_EVOLUCION Tarifa"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tarea Ejecutar SQL"
+      DTS:DTSID="{3360D2C6-3BB6-4D7F-BB7C-E29EDBB50D78}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza AUX_ARANCELES_EVOLUCION Tarifa"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{7705AE95-4A1E-4600-AF08-B019CC52882F}"
+          SQLTask:SqlStatementSource="DECLARE @Periodo VARCHAR(8),&#xA;&#x9;&#x9;@OPENQUERY nvarchar(4000),&#xA;&#x9;&#x9;@Servidor nvarchar(4000)&#xA;&#xA;SET @Periodo = (SELECT CAST(dbo.PeriodosAnteriores(MAX(id_periodo), 4) AS VARCHAR(6))+'01' FROM H_ARANCELES_EVOLUCION WHERE inconsistencia = 0)&#xA;SET @Servidor = 'HOST03' &#xA;SET @OPENQUERY = 'INSERT INTO AUX_ARANCELES_EVOLUCION SELECT fecha_convenio, id_acreedor, id_tipo_prestador, id_cod_tarifa, id_producto, id_plan_producto, id_nomenclador, de_codigo_prestacion, imp_prestacion, id_tipo_valorizacion, id_valor_grilla_plan, id_nomenclador_acreedor, de_codigo_prestacion_acreedor, id_plan_agrupado_convenio, id_categoria, id_origen_prestacion, marca_prestacion, NULL, Fecha_Fin_Vigencia_Prestacion, id_especialidad, NULL, Fecha_Fin_Vigencia_Convenio, marca_ultimo_modelo, NULL, fecha_carga_convenio&#xA;&#x9;&#x9;FROM OPENQUERY('+ @Servidor +',''select VA.TAPNAC as id_acreedor, ''''P'''' as id_tipo_prestador, VB.MTACOD as id_cod_tarifa, VB.MTASRV as id_producto, VB.MTAPLA as id_plan_producto, VB.MTATNO as id_nomenclador, VB.MTACPR as de_codigo_prestacion, VB.MTAFVI as fecha_convenio, VB.MTATPR as imp_prestacion, ''''T'''' as id_tipo_valorizacion, (CASE when MTACAT = '''''''' then ''''V'''' else MTACAT end) as id_categoria, (CASE when VB.MTAORI = '''''''' then ''''V'''' else VB.MTAORI end) as id_origen_prestacion, (CASE when VB.MTAFFV = '''''''' then ''''00000000'''' else VB.MTAFFV end) as Fecha_Fin_Vigencia_Prestacion, VB.MTACES as id_especialidad, 0 as id_tipo_galeno_unidad, 0 as id_capitulo_imp, 0 as id_subcapitulo_imp, 0 as id_valor_grilla_plan, ''''99'''' as id_nomenclador_acreedor, ''''99999999'''' as de_codigo_prestacion_acreedor, 999 as id_plan_agrupado_convenio, 0 as marca_prestacion, VA.TAPFVA Fecha_Fin_Vigencia_Convenio, 0 as marca_ultimo_modelo, MTAFEC as fecha_carga_convenio&#xA;&#x9;&#x9;FROM DESARROLLO.VAL000B VB&#xA;&#x9;&#x9;JOIN DESARROLLO.VAL000A VA on VB.MTACOD = VA.TAPMTA&#xA;&#x9;&#x9;INNER JOIN   LORENA.ARAN2    A ON VA.TAPNAC  =   A.ACRE and VB.MTATNO = A.NOM AND VB.MTACPR = A.PREST&#xA;&#x9;&#x9;where MTAPLA in (''''C'''',''''S500'''',''''S1000'''',''''S1500'''',''''S2000'''',''''S3000'''',''''S4000'''',''''S4500'''',''''S5000'''',''''G3000'''')&#xA;&#x9;&#x9;and MTAFVI &gt;= '+ @Periodo +'&#xA;&#x9;&#x9;and VB.MTASRV = 16&#xA;&#x9;&#x9;and VB.MTATNO in (''''NM'''',''''NO'''')&#xA;&#x9;&#x9;and VA.TAPFVA = ''''00000000''''&#xA;&#x9;&#x9;and MTACAT not in (''''1'''',''''2'''',''''3'''',''''4'''')&#xA;&#x9;&#x9;group by VA.TAPNAC, VB.MTACOD, VB.MTASRV, VB.MTAPLA, VB.MTATNO, VB.MTACPR, VB.MTAFVI, VB.MTATPR, MTACAT, VB.MTAORI, VB.MTAFFV, VB.MTACES, VA.TAPFVA, MTAFEC'')'&#xA;&#xA;EXEC (@OPENQUERY)&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza detalles AUX_ARANCELES_EVOLUCION E"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{8669D77D-6D3E-434F-AEC4-93A300FE9806}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza detalles AUX_ARANCELES_EVOLUCION E"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{7705AE95-4A1E-4600-AF08-B019CC52882F}"
+          SQLTask:SqlStatementSource="&#xA;-- EXCEPCION.&#xA;&#xA;/* Borra estos casos particulares con categoria que no corresponde. */&#xA;&#x9;--DELETE from AUX_ARANCELES_EVOLUCION where id_categoria in ('1','2','3','4') and id_tipo_valorizacion = 'E'&#xA;&#xA;/* Obtiene e incorpora la relacion de prestacion sancor vs prestacion acreedor. */&#xA;&#xA;&#x9;-- Borra los registros si los mismos ya existen.&#xA;&#x9;&#x9;--DELETE FROM DW_SALUD.dbo.AUX_ARANCELES_EVOLUCION where incorporado_posterior = 2 and id_tipo_valorizacion = 'E'&#xA;&#xA;&#x9;-- Actualiza preguntando por la columna de Prestacion del Acreedor.&#xA;&#x9;&#x9;INSERT INTO DW_SALUD.dbo.AUX_ARANCELES_EVOLUCION&#xA;&#x9;&#x9;(fecha_convenio, id_acreedor, id_tipo_prestador, id_modelo_arancel_tarifa, id_producto, id_plan_producto, id_nomenclador, de_codigo_prestacion, importe, id_tipo_valorizacion, id_valor_grilla_plan, id_nomenclador_acreedor, de_codigo_prestacion_acreedor, id_origen_prestacion, incorporado_posterior, fecha_vigencia_hasta, id_especialidad, marca_prestacion, id_categoria, fecha_carga_convenio)&#xA;&#x9;&#x9;SELECT VE.fecha_convenio, VE.id_acreedor, 'P' as id_tipo_prestador, VE.id_modelo_arancel_tarifa, VE.id_producto, VE.id_plan_producto, PA.id_nomenclador, PA.de_codigo_prestacion, VE.importe, VE.id_tipo_valorizacion, 0 as id_valor_grilla_plan, VE.id_nomenclador_acreedor, VE.de_codigo_prestacion_acreedor, VE.id_origen_prestacion, 2 as incorporado_posterior, fecha_vigencia_hasta, id_especialidad, 0 as marca_prestacion, id_categoria, fecha_carga_convenio&#xA;&#x9;&#x9;FROM DW_SALUD.dbo.AUX_ARANCELES_EVOLUCION VE&#xA;&#x9;&#x9;JOIN DW_SALUD.dbo.D_PRESTACION_HOMOLOGADA_ACREEDOR PA on VE.id_acreedor = PA.id_acreedor and VE.id_nomenclador_acreedor+VE.de_codigo_prestacion_acreedor = PA.ID_PRESTACION_ACREEDOR&#xA;&#x9;&#x9;WHERE PA.fecha_baja = 0 and VE.id_tipo_valorizacion = 'E'&#xA;&#xA;&#x9;-- Actualiza preguntando por la columna de Prestacion de Sancor.&#xA;&#x9;&#x9;INSERT INTO DW_SALUD.dbo.AUX_ARANCELES_EVOLUCION&#xA;&#x9;&#x9;(fecha_convenio, id_acreedor, id_tipo_prestador, id_modelo_arancel_tarifa, id_producto, id_plan_producto, id_nomenclador, de_codigo_prestacion, importe, id_tipo_valorizacion, id_valor_grilla_plan, id_nomenclador_acreedor, de_codigo_prestacion_acreedor, id_origen_prestacion, incorporado_posterior, fecha_vigencia_hasta, id_especialidad, marca_prestacion, id_categoria,  fecha_carga_convenio)&#xA;&#x9;&#x9;SELECT VE.fecha_convenio, VE.id_acreedor, 'P' as id_tipo_prestador, VE.id_modelo_arancel_tarifa, VE.id_producto, VE.id_plan_producto, PA.id_nomenclador, PA.de_codigo_prestacion, VE.importe, VE.id_tipo_valorizacion, 0 as id_valor_grilla_plan, VE.id_nomenclador_acreedor, VE.de_codigo_prestacion_acreedor, VE.id_origen_prestacion, 2 as incorporado_posterior, fecha_vigencia_hasta, id_especialidad, 0 as marca_prestacion, id_categoria, fecha_carga_convenio&#xA;&#x9;&#x9;FROM DW_SALUD.dbo.AUX_ARANCELES_EVOLUCION VE&#xA;&#x9;&#x9;JOIN DW_SALUD.dbo.D_PRESTACION_HOMOLOGADA_ACREEDOR PA on VE.id_acreedor = PA.id_acreedor and VE.id_nomenclador_acreedor+VE.de_codigo_prestacion_acreedor = PA.ID_PRESTACION&#xA;&#x9;&#x9;WHERE PA.fecha_baja = 0 and VE.id_tipo_valorizacion = 'E'&#xA;&#x9;&#x9;&#xA;&#x9;-- (En esta etapa se realizan dos INSERT debido a que una prestacion de un acreedor puede valorizar por su homologada pero también esa prestacion puede ser la de Sancor y figurar en este medio.)&#xA;&#x9;&#x9;&#xA;&#x9;-- Borra los registros que se usaron para calcular todas las relacion homologada/sancor pero que NO deben UTILIZARSE (Se identifican con marca incorporado_posterior = 1).&#xA;&#x9;&#x9;DELETE FROM DW_SALUD.dbo.AUX_ARANCELES_EVOLUCION where incorporado_posterior = 1 and id_tipo_valorizacion = 'E'&#xA;&#xA;&#x9;&#x9;DELETE A &#xA;&#x9;&#x9;FROM  AUX_ARANCELES_EVOLUCION A&#xA;&#x9;&#x9;WHERE NOT EXISTS (SELECT id_acreedor FROM Consultas_DW.DBO.FILTRO_ACREEDOR_PREST_ARANCELES F WHERE A.id_acreedor =F.AcreedorID AND A.id_nomenclador+A.de_codigo_prestacion COLLATE &#x9;&#x9;SQL_Latin1_General_CP850_CI_AI=F.PrestacionID)&#xA;&#xA;/* Actualiza AUX_ARANCELES_EXCEPCION_ORIGEN_PRESTACION. &#xA;&#x9;&#x9;Si una prestacion tiene Origen '' se marca, sino se consulta si tiene Origen 'A' y por ultimo 'I'. Lo que no queda marcado se borra. */&#xA;&#x9;&#x9;&#x9;&#xA;&#x9;-- Inserta datos en AUX_ARANCELES_EXCEPCION_ORIGEN_PRESTACION.&#x9;&#xA;&#x9;&#x9;TRUNCATE TABLE DW_SALUD.dbo.AUX_ARANCELES_EXCEPCION_ORIGEN_PRESTACION&#xA;&#xA;&#x9;&#x9;INSERT INTO DW_SALUD.dbo.AUX_ARANCELES_EXCEPCION_ORIGEN_PRESTACION&#xA;&#x9;&#x9;(fecha_vigencia, id_acreedor, Id_Prestacion_Homologada, id_origen_prestacion, marca_prestacion, id_categoria)&#xA;&#x9;&#x9;SELECT fecha_convenio, id_acreedor, id_nomenclador_acreedor+de_codigo_prestacion_acreedor as Id_Prestacion_Homologada, id_origen_prestacion, 0 as marca_prestacion, id_categoria&#xA;&#x9;&#x9;FROM DW_SALUD.dbo.AUX_ARANCELES_EVOLUCION&#xA;&#x9;&#x9;WHERE id_tipo_valorizacion = 'E'&#xA;&#x9;&#x9;GROUP BY fecha_convenio, id_acreedor, id_nomenclador_acreedor, de_codigo_prestacion_acreedor, id_origen_prestacion, id_categoria&#xA;&#xA;&#x9;-- Prepara datos en auxiliar.&#xA;&#x9;&#x9;-- Si es V (vacio).&#xA;&#x9;&#x9;UPDATE DW_SALUD.dbo.AUX_ARANCELES_EXCEPCION_ORIGEN_PRESTACION &#xA;&#x9;&#x9;&#x9;SET marca_prestacion = 1&#xA;&#x9;&#x9;FROM DW_SALUD.dbo.AUX_ARANCELES_EXCEPCION_ORIGEN_PRESTACION P&#xA;&#x9;&#x9;WHERE P.id_origen_prestacion in ('V') and exists (select P2.fecha_vigencia, P2.Id_Prestacion_Homologada, P2.id_acreedor, P2.id_categoria FROM DW_SALUD.dbo.AUX_ARANCELES_EXCEPCION_ORIGEN_PRESTACION P2 where P.fecha_vigencia = P2.fecha_vigencia and P.Id_Prestacion_Homologada = P2.Id_Prestacion_Homologada and P.id_acreedor = P2.id_acreedor and P.id_categoria = P2.id_categoria)&#xA;&#x9;&#x9;-- Si es A (ambulatorio).&#x9;&#xA;&#x9;&#x9;UPDATE DW_SALUD.dbo.AUX_ARANCELES_EXCEPCION_ORIGEN_PRESTACION &#xA;&#x9;&#x9;&#x9;SET marca_prestacion = 1&#xA;&#x9;&#x9;FROM DW_SALUD.dbo.AUX_ARANCELES_EXCEPCION_ORIGEN_PRESTACION P&#xA;&#x9;&#x9;WHERE P.id_origen_prestacion in ('A') and not exists (select P2.fecha_vigencia, P2.Id_Prestacion_Homologada, P2.id_acreedor, P2.id_categoria FROM DW_SALUD.dbo.AUX_ARANCELES_EXCEPCION_ORIGEN_PRESTACION P2 where P.fecha_vigencia = P2.fecha_vigencia and P.Id_Prestacion_Homologada = P2.Id_Prestacion_Homologada and P.id_acreedor = P2.id_acreedor and P.id_categoria = P2.id_categoria and P2.marca_prestacion = 1)&#xA;&#x9;&#x9;-- Si es I (internacion).&#xA;&#x9;&#x9;UPDATE DW_SALUD.dbo.AUX_ARANCELES_EXCEPCION_ORIGEN_PRESTACION &#xA;&#x9;&#x9;&#x9;SET marca_prestacion = 1&#xA;&#x9;&#x9;FROM DW_SALUD.dbo.AUX_ARANCELES_EXCEPCION_ORIGEN_PRESTACION P&#xA;&#x9;&#x9;WHERE P.id_origen_prestacion in ('I') and not exists (select P2.fecha_vigencia, P2.Id_Prestacion_Homologada, P2.id_acreedor, P2.id_categoria FROM DW_SALUD.dbo.AUX_ARANCELES_EXCEPCION_ORIGEN_PRESTACION P2 where P.fecha_vigencia = P2.fecha_vigencia and P.Id_Prestacion_Homologada = P2.Id_Prestacion_Homologada and P.id_acreedor = P2.id_acreedor and P.id_categoria = P2.id_categoria and P2.marca_prestacion = 1)&#xA;&#x9;&#x9;&#xA;&#x9;-- Impacta en AUX_ARANCELES_EVOLUCION.&#xA;&#x9;&#x9;UPDATE DW_SALUD.dbo.AUX_ARANCELES_EVOLUCION&#xA;&#x9;&#x9;&#x9;SET marca_prestacion = MP.marca_prestacion&#xA;&#x9;&#x9;FROM DW_SALUD.dbo.AUX_ARANCELES_EVOLUCION G&#xA;&#x9;&#x9;JOIN DW_SALUD.dbo.AUX_ARANCELES_EXCEPCION_ORIGEN_PRESTACION MP on MP.fecha_vigencia = G.fecha_convenio and MP.Id_Prestacion_Homologada = G.id_nomenclador_acreedor+de_codigo_prestacion_acreedor and MP.id_origen_prestacion = G.id_origen_prestacion and MP.id_acreedor = G.id_acreedor and MP.id_categoria = G.id_categoria&#xA;&#x9;&#x9;WHERE MP.marca_prestacion = 1 and G.id_tipo_valorizacion = 'E'&#xA;&#x9;&#x9;&#x9;&#x9;&#xA;&#xA;&#xA;/* Se queda con el ultimo modelo por cada acreedor. Podría utilizar el campo fecha_fin_vigencia_convenio pero no anda para todos los casos. */&#xA;&#x9;&#x9;UPDATE AUX_ARANCELES_EVOLUCION &#xA;&#x9;&#x9;&#x9;set marca_ultimo_modelo = 1&#xA;&#x9;&#x9;FROM AUX_ARANCELES_EVOLUCION A&#xA;&#x9;&#x9;JOIN (SELECT id_acreedor, MAX(fecha_convenio) as fecha_convenio from AUX_ARANCELES_EVOLUCION where id_tipo_valorizacion = 'E' group by id_acreedor) E on A.id_acreedor = E.id_acreedor and A.fecha_convenio = E.fecha_convenio&#xA;&#x9;&#x9;WHERE id_tipo_valorizacion = 'E'&#xA;&#xA;&#x9;&#x9;UPDATE AUX_ARANCELES_EVOLUCION &#xA;&#x9;&#x9;&#x9;set marca_ultimo_modelo = 1&#xA;&#x9;&#x9;FROM AUX_ARANCELES_EVOLUCION A&#xA;&#x9;&#x9;JOIN (SELECT id_acreedor, id_modelo_arancel_tarifa from AUX_ARANCELES_EVOLUCION where id_tipo_valorizacion = 'E' and marca_ultimo_modelo = 1) E on A.id_acreedor = E.id_acreedor and A.id_modelo_arancel_tarifa = E.id_modelo_arancel_tarifa&#xA;&#x9;&#x9;WHERE id_tipo_valorizacion = 'E'&#xA;&#xA;&#x9;&#x9;DELETE from AUX_ARANCELES_EVOLUCION where id_tipo_valorizacion = 'E' and marca_ultimo_modelo = 0&#xA;&#x9;&#x9;&#xA;&#xA;/* Actualiza la Fecha de Maximo Convenio para que al insertar en la H_ARANCELES_EVOLUCION solo inserte los casos no dados de baja pero si los casos con baja a futuro y obviamente los vigentes. */&#xA;&#x9;&#x9;SELECT id_acreedor, id_modelo_arancel_tarifa, de_codigo_prestacion_acreedor, MAX(fecha_convenio) as fecha_convenio &#xA;&#x9;&#x9;into #Temporal&#xA;&#x9;&#x9;FROM AUX_ARANCELES_EVOLUCION&#xA;&#x9;&#x9;GROUP BY id_acreedor, id_modelo_arancel_tarifa, de_codigo_prestacion_acreedor&#xA;&#xA;&#x9;&#x9;UPDATE AUX_ARANCELES_EVOLUCION&#xA;&#x9;&#x9;&#x9;set fecha_maximo_convenio = A.fecha_convenio&#xA;&#x9;&#x9;FROM AUX_ARANCELES_EVOLUCION AA&#xA;&#x9;&#x9;JOIN #Temporal A on A.id_acreedor = AA.id_acreedor and AA.id_modelo_arancel_tarifa = A.id_modelo_arancel_tarifa and A.de_codigo_prestacion_acreedor = AA.de_codigo_prestacion_acreedor&#xA;&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza detalles AUX_ARANCELES_EVOLUCION E y T"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{4AD7698A-375A-42CD-A059-98992CD54C99}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza detalles AUX_ARANCELES_EVOLUCION E y T"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{7705AE95-4A1E-4600-AF08-B019CC52882F}"
+          SQLTask:SqlStatementSource="&#xA;&#xA;/* I M P O R T A N T E!!!!!!!!!! BORRA LAS PRESTACIONES QUE YA SE SABEN QUE VAN CON TARIFAS. Esto se hace para achicar el proceso que continua debajo. */&#xA;&#xA;&#x9;&#x9;DELETE DW_SALUD.dbo.AUX_ARANCELES_EVOLUCION&#xA;&#x9;&#x9;FROM dbo.AUX_ARANCELES_EVOLUCION E&#xA;&#x9;&#x9;where E.id_tipo_valorizacion = 'T' and&#xA;&#x9;&#x9;exists (select E.id_acreedor, E.id_producto, E.id_plan_producto, E.id_nomenclador+E.de_codigo_prestacion, E.id_nomenclador_acreedor+E.de_codigo_prestacion_acreedor, E.fecha_convenio &#xA;&#x9;&#x9;&#x9;&#x9;from dbo.AUX_ARANCELES_EVOLUCION A&#xA;&#x9;&#x9;&#x9;&#x9;where E.id_acreedor = A.id_acreedor and E.id_producto = A.id_producto and E.id_plan_producto = A.id_plan_producto and E.id_nomenclador+E.de_codigo_prestacion = A.id_nomenclador+A.de_codigo_prestacion and E.id_nomenclador_acreedor+E.de_codigo_prestacion_acreedor = A.id_nomenclador_acreedor+A.de_codigo_prestacion_acreedor and E.fecha_convenio = A.fecha_convenio and E.id_categoria = A.id_categoria&#xA;&#x9;&#x9;&#x9;&#x9;and A.id_tipo_valorizacion = 'E' and E.id_nomenclador_acreedor+E.de_codigo_prestacion_acreedor = '99999999')&#xA;&#xA;&#xA;/* Actualiza id_valor_grilla_plan en AUX_ARANCELES_EVOLUCION */&#xA;&#xA;&#x9;&#x9;&#x9;UPDATE DW_SALUD.dbo.AUX_ARANCELES_EVOLUCION SET id_valor_grilla_plan = CASE&#xA;&#x9;&#x9;&#x9;when id_acreedor in (19,59,564,636,29041,30258,45062,45926,45932,47309,47326,68319,72125,96065,100728,116115) then 1&#xA;&#x9;&#x9;&#x9;when id_acreedor in (17,129,130,492,31831,45656) and id_plan_agrupado_convenio in (1,2,3) then 1&#xA;&#x9;&#x9;&#x9;when id_acreedor in (17,129,130,492,31831,45656) and id_plan_agrupado_convenio in (4,5,6) then 2&#xA;&#x9;&#x9;&#x9;when id_acreedor in (49261) and id_plan_agrupado_convenio in (1,2,3,4) then 1&#xA;&#x9;&#x9;&#x9;when id_acreedor in (49261) and id_plan_agrupado_convenio in (5,6) then 2&#xA;&#x9;&#x9;&#x9;when id_acreedor in (43,46,47,6377,38002,46446,67667) and id_plan_agrupado_convenio in (1,2,3) then 1&#xA;&#x9;&#x9;&#x9;when id_acreedor in (43,46,47,6377,38002,46446,67667) and id_plan_agrupado_convenio in (4) then 2&#xA;&#x9;&#x9;&#x9;when id_acreedor in (43,46,47,6377,38002,46446,67667) and id_plan_agrupado_convenio in (5,6) then 3&#xA;&#x9;&#x9;&#x9;when id_acreedor in (396) and id_plan_agrupado_convenio in (1) then 1&#xA;&#x9;&#x9;&#x9;when id_acreedor in (396) and id_plan_agrupado_convenio in (2,3) then 2&#xA;&#x9;&#x9;&#x9;when id_acreedor in (396) and id_plan_agrupado_convenio in (4,5,6) then 3&#x9;&#x9;&#xA;&#x9;&#x9;&#x9;when id_acreedor in (457) and id_plan_agrupado_convenio in (1,2,3) then 1&#xA;&#x9;&#x9;&#x9;when id_acreedor in (457) and id_plan_agrupado_convenio in (4,5) then 2&#xA;&#x9;&#x9;&#x9;when id_acreedor in (457) and id_plan_agrupado_convenio in (6) then 3&#x9;&#x9;&#x9;&#x9;&#xA;&#x9;&#x9;&#x9;when id_acreedor in (30860) and id_plan_agrupado_convenio in (1,2) then 1&#xA;&#x9;&#x9;&#x9;when id_acreedor in (30860) and id_plan_agrupado_convenio in (3) then 2&#xA;&#x9;&#x9;&#x9;when id_acreedor in (30860) and id_plan_agrupado_convenio in (4,5,6) then 3&#x9;&#xA;&#x9;&#x9;&#x9;end&#xA;&#xA;&#xA;/* Borra los convenios que estan mal cargados. */&#xA;&#x9;&#x9;DELETE FROM DW_SALUD.dbo.AUX_ARANCELES_EVOLUCION where isdate(substring(fecha_convenio,1,4)+'-'+substring(fecha_convenio,5,2)+'-'+substring(fecha_convenio,7,2)+' ') = 0 &#xA;&#x9;&#x9;DELETE FROM DW_SALUD.dbo.AUX_ARANCELES_EVOLUCION where CAST(fecha_convenio as datetime) &gt; GETDATE() &#xA;&#x9;&#x9;DELETE FROM DW_SALUD.dbo.AUX_ARANCELES_EVOLUCION where CAST(fecha_convenio as datetime) &gt; CAST(fecha_vigencia_hasta as datetime) and fecha_vigencia_hasta not in ('00000000','0','')&#xA;&#x9;&#xA;&#xA;/* Actualiza el Agrupador Convenio en DW_SALUD.dbo.AUX_ARANCELES_EVOLUCION.*/&#xA;&#x9;&#x9;UPDATE DW_SALUD.dbo.AUX_ARANCELES_EVOLUCION&#xA;&#x9;&#x9;&#x9;SET id_plan_agrupado_convenio = J.id_plan_agrupado_convenio&#xA;&#x9;&#x9;FROM DW_SALUD.dbo.AUX_ARANCELES_EVOLUCION P&#xA;&#x9;&#x9;JOIN DW_SALUD.dbo.D_PLANES J on P.id_producto = J.id_producto and P.id_plan_producto = J.id_plan_producto&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza detalles AUX_ARANCELES_EVOLUCION T"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{43f2ec9c-0655-4b01-97e7-f6a73eff975a}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza detalles AUX_ARANCELES_EVOLUCION T"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{7705AE95-4A1E-4600-AF08-B019CC52882F}"
+          SQLTask:SqlStatementSource="&#xA;-- TARIFA.&#xA;&#xA;/* Borra estos casos particulares con categoria que no corresponde. */&#xA;&#x9;--DELETE from AUX_ARANCELES_EVOLUCION where id_categoria in ('1','2','3','4') and id_tipo_valorizacion = 'T'&#xA;&#xA;&#xA;/* Actualiza AUX_ARANCELES_EXCEPCION_ORIGEN_PRESTACION. &#xA;&#x9;&#x9;Si una prestacion tiene Origen '' se marca, sino se consulta si tiene Origen 'A' y por ultimo 'I'. Lo que no queda marcado se borra. */&#xA;&#xA;&#x9;-- Inserta datos en AUX_ARANCELES_TARIFA_ORIGEN_PRESTACION.&#xA;&#x9;&#x9;TRUNCATE TABLE DW_SALUD.dbo.AUX_ARANCELES_TARIFA_ORIGEN_PRESTACION&#xA;&#xA;&#x9;&#x9;INSERT INTO DW_SALUD.dbo.AUX_ARANCELES_TARIFA_ORIGEN_PRESTACION&#xA;&#x9;&#x9;(fecha_vigencia, id_acreedor, Id_Prestacion, id_origen_prestacion, marca_prestacion, id_categoria)&#xA;&#x9;&#x9;SELECT fecha_convenio, id_acreedor, id_nomenclador+de_codigo_prestacion as Id_Prestacion, id_origen_prestacion, 0 as marca_prestacion, id_categoria&#xA;&#x9;&#x9;FROM DW_SALUD.dbo.AUX_ARANCELES_EVOLUCION&#xA;&#x9;&#x9;WHERE id_tipo_valorizacion = 'T'&#xA;&#x9;&#x9;GROUP BY fecha_convenio, id_acreedor, id_nomenclador, de_codigo_prestacion, id_origen_prestacion, id_categoria&#xA;&#xA;&#x9;-- Prepara datos en auxiliar.&#xA;&#x9;&#x9;-- Si es V (vacio).&#xA;&#x9;&#x9;UPDATE DW_SALUD.dbo.AUX_ARANCELES_TARIFA_ORIGEN_PRESTACION &#xA;&#x9;&#x9;&#x9;SET marca_prestacion = 1&#xA;&#x9;&#x9;FROM DW_SALUD.dbo.AUX_ARANCELES_TARIFA_ORIGEN_PRESTACION P&#xA;&#x9;&#x9;WHERE P.id_origen_prestacion in ('V') and exists (select P2.fecha_vigencia, P2.Id_Prestacion, P2.id_acreedor, P2.id_categoria FROM DW_SALUD.dbo.AUX_ARANCELES_TARIFA_ORIGEN_PRESTACION P2 where P.fecha_vigencia = P2.fecha_vigencia and P.Id_Prestacion = P2.Id_Prestacion and P.id_acreedor = P2.id_acreedor and P.id_categoria = P2.id_categoria)&#xA;&#x9;&#x9;-- Si es A (ambulatorio).&#xA;&#x9;&#x9;UPDATE DW_SALUD.dbo.AUX_ARANCELES_TARIFA_ORIGEN_PRESTACION &#xA;&#x9;&#x9;&#x9;SET marca_prestacion = 1&#xA;&#x9;&#x9;FROM DW_SALUD.dbo.AUX_ARANCELES_TARIFA_ORIGEN_PRESTACION P&#xA;&#x9;&#x9;WHERE P.id_origen_prestacion in ('A') and not exists (select P2.fecha_vigencia, P2.Id_Prestacion, P2.id_acreedor, P2.id_categoria FROM DW_SALUD.dbo.AUX_ARANCELES_TARIFA_ORIGEN_PRESTACION P2 where P.fecha_vigencia = P2.fecha_vigencia and P.Id_Prestacion = P2.Id_Prestacion and P.id_acreedor = P2.id_acreedor and P.id_categoria = P2.id_categoria and P2.marca_prestacion = 1)&#xA;&#x9;&#x9;-- Si es I (internaciones).&#xA;&#x9;&#x9;UPDATE DW_SALUD.dbo.AUX_ARANCELES_TARIFA_ORIGEN_PRESTACION SET marca_prestacion = 1&#xA;&#x9;&#x9;FROM DW_SALUD.dbo.AUX_ARANCELES_TARIFA_ORIGEN_PRESTACION P&#xA;&#x9;&#x9;WHERE P.id_origen_prestacion in ('I') and not exists (select P2.fecha_vigencia, P2.Id_Prestacion, P2.id_acreedor, P2.id_categoria FROM DW_SALUD.dbo.AUX_ARANCELES_TARIFA_ORIGEN_PRESTACION P2 where P.fecha_vigencia = P2.fecha_vigencia and P.Id_Prestacion = P2.Id_Prestacion and P.id_acreedor = P2.id_acreedor and P.id_categoria = P2.id_categoria and P2.marca_prestacion = 1)&#xA;&#xA;&#x9;-- Impacta en AUX_ARANCELES_EVOLUCION.&#xA;&#x9;&#x9;UPDATE DW_SALUD.dbo.AUX_ARANCELES_EVOLUCION&#xA;&#x9;&#x9;&#x9;SET marca_prestacion = MP.marca_prestacion&#xA;&#x9;&#x9;FROM DW_SALUD.dbo.AUX_ARANCELES_EVOLUCION G&#xA;&#x9;&#x9;JOIN DW_SALUD.dbo.AUX_ARANCELES_TARIFA_ORIGEN_PRESTACION MP on MP.fecha_vigencia = G.fecha_convenio and MP.Id_Prestacion = G.id_nomenclador+de_codigo_prestacion and MP.id_origen_prestacion = G.id_origen_prestacion and MP.id_acreedor = G.id_acreedor and MP.id_categoria = G.id_categoria&#xA;&#x9;&#x9;WHERE MP.marca_prestacion = 1 and G.id_tipo_valorizacion = 'T'&#xA;&#x9;&#x9;&#x9;&#xA;&#xA;/* Borra los convenios que estan mal cargados. */&#xA;&#x9;--DELETE FROM DW_SALUD.dbo.AUX_ARANCELES_EVOLUCION where isdate(substring(fecha_convenio,1,4)+'-'+substring(fecha_convenio,5,2)+'-'+substring(fecha_convenio,7,2)+' ') = 0 and id_tipo_valorizacion = 'T'&#xA;&#x9;--DELETE FROM DW_SALUD.dbo.AUX_ARANCELES_EVOLUCION where CAST(fecha_convenio as datetime) &gt; GETDATE() and id_tipo_valorizacion = 'T'&#xA;&#x9;--DELETE FROM DW_SALUD.dbo.AUX_ARANCELES_EVOLUCION where CAST(fecha_convenio as datetime) &gt; CAST(fecha_vigencia_hasta as datetime) and id_tipo_valorizacion = 'T' and fecha_vigencia_hasta not in ('00000000','')&#xA;&#xA;/* Actualiza campo Agrupador Convenio en DW_SALUD.dbo.AUX_ARANCELES_EVOLUCION.*/&#xA; &#xA;&#x9;--UPDATE DW_SALUD.dbo.AUX_ARANCELES_EVOLUCION &#xA;&#x9;--&#x9;set id_plan_agrupado_convenio = J.id_plan_agrupado_convenio&#xA;&#x9;--FROM DW_SALUD.dbo.AUX_ARANCELES_EVOLUCION P&#xA;&#x9;--JOIN DW_SALUD.dbo.D_PLANES J on P.id_producto = J.id_producto and P.id_plan_producto = J.id_plan_producto&#xA;&#x9;--WHERE id_tipo_valorizacion = 'T'&#xA;&#xA;&#xA;&#xA;&#xA;&#x9;&#x9;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Actualizar tablas de dimensión"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Actualizar tablas de dimensión"
+      DTS:DTSID="{f8b8f7c3-d98e-48f9-918d-73a69a7e5dae}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualizar tablas de dimensión"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0">
+        <DTS:Property
+          DTS:DataType="8"
+          DTS:Name="EventFilter">1,7,OnError</DTS:Property>
+        <DTS:Property
+          DTS:EventName="OnError"
+          DTS:Name="ColumnFilter">
+          <DTS:Property
+            DTS:Name="Computer">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="Operator">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="SourceName">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="SourceID">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="ExecutionID">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="MessageText">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="DataBytes">-1</DTS:Property>
+        </DTS:Property>
+      </DTS:LoggingOptions>
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{7705AE95-4A1E-4600-AF08-B019CC52882F}"
+          SQLTask:SqlStatementSource="&#xA;&#xA;&#xA;/* Actualizo la tabla de PRESTACION */&#xA;&#x9; INSERT INTO D_PRESTACION &#xA;&#x9; (id_prestacion, id_nomenclador, de_codigo_prestacion ,de_prestacion, id_capitulo, id_subcapitulo, id_seccion, id_seguir_prestacion, id_grupo_prestacion, id_subgrupo_prestacion, id_accion_farmacologica, id_servicio_prest, id_catalogada, id_cod_resolucion, id_nivel_capitacion, id_complejidad, id_provision_prest, id_rubro_ind_consumo, id_prestacion_oncologia, id_marca_recupero_sur, simulador_convenio, evolucion_pareto, orden_pareto)&#xA;&#x9; SELECT DISTINCT id_nomenclador+de_codigo_prestacion as id_prestacion, id_nomenclador, de_codigo_prestacion, 'F/D' as de_prestacion, 99 as id_capitulo, 99 as id_subcapitulo, 99 as id_seccion, 'N' as id_seguir_prestacion, 99 as id_grupo_prestacion, 99 as id_subgrupo_prestacion, 9999 as id_accion_farmacologica, 99 as id_servicio_prest, 'S' as id_catalogada, 9 as id_cod_resolucion, 999 as id_nivel_capitacion, 999 as id_complejidad, 0 as id_provision_prest, ' ' as id_rubro_ind_consumo, 'N' as id_prestacion_oncologia, 0 as id_marca_recupero_sur, 0 as simulador_convenio, 0 as evolucion_pareto, 0 as orden_pareto&#xA;&#x9; FROM DW_SALUD.dbo.AUX_ARANCELES_EVOLUCION&#xA;&#x9; WHERE id_nomenclador+de_codigo_prestacion not in (SELECT id_prestacion FROM d_prestacion)&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Borra AUX_ARANCELES_EVOLUCION"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{28B91110-93E4-4DD9-82F4-A08090136FB7}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Borra AUX_ARANCELES_EVOLUCION"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{7705AE95-4A1E-4600-AF08-B019CC52882F}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE AUX_ARANCELES_EVOLUCION" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{312596A6-B85D-444A-8229-5E53570AC3AF}"
+      DTS:From="Package\Borra AUX_ARANCELES_EVOLUCION"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Actualiza  AUX_ARANCELES_EVOLUCION Excepcion" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{65F7CF33-789B-481B-A4EA-8959F68A16ED}"
+      DTS:From="Package\Actualiza  AUX_ARANCELES_EVOLUCION Excepcion"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Actualiza AUX_ARANCELES_EVOLUCION Tarifa" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{28C77928-F134-4416-86CF-1367AC084A93}"
+      DTS:From="Package\Actualiza detalles AUX_ARANCELES_EVOLUCION E"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Actualiza detalles AUX_ARANCELES_EVOLUCION T" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{38C8BEDC-16B6-4A1F-A9DD-870354541860}"
+      DTS:From="Package\Actualiza AUX_ARANCELES_EVOLUCION Tarifa"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Actualiza detalles AUX_ARANCELES_EVOLUCION E" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
+      DTS:CreationName=""
+      DTS:DTSID="{4A8E5D5F-642F-4B60-87E9-7C07A7587C78}"
+      DTS:From="Package\Actualiza detalles AUX_ARANCELES_EVOLUCION T"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 4"
+      DTS:To="Package\Actualiza detalles AUX_ARANCELES_EVOLUCION E y T" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 5]"
+      DTS:CreationName=""
+      DTS:DTSID="{ACE8E6AB-69ED-4FB5-9A83-3E70BFA14551}"
+      DTS:From="Package\Actualiza detalles AUX_ARANCELES_EVOLUCION E y T"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 5"
+      DTS:To="Package\Actualizar tablas de dimensión" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="350,42"
+          Id="Package\Actualiza  AUX_ARANCELES_EVOLUCION Excepcion"
+          TopLeft="9.89353099730457,73.8584905660377" />
+        <NodeLayout
+          Size="324,42"
+          Id="Package\Actualiza AUX_ARANCELES_EVOLUCION Tarifa"
+          TopLeft="22.8935309973046,142.216981132075" />
+        <NodeLayout
+          Size="344,42"
+          Id="Package\Actualiza detalles AUX_ARANCELES_EVOLUCION E"
+          TopLeft="12.8935309973046,210.575471698113" />
+        <NodeLayout
+          Size="362,42"
+          Id="Package\Actualiza detalles AUX_ARANCELES_EVOLUCION E y T"
+          TopLeft="3.89353099730457,347.292452830188" />
+        <NodeLayout
+          Size="343,42"
+          Id="Package\Actualiza detalles AUX_ARANCELES_EVOLUCION T"
+          TopLeft="13.3935309973046,278.933962264151" />
+        <NodeLayout
+          Size="228,42"
+          Id="Package\Actualizar tablas de dimensión"
+          TopLeft="70.8935309973046,415.650943396226" />
+        <NodeLayout
+          Size="275,42"
+          Id="Package\Borra AUX_ARANCELES_EVOLUCION"
+          TopLeft="47.3935309973046,5.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="184.893530997305,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,26.3584905660377"
+              Start="0,0"
+              End="0,18.8584905660377">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18.8584905660377" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="184.893530997305,115.858490566038">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,26.3584905660377"
+              Start="0,0"
+              End="0,18.8584905660377">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18.8584905660377" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="184.893530997305,252.575471698113">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,26.3584905660377"
+              Start="0,0"
+              End="0,18.8584905660377">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18.8584905660377" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="184.893530997305,184.216981132075">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,26.3584905660377"
+              Start="0,0"
+              End="0,18.8584905660377">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18.8584905660377" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="184.893530997305,320.933962264151">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,26.3584905660377"
+              Start="0,0"
+              End="0,18.8584905660377">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18.8584905660377" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 5]"
+          TopLeft="184.893530997305,389.292452830188">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,26.3584905660377"
+              Start="0,0"
+              End="0,18.8584905660377">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18.8584905660377" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

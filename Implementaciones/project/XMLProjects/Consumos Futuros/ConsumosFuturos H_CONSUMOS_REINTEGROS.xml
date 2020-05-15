@@ -1,0 +1,1448 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/17/2018 9:53:58 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AMS06X"
+  DTS:CreatorName="AMS\pgonzalez"
+  DTS:DTSID="{EEBE0FA5-2587-40EC-98C6-127749377940}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="ConsumosFuturos H_CONSUMOS_REINTEGROS"
+  DTS:PackageType="5"
+  DTS:VersionBuild="122"
+  DTS:VersionGUID="{BE897E83-1A74-4A42-9480-3816A5AE599A}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{B0E92493-6206-48A7-B197-545A5E44BB45}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{6945903C-69AB-4226-99A5-69B3C9283528}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Fecha_Desde">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{B0E92493-6206-48A7-B197-545A5E44BB45}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Actualizar AUX_H_CONSUMOS_REINTEGROS"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{735E2F34-0855-4D95-B9FA-66A03AA3C298}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualizar AUX_H_CONSUMOS_REINTEGROS"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{D711229E-AB20-4E7C-99E7-BB2F444CD0D1}"
+          SQLTask:SqlStatementSource="/*Seteo en null las fechas que vienen en 0*/&#xA;update  aux_H_CONSUMOS_REINTEGROS&#xA;set fecha_pago_reintegro =  null ,&#xA;imp_pagado_reintegro = 0 &#xA;where fecha_pago_reintegro = '0'&#xA;&#xA;&#xA;/*Seteo en el tipo de dato correspondiente y calculo cant dias de pagos*/&#xA;update  aux_H_CONSUMOS_REINTEGROS&#xA;set id_periodo = SUBSTRING ( fecha_presentacion_reintegro ,1 , 6 ), &#xA;fecha_prestacion = cast(fecha_prestacion as date) ,&#xA;fecha_pago_reintegro = cast(fecha_pago_reintegro as date),&#xA;fecha_presentacion_reintegro = cast(fecha_presentacion_reintegro as date) ,  &#xA;cant_dias_pagos = datediff(day, cast(fecha_presentacion_reintegro as date), cast(fecha_pago_reintegro as date))&#xA;from  aux_H_CONSUMOS_REINTEGROS&#xA;&#xA;/*Si tiene mas de un cursograma divido el importe solicitado por la cantidad para que la suma de estos sea el importe real&#xA;update aux_H_CONSUMOS_REINTEGROS&#xA;set imp_solicitado_reintegro = imp_solicitado_reintegro * cant_reintegros&#xA;where cant_reintegros &lt; 1*/&#xA;&#xA;/*Calculo cant_reintegros, script aportado por lili*/&#xA;select nro_cursograma, COUNT(*) as cant&#xA;into #paso &#xA;from aux_H_CONSUMOS_REINTEGROS &#xA;group by nro_cursograma&#xA;&#xA;update aux_H_CONSUMOS_REINTEGROS&#xA;set cant_reintegros = 1/cast(pas.cant as float)&#xA;from aux_H_CONSUMOS_REINTEGROS aux&#xA;inner JOIN #PASO PAS on (aux.nro_cursograma = PAS.nro_cursograma)&#xA;&#xA;&#xA;/*Si tiene mas de un cursograma divido el importe solicitado por la cantidad para que la suma de estos sea el importe real*/&#xA;update aux_H_CONSUMOS_REINTEGROS&#xA;set imp_solicitado_reintegro = imp_solicitado_reintegro * cant_reintegros&#xA;where cant_reintegros &lt; 1&#xA;&#xA;/* Actualiza Proyecto Empresas en AUX_H_CONSUMOS_MEDICAMENTOS. */&#xA;&#xA;&#x9;-- Actualiza los campos principales de empresas.&#xA;&#x9;UPDATE aux_H_CONSUMOS_REINTEGROS  &#xA;&#x9;&#x9;SET id_empresa_PE_reint = H.id_empresa_PE,&#xA;&#x9;&#x9;&#x9;id_tipo_entidad_PE_reint = H.id_tipo_entidad_PE, &#xA;&#x9;&#x9;&#x9;id_marca_PE_reint = H.id_marca_PE, &#xA;&#x9;&#x9;&#x9;id_convenio_especial_reint = H.id_convenio_especial&#xA;&#x9;FROM aux_H_CONSUMOS_REINTEGROS C&#xA;&#x9;JOIN H_COMER_STOCK_AFILIA H on C.id_persona = H.id_persona and H.id_periodo = c.id_periodo&#xA;&#xA;&#x9;-- Crea una tabla &quot;Faltantes_AUTORIZACIONES_PE&quot; con los registros que no se actualizan en el paso anterior&#xA;&#x9;if exists (select * from sysobjects where name = 'Faltantes_aux_H_CONSUMOS_REINTEGROS')&#xA;&#x9;  begin&#xA;&#x9;&#x9; drop table Faltantes_aux_H_CONSUMOS_REINTEGROS&#xA;&#x9;end&#xA;&#xA;&#x9;-- Declara Ultimo Periodo de Stock para buscar información anterior al mismo. &#xA;&#x9;DECLARE @Periodo int SET @Periodo = (select max(id_periodo) from DW_SALUD.dbo.H_COMER_STOCK_AFILIA)  &#xA;&#xA;&#x9;SELECT max(ST.id_periodo) as id_periodo, I.id_persona&#xA;&#x9;Into Faltantes_aux_H_CONSUMOS_REINTEGROS&#xA;&#x9;FROM aux_H_CONSUMOS_REINTEGROS I&#xA;&#x9;JOIN DW_SALUD.dbo.H_COMER_STOCK_AFILIA ST on ST.id_persona = I.id_persona&#xA;&#x9;WHERE ST.id_periodo &lt; @Periodo and i.id_marca_PE_reint is null &#xA;&#x9;GROUP BY I.id_persona&#xA;&#xA;&#x9;-- Actualiza los 4 campos principales para los Faltantes.&#xA;&#x9;UPDATE aux_H_CONSUMOS_REINTEGROS &#xA;&#x9;&#x9;SET id_empresa_PE_reint = H.id_empresa_PE,&#xA;&#x9;&#x9;&#x9;id_tipo_entidad_PE_reint = H.id_tipo_entidad_PE, &#xA;&#x9;&#x9;&#x9;id_marca_PE_reint = H.id_marca_PE, &#xA;&#x9;&#x9;&#x9;id_convenio_especial_reint= H.id_convenio_especial&#xA;&#x9;FROM aux_H_CONSUMOS_REINTEGROS C&#xA;&#x9;JOIN H_COMER_STOCK_AFILIA H on C.id_persona = H.id_persona &#xA;&#x9;JOIN Faltantes_aux_H_CONSUMOS_REINTEGROS FAL on FAL.id_persona = C.id_persona and FAL.id_periodo = H.id_periodo &#xA;&#x9;and H.id_periodo &gt; 201511 and C.id_periodo &gt; 201511&#xA;&#xA;&#x9;drop table Faltantes_aux_H_CONSUMOS_REINTEGROS&#xA;&#xA;&#xA;&#xA;/* Actualizo la tabla de PRESTACION */&#xA;        INSERT INTO D_PRESTACION &#xA;        (id_prestacion, id_nomenclador, de_codigo_prestacion ,de_prestacion, id_capitulo, id_subcapitulo, id_seccion, id_seguir_prestacion, id_grupo_prestacion, id_subgrupo_prestacion, id_accion_farmacologica, id_servicio_prest, id_catalogada, id_cod_resolucion, id_nivel_capitacion, id_complejidad, id_provision_prest, id_rubro_ind_consumo, id_prestacion_oncologia, id_marca_recupero_sur, simulador_convenio, evolucion_pareto, orden_pareto)&#xA;        SELECT DISTINCT CAST([Nomenclador]as CHAR(2))+ CAST([codigo_prestacion] AS CHAR(8)) as id_prestacion,  nomenclador&#xA;        , codigo_prestacion, 'F/D' as de_prestacion,&#xA;         99 as id_capitulo, 99 as id_subcapitulo, 99 as id_seccion, 'N' as id_seguir_prestacion, &#xA;         99 as id_grupo_prestacion, 99 as id_subgrupo_prestacion, 9999 as id_accion_farmacologica, &#xA;         99 as id_servicio_prest, 'S' as id_catalogada, 9 as id_cod_resolucion, &#xA;         999 as id_nivel_capitacion, 999 as id_complejidad, 0 as id_provision_prest, &#xA;         ' ' as id_rubro_ind_consumo, 'N' as id_prestacion_oncologia, 0 as id_marca_recupero_sur,&#xA;          0 as simulador_convenio, 0 as evolucion_pareto, 0 as orden_pareto&#xA;        FROM AUX_H_CONSUMOS_REINTEGROS   &#xA;        WHERE CAST([Nomenclador]as CHAR(2))+ CAST([codigo_prestacion] AS CHAR(8)) not in (SELECT distinct id_prestacion FROM D_PRESTACION)&#xA;        &#xA;      &#xA;&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Actualizar H_CONSUMOS_REINTEGROS"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{867B0251-78AE-4B20-B58B-04D5B3C4E51F}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualizar H_CONSUMOS_REINTEGROS"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{D711229E-AB20-4E7C-99E7-BB2F444CD0D1}"
+          SQLTask:SqlStatementSource="declare @periodo_minimo int &#xA;set @periodo_minimo = (select min(id_periodo) from aux_H_CONSUMOS_REINTEGROS)&#xA;/*Elimina los ultimos 13 meses*/&#xA;delete from H_CONSUMOS_REINTEGROS  where id_periodo &gt;=  @periodo_minimo&#xA;&#xA;insert into H_CONSUMOS_REINTEGROS (id_prestacion,id_periodo, id_persona, id_producto,id_subproducto, id_plan_producto, nro_cursograma&#xA;, fecha_prestacion,id_empresa_PE_reint, id_tipo_entidad_PE_reint, id_marca_PE_reint,id_convenio_especial_reint,&#xA;imp_solicitado_reintegro, imp_pagado_reintegro,fecha_pago_reintegro,fecha_presentacion_reintegro, cant_dias_pagos, cant_reintegros,nro_lote, nro_secuencia,id_usuario_cierre_reintegro,id_estado_reintegro,id_usuario_responsable_reintegro)&#xA;select nomenclador + codigo_prestacion ,id_periodo, id_persona, id_producto, id_subproducto,id_plan_producto, nro_cursograma&#xA;,fecha_prestacion,id_empresa_PE_reint, id_tipo_entidad_PE_reint, id_marca_PE_reint,id_convenio_especial_reint,imp_solicitado_reintegro&#xA;,imp_pagado_reintegro, fecha_pago_reintegro,fecha_presentacion_reintegro, cant_dias_pagos, cant_reintegros,nro_lote,nro_secuencia,id_usuario_cierre,&#xA;id_estado_reintegro&#x9;, id_usuario_responsable&#xA;from  aux_H_CONSUMOS_REINTEGROS&#xA;&#xA;UPDATE H_CONSUMOS_REINTEGROS&#xA;SET cant_dias_pagos = 0&#xA;where cant_dias_pagos is null&#xA;&#xA;/*Prorateo el importe solicitado por la cantidad de registros*/&#xA;select nro_cursograma, count(nro_cursograma) as cantidad_filas&#xA;into #tmp_cursogramas_repetidos&#xA;from H_CONSUMOS_REINTEGROS&#xA;group by nro_cursograma&#xA;having count (nro_cursograma) &gt; 1&#xA;/*&#xA;update H_CONSUMOS_REINTEGROS&#xA;set imp_solicitado_reintegro = h.imp_solicitado_reintegro / t.cantidad_filas &#xA;from H_CONSUMOS_REINTEGROS H inner join #tmp_cursogramas_repetidos t on t.nro_cursograma = h.nro_cursograma&#xA;*/&#xA;&#xA;/*Seteo en 1 la marca de pago reintegro cuando existe fecha de pago*/&#xA;update H_CONSUMOS_REINTEGROS&#xA;set id_marca_pago_reintegro = 1 &#xA;where fecha_pago_reintegro is not null&#xA;&#xA;/*Cuando se solicita mas de un millon se toma el importe pagado */&#xA;update H_CONSUMOS_REINTEGROS&#xA;set imp_solicitado_reintegro = imp_pagado_reintegro &#xA;where imp_solicitado_reintegro &gt; 1000000&#xA;&#xA;/*Cuando la cantidad de dias es negativo se pone en 0*/&#xA;update H_CONSUMOS_REINTEGROS&#xA;set cant_dias_pagos = 0&#xA;where cant_dias_pagos &lt; 0&#xA;&#xA;/* Setea por defecto las marcas empresa*/&#xA;UPDATE H_CONSUMOS_REINTEGROS &#xA;SET id_empresa_PE_reint = 0,&#xA;&#x9;&#x9;&#x9;id_tipo_entidad_PE_reint = 'I', &#xA;&#x9;&#x9;&#x9;id_marca_PE_reint = 7, &#xA;&#x9;&#x9;&#x9;id_convenio_especial_reint = 0&#xA;FROM H_CONSUMOS_REINTEGROS C&#xA;where id_empresa_PE_reint is null and id_tipo_entidad_pe_reint is null &#xA;&#x9;and id_marca_PE_reint is null and id_convenio_especial_reint is null&#xA;&#xA;/*Agrega nomencladores nuevos para integrdad*/&#xA;select * into #faltanomenclador&#xA; from aux_H_CONSUMOS_REINTEGROS h  where nomenclador+codigo_prestacion not in (select id_prestacion from D_PRESTACION)&#xA;&#xA;&#xA;&#xA;----insert into D_PRESTACION &#xA;----select nomenclador + codigo_prestacion, nomenclador, codigo_prestacion, 'F/D', 1, 0, 0, 'N',99,99,9999,9,'S',9,0,0,9, '','N', 'S',0,0,0,0&#xA;----from #faltanomenclador&#xA;&#xA;&#xA;&#xA;&#x9;INSERT INTO D_PRESTACION &#xA;&#x9;([id_prestacion],[id_nomenclador],[de_codigo_prestacion],[de_prestacion],[id_capitulo],[id_subcapitulo],[id_seccion],[id_seguir_prestacion],[id_grupo_prestacion],[id_subgrupo_prestacion],[id_accion_farmacologica],[id_servicio_prest],[id_catalogada],[id_cod_resolucion],[id_nivel_capitacion],[id_complejidad],[id_provision_prest],[id_rubro_ind_consumo],[id_prestacion_oncologia],[id_prestacion_homologada],[id_marca_recupero_sur],[simulador_convenio],[evolucion_pareto],[orden_pareto])&#xA;&#x9;SELECT nomenclador + codigo_prestacion as id_prestacion, nomenclador as id_nomenclador,&#xA;&#x9;codigo_prestacion as de_codigo_prestacion, 'F/D' as de_prestacion,1 as id_capitulo, 0 as id_subcapitulo, 0 as id_seccion,&#xA;&#x9; 'N',99,99,9999,9,'S',9,0,0,9, '','N', 'S',0,0,0,0&#xA;&#x9;FROM #faltanomenclador&#xA;&#xA;&#xA;&#xA;&#xA;--- ACTUALIZA CONVENIOS&#xA;&#xA;UPDATE H_CONSUMOS_REINTEGROS  &#xA;&#x9;&#x9;SET id_convenio = h.id_convenio,&#xA;&#x9;&#x9;&#x9;id_tipo_entidad_convenio = h.id_tipo_entidad_convenio&#xA;&#x9;FROM H_CONSUMOS_REINTEGROS C&#xA;&#x9;JOIN H_COMER_STOCK_AFILIA H on C.id_persona = H.id_persona and H.id_periodo = c.id_periodo&#xA;&#xA;&#x9;-- Crea una tabla &quot;Faltantes_AUTORIZACIONES_PE&quot; con los registros que no se actualizan en el paso anterior&#xA;&#x9;if exists (select * from sysobjects where name = 'Faltantes_aux_H_CONSUMOS_REINTEGROS')&#xA;&#x9;  begin&#xA;&#x9;&#x9; drop table Faltantes_aux_H_CONSUMOS_REINTEGROS&#xA;&#x9;end&#xA;&#xA;&#x9;-- Declara Ultimo Periodo de Stock para buscar información anterior al mismo. &#xA;&#x9;DECLARE @Periodo int SET @Periodo = (select max(id_periodo) from DW_SALUD.dbo.H_COMER_STOCK_AFILIA)  &#xA;&#xA;&#x9;SELECT max(ST.id_periodo) as id_periodo, I.id_persona&#xA;&#x9;Into Faltantes_aux_H_CONSUMOS_REINTEGROS&#xA;&#x9;FROM H_CONSUMOS_REINTEGROS I&#xA;&#x9;JOIN DW_SALUD.dbo.H_COMER_STOCK_AFILIA ST on ST.id_persona = I.id_persona&#xA;&#x9;WHERE ST.id_periodo &lt; i.id_periodo and i.id_convenio is null &#xA;&#x9;GROUP BY I.id_persona&#xA;&#xA;&#x9;-- Actualiza los 4 campos principales para los Faltantes.&#xA;&#x9;UPDATE H_CONSUMOS_REINTEGROS &#xA;&#x9;&#x9;SET id_convenio = H.id_convenio,&#xA;&#x9;&#x9;&#x9;id_tipo_entidad_convenio = H.id_tipo_entidad_convenio&#xA;&#x9;FROM H_CONSUMOS_REINTEGROS C&#xA;&#x9;JOIN H_COMER_STOCK_AFILIA H on C.id_persona = H.id_persona &#xA;&#x9;JOIN Faltantes_aux_H_CONSUMOS_REINTEGROS FAL on FAL.id_persona = C.id_persona and FAL.id_periodo = H.id_periodo &#xA;&#x9;and H.id_periodo &gt; 201511 and C.id_periodo &gt; 201511&#xA;&#x9;and C.id_convenio is null&#xA;&#xA;&#x9;drop table Faltantes_aux_H_CONSUMOS_REINTEGROS&#xA;&#xA;&#xA;/* Setea por defecto las marcas empresa*/&#xA;UPDATE H_CONSUMOS_REINTEGROS &#xA;SET id_convenio = 0,&#xA;&#x9;&#x9;&#x9;id_tipo_entidad_convenio = 'I'&#xA;FROM H_CONSUMOS_REINTEGROS C&#xA;where id_convenio is null &#xA;&#xA;&#xA;&#xA;delete from H_CONVENIOS_EMPRESAS where origen_informacion = 'ConsRein' and id_periodo &gt;= @periodo_minimo &#xA;&#xA;select distinct id_periodo,id_convenio,id_tipo_entidad_convenio,0 as id_periodo_maximo into #convenios_nuevos from H_CONSUMOS_REINTEGROS  H&#xA;where not exists  (select id_convenio ,id_tipo_entidad_convenio &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;from H_CONVENIOS_EMPRESAS C where id_periodo &gt;= @periodo_minimo &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;and h.id_periodo = &#x9;c.id_periodo and h.id_convenio = c.id_convenio and h.id_tipo_entidad_convenio = c.id_tipo_entidad_convenio) and id_periodo &gt;= @periodo_minimo &#xA;&#xA;update #convenios_nuevos&#xA;set id_periodo_maximo = maximo_periodo from&#xA;#convenios_nuevos c inner join (&#xA;select t.id_convenio, max(h.id_periodo) as maximo_periodo from #convenios_nuevos t inner join H_CONVENIOS_EMPRESAS h on t.id_convenio = h.id_convenio&#xA;&#x9;and t.id_tipo_entidad_convenio = h.id_tipo_entidad_convenio&#xA;group by t.id_convenio) A on c.id_convenio = a.id_convenio&#xA;&#xA;&#xA;insert into H_CONVENIOS_EMPRESAS&#xA;select c.id_periodo,c.id_convenio,c.id_tipo_entidad_convenio,e.id_subtipo_venta,id_rango_stock,id_rango_costo,id_blindaje,interes_comercial,es_mutual&#xA;,id_holding,'ConsRein' from #convenios_nuevos c inner join H_CONVENIOS_EMPRESAS e&#xA;on  c.id_convenio = e.id_convenio and c.id_periodo_maximo = e.id_periodo and c.id_tipo_entidad_convenio = e.id_tipo_entidad_convenio&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Actualizar Variable Fecha Desde"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{ED700BCA-1CA3-4675-B559-D58C0064098C}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualizar Variable Fecha Desde"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{D711229E-AB20-4E7C-99E7-BB2F444CD0D1}"
+          SQLTask:SqlStatementSource="select top 1 cast(dbo.PeriodosAnteriores(id_periodo,13)as varchar(6))+'00' as fecha_desde from D_PERIODO where vigente = 1 order by id_periodo desc"
+          SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="Fecha_Desde"
+            SQLTask:DtsVariableName="User::Fecha_Desde" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Borrar AUX_H_CONSUMOS_REINTEGROS"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{04AFEA4F-335A-4331-9098-1055F94160AA}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Borrar AUX_H_CONSUMOS_REINTEGROS"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{D711229E-AB20-4E7C-99E7-BB2F444CD0D1}"
+          SQLTask:SqlStatementSource="truncate table AUX_H_CONSUMOS_REINTEGROS" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Data Flow Task"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:DelayValidation="True"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{42171801-CB27-4F95-B5F6-3FB53D3D29D1}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Data Flow Task"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <pipeline
+          BLOBTempStoragePath=""
+          bufferTempStoragePath=""
+          version="1">
+          <components>
+            <component
+              refId="Package\Data Flow Task\Data Conversion"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Data Conversion;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Data Conversion"
+              name="Data Conversion"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task\Data Conversion.Inputs[Data Conversion Input]"
+                  name="Data Conversion Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Task\Data Conversion.Inputs[Data Conversion Input].Columns[NOMENCLADOR]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="NOMENCLADOR"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[NOMENCLADOR]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Data Conversion.Inputs[Data Conversion Input].Columns[FECHA_PRESTACION]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="8"
+                      cachedName="FECHA_PRESTACION"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[FECHA_PRESTACION]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Data Conversion.Inputs[Data Conversion Input].Columns[FECHA_PAGO_REINTEGRO]"
+                      cachedDataType="decimal"
+                      cachedName="FECHA_PAGO_REINTEGRO"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[FECHA_PAGO_REINTEGRO]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Data Conversion.Inputs[Data Conversion Input].Columns[FECHA_PRESENTACION_REINTEGRO]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="8"
+                      cachedName="FECHA_PRESENTACION_REINTEGRO"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[FECHA_PRESENTACION_REINTEGRO]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Data Conversion.Inputs[Data Conversion Input].Columns[ID_PLAN_PRODUCTO]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="5"
+                      cachedName="ID_PLAN_PRODUCTO"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_PLAN_PRODUCTO]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\Data Conversion.Inputs[Data Conversion Input].Columns[CODIGO_PRESTACION]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="8"
+                      cachedName="CODIGO_PRESTACION"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[CODIGO_PRESTACION]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\Data Conversion.Outputs[Data Conversion Output]"
+                  exclusionGroup="1"
+                  name="Data Conversion Output"
+                  synchronousInputId="Package\Data Flow Task\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of FECHA_PRESTACION]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="8"
+                      lineageId="Package\Data Flow Task\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of FECHA_PRESTACION]"
+                      name="Copy of FECHA_PRESTACION"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[FECHA_PRESTACION]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of FECHA_PAGO_REINTEGRO]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="8"
+                      lineageId="Package\Data Flow Task\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of FECHA_PAGO_REINTEGRO]"
+                      name="Copy of FECHA_PAGO_REINTEGRO"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[FECHA_PAGO_REINTEGRO]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of FECHA_PRESENTACION_REINTEGRO]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="8"
+                      lineageId="Package\Data Flow Task\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of FECHA_PRESENTACION_REINTEGRO]"
+                      name="Copy of FECHA_PRESENTACION_REINTEGRO"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[FECHA_PRESENTACION_REINTEGRO]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of ID_PLAN_PRODUCTO]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="5"
+                      lineageId="Package\Data Flow Task\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of ID_PLAN_PRODUCTO]"
+                      name="Copy of ID_PLAN_PRODUCTO"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_PLAN_PRODUCTO]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of NOMENCLADOR]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="2"
+                      lineageId="Package\Data Flow Task\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of NOMENCLADOR]"
+                      name="Copy of NOMENCLADOR"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[NOMENCLADOR]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of CODIGO_PRESTACION]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="8"
+                      lineageId="Package\Data Flow Task\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of CODIGO_PRESTACION]"
+                      name="Copy of CODIGO_PRESTACION"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[CODIGO_PRESTACION]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Data Flow Task\Data Conversion.Outputs[Data Conversion Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Data Conversion Error Output"
+                  synchronousInputId="Package\Data Flow Task\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[aux_H_CONSUMOS_REINTEGROS]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="{D711229E-AB20-4E7C-99E7-BB2F444CD0D1}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DS_DW_SALUD]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ID_PERSONA]"
+                      cachedDataType="decimal"
+                      cachedName="ID_PERSONA"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_persona]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_PERSONA]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ID_PRODUCTO]"
+                      cachedDataType="decimal"
+                      cachedName="ID_PRODUCTO"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_producto]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_PRODUCTO]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[NRO_CURSOGRAMA]"
+                      cachedDataType="decimal"
+                      cachedName="NRO_CURSOGRAMA"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[nro_cursograma]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[NRO_CURSOGRAMA]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[IMP_PAGADO_REINTEGRO]"
+                      cachedDataType="decimal"
+                      cachedName="IMP_PAGADO_REINTEGRO"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[imp_pagado_reintegro]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[IMP_PAGADO_REINTEGRO]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[SUB_PRODUCTO]"
+                      cachedDataType="decimal"
+                      cachedName="SUB_PRODUCTO"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_subproducto]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[SUB_PRODUCTO]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[IMP_SOLICIADO_REINTEGRO]"
+                      cachedDataType="numeric"
+                      cachedName="IMP_SOLICIADO_REINTEGRO"
+                      cachedPrecision="11"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[imp_solicitado_reintegro]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[IMP_SOLICIADO_REINTEGRO]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of FECHA_PRESTACION]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="8"
+                      cachedName="Copy of FECHA_PRESTACION"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_prestacion]"
+                      lineageId="Package\Data Flow Task\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of FECHA_PRESTACION]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of FECHA_PAGO_REINTEGRO]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="8"
+                      cachedName="Copy of FECHA_PAGO_REINTEGRO"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_pago_reintegro]"
+                      lineageId="Package\Data Flow Task\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of FECHA_PAGO_REINTEGRO]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of FECHA_PRESENTACION_REINTEGRO]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="8"
+                      cachedName="Copy of FECHA_PRESENTACION_REINTEGRO"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_presentacion_reintegro]"
+                      lineageId="Package\Data Flow Task\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of FECHA_PRESENTACION_REINTEGRO]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[NRO_SECUENCIA]"
+                      cachedDataType="decimal"
+                      cachedName="NRO_SECUENCIA"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[nro_secuencia]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[NRO_SECUENCIA]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of ID_PLAN_PRODUCTO]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="5"
+                      cachedName="Copy of ID_PLAN_PRODUCTO"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_plan_producto]"
+                      lineageId="Package\Data Flow Task\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of ID_PLAN_PRODUCTO]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[NRO_LOTE]"
+                      cachedDataType="decimal"
+                      cachedName="NRO_LOTE"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Nro_Lote]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[NRO_LOTE]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of NOMENCLADOR]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="Copy of NOMENCLADOR"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[nomenclador]"
+                      lineageId="Package\Data Flow Task\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of NOMENCLADOR]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of CODIGO_PRESTACION]"
+                      cachedDataType="wstr"
+                      cachedLength="8"
+                      cachedName="Copy of CODIGO_PRESTACION"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[codigo_prestacion]"
+                      lineageId="Package\Data Flow Task\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of CODIGO_PRESTACION]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ESTADO]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="ESTADO"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_estado_reintegro]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[ESTADO]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[USUARIO_RESPONSABLE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="15"
+                      cachedName="USUARIO_RESPONSABLE"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_usuario_responsable]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[USUARIO_RESPONSABLE]" />
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[USUARIO_CIERRE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="15"
+                      cachedName="USUARIO_CIERRE"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_usuario_cierre]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[USUARIO_CIERRE]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_periodo]"
+                      dataType="i4"
+                      name="id_periodo" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_persona]"
+                      dataType="r8"
+                      name="id_persona" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_producto]"
+                      dataType="i4"
+                      name="id_producto" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_subproducto]"
+                      dataType="i4"
+                      name="id_subproducto" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_plan_producto]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      name="id_plan_producto" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[nro_cursograma]"
+                      dataType="i4"
+                      name="nro_cursograma" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_prestacion]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      name="fecha_prestacion" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_periodo_prestacion]"
+                      dataType="i4"
+                      name="id_periodo_prestacion" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[imp_solicitado_reintegro]"
+                      dataType="r8"
+                      name="imp_solicitado_reintegro" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[imp_pagado_reintegro]"
+                      dataType="r8"
+                      name="imp_pagado_reintegro" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_pago_reintegro]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      name="fecha_pago_reintegro" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_presentacion_reintegro]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      name="fecha_presentacion_reintegro" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[cant_dias_pagos]"
+                      dataType="numeric"
+                      name="cant_dias_pagos"
+                      precision="6"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[cant_reintegros]"
+                      dataType="r8"
+                      name="cant_reintegros" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[nro_secuencia]"
+                      dataType="i4"
+                      name="nro_secuencia" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[nomenclador]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="nomenclador" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[codigo_prestacion]"
+                      dataType="wstr"
+                      length="8"
+                      name="codigo_prestacion" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_empresa_PE_reint]"
+                      dataType="i4"
+                      name="id_empresa_PE_reint" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_tipo_entidad_PE_reint]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="id_tipo_entidad_PE_reint" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_marca_PE_reint]"
+                      dataType="i4"
+                      name="id_marca_PE_reint" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_convenio_especial_reint]"
+                      dataType="i4"
+                      name="id_convenio_especial_reint" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Nro_Lote]"
+                      dataType="i4"
+                      name="Nro_Lote" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_estado_reintegro]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="id_estado_reintegro" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_usuario_cierre]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="id_usuario_cierre" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_usuario_responsable]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="id_usuario_responsable" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task\OLE DB Source"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE DB Source"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT T02.CLI_COD as id_persona, T03.CUP_SRV as id_producto, T03.CUPSPR as sub_producto, T03.CUP_PLA as id_plan_producto, T01.CUC_NUM as nro_cursograma, T03.CUP_TNO as nomenclador, T03.CUP_CPR as codigo_prestacion, T01.CUC_FRE as fecha_prestacion, T02.REL_ITF as imp_soliciado_reintegro, T03.CUP_IMP as imp_pagado_reintegro, 
+T02.RELFPA as fecha_pago_reintegro, T01.CUC_FAA as fecha_Presentacion_Reintegro,T03.LOT_NUM as nro_lote ,T03.CUP_SEC as nro_secuencia, t02.rel_est as estado, T01.cuc_cie as usuario_cierre,
+t01.cuc_res as usuario_responsable
+  FROM DESARROLLO.CUP004 T01 
+JOIN DESARROLLO.CUP600 T02 on T01.CUC_NUM = T02.REL_NRO
+JOIN DESARROLLO.CUP602 T04 on T01.CUC_NUM = T04.CRE_CUR
+JOIN DESARROLLO.CUP008 T03 on T01.CUC_NUM = T03.CUC_NUM
+WHERE T01.CUCREI = 'R' and T01.CUC_FAA &gt; ? and T03.CUPREI = 'R'</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping">"""00001"":Input",{6945903C-69AB-4226-99A5-69B3C9283528};</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task\OLE DB Source.Connections[OleDbConnection]"
+                  connectionManagerID="{6003BD31-666F-4BFD-A460-F17DFFA0835B}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DS_HOST03]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_PERSONA]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_PERSONA]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_PERSONA]"
+                      name="ID_PERSONA"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_PRODUCTO]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_PRODUCTO]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_PRODUCTO]"
+                      name="ID_PRODUCTO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[SUB_PRODUCTO]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SUB_PRODUCTO]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[SUB_PRODUCTO]"
+                      name="SUB_PRODUCTO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_PLAN_PRODUCTO]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_PLAN_PRODUCTO]"
+                      length="5"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_PLAN_PRODUCTO]"
+                      name="ID_PLAN_PRODUCTO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[NRO_CURSOGRAMA]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[NRO_CURSOGRAMA]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[NRO_CURSOGRAMA]"
+                      name="NRO_CURSOGRAMA"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[NOMENCLADOR]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[NOMENCLADOR]"
+                      length="2"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[NOMENCLADOR]"
+                      name="NOMENCLADOR"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[CODIGO_PRESTACION]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CODIGO_PRESTACION]"
+                      length="8"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[CODIGO_PRESTACION]"
+                      name="CODIGO_PRESTACION"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[FECHA_PRESTACION]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[FECHA_PRESTACION]"
+                      length="8"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[FECHA_PRESTACION]"
+                      name="FECHA_PRESTACION"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[IMP_SOLICIADO_REINTEGRO]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[IMP_SOLICIADO_REINTEGRO]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[IMP_SOLICIADO_REINTEGRO]"
+                      name="IMP_SOLICIADO_REINTEGRO"
+                      precision="11"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[IMP_PAGADO_REINTEGRO]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[IMP_PAGADO_REINTEGRO]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[IMP_PAGADO_REINTEGRO]"
+                      name="IMP_PAGADO_REINTEGRO"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[FECHA_PAGO_REINTEGRO]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[FECHA_PAGO_REINTEGRO]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[FECHA_PAGO_REINTEGRO]"
+                      name="FECHA_PAGO_REINTEGRO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[FECHA_PRESENTACION_REINTEGRO]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[FECHA_PRESENTACION_REINTEGRO]"
+                      length="8"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[FECHA_PRESENTACION_REINTEGRO]"
+                      name="FECHA_PRESENTACION_REINTEGRO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[NRO_LOTE]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[NRO_LOTE]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[NRO_LOTE]"
+                      name="NRO_LOTE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[NRO_SECUENCIA]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[NRO_SECUENCIA]"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[NRO_SECUENCIA]"
+                      name="NRO_SECUENCIA"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[ESTADO]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ESTADO]"
+                      length="1"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[ESTADO]"
+                      name="ESTADO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[USUARIO_RESPONSABLE]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[USUARIO_RESPONSABLE]"
+                      length="15"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[USUARIO_RESPONSABLE]"
+                      name="USUARIO_RESPONSABLE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[USUARIO_CIERRE]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[USUARIO_CIERRE]"
+                      length="15"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].Columns[USUARIO_CIERRE]"
+                      name="USUARIO_CIERRE"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_PERSONA]"
+                      dataType="decimal"
+                      name="ID_PERSONA" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_PRODUCTO]"
+                      dataType="decimal"
+                      name="ID_PRODUCTO" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SUB_PRODUCTO]"
+                      dataType="decimal"
+                      name="SUB_PRODUCTO" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_PLAN_PRODUCTO]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      name="ID_PLAN_PRODUCTO" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[NRO_CURSOGRAMA]"
+                      dataType="decimal"
+                      name="NRO_CURSOGRAMA" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[NOMENCLADOR]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="NOMENCLADOR" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CODIGO_PRESTACION]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      name="CODIGO_PRESTACION" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[FECHA_PRESTACION]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      name="FECHA_PRESTACION" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[IMP_SOLICIADO_REINTEGRO]"
+                      dataType="numeric"
+                      name="IMP_SOLICIADO_REINTEGRO"
+                      precision="11"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[IMP_PAGADO_REINTEGRO]"
+                      dataType="decimal"
+                      name="IMP_PAGADO_REINTEGRO"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[FECHA_PAGO_REINTEGRO]"
+                      dataType="decimal"
+                      name="FECHA_PAGO_REINTEGRO" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[FECHA_PRESENTACION_REINTEGRO]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      name="FECHA_PRESENTACION_REINTEGRO" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[NRO_LOTE]"
+                      dataType="decimal"
+                      name="NRO_LOTE" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[NRO_SECUENCIA]"
+                      dataType="decimal"
+                      name="NRO_SECUENCIA" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ESTADO]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="ESTADO" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[USUARIO_RESPONSABLE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="15"
+                      name="USUARIO_RESPONSABLE" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[USUARIO_CIERRE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="15"
+                      name="USUARIO_CIERRE" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_PERSONA]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_PERSONA]"
+                      name="ID_PERSONA" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_PRODUCTO]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_PRODUCTO]"
+                      name="ID_PRODUCTO" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SUB_PRODUCTO]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SUB_PRODUCTO]"
+                      name="SUB_PRODUCTO" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_PLAN_PRODUCTO]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_PLAN_PRODUCTO]"
+                      name="ID_PLAN_PRODUCTO" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[NRO_CURSOGRAMA]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[NRO_CURSOGRAMA]"
+                      name="NRO_CURSOGRAMA" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[NOMENCLADOR]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[NOMENCLADOR]"
+                      name="NOMENCLADOR" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CODIGO_PRESTACION]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CODIGO_PRESTACION]"
+                      name="CODIGO_PRESTACION" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[FECHA_PRESTACION]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[FECHA_PRESTACION]"
+                      name="FECHA_PRESTACION" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[IMP_SOLICIADO_REINTEGRO]"
+                      dataType="numeric"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[IMP_SOLICIADO_REINTEGRO]"
+                      name="IMP_SOLICIADO_REINTEGRO"
+                      precision="11"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[IMP_PAGADO_REINTEGRO]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[IMP_PAGADO_REINTEGRO]"
+                      name="IMP_PAGADO_REINTEGRO"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[FECHA_PAGO_REINTEGRO]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[FECHA_PAGO_REINTEGRO]"
+                      name="FECHA_PAGO_REINTEGRO" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[FECHA_PRESENTACION_REINTEGRO]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[FECHA_PRESENTACION_REINTEGRO]"
+                      name="FECHA_PRESENTACION_REINTEGRO" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[NRO_LOTE]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[NRO_LOTE]"
+                      name="NRO_LOTE" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[NRO_SECUENCIA]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[NRO_SECUENCIA]"
+                      name="NRO_SECUENCIA" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ESTADO]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ESTADO]"
+                      name="ESTADO" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[USUARIO_CIERRE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="15"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[USUARIO_CIERRE]"
+                      name="USUARIO_CIERRE" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[USUARIO_RESPONSABLE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="15"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[USUARIO_RESPONSABLE]"
+                      name="USUARIO_RESPONSABLE" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Data Flow Task.Paths[Data Conversion Output]"
+              endId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="Data Conversion Output"
+              startId="Package\Data Flow Task\Data Conversion.Outputs[Data Conversion Output]" />
+            <path
+              refId="Package\Data Flow Task.Paths[OLE DB Source Output]"
+              endId="Package\Data Flow Task\Data Conversion.Inputs[Data Conversion Input]"
+              name="OLE DB Source Output"
+              startId="Package\Data Flow Task\OLE DB Source.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{1D676A76-FA8D-45A1-B515-D8B59CEEB620}"
+      DTS:From="Package\Actualizar Variable Fecha Desde"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Borrar AUX_H_CONSUMOS_REINTEGROS" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{25D7B093-B51B-4C9B-AB2C-47B5D3E0AB8E}"
+      DTS:From="Package\Data Flow Task"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Actualizar AUX_H_CONSUMOS_REINTEGROS" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{6A475EDC-950F-49AF-9C9F-B8DF66A951DB}"
+      DTS:From="Package\Actualizar AUX_H_CONSUMOS_REINTEGROS"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Actualizar H_CONSUMOS_REINTEGROS" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{E7FF13B2-5E7F-4F79-B1D9-E861915E3529}"
+      DTS:From="Package\Borrar AUX_H_CONSUMOS_REINTEGROS"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Data Flow Task" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--Esta sección CDATA contiene la información de diseño del paquete. Esta sección incluye información como, por ejemplo, las coordenadas (x,y), el ancho y el alto.-->
+<!--Si edita manualmente esta sección y comete un error, puede eliminarlo. -->
+<!--El paquete podrá cargarse normalmente, pero se perderá la información de diseño anterior y el diseñador reorganizará los elementos automáticamente en la superficie de diseño.-->
+<Objects
+  Version="8">
+  <!--Cada uno de los nodos siguientes contiene propiedades que no afectan al comportamiento en tiempo de ejecución.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="317,42"
+          Id="Package\Actualizar AUX_H_CONSUMOS_REINTEGROS"
+          TopLeft="1.16981132075472,219.207547169811" />
+        <NodeLayout
+          Size="288,42"
+          Id="Package\Actualizar H_CONSUMOS_REINTEGROS"
+          TopLeft="15.6698113207547,290.443396226415" />
+        <NodeLayout
+          Size="239,42"
+          Id="Package\Actualizar Variable Fecha Desde"
+          TopLeft="40.1698113207547,5.5" />
+        <NodeLayout
+          Size="299,42"
+          Id="Package\Borrar AUX_H_CONSUMOS_REINTEGROS"
+          TopLeft="10.1698113207547,76.7358490566038" />
+        <NodeLayout
+          Size="155,42"
+          Id="Package\Data Flow Task"
+          TopLeft="82.1698113207547,147.971698113208" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="159.669811320755,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,29.2358490566038"
+              Start="0,0"
+              End="0,21.7358490566038">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,21.7358490566038" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="159.669811320755,189.971698113208">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,29.2358490566038"
+              Start="0,0"
+              End="0,21.7358490566038">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,21.7358490566038" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="159.669811320755,261.207547169811">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,29.2358490566038"
+              Start="0,0"
+              End="0,21.7358490566038">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,21.7358490566038" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="159.669811320755,118.735849056604">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,29.2358490566038"
+              Start="0,0"
+              End="0,21.7358490566038">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,21.7358490566038" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Data Flow Task">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="157,42"
+          Id="Package\Data Flow Task\OLE DB Source"
+          TopLeft="5.5,5.5" />
+        <NodeLayout
+          Size="177,42"
+          Id="Package\Data Flow Task\OLE DB Destination"
+          TopLeft="3.77463312368972,147.27358490566" />
+        <NodeLayout
+          Size="161,42"
+          Id="Package\Data Flow Task\Data Conversion"
+          TopLeft="11.7746331236897,76.3867924528302" />
+        <EdgeLayout
+          Id="Package\Data Flow Task.Paths[OLE DB Source Output]"
+          TopLeft="84,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="8.2746331236897,28.8867924528302"
+              Start="0,0"
+              End="8.2746331236897,21.3867924528302">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,10.4433962264151" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,10.4433962264151"
+                    Point2="0,14.4433962264151"
+                    Point3="4,14.4433962264151" />
+                  <mssgle:LineSegment
+                    End="4.2746331236897,14.4433962264151" />
+                  <mssgle:CubicBezierSegment
+                    Point1="4.2746331236897,14.4433962264151"
+                    Point2="8.2746331236897,14.4433962264151"
+                    Point3="8.2746331236897,18.4433962264151" />
+                  <mssgle:LineSegment
+                    End="8.2746331236897,21.3867924528302" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Data Flow Task.Paths[Data Conversion Output]"
+          TopLeft="92.2746331236897,118.38679245283">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,28.8867924528302"
+              Start="0,0"
+              End="0,21.3867924528302">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,21.3867924528302" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Task\OLE DB Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Task\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

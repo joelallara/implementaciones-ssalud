@@ -1,0 +1,270 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="4/20/2020 7:41:27 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="LA34457-13191"
+  DTS:CreatorName="AMS\mpaludi"
+  DTS:DTSID="{99EC1F0A-92FA-49E8-A609-FCD8A6E4BB2D}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="Consumos H_MEDICAMENTOS_SIMULADOR"
+  DTS:PackageType="5"
+  DTS:VersionBuild="4"
+  DTS:VersionGUID="{D9421275-ACE0-424A-93C0-BE8CEDA6FF88}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Escribe entradas del registro sobre eventos en una base de datos de SQL Server"
+      DTS:DTSID="{1333C4E4-6350-484C-ABF7-691D68EDFA5F}"
+      DTS:ObjectName="Proveedor de registro SSIS para SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">1,7,OnError</DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnError"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{1333C4E4-6350-484C-ABF7-691D68EDFA5F}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Actualizo H_MEDICAMENTOS_SIMULADOR"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tarea Ejecutar SQL"
+      DTS:DTSID="{c782aa29-7761-48dd-a190-e25cf3494fbb}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualizo H_MEDICAMENTOS_SIMULADOR"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{6601EFDC-B0A3-4B05-9A3F-EFAAD98885BF}"
+          SQLTask:SqlStatementSource="-- Se actualizan los periodos correspondientes recien cargados&#xA;declare @periodo int = (select dbo.periodosanteriores(max(id_periodo),15) from D_PERIODO where vigente_consumo = 1)&#xA;&#xA;-- Se calcula la longitud del nombre de la monodroga para luego ordenar por este campo&#xA;&#x9;update H_MEDICAMENTOS_SIMULADOR&#xA;&#x9;set longitud_monodroga = len(de_monodroga)&#xA;&#x9;from  H_MEDICAMENTOS_SIMULADOR h &#xA;&#x9;inner join D_MONODROGA d on h.id_monodroga = d.id_monodroga &#xA;&#x9;where id_periodo_prestacion &gt;= @periodo&#xA;&#xA;-- Se crea un indice para que sea mas rapido el proceso&#xA;&#xA;&#x9;&#x9;CREATE INDEX ix_acreedor_periodo_prestacion_persona_plan_monodroga&#xA;ON H_MEDICAMENTOS_SIMULADOR (id_acreedor, id_periodo_prestacion,id_persona,id_plan_agrupado_G,id_monodroga)&#xA;&#xA;&#xA;UPDATE STATISTICS H_MEDICAMENTOS_SIMULADOR &#xA;&#xA;-- Se pasa a una temporal para calcular el rankin agrupando&#xA;drop table #temp&#xA;&#x9;select id_acreedor,id_periodo_prestacion,id_persona, id_plan_agrupado_G, id_monodroga &#xA;&#x9;, min(fecha_prestacion) fecha, max(imp_pret_amb_pag) imp , 0 as ranking, max(longitud_monodroga) long&#xA;&#x9;into #temp&#xA;&#x9;from H_MEDICAMENTOS_SIMULADOR&#xA;&#x9;where id_periodo_prestacion  &gt;= @periodo&#xA;&#x9;&#x9;--where id_acreedor  = 47660&#xA;&#x9;group by  id_acreedor,id_periodo_prestacion,id_persona, id_plan_agrupado_G, id_monodroga &#xA;-- Se le crea un indice a la temporal&#x9;&#xA;&#x9;CREATE INDEX index_name_&#xA;ON #temp (id_acreedor, id_periodo_prestacion,id_persona,id_plan_agrupado_G,id_monodroga)&#xA;&#xA;&#xA;-- Se actualiza la temporal para luego pasarlo a la H&#xA;Update #temp&#xA;set ranking = a.ranking_fin&#xA;from #temp h inner join &#xA;&#x9;( select *,ROW_NUMBER ( )   &#xA;    OVER (  PARTITION by id_acreedor,id_periodo_prestacion,id_persona, id_plan_agrupado_G&#xA;&#x9;order by fecha, imp desc, long desc ) as ranking_fin from #temp&#xA;&#x9; ) a on h.id_acreedor = a.id_acreedor and h.id_persona = a.id_persona&#xA;&#x9;and a.id_periodo_prestacion = h.id_periodo_prestacion and a.id_plan_agrupado_G = h.id_plan_agrupado_G&#xA;&#x9;and a.id_monodroga = h.id_monodroga&#xA;&#x9;&#xA;-- Se actualiza el ranking en la H&#xA;update H_MEDICAMENTOS_SIMULADOR&#xA;set numero_ranking =   ranking&#xA;from H_MEDICAMENTOS_SIMULADOR h inner join #temp a on h.id_acreedor = a.id_acreedor and h.id_persona = a.id_persona&#xA;&#x9;and a.id_periodo_prestacion = h.id_periodo_prestacion and a.id_plan_agrupado_G = h.id_plan_agrupado_G&#xA;&#x9;&#x9;and a.id_monodroga = h.id_monodroga&#xA;-- Se borra el indice recien creado&#x9;&#x9;&#xA;drop index ix_acreedor_periodo_prestacion_persona_plan_monodroga&#xA;&#x9;ON H_MEDICAMENTOS_SIMULADOR &#xA;&#x9;&#xA;-- Y se crea otro indice &#xA;CREATE INDEX ix_acreedor_periodo_prestacion_persona_plan_monodroga_fecha_imp&#xA;ON H_MEDICAMENTOS_SIMULADOR (id_acreedor, id_periodo_prestacion,id_persona,id_plan_agrupado_G,id_monodroga,fecha_prestacion,imp_pret_amb_pag)&#xA;&#xA;UPDATE STATISTICS H_MEDICAMENTOS_SIMULADOR &#xA;&#xA;-- Se crea una nueva temporal parecida a la de arriba pero con otro agrupamiento para calcular el acumulado&#xA;drop table #temp_acumulado&#xA;&#x9;select  id_acreedor,id_periodo_prestacion,id_persona, id_plan_agrupado_G,id_monodroga,fecha_prestacion,imp_pret_amb_pag,&#xA;&#x9;SUM(SUM(cant_prest_amb_acep)) OVER &#xA;&#x9;(partition by id_acreedor,id_periodo_prestacion,id_persona, id_plan_agrupado_G,id_monodroga  &#xA;&#x9;ORDER BY id_periodo_prestacion, id_monodroga, fecha_prestacion ASC,imp_pret_amb_pag desc) AS Acumulado&#xA;&#x9;into #temp_acumulado&#xA;&#x9;from  H_MEDICAMENTOS_SIMULADOR h &#xA;&#x9;where id_periodo_prestacion  &gt;= @periodo&#xA;&#x9;group by id_acreedor,id_periodo_prestacion,id_persona, id_plan_agrupado_G,id_monodroga,fecha_prestacion,imp_pret_amb_pag&#xA;&#x9;order by id_monodroga&#xA;&#xA;&#xA;CREATE INDEX index_name&#xA;ON #temp_acumulado (id_acreedor, id_periodo_prestacion,id_persona,id_plan_agrupado_G,id_monodroga,fecha_prestacion,imp_pret_amb_pag)&#xA;&#xA;&#x9;update H_MEDICAMENTOS_SIMULADOR&#xA;&#x9;set acumulado_cant_prest_amb_acept =    acumulado &#xA;&#x9;from H_MEDICAMENTOS_SIMULADOR h inner join #temp_acumulado a on h.id_acreedor = a.id_acreedor and h.id_persona = a.id_persona&#xA;&#x9;and a.id_periodo_prestacion = h.id_periodo_prestacion and a.id_plan_agrupado_G = h.id_plan_agrupado_G&#xA;&#x9;&#x9;and a.id_monodroga = h.id_monodroga and a.fecha_prestacion =h.fecha_prestacion and a.imp_pret_amb_pag = h.imp_pret_amb_pag&#xA;where h.id_periodo_prestacion   &gt;= @periodo&#xA;&#xA;&#xA;update H_MEDICAMENTOS_SIMULADOR&#xA;set imp_unitario_amb_pag&#x9;= imp_pret_amb_pag / cant_prest_amb_acep,&#xA;diff_acumulado_cantidad&#x9;= acumulado_cant_prest_amb_acept - cant_prest_amb_acep&#xA;where cant_prest_amb_acep &lt;&gt; 0&#xA;&#xA;drop INDEX ix_acreedor_periodo_prestacion_persona_plan_monodroga_fecha_imp&#xA;ON H_MEDICAMENTOS_SIMULADOR " xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Elimina Periodos"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tarea Ejecutar SQL"
+      DTS:DTSID="{D59DA703-28E5-427A-902B-920893B52B21}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Elimina Periodos"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{6601EFDC-B0A3-4B05-9A3F-EFAAD98885BF}"
+          SQLTask:SqlStatementSource="-- ELIMINO LOS ULTIMOS 12 + 2 MESES (PORQUE TOMO 2 MESES ANTES DEL ULTIMO DE CONSUMO, DISPOSICION DE ANALISTAS) DE CONSUMOS UTILIZANDO PERIODO PRESTACION&#xA;&#xA;delete from H_MEDICAMENTOS_SIMULADOR where id_periodo &gt;= select dbo.periodosanteriores(max(id_periodo),15) from D_PERIODO where vigente_consumo = 1&#xA;&#xA;delete from h_medicamentos_simulador_resumen where id_periodo &gt;= select dbo.periodosanteriores(max(id_periodo),15) from D_PERIODO where vigente_consumo = 1" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Inserto  H_MEDICAMENTOS_SIMULADOR_RESUMEN"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tarea Ejecutar SQL"
+      DTS:DTSID="{d4335b03-d654-4bc1-9986-b38194b40af7}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Inserto  H_MEDICAMENTOS_SIMULADOR_RESUMEN"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{6601EFDC-B0A3-4B05-9A3F-EFAAD98885BF}"
+          SQLTask:SqlStatementSource="SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED&#xA;&#xA;&#xA;declare @cajas int = 5&#xA;declare @monodrogas int = 10&#xA;declare @periodo int = (select dbo.periodosanteriores(max(id_periodo),15) from D_PERIODO where vigente_consumo = 1)&#xA;&#xA;&#xA;-- Realizo un ciclo para calcular las combinaciones requeridas , cada ciclo realiza una combinacion diferente arrancando por la 5 y 10 respectivamente y luego va disminuyendo las monodrogas distintas hasta que llega al tope , y disminute una caja y empieza de 10 las monodrogas de nuevo &#xA;while @cajas &gt;= 1 &#xA;Begin&#xA;/*&#xA;select cant_monodrogas_acept,cant_cajas_monodroga_acept from h_medicamentos_simulador_resumen &#xA;group by cant_monodrogas_acept,cant_cajas_monodroga_acept&#xA;order by cant_monodrogas_acept,cant_cajas_monodroga_acept*/&#xA;&#xA;insert into h_medicamentos_simulador_resumen&#xA;--primer paso se carga todo sin tener en cuenta discapacidad despues lo que si tiene que ver con discapacidad&#xA;select id_periodo_prestacion, id_plan_agrupado_G,id_acreedor,id_tipo_prestador,@monodrogas,@cajas,&#xA;sum(imp_pret_amb_pag) as consumo , sum(cant_prest_amb_acep) as cantidad_prestaciones, 0 as imp_consumo_pers_di,&#xA;0 as cant_prest_pers_di, 0 as imp_ahorro_consumo, 0 as cant_prest_ahorro, 0 as imp_ahorro_consumo_di, 0 as cant_prest_ahorro_di,&#xA;count (distinct h.id_persona), 0 as cant_personas_rechazadas , 0 as cant_personas_rechazadas_di&#xA;from H_MEDICAMENTOS_SIMULADOR h &#xA;where id_periodo_prestacion &gt;= @periodo&#xA;group by id_periodo_prestacion, id_plan_agrupado_G,id_acreedor,id_tipo_prestador&#xA;&#xA;&#xA;-- Segundo Paso calculamos consumo y cantidad de prestaciones para discapacitados&#xA;&#xA;update h_medicamentos_simulador_resumen&#xA;set imp_consumo_pers_di = imp,&#xA;&#x9;cant_prest_pers_di = cant&#xA;from h_medicamentos_simulador_resumen h inner join (&#xA;&#x9;select id_periodo_prestacion, id_plan_agrupado_G,id_acreedor,id_tipo_prestador, &#xA;&#x9;sum(imp_pret_amb_pag) imp , Sum (cant_prest_amb_acep)  cant from H_MEDICAMENTOS_SIMULADOR h &#xA;&#x9;inner join  D_PERSONAS d on h.id_persona = d.id_persona&#xA;&#x9;where Discapacitado = 'S'&#xA;&#x9;group by id_periodo_prestacion, id_plan_agrupado_G,id_acreedor,id_tipo_prestador) A&#xA;&#x9; on h.id_periodo_prestacion = a.id_periodo_prestacion and a.id_plan_agrupado_G = h.id_plan_agrupado_g and&#xA;&#x9;&#x9;h.id_acreedor = a.id_acreedor and h.id_tipo_prestador = a.id_tipo_prestador&#xA;&#x9;&#x9;where cant_monodrogas_acept = @monodrogas&#xA;&#x9;&#x9;&#x9;  and cant_cajas_monodroga_acept = @cajas&#xA;&#x9;&#x9;&#x9;  and id_periodo_prestacion &gt;= @periodo&#xA;&#xA;&#xA;-- Tercer paso se calcula el ahorro &#xA;drop table #temp_ahorro&#xA;select *, case  when numero_ranking &gt; @monodrogas then imp_pret_amb_pag else 0 end AS ahorro_consumo_1,&#xA;&#x9;&#x9;  case  when numero_ranking &gt; @monodrogas then cant_prest_amb_acep else 0 end cant_prest_ahorro_1,&#xA;          case  when acumulado_cant_prest_amb_acept &lt;= @cajas then 0&#xA;&#x9;&#x9;&#x9;&#x9;when acumulado_cant_prest_amb_acept &gt; @cajas &#xA;&#x9;&#x9;&#x9;&#x9; and (acumulado_cant_prest_amb_acept - cant_prest_amb_acep) &lt; @cajas then &#xA;&#x9;&#x9;&#x9;&#x9;&#x9; (acumulado_cant_prest_amb_acept - @cajas) * (imp_pret_amb_pag / cant_prest_amb_acep)&#xA;&#x9;&#x9;&#x9;&#x9;else imp_pret_amb_pag end as ahorro_consumo_2,&#xA;&#x9;&#x9;  case  when acumulado_cant_prest_amb_acept &lt;= @cajas then 0&#xA;&#x9;&#x9;&#x9;&#x9;when acumulado_cant_prest_amb_acept &gt; @cajas &#xA;&#x9;&#x9;&#x9;&#x9; and (acumulado_cant_prest_amb_acept - cant_prest_amb_acep) &lt; @cajas then &#xA;&#x9;&#x9;&#x9;&#x9;&#x9; (acumulado_cant_prest_amb_acept - cant_prest_amb_acep) &#xA;&#x9;&#x9;&#x9;&#x9;else cant_prest_amb_acep end as cant_prest_ahorro_2,&#xA;&#x9;&#x9;  case  when numero_ranking &gt; @monodrogas then imp_pret_amb_pag  &#xA;&#x9;&#x9;&#x9;    when acumulado_cant_prest_amb_acept &lt;= @cajas then 0&#xA;&#x9;&#x9;&#x9;    when acumulado_cant_prest_amb_acept &gt; @cajas &#xA;&#x9;&#x9;&#x9;&#x9; and (acumulado_cant_prest_amb_acept - cant_prest_amb_acep) &lt; @cajas then &#xA;&#x9;&#x9;&#x9;&#x9;&#x9; (acumulado_cant_prest_amb_acept - @cajas) * (imp_pret_amb_pag / cant_prest_amb_acep)&#xA;&#x9;&#x9;&#x9;    else imp_pret_amb_pag end as ahorro_total,&#xA;&#x9;&#x9;  case  when numero_ranking &gt; @monodrogas then cant_prest_amb_acep&#xA;&#x9;&#x9;&#x9;&#x9;when acumulado_cant_prest_amb_acept &lt;= @cajas then 0&#xA;&#x9;&#x9;&#x9;&#x9;when acumulado_cant_prest_amb_acept &gt; @cajas &#xA;&#x9;&#x9;&#x9;&#x9; and (acumulado_cant_prest_amb_acept - cant_prest_amb_acep) &lt; @cajas then &#xA;&#x9;&#x9;&#x9;&#x9;&#x9; (acumulado_cant_prest_amb_acept - @cajas) &#xA;&#x9;&#x9;&#x9;&#x9;else cant_prest_amb_acep end  as cant_prest_ahorro_total&#xA;into #temp_ahorro from H_MEDICAMENTOS_SIMULADOR&#xA;where id_periodo_prestacion &gt;= @periodo&#xA;-- Cuarto paso se calcula el ahorro  para los discapacitados&#xA;&#xA;&#xA;&#xA;drop table #temp_ahorro_discapacidad&#xA;select h.*, case  when numero_ranking &gt; @monodrogas then imp_pret_amb_pag else 0 end AS ahorro_consumo_1,&#xA;&#x9;&#x9;  case  when numero_ranking &gt; @monodrogas then cant_prest_amb_acep else 0 end cant_prest_ahorro_1,&#xA;          case  when acumulado_cant_prest_amb_acept &lt;= @cajas then 0&#xA;&#x9;&#x9;&#x9;&#x9;when acumulado_cant_prest_amb_acept &gt; @cajas &#xA;&#x9;&#x9;&#x9;&#x9; and (acumulado_cant_prest_amb_acept - cant_prest_amb_acep) &lt; @cajas then &#xA;&#x9;&#x9;&#x9;&#x9;&#x9; (acumulado_cant_prest_amb_acept - @cajas) * (imp_pret_amb_pag / cant_prest_amb_acep)&#xA;&#x9;&#x9;&#x9;&#x9;else imp_pret_amb_pag end as ahorro_consumo_2,&#xA;&#x9;&#x9;  case  when acumulado_cant_prest_amb_acept &lt;= @cajas then 0&#xA;&#x9;&#x9;&#x9;&#x9;when acumulado_cant_prest_amb_acept &gt; @cajas &#xA;&#x9;&#x9;&#x9;&#x9; and (acumulado_cant_prest_amb_acept - cant_prest_amb_acep) &lt; @cajas then &#xA;&#x9;&#x9;&#x9;&#x9;&#x9; (acumulado_cant_prest_amb_acept - cant_prest_amb_acep) &#xA;&#x9;&#x9;&#x9;&#x9;else cant_prest_amb_acep end as cant_prest_ahorro_2,&#xA;&#x9;&#x9;  case  when numero_ranking &gt; @monodrogas then imp_pret_amb_pag  &#xA;&#x9;&#x9;&#x9;    when acumulado_cant_prest_amb_acept &lt;= @cajas then 0&#xA;&#x9;&#x9;&#x9;    when acumulado_cant_prest_amb_acept &gt; @cajas &#xA;&#x9;&#x9;&#x9;&#x9; and (acumulado_cant_prest_amb_acept - cant_prest_amb_acep) &lt; @cajas then &#xA;&#x9;&#x9;&#x9;&#x9;&#x9; (acumulado_cant_prest_amb_acept - @cajas) * (imp_pret_amb_pag / cant_prest_amb_acep)&#xA;&#x9;&#x9;&#x9;    else imp_pret_amb_pag end as ahorro_total,&#xA;&#x9;&#x9;  case  when numero_ranking &gt; @monodrogas then cant_prest_amb_acep&#xA;&#x9;&#x9;&#x9;&#x9;when acumulado_cant_prest_amb_acept &lt;= @cajas then 0&#xA;&#x9;&#x9;&#x9;&#x9;when acumulado_cant_prest_amb_acept &gt; @cajas &#xA;&#x9;&#x9;&#x9;&#x9; and (acumulado_cant_prest_amb_acept - cant_prest_amb_acep) &lt; @cajas then &#xA;&#x9;&#x9;&#x9;&#x9;&#x9; (acumulado_cant_prest_amb_acept - @cajas) &#xA;&#x9;&#x9;&#x9;&#x9;else cant_prest_amb_acep end  as cant_prest_ahorro_total&#xA;into #temp_ahorro_discapacidad from H_MEDICAMENTOS_SIMULADOR h &#xA;&#x9;inner join D_PERSONAS d on h.id_persona = d.id_persona&#xA;&#x9;where Discapacitado = 'S'&#xA;&#x9;and id_periodo_prestacion &gt;= @periodo&#xA;&#xA;&#xA;-- 5to paso se actualiza la tabla con lo calculado para el ahorro&#xA;update h_medicamentos_simulador_resumen&#xA;set imp_ahorro_consumo = ahorro,&#xA;&#x9;cant_prest_ahorro = cant&#xA;&#x9;from h_medicamentos_simulador_resumen h &#xA;&#x9;&#x9;inner join ( select id_periodo_prestacion, id_plan_agrupado_G,id_acreedor,id_tipo_prestador,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;sum(ahorro_total) ahorro, sum(cant_prest_ahorro_total) cant&#xA;&#x9;&#x9;&#x9;&#x9;&#x9; from #temp_ahorro &#xA;&#x9;&#x9;&#x9;&#x9;group by id_periodo_prestacion, id_plan_agrupado_G,id_acreedor,id_tipo_prestador) a&#xA;&#x9;&#x9;&#x9; on h.id_periodo_prestacion = a.id_periodo_prestacion and a.id_plan_agrupado_G = h.id_plan_agrupado_g and&#xA;&#x9;&#x9;h.id_acreedor = a.id_acreedor and h.id_tipo_prestador = a.id_tipo_prestador&#xA;&#x9;&#x9;where cant_monodrogas_acept = @monodrogas&#xA;&#x9;&#x9;&#x9;  and cant_cajas_monodroga_acept = @cajas&#xA;&#x9;&#x9;&#x9;  and id_periodo_prestacion &gt;= @periodo&#xA;-- 6to paso se actualiza la tabla con lo calculado para el ahorro de discapaciados&#xA;update h_medicamentos_simulador_resumen&#xA;set imp_ahorro_consumo_di = ahorro,&#xA;&#x9;cant_prest_ahorro_di = cant&#xA;&#x9;from h_medicamentos_simulador_resumen h &#xA;&#x9;&#x9;inner join ( select id_periodo_prestacion, id_plan_agrupado_G,id_acreedor,id_tipo_prestador,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;sum(ahorro_total) ahorro, sum(cant_prest_ahorro_total) cant&#xA;&#x9;&#x9;&#x9;&#x9;&#x9; from #temp_ahorro_discapacidad &#xA;&#x9;&#x9;&#x9;&#x9;group by id_periodo_prestacion, id_plan_agrupado_G,id_acreedor,id_tipo_prestador) a&#xA;&#x9;&#x9;&#x9; on h.id_periodo_prestacion = a.id_periodo_prestacion and a.id_plan_agrupado_G = h.id_plan_agrupado_g and&#xA;&#x9;&#x9;h.id_acreedor = a.id_acreedor and h.id_tipo_prestador = a.id_tipo_prestador&#xA;&#x9;&#x9;where cant_monodrogas_acept = @monodrogas&#xA;&#x9;&#x9;&#x9;  and cant_cajas_monodroga_acept = @cajas&#xA;&#x9;&#x9;&#x9;  and id_periodo_prestacion &gt;= @periodo&#xA;-- 7mo paso se actualiza la cantidad de personas rechazadas &#xA;&#xA;update h_medicamentos_simulador_resumen&#xA;&#x9;set cant_personas_rechazadas = cant&#xA;&#x9;from h_medicamentos_simulador_resumen h&#xA;&#x9;&#x9;inner join ( select id_periodo_prestacion, id_plan_agrupado_G,id_acreedor,id_tipo_prestador,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;count (distinct id_persona) cant&#xA;&#x9;&#x9;&#x9;&#x9;&#x9; from #temp_ahorro where ahorro_total &lt;&gt; 0&#xA;&#x9;&#x9;&#x9;&#x9;group by id_periodo_prestacion, id_plan_agrupado_G,id_acreedor,id_tipo_prestador ) a&#xA;&#x9;&#x9;&#x9; on h.id_periodo_prestacion = a.id_periodo_prestacion and a.id_plan_agrupado_G = h.id_plan_agrupado_g and&#xA;&#x9;&#x9;h.id_acreedor = a.id_acreedor and h.id_tipo_prestador = a.id_tipo_prestador&#xA;&#x9;&#x9;where cant_monodrogas_acept = @monodrogas&#xA;&#x9;&#x9;&#x9;  and cant_cajas_monodroga_acept = @cajas&#xA;&#x9;&#x9;&#x9;  and id_periodo_prestacion &gt;= @periodo&#xA;-- 8vo paso se actualiza la cantidad de personas rechazadas &#xA;&#xA;update h_medicamentos_simulador_resumen&#xA;&#x9;set cant_personas_rechazadas_di = cant&#xA;&#x9;from h_medicamentos_simulador_resumen h&#xA;&#x9;&#x9;inner join ( select id_periodo_prestacion, id_plan_agrupado_G,id_acreedor,id_tipo_prestador,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;count (distinct id_persona) cant&#xA;&#x9;&#x9;&#x9;&#x9;&#x9; from #temp_ahorro_discapacidad  where ahorro_total &lt;&gt; 0&#xA;&#x9;&#x9;&#x9;&#x9;group by id_periodo_prestacion, id_plan_agrupado_G,id_acreedor,id_tipo_prestador) a&#xA;&#x9;&#x9;&#x9; on h.id_periodo_prestacion = a.id_periodo_prestacion and a.id_plan_agrupado_G = h.id_plan_agrupado_g and&#xA;&#x9;&#x9;h.id_acreedor = a.id_acreedor and h.id_tipo_prestador = a.id_tipo_prestador&#xA;&#x9;&#x9;where cant_monodrogas_acept = @monodrogas&#xA;&#x9;&#x9;&#x9;  and cant_cajas_monodroga_acept = @cajas&#xA;&#x9;&#x9;&#x9;  and id_periodo_prestacion &gt;= @periodo&#xA;&#xA;set @monodrogas  = @monodrogas - 1&#xA;if @monodrogas = 4 &#xA;&#x9;begin &#xA;&#x9;set @cajas = @cajas - 1&#xA;&#x9;set @monodrogas = 10&#xA;&#xA;&#x9;end&#xA;end" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Inserto en H_MEDICAMENTOS_SIMULADOR"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tarea Ejecutar SQL"
+      DTS:DTSID="{a041536b-75db-44b3-8735-6554e7a59dc0}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Inserto en H_MEDICAMENTOS_SIMULADOR"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{6601EFDC-B0A3-4B05-9A3F-EFAAD98885BF}"
+          SQLTask:SqlStatementSource="-- INSERTO 12 + 2 MESES (PORQUE TOMO 2 MESES ANTES DEL ULTIMO DE CONSUMO, DISPOSICION DE ANALISTAS) DE CONSUMOS UTILIZANDO PERIODO PRESTACION&#xA;&#xA; SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED&#xA;&#xA;declare @periodo int = (select dbo.periodosanteriores(max(id_periodo),15) from D_PERIODO where vigente_consumo = 1)&#xA;&#xA;INSERT INTO  H_MEDICAMENTOS_SIMULADOR&#xA;select&#x9;a11.id_prestacion  id_prestacion,&#xA;&#x9;a14.id_plan_agrupado_G  id_plan_agrupado_G,&#xA;&#x9;a11.id_persona  id_persona,&#xA;&#x9;a11.   id_periodo_prestacion,&#xA;&#x9;a11.id_monodroga  id_monodroga,&#xA;&#x9;a11.fecha_prestacion  fecha_prestacion,&#xA;&#x9;a11.id_acreedor  id_acreedor,&#xA;&#x9;a11.id_tipo_prestador  id_tipo_prestador,&#xA;&#x9;sum(a11.cant_prest_amb_acep)  cant_prest_amb_acep,&#xA;&#x9;sum((Case when a11.ccosto3 = 1 then a11.imp_pret_amb_pag else NULL end))  imp_pret_amb_pag,&#xA;&#x9;0 as numero_ranking,&#xA;&#x9;0 longitud_monodroga,&#xA;&#x9;0 acumulado_cant_prest_amb_acept,&#xA;&#x9;0 ,&#xA;&#x9;0&#xA;from&#x9;H_ORD_AMB_DET&#x9;a11&#xA;&#x9;join&#x9;D_PRESTACION&#x9;a12&#xA;&#x9;  on &#x9;(a11.id_prestacion = a12.id_prestacion)&#xA;&#x9;join&#x9;D_PLANES&#x9;a13&#xA;&#x9;  on &#x9;(a11.id_plan_producto = a13.id_plan_producto and &#xA;&#x9;a11.id_producto = a13.id_producto)&#xA;&#x9;join&#x9;D_PLANES_AGRUPADOS&#x9;a14&#xA;&#x9;  on &#x9;(a13.id_plan_agrupado = a14.id_plan_agrupado)&#xA;&#x9;join&#x9;D_PRODUCTOS&#x9;a15&#xA;&#x9;  on &#x9;(a11.id_producto = a15.id_producto)&#xA;&#x9;join&#x9;D_PERSONAS&#x9;a16&#xA;&#x9;  on &#x9;(a11.id_persona = a16.id_persona)&#xA;&#x9;join&#x9;D_LOCALIDADES_AFILIADO&#x9;a17&#xA;&#x9;  on &#x9;(a16.id_localidad_afiliado = a17.id_localidad_afiliado)&#xA;where&#x9;(a17.id_zona_comercial not in (0, 1, 20)&#xA; and a14.id_plan_agrupado_S not in (84, 85, 58, 78, 29)&#xA; and not ((a11.id_producto = 4 and a11.id_plan_producto = 'PMO  ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='PMO  ')&#xA;   or  (a11.id_producto=35 and a11.id_plan_producto='PMO  ')&#xA;   or  (a11.id_producto=73 and a11.id_plan_producto='PMO  ')&#xA;   or  (a11.id_producto=0 and a11.id_plan_producto='PMO  ')&#xA;   or  (a11.id_producto=76 and a11.id_plan_producto='PMO  '))&#xA; and a11.id_producto not in (78)&#xA; and (not (a11.id_convenio = 402725&#xA; and a11.id_tipo_entidad_convenio = 'E'))&#xA; and a15.id_clase_producto in ('S ')&#xA; and a13.id_SubRubro_ley in (1, 2, 3, 5, 6, 7)&#xA; and not ((a11.id_producto = 16 and a11.id_plan_producto = 'CC   ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='CM   ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='CS1  ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='CS100')&#xA;   or  (a11.id_producto=4 and a11.id_plan_producto='M    ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='M    ')&#xA;   or  (a11.id_producto=20 and a11.id_plan_producto='M    ')&#xA;   or  (a11.id_producto=14 and a11.id_plan_producto='Z    ')&#xA;   or  (a11.id_producto=20 and a11.id_plan_producto='Z    ')&#xA;   or  (a11.id_producto=1 and a11.id_plan_producto='C    ')&#xA;   or  (a11.id_producto=4 and a11.id_plan_producto='Z    '))&#xA; and a12.id_nomenclador in ('ME')&#xA; and (a11.id_acreedor in (7313,47660) and a11.id_tipo_prestador = 'P')&#xA; and a11.id_periodo_prestacion &gt;=  @periodo &#xA; and a14.id_plan_agrupado_G not in (24, 7)&#xA; and a11.id_provision in (6)&#xA; and a11.id_origen_prestacion in ('A')&#xA; and a11.id_reintegro in ('F')&#xA; and a11.id_monodroga not in (0, 99999)&#xA; and a11.id_persona not in (22606)&#xA; and a11.id_plan_producto not in ('P1000', 'P1500', 'P2000', 'P3000', 'P300A', 'P4000', 'P4065', 'P4500', 'P500 ', 'P5000', 'P6000')&#xA; and a11.id_prestacion not in ('ME00048978', 'ME00051480', 'ME00051482', 'ME00051481', 'ME00050768', 'ME00016132', 'ME00044134', 'ME00049116', 'ME00004609', 'ME00044845', 'ME00051392', 'ME00045144', 'ME00048822', 'ME00038726', 'ME00046111', 'ME00045302', 'ME00050028', 'ME00054214', 'ME00051911', 'ME00054157', 'ME00047273', 'ME00037700', 'ME00049374', 'ME00050830', 'ME00056094', 'ME00049376', 'ME00050832', 'ME00052938', 'ME00055563', 'ME00047274', 'ME00049378', 'ME00051259', 'ME00052097', 'ME00046681', 'ME00036381', 'ME00047323', 'ME00037993', 'ME00049380', 'ME00050829', 'ME00045144', 'ME00050768', 'ME00055563', 'ME00044845', 'ME00038726', 'ME00050830', 'ME00037700', 'ME00047323', 'ME00054157', 'ME00005247', 'ME00005248', 'ME00051980', 'ME00052057', 'ME00041095', 'ME00041097', 'ME00041135', 'ME00005687', 'ME00005688', 'ME00005689', 'ME00005690', 'ME00005027', 'ME00005028', 'ME00005033', 'ME00005034', 'ME00002556', 'ME00002558', 'ME00002559', 'ME00002563', 'ME00005068', 'ME00002913', 'ME00005095', 'ME00005111', 'ME00003301', 'ME00004808', 'ME00003634', 'ME00003635', 'ME00003965', 'ME00004790', 'ME00004877', 'ME00003982', 'ME00004137', 'ME00004138', 'ME00004851', 'ME00005723', 'ME00005724', 'ME00004947', 'ME00005582', 'ME00005380', 'ME00005381', 'ME00005382', 'ME00004682', 'ME00000051', 'ME00000596', 'ME00000601', 'ME00000665', 'ME00001013', 'ME00001044', 'ME00001012', 'ME00001265', 'ME00001584', 'ME00001585', 'ME00001535', 'ME00001918', 'ME00002256', 'ME00002276', 'ME00002277', 'ME00003983', 'ME00002291', 'ME00004498', 'ME00004503', 'ME00002683', 'ME00003349', 'ME00004006', 'ME00004007', 'ME00004016', 'ME00000152', 'ME00000711', 'ME00000712', 'ME00000421', 'ME00000422', 'ME00000423', 'ME00000438', 'ME00000439', 'ME00000490', 'ME00000491', 'ME00000440', 'ME00000441', 'ME00000442', 'ME00000476', 'ME00000477', 'ME00001050', 'ME00004415', 'ME00001046', 'ME00001062', 'ME00001065', 'ME00002018', 'ME00001646', 'ME00001651', 'ME00004136', 'ME00004219', 'ME00003857', 'ME00003858', 'ME00003859', 'ME00003860', 'ME00004101', 'ME00004102', 'ME00004103', 'ME00002697', 'ME00002704', 'ME00002705', 'ME00002711', 'ME00002712', 'ME00000508', 'ME00003083', 'ME00003084', 'ME00003085', 'ME00003086', 'ME00003087', 'ME00003088', 'ME00000509', 'ME00000515', 'ME00000518', 'ME00000527', 'ME00000910', 'ME00000911', 'ME00000912', 'ME00000913', 'ME00000957', 'ME00000023', 'ME00001181', 'ME00001182', 'ME00006506', 'ME00006507', 'ME00006598', 'ME00038799', 'ME00038800', 'ME00039204', 'ME00039250', 'ME00039374', 'ME00006030', 'ME00006031', 'ME00006042', 'ME00006117', 'ME00005891', 'ME00005894', 'ME00005896', 'ME00006029', 'ME00006101', 'ME00006103', 'ME00006104', 'ME00006105', 'ME00006106', 'ME00006107', 'ME00006108', 'ME00006109', 'ME00006110', 'ME00006111', 'ME00006112', 'ME00006113', 'ME00006070', 'ME00006071', 'ME00006088', 'ME00006114', 'ME00006115', 'ME00006116', 'ME00006337', 'ME00006304', 'ME00006305', 'ME00006310', 'ME00006377', 'ME00006677', 'ME00006679', 'ME00006706', 'ME00006920', 'ME00006921', 'ME00006810', 'ME00006831', 'ME00007145', 'ME00007176', 'ME00007180', 'ME00007181', 'ME00007183', 'ME00007185', 'ME00007186', 'ME00007206', 'ME00007207', 'ME00007208', 'ME00007156', 'ME00007157', 'ME00007169', 'ME00007171', 'ME00007328', 'ME00007346', 'ME00007459', 'ME00007460', 'ME00007461', 'ME00007462', 'ME00007463', 'ME00007612', 'ME00007709', 'ME00007572', 'ME00007594', 'ME00007599', 'ME00007600', 'ME00007655', 'ME00007827', 'ME00007833', 'ME00007716', 'ME00007719', 'ME00007720', 'ME00007748', 'ME00007749', 'ME00007750', 'ME00007967', 'ME00007968', 'ME00007788', 'ME00007789', 'ME00007790', 'ME00007957', 'ME00008067', 'ME00008440', 'ME00008770', 'ME00009454', 'ME00009455', 'ME00009393', 'ME00009598', 'ME00009870', 'ME00009755', 'ME00009820', 'ME00009821', 'ME00009822', 'ME00009823', 'ME00009824', 'ME00009825', 'ME00009981', 'ME00009982', 'ME00009983', 'ME00009984', 'ME00009985', 'ME00009986', 'ME00009987', 'ME00010047', 'ME00009876', 'ME00009877', 'ME00009878', 'ME00009979', 'ME00009980', 'ME00010046', 'ME00010070', 'ME00010071', 'ME00010018', 'ME00010019', 'ME00010025', 'ME00010026', 'ME00010497', 'ME00010618', 'ME00010619', 'ME00010620', 'ME00010741', 'ME00010742', 'ME00011054', 'ME00011159', 'ME00011160', 'ME00011265', 'ME00011266', 'ME00011412', 'ME00011413', 'ME00011288', 'ME00011289', 'ME00011336', 'ME00011477', 'ME00011674', 'ME00011854', 'ME00011855', 'ME00011856', 'ME00011894', 'ME00011896', 'ME00011991', 'ME00011993', 'ME00011994', 'ME00011995', 'ME00011927', 'ME00011928', 'ME00012013', 'ME00012014', 'ME00012115', 'ME00012223', 'ME00012185', 'ME00012327', 'ME00012328', 'ME00012330', 'ME00012331', 'ME00012346', 'ME00012347', 'ME00012587', 'ME00012610', 'ME00013068', 'ME00013069', 'ME00013072', 'ME00013096', 'ME00013097', 'ME00013165', 'ME00013166', 'ME00013171', 'ME00013303', 'ME00013304', 'ME00013319', 'ME00013320', 'ME00013321', 'ME00013322', 'ME00013323', 'ME00013324', 'ME00013325', 'ME00013369', 'ME00013370', 'ME00013371', 'ME00013372', 'ME00013455', 'ME00013606', 'ME00013657', 'ME00013658', 'ME00013659', 'ME00013625', 'ME00013803', 'ME00013804', 'ME00013805', 'ME00013806', 'ME00013807', 'ME00013808', 'ME00013674', 'ME00013676', 'ME00013820', 'ME00013821', 'ME00013985', 'ME00013986', 'ME00013987', 'ME00013988', 'ME00014001', 'ME00013983', 'ME00013984', 'ME00014022', 'ME00014024', 'ME00014081', 'ME00014247', 'ME00014254', 'ME00014255', 'ME00014167', 'ME00014170', 'ME00014337', 'ME00014338', 'ME00014341', 'ME00014348', 'ME00014366', 'ME00014367', 'ME00014403', 'ME00014460', 'ME00014461', 'ME00014368', 'ME00014369', 'ME00014373', 'ME00014603', 'ME00014715', 'ME00014702', 'ME00014703', 'ME00014876', 'ME00014877', 'ME00014878', 'ME00014879', 'ME00014880', 'ME00014881', 'ME00014882', 'ME00014883', 'ME00014884', 'ME00014885', 'ME00014886', 'ME00014887', 'ME00014888', 'ME00014889', 'ME00014890', 'ME00014891', 'ME00014892', 'ME00014893', 'ME00015142', 'ME00015177', 'ME00015453', 'ME00015454', 'ME00015456', 'ME00015457', 'ME00015458', 'ME00015459', 'ME00015564', 'ME00015584', 'ME00015585', 'ME00015655', 'ME00015735', 'ME00015736', 'ME00015809', 'ME00015810', 'ME00015811', 'ME00015812', 'ME00015835', 'ME00015836', 'ME00015789', 'ME00015790', 'ME00015799', 'ME00015800', 'ME00015802', 'ME00015803', 'ME00015808', 'ME00016118', 'ME00016210', 'ME00016211', 'ME00016212', 'ME00016214', 'ME00016215', 'ME00016208', 'ME00016209', 'ME00016246', 'ME00016247', 'ME00016253', 'ME00016267', 'ME00016172', 'ME00016173', 'ME00016268', 'ME00016587', 'ME00016590', 'ME00016591', 'ME00016594', 'ME00016608', 'ME00016539', 'ME00016540', 'ME00016541', 'ME00016611', 'ME00016612', 'ME00016724', 'ME00016725', 'ME00016880', 'ME00016881', 'ME00016882', 'ME00016886', 'ME00016887', 'ME00016888', 'ME00016892', 'ME00016893', 'ME00016894', 'ME00016897', 'ME00016871', 'ME00016872', 'ME00016873', 'ME00016979', 'ME00016980', 'ME00016905', 'ME00016906', 'ME00017081', 'ME00017164', 'ME00017185', 'ME00017186', 'ME00017208', 'ME00017209', 'ME00017437', 'ME00017428', 'ME00017429', 'ME00017430', 'ME00017436', 'ME00017759', 'ME00017802', 'ME00017803', 'ME00017796', 'ME00017797', 'ME00017798', 'ME00017921', 'ME00017967', 'ME00017970', 'ME00017971', 'ME00017949', 'ME00017950', 'ME00018004', 'ME00018119', 'ME00018120', 'ME00018137', 'ME00018138', 'ME00018139', 'ME00018091', 'ME00018095', 'ME00018096', 'ME00018097', 'ME00018098', 'ME00018100', 'ME00018339', 'ME00018704', 'ME00018750', 'ME00018751', 'ME00018684', 'ME00018739', 'ME00018842', 'ME00018843', 'ME00018877', 'ME00018878', 'ME00018886', 'ME00018964', 'ME00019076', 'ME00019277', 'ME00019278', 'ME00019273', 'ME00019274', 'ME00019275', 'ME00019276', 'ME00019264', 'ME00019362', 'ME00019596', 'ME00019597', 'ME00019618', 'ME00019684', 'ME00019787', 'ME00019788', 'ME00019786', 'ME00019872', 'ME00019801', 'ME00019802', 'ME00019820', 'ME00019821', 'ME00019822', 'ME00019964', 'ME00020068', 'ME00020069', 'ME00020086', 'ME00020087', 'ME00019943', 'ME00020152', 'ME00020153', 'ME00020157', 'ME00020158', 'ME00020160', 'ME00020161', 'ME00020162', 'ME00020163', 'ME00020164', 'ME00020126', 'ME00020292', 'ME00020293', 'ME00020542', 'ME00020619', 'ME00020620', 'ME00020503', 'ME00020543', 'ME00020544', 'ME00020545', 'ME00020546', 'ME00020547', 'ME00020548', 'ME00020549', 'ME00020611', 'ME00020610', 'ME00021064', 'ME00021065', 'ME00021066', 'ME00021155', 'ME00021156', 'ME00021085', 'ME00021086', 'ME00021087', 'ME00021088', 'ME00021263', 'ME00021582', 'ME00021671', 'ME00021848', 'ME00021811', 'ME00022096', 'ME00022423', 'ME00022429', 'ME00022528', 'ME00022918', 'ME00023119', 'ME00023198', 'ME00023203', 'ME00023204', 'ME00023310', 'ME00023339', 'ME00023340', 'ME00023792', 'ME00024366', 'ME00024354', 'ME00024712', 'ME00024713', 'ME00024715', 'ME00024716', 'ME00024953', 'ME00024954', 'ME00024963', 'ME00024964', 'ME00024965', 'ME00024966', 'ME00024972', 'ME00024973', 'ME00024974', 'ME00024975', 'ME00024976', 'ME00024977', 'ME00024984', 'ME00024985', 'ME00024986', 'ME00024987', 'ME00024943', 'ME00024944', 'ME00024945', 'ME00024946', 'ME00025010', 'ME00025011', 'ME00025012', 'ME00025013', 'ME00025071', 'ME00024991', 'ME00025250', 'ME00025437', 'ME00025440', 'ME00025621', 'ME00025757', 'ME00025725', 'ME00025726', 'ME00026019', 'ME00026034', 'ME00026396', 'ME00026397', 'ME00026400', 'ME00026401', 'ME00026519', 'ME00026520', 'ME00026640', 'ME00026641', 'ME00026832', 'ME00026868', 'ME00026807', 'ME00027132', 'ME00027256', 'ME00027257', 'ME00027258', 'ME00027275', 'ME00027278', 'ME00027289', 'ME00027233', 'ME00027412', 'ME00027392', 'ME00027394', 'ME00027404', 'ME00027450', 'ME00027563', 'ME00027564', 'ME00027644', 'ME00027645', 'ME00027720', 'ME00027721', 'ME00027724', 'ME00027725', 'ME00028154', 'ME00028344', 'ME00028356', 'ME00028376', 'ME00028705', 'ME00029091', 'ME00029092', 'ME00029144', 'ME00029396', 'ME00029304', 'ME00029306', 'ME00029321', 'ME00029857', 'ME00029897', 'ME00029898', 'ME00029899', 'ME00029900', 'ME00029901', 'ME00030105', 'ME00030272', 'ME00030263', 'ME00030264', 'ME00030434', 'ME00030435', 'ME00030471', 'ME00030472', 'ME00030473', 'ME00030938', 'ME00030939', 'ME00031325', 'ME00031326', 'ME00031569', 'ME00031719', 'ME00031720', 'ME00031724', 'ME00032248', 'ME00032837', 'ME00032838', 'ME00032839', 'ME00032783', 'ME00032876', 'ME00032832', 'ME00033466', 'ME00035356', 'ME00035651', 'ME00035652', 'ME00035821', 'ME00035822', 'ME00035923', 'ME00035999', 'ME00036000', 'ME00036227', 'ME00036228', 'ME00036236', 'ME00036243', 'ME00037475', 'ME00037476', 'ME00037739', 'ME00037829', 'ME00038084', 'ME00038120', 'ME00038109', 'ME00038290', 'ME00038291', 'ME00038292', 'ME00038293', 'ME00038546', 'ME00040306', 'ME00041798', 'ME00043371', 'ME00043372', 'ME00044205', 'ME00045040', 'ME00045289', 'ME00048171', 'ME00048555', 'ME00048556', 'ME00048557', 'ME00045990', 'ME00045832', 'ME00047168', 'ME00048516', 'ME00047637', 'ME00049508', 'ME00049512', 'ME00049913', 'ME00050812', 'ME00050813', 'ME00049987', 'ME00050449', 'ME00051058', 'ME00051021', 'ME00051817', 'ME00051641', 'ME00054521', 'ME00054522', 'ME00055155', 'ME00056439', 'ME00056440', 'ME00056441', 'ME00056442', 'ME00056683'&#xA; ,'ME00051499','ME00050738','ME00049372')&#xA; and a11.id_tipo_orden not in (4))&#xA;group by&#x9;a11.id_prestacion,&#xA;&#x9;a14.id_plan_agrupado_G,&#xA;&#x9;a11.id_persona,&#xA;&#x9;a11.id_periodo_prestacion,&#xA;&#x9;a11.id_monodroga,&#xA;&#x9;a11.fecha_prestacion,&#xA;&#x9;a11.id_acreedor,&#xA;&#x9;a11.id_tipo_prestador " xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Restricción]"
+      DTS:CreationName=""
+      DTS:DTSID="{6A350DC6-266A-49C9-B43E-CCD350AD661B}"
+      DTS:From="Package\Elimina Periodos"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Restricción"
+      DTS:To="Package\Inserto en H_MEDICAMENTOS_SIMULADOR" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Restricción 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{16E21CEC-7DA0-4ABA-8E48-DADADC56C7B3}"
+      DTS:From="Package\Inserto en H_MEDICAMENTOS_SIMULADOR"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Restricción 1"
+      DTS:To="Package\Actualizo H_MEDICAMENTOS_SIMULADOR" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Restricción 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{19AD7ED2-66A6-46B8-B007-D102A88CBD34}"
+      DTS:From="Package\Actualizo H_MEDICAMENTOS_SIMULADOR"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Restricción 2"
+      DTS:To="Package\Inserto  H_MEDICAMENTOS_SIMULADOR_RESUMEN" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--Esta sección CDATA contiene la información de diseño del paquete. Esta sección incluye información como, por ejemplo, las coordenadas (x,y), el ancho y el alto.-->
+<!--Si edita manualmente esta sección y comete un error, puede eliminarlo. -->
+<!--El paquete podrá cargarse normalmente, pero se perderá la información de diseño anterior y el diseñador reorganizará los elementos automáticamente en la superficie de diseño.-->
+<Objects
+  Version="8">
+  <!--Cada uno de los nodos siguientes contiene propiedades que no afectan al comportamiento en tiempo de ejecución.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="302,42"
+          Id="Package\Actualizo H_MEDICAMENTOS_SIMULADOR"
+          TopLeft="362,253" />
+        <NodeLayout
+          Size="162,42"
+          Id="Package\Elimina Periodos"
+          TopLeft="439,51" />
+        <NodeLayout
+          Size="355,42"
+          Id="Package\Inserto  H_MEDICAMENTOS_SIMULADOR_RESUMEN"
+          TopLeft="361,355" />
+        <NodeLayout
+          Size="306,42"
+          Id="Package\Inserto en H_MEDICAMENTOS_SIMULADOR"
+          TopLeft="362,151" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Restricción]"
+          TopLeft="517.5,93">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,58"
+              Start="0,0"
+              End="0,50.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,50.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Restricción 1]"
+          TopLeft="514,193">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Restricción 2]"
+          TopLeft="513,295">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="25.5,60"
+              Start="0,0"
+              End="25.5,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,26"
+                    Point2="0,30"
+                    Point3="4,30" />
+                  <mssgle:LineSegment
+                    End="21.5,30" />
+                  <mssgle:CubicBezierSegment
+                    Point1="21.5,30"
+                    Point2="25.5,30"
+                    Point3="25.5,34" />
+                  <mssgle:LineSegment
+                    End="25.5,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

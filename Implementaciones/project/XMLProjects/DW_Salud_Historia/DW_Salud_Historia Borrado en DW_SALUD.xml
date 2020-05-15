@@ -1,0 +1,797 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="1/24/2014 7:28:06 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AMS06"
+  DTS:CreatorName="AMS\adminB"
+  DTS:DTSID="{1F6676B7-7F6B-4425-8E09-BB15EFC45209}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="DW_Salud_Historia Borrado en DW_SALUD"
+  DTS:PackageType="5"
+  DTS:VersionBuild="48"
+  DTS:VersionGUID="{A3AA475F-220F-4647-9136-481808289F1F}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{60E42B26-6332-4E36-BB7F-9A95499D0745}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">1,7,OnError</DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnError"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{60E42B26-6332-4E36-BB7F-9A95499D0745}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza AUX_PERIODO_MES_BORRA"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tarea Ejecutar SQL"
+      DTS:DTSID="{67522224-179e-4a7f-ab5b-814c18bf5f1a}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza AUX_PERIODO_MES_BORRA"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{88DE9AC7-40C2-47C5-83BB-BF020086629D}"
+          SQLTask:SqlStatementSource="/* Borra AUX_PERIODO_MES_BORRA */&#xA;delete from DW_SALUD.dbo.AUX_PERIODO_MES_BORRA&#xA;&#xA;/* Inserta el Minimo Periodo a Incorporar en DW_SALUD_Historia */&#xA;insert into DW_SALUD.dbo.AUX_PERIODO_MES_BORRA (id_periodo)&#xA;select '201101'&#xA;&#xA;/* Inserta el Minimo Periodo a Incorporar en DW_SALUD_Historia */&#xA;insert into DW_SALUD.dbo.AUX_PERIODO_MES_BORRA (id_periodo)&#xA;select '201212'&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Aranceles"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{56448780-8996-4bff-96de-da30b3458525}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Aranceles"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="4">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{88DE9AC7-40C2-47C5-83BB-BF020086629D}"
+          SQLTask:SqlStatementSource="&#xA;DECLARE @Periodo_Min INT ,  @Periodo_Max INT&#xA;SET @Periodo_Min = (select MIN(id_periodo) from DW_SALUD.dbo.AUX_PERIODO_MES_BORRA)&#xA;SET @Periodo_Max = (select MAX(id_periodo) from DW_SALUD.dbo.AUX_PERIODO_MES_BORRA)&#xA;&#xA;&#x9;DELETE FROM DW_SALUD.dbo.H_ARANCELES_AUMENTOS&#xA;&#x9;where id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#x9;DELETE FROM DW_SALUD.dbo.H_ARANCELES_AUMENTOS_NOMENCLADOR&#xA;&#x9;where id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#x9;--DELETE FROM DW_SALUD.dbo.H_ARANCELES_CONSUMO&#xA;&#x9;--where id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#x9;--DELETE FROM DW_SALUD.dbo.H_ARANCELES_INTERNACIONES&#xA;&#x9;--where id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Call Center"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{e03eaffe-4761-4e49-adc4-e9a1ee1e75bd}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Call Center"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{88DE9AC7-40C2-47C5-83BB-BF020086629D}"
+          SQLTask:SqlStatementSource="&#xA;DECLARE @Periodo_Min INT ,  @Periodo_Max INT&#xA;SET @Periodo_Min = (select MIN(id_periodo) from DW_SALUD.dbo.AUX_PERIODO_MES_BORRA)&#xA;SET @Periodo_Max = (select MAX(id_periodo) from DW_SALUD.dbo.AUX_PERIODO_MES_BORRA)&#xA;&#xA;&#x9;DELETE FROM DW_SALUD.dbo.H_CALL_CENTER_GERVASONI&#xA;&#x9;where id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#x9;DELETE FROM DW_SALUD.dbo.H_CALL_CENTER_GERVASONI_DURACION_LLAMADAS&#xA;&#x9;where id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#x9;DELETE FROM DW_SALUD.dbo.H_CALL_CENTER_CALIFICACION&#xA;&#x9;where id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#x9;DELETE FROM DW_SALUD.dbo.H_CALL_CENTER_GERVASONI_DURACION_LLAMADAS_PROD_NO_CONFORME&#xA;&#x9;where id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#x9;DELETE FROM DW_SALUD.dbo.H_CALL_CENTER_LLAMADAS_TELECOM&#xA;&#x9;where id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#x9;DELETE FROM DW_SALUD.dbo.H_CALL_CENTER_LLAMADAS_TELECOM_PROD_NO_CONFORME&#xA;&#x9;where id_periodo between @Periodo_Min and @Periodo_Max&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Conectividad"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{c4795fe7-38a8-46a1-a2e7-fbebaf11e33f}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Conectividad"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{88DE9AC7-40C2-47C5-83BB-BF020086629D}"
+          SQLTask:SqlStatementSource="DECLARE @Periodo_Min INT&#xA;DECLARE @Periodo_Max INT&#xA;SET @Periodo_Min = (select MIN(id_periodo) from DW_SALUD.dbo.AUX_PERIODO_MES_BORRA)&#xA;SET @Periodo_Max = (select MAX(id_periodo) from DW_SALUD.dbo.AUX_PERIODO_MES_BORRA)&#xA;&#xA;/* Traditum */&#xA;&#xA;DELETE FROM DW_SALUD.dbo.H_TRADITUM_CABECERA WHERE id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;DELETE FROM DW_SALUD.dbo.H_TRADITUM_DETALLE where id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;DELETE FROM DW_SALUD.dbo.H_CONEXIA_CABECERA where id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;DELETE FROM DW_SALUD.dbo.H_CONEXIA_PRESTACIONES where id_periodo between @Periodo_Min and @Periodo_Max" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Cursogramas"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{f0f97e6a-ee56-4bae-9f57-5b04523ff138}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Cursogramas"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{88DE9AC7-40C2-47C5-83BB-BF020086629D}"
+          SQLTask:SqlStatementSource="DECLARE @Periodo_Min INT&#xA;DECLARE @Periodo_Max INT&#xA;SET @Periodo_Min = (select MIN(id_periodo) from DW_SALUD.dbo.AUX_PERIODO_MES_BORRA )&#xA;SET @Periodo_Max = (select MAX(id_periodo) from DW_SALUD.dbo.AUX_PERIODO_MES_BORRA )&#xA;&#xA;DELETE FROM DW_SALUD.dbo.h_estado_cursogramas WHERE id_periodo between @Periodo_Min and @Periodo_Max" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Data Afiliados"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{c1c55c84-481c-4c4a-a3c2-1d598e87d011}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Data Afiliados"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{88DE9AC7-40C2-47C5-83BB-BF020086629D}"
+          SQLTask:SqlStatementSource="DECLARE @Periodo_Min INT&#xA;DECLARE @Periodo_Max INT&#xA;SET @Periodo_Min = (select MIN(id_periodo) from DW_SALUD.dbo.AUX_PERIODO_MES_BORRA )&#xA;SET @Periodo_Max = (select MAX(id_periodo) from DW_SALUD.dbo.AUX_PERIODO_MES_BORRA )&#xA;&#xA;&#x9;DELETE FROM DW_SALUD.dbo.H_COMP_GRUPO_ACTIVO&#xA;&#x9;where id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#x9;DELETE FROM DW_SALUD.dbo.h_altas_personas&#xA;&#x9;where id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#x9;DELETE FROM DW_SALUD.dbo.h_altas_comp_grupo&#xA;&#x9;where id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#x9;DELETE FROM DW_SALUD.dbo.H_BAJAS_COMP_GRUPO&#xA;&#x9;where id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#x9;DELETE FROM DW_SALUD.dbo.H_BAJAS_PERSONAS&#xA;&#x9;where id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#x9;DELETE FROM DW_SALUD.dbo.H_GRUPO_ACTIVO&#xA;&#x9;where id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#x9;DELETE FROM DW_SALUD.dbo.H_GRUPO_ALTA&#xA;&#x9;where id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#x9;DELETE FROM DW_SALUD.dbo.H_GRUPO_BAJA&#xA;&#x9;where id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#x9;DELETE FROM DW_SALUD.dbo.h_cambio_plan_det&#xA;&#x9;where id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#x9;DELETE FROM DW_SALUD.dbo.h_cambio_plan_pers&#xA;&#x9;where id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#x9;DELETE FROM DW_SALUD.dbo.h_apo_afi&#xA;&#x9;where id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#x9;DELETE FROM DW_SALUD.dbo.h_apo_afi_det&#xA;&#x9;where id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#x9;DELETE FROM DW_SALUD.dbo.H_LLAVES_ALERTAS_AFILIADOS&#xA;&#x9;where id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#x9;DELETE FROM DW_SALUD.dbo.H_COMER_AGRUPACION&#xA;&#x9;where id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#x9;-- YA SIN DATOS.. Y BORRADA DEL CATALOGO?&#xA;&#x9;--DELETE FROM DW_SALUD.dbo.H_TRANSFERENCIAS_INTERSEGMENTO&#xA;&#x9;--where id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#x9;DELETE FROM DW_SALUD.dbo.H_TOTALES_POR_PRODUCTO&#xA;&#x9;where id_periodo between @Periodo_Min and @Periodo_Max" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Data Comercial"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{96f6d58d-b41d-4422-a30b-54f1ab717bc0}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Data Comercial"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{88DE9AC7-40C2-47C5-83BB-BF020086629D}"
+          SQLTask:SqlStatementSource="DECLARE @Periodo_Min INT&#xA;DECLARE @Periodo_Max INT&#xA;SET @Periodo_Min = (select MIN(id_periodo) from DW_SALUD.dbo.AUX_PERIODO_MES_BORRA )&#xA;SET @Periodo_Max = (select MAX(id_periodo) from DW_SALUD.dbo.AUX_PERIODO_MES_BORRA )&#xA;&#xA;&#x9;&#x9;DELETE FROM DW_SALUD.dbo.H_COMER_STOCK_AFILIA where id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#x9;&#x9;DELETE FROM DW_SALUD.dbo.H_COMER_ALTAS_REALES_AFILIA where id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#x9;&#x9;DELETE FROM DW_SALUD.dbo.H_COMER_BAJAS_REALES_AFILIA where id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#x9;&#x9;DELETE FROM DW_SALUD.dbo.H_COMER_CAMBIO_PLAN_CAB where id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#x9;&#x9;DELETE FROM DW_SALUD.dbo.H_COMER_CAMBIO_PLAN_DET where id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#x9;&#x9;DELETE FROM DW_SALUD.dbo.H_COMER_TRANSFERENCIAS_CAB where id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#x9;&#x9;DELETE FROM DW_SALUD.dbo.H_COMER_TRANSFERENCIAS_DET where id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#x9;&#x9;DELETE FROM DW_SALUD.dbo.H_COMER_GRUPO_ACTIVO where id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#x9;&#x9;DELETE FROM DW_SALUD.dbo.H_COMER_GRUPO_ALTA where id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#x9;&#x9;DELETE FROM DW_SALUD.dbo.H_COMER_GRUPO_BAJA where id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#x9;&#x9;DELETE FROM DW_SALUD.dbo.h_altas_genuinas where id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#x9;&#x9;DELETE FROM DW_SALUD.dbo.H_BAJAS_GENUINAS where id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#x9;&#x9;DELETE FROM DW_SALUD.dbo.H_ALTAS_GENUINAS_TITULARES where id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#x9;&#x9;DELETE FROM DW_SALUD.dbo.H_BAJAS_GENUINAS_TITULARES where id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#x9;&#x9;DELETE FROM DW_SALUD.dbo.h_promotor_zona_comercial where id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Data de Consumos"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{b4555f2d-0293-4699-b8e8-cc52326c01a9}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Data de Consumos"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{88DE9AC7-40C2-47C5-83BB-BF020086629D}"
+          SQLTask:SqlStatementSource="DECLARE @Periodo_Min INT&#xA;DECLARE @Periodo_Max INT&#xA;SET @Periodo_Min = (select MIN(id_periodo) from DW_SALUD.dbo.AUX_PERIODO_MES_BORRA )&#xA;SET @Periodo_Max = (select MAX(id_periodo) from DW_SALUD.dbo.AUX_PERIODO_MES_BORRA )&#xA;&#xA;&#x9;DELETE FROM DW_SALUD.dbo.h_ord_amb_cab where id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#x9;DELETE FROM DW_SALUD.dbo.h_ord_amb_det where id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#x9;DELETE FROM DW_SALUD.dbo.h_ord_int_cab where id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#x9;DELETE FROM DW_SALUD.dbo.h_ord_int_det where id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#x9;DELETE FROM DW_SALUD.dbo.h_debitos where id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#x9;DELETE FROM DW_SALUD.dbo.h_creditos_debitos where id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#x9;DELETE FROM DW_SALUD.dbo.H_PROMEDIOS_SALUD where id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#x9;DELETE FROM DW_SALUD.dbo.H_PROMEDIOS_SALUD_COSTO1 where id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#x9;DELETE FROM DW_SALUD.dbo.H_PROMEDIOS_SALUD_COSTO2 where id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#x9;&#xA;&#x9;DELETE FROM DW_SALUD.dbo.H_PROMEDIOS_SALUD_COSTO4 where id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Data de Ordenes e Internaciones"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{4031a80d-0882-4498-b85d-1e8bf00d0238}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Data de Ordenes e Internaciones"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{88DE9AC7-40C2-47C5-83BB-BF020086629D}"
+          SQLTask:SqlStatementSource="DECLARE @Periodo_Min INT&#xA;DECLARE @Periodo_Max INT&#xA;SET @Periodo_Min = (select MIN(id_periodo) from DW_SALUD.dbo.AUX_PERIODO_MES_BORRA )&#xA;SET @Periodo_Max = (select MAX(id_periodo) from DW_SALUD.dbo.AUX_PERIODO_MES_BORRA )&#xA;&#xA;/* Ordenes E Internaciones */&#xA;&#xA;DELETE FROM DW_SALUD.dbo.H_ORDENES_PROCESADAS WHERE id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;DELETE FROM DW_SALUD.dbo.H_ORDENES_PROCESADAS_DET WHERE id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;DELETE FROM DW_SALUD.dbo.H_INTERNACIONES WHERE id_periodo between @Periodo_Min and @Periodo_Max" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Data de Recaudacion"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{e78c6431-b6d4-4425-b3a2-2ff82d5be9a4}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Data de Recaudacion"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{88DE9AC7-40C2-47C5-83BB-BF020086629D}"
+          SQLTask:SqlStatementSource="DECLARE @Periodo_Min INT&#xA;DECLARE @Periodo_Max INT&#xA;SET @Periodo_Min = (select MIN(id_periodo) from DW_SALUD.dbo.AUX_PERIODO_MES_BORRA )&#xA;SET @Periodo_Max = (select MAX(id_periodo) from DW_SALUD.dbo.AUX_PERIODO_MES_BORRA )&#xA;/* Data de Recaudacion */&#xA;&#xA;DELETE FROM DW_SALUD.dbo.H_recaudacion_cabecera WHERE id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;DELETE FROM DW_SALUD.dbo.H_recaudacion_detalle where id_periodo between @Periodo_Min and @Periodo_Max" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Indicadores de Consumos"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{5eedffb3-b5a6-4391-9f03-61106477b4cc}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Indicadores de Consumos"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{88DE9AC7-40C2-47C5-83BB-BF020086629D}"
+          SQLTask:SqlStatementSource="DECLARE @Periodo_Min INT&#xA;DECLARE @Periodo_Max INT&#xA;SET @Periodo_Min = (select MIN(id_periodo) from DW_SALUD.dbo.AUX_PERIODO_MES_BORRA )&#xA;SET @Periodo_Max = (select MAX(id_periodo) from DW_SALUD.dbo.AUX_PERIODO_MES_BORRA )&#xA;&#xA;DELETE FROM DW_SALUD.dbo.H_INDICADORES_CONS_CANT_AFI where id_periodo between @Periodo_Min and @Periodo_Max&#xA;DELETE FROM DW_SALUD.dbo.H_INDICADORES_CONS_CANT_PREST where id_periodo between @Periodo_Min and @Periodo_Max" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Objetivos"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{7c40534e-d5d5-4f77-80a6-468b9a555c4b}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Objetivos"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="2">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{88DE9AC7-40C2-47C5-83BB-BF020086629D}"
+          SQLTask:SqlStatementSource="&#xA;DECLARE @Periodo_Min INT ,  @Periodo_Max INT&#xA;SET @Periodo_Min = (select MIN(id_periodo) from DW_SALUD.dbo.AUX_PERIODO_MES_BORRA)&#xA;SET @Periodo_Max = (select MAX(id_periodo) from DW_SALUD.dbo.AUX_PERIODO_MES_BORRA)&#xA;&#xA;&#x9;DELETE FROM DW_SALUD.dbo.H_OBJETIVOS&#xA;&#x9;where id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#x9;DELETE FROM DW_SALUD.dbo.H_OBJETIVOS_GENERALES&#xA;&#x9;where id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Proyecto Empresas"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{4fa2f54c-9437-4af5-9101-49cf3fb206e5}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Proyecto Empresas"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{88DE9AC7-40C2-47C5-83BB-BF020086629D}"
+          SQLTask:SqlStatementSource="&#xA;DECLARE @Periodo_Min INT,  @Periodo_Max INT&#xA;SET @Periodo_Min = (select MIN(id_periodo) from DW_SALUD.dbo.AUX_PERIODO_MES_BORRA)&#xA;SET @Periodo_Max = (select MAX(id_periodo) from DW_SALUD.dbo.AUX_PERIODO_MES_BORRA)&#xA;&#xA;/* Proyecto Empresas */&#xA;&#xA;DELETE&#xA;from DW_SALUD.dbo.H_Afiliados_Empresas&#xA;where id_periodo &gt;= @Periodo_Min and id_periodo &lt;= @Periodo_Max&#xA;&#xA;DELETE&#xA;from DW_SALUD.dbo.H_TOTALES_EMPRESAS&#xA;where id_periodo &gt;= @Periodo_Min and id_periodo &lt;= @Periodo_Max&#xA;&#xA;DELETE&#xA;from DW_SALUD.dbo.H_AFILIADOS_EMPRESAS_CONSUMO_RECAUDACION&#xA;where id_periodo &gt;= @Periodo_Min and id_periodo &lt;= @Periodo_Max&#xA;&#xA;DELETE&#xA;from DW_SALUD.dbo.H_AFILIADOS_EMPRESAS_ALTAS&#xA;where id_periodo &gt;= @Periodo_Min and id_periodo &lt;= @Periodo_Max&#xA;&#xA;DELETE&#xA;from DW_SALUD.dbo.H_AFILIADOS_EMPRESAS_BAJAS&#xA;where id_periodo &gt;= @Periodo_Min and id_periodo &lt;= @Periodo_Max&#xA;&#xA;DELETE&#xA;from DW_SALUD.dbo.H_AFILIADOS_EMPRESAS_MOVIMIENTOS_ALTAS&#xA;where id_periodo &gt;= @Periodo_Min and id_periodo &lt;= @Periodo_Max&#xA;&#xA;DELETE&#xA;from DW_SALUD.dbo.H_AFILIADOS_EMPRESAS_MOVIMIENTOS_BAJAS&#xA;where id_periodo &gt;= @Periodo_Min and id_periodo &lt;= @Periodo_Max&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Tablas Varias"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{f3cb4423-2817-4561-8b3e-74aaa743e631}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Tablas Varias"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="3">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{88DE9AC7-40C2-47C5-83BB-BF020086629D}"
+          SQLTask:SqlStatementSource="&#xA;DECLARE @Periodo_Min INT ,  @Periodo_Max INT&#xA;SET @Periodo_Min = (select MIN(id_periodo) from DW_SALUD.dbo.AUX_PERIODO_MES_BORRA)&#xA;SET @Periodo_Max = (select MAX(id_periodo) from DW_SALUD.dbo.AUX_PERIODO_MES_BORRA)&#xA;&#xA;&#x9;DELETE FROM DW_SALUD.dbo.H_AUDIRED&#xA;&#x9;where id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#x9;DELETE FROM DW_SALUD.dbo.H_TABLERO_MICROCHART&#xA;&#x9;where id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#x9;DELETE FROM DW_SALUD.dbo.H_INDICADORES_PRESUPUESTO&#xA;&#x9;where id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#x9;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Tableros Consumos - Costo Salud - Afiliados - PMO - Internaciones"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{1f91a6fe-48cf-42e0-a923-9f5b5aa6db64}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Tableros Consumos - Costo Salud - Afiliados - PMO - Internaciones"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{88DE9AC7-40C2-47C5-83BB-BF020086629D}"
+          SQLTask:SqlStatementSource="DECLARE @Periodo_Min INT&#xA;DECLARE @Periodo_Max INT&#xA;SET @Periodo_Min = (select MIN(id_periodo) from DW_SALUD.dbo.AUX_PERIODO_MES_BORRA )&#xA;SET @Periodo_Max = (select MAX(id_periodo) from DW_SALUD.dbo.AUX_PERIODO_MES_BORRA )&#xA;&#xA;&#xA;&#x9;&#x9;DELETE FROM DW_SALUD.dbo.h_recepcionado WHERE id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#x9;/******************************************************************************************************/&#x9;&#xA;&#xA;&#x9;/* Tablero PMO */&#xA;&#xA;&#x9;&#x9;DELETE FROM DW_SALUD.dbo.H_PMO_NUEVO WHERE id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#x9;&#x9;DELETE FROM DW_SALUD.dbo.H_PMO_AFILIADOS_NUEVO WHERE id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#x9;&#x9;DELETE FROM DW_SALUD.dbo.H_PMO_CAPITAS_ORIGEN_NUEVO WHERE id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#x9;&#x9;DELETE FROM DW_SALUD.dbo.H_PMO_CAPITAS_GRUPO_NUEVO WHERE id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#xA;&#x9;/******************************************************************************************************/&#x9;&#xA;&#xA;&#xA;&#x9;/* Internaciones */&#xA;&#xA;&#x9;&#x9;DELETE FROM DW_SALUD.dbo.H_INTERNACIONES_CONSUMOS WHERE id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;DELETE FROM DW_SALUD.dbo.H_DEBITOS_ORIGEN WHERE id_periodo between @Periodo_Min and @Periodo_Max&#xA;&#xA;&#x9;&#x9;DELETE FROM DW_SALUD.dbo.H_INTERNACIONES_DEBITOS WHERE id_periodo between @Periodo_Min and @Periodo_Max&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{3cbe20c4-463d-4626-8908-871ff1ecfd81}"
+      DTS:From="Package\Data Afiliados"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Data Comercial" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{e4cdd770-cbf2-48f0-9cf9-9c29e9716931}"
+      DTS:From="Package\Data Comercial"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Data de Consumos" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{c20bbf31-db8c-4b08-802c-7f6528299787}"
+      DTS:From="Package\Data de Consumos"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Cursogramas" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{dfcf8851-4570-4aaa-ba78-3ba265c9da7a}"
+      DTS:From="Package\Cursogramas"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Indicadores de Consumos" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
+      DTS:CreationName=""
+      DTS:DTSID="{36953013-79af-4a18-a314-164326bb6fbe}"
+      DTS:From="Package\Indicadores de Consumos"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 4"
+      DTS:To="Package\Data de Ordenes e Internaciones" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 5]"
+      DTS:CreationName=""
+      DTS:DTSID="{f5a11d93-624f-4fdd-8e18-fb1b459d6374}"
+      DTS:From="Package\Data de Ordenes e Internaciones"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 5"
+      DTS:To="Package\Proyecto Empresas" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 6]"
+      DTS:CreationName=""
+      DTS:DTSID="{f4f907d0-0960-4b14-b430-cc29426c0577}"
+      DTS:From="Package\Proyecto Empresas"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 6"
+      DTS:To="Package\Data de Recaudacion" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 7]"
+      DTS:CreationName=""
+      DTS:DTSID="{acba89d1-97c3-4341-8823-dfaee5829c6b}"
+      DTS:From="Package\Data de Recaudacion"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 7"
+      DTS:To="Package\Tableros Consumos - Costo Salud - Afiliados - PMO - Internaciones" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 8]"
+      DTS:CreationName=""
+      DTS:DTSID="{E752F6CD-9055-47E2-8F30-6F0720765DCA}"
+      DTS:From="Package\Actualiza AUX_PERIODO_MES_BORRA"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 8"
+      DTS:To="Package\Data Afiliados" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Restricción]"
+      DTS:CreationName=""
+      DTS:DTSID="{74A7799B-6980-4751-870F-1D8ADFE78EF5}"
+      DTS:From="Package\Tableros Consumos - Costo Salud - Afiliados - PMO - Internaciones"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Restricción"
+      DTS:To="Package\Conectividad" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssge="clr-namespace:Microsoft.SqlServer.Graph.Extended;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+        <NodeLayout
+          Size="281,42"
+          Id="Package\Actualiza AUX_PERIODO_MES_BORRA"
+          TopLeft="140.152658662093,11.5" />
+        <NodeLayout
+          Size="128,42"
+          Id="Package\Aranceles"
+          TopLeft="485.757075471698,235.191823899371" />
+        <NodeLayout
+          Size="134,42"
+          Id="Package\Call Center"
+          TopLeft="482.757075471698,167.01572327044" />
+        <NodeLayout
+          Size="143,42"
+          Id="Package\Conectividad"
+          TopLeft="209.152658662093,857.16037735849" />
+        <NodeLayout
+          Size="145,42"
+          Id="Package\Cursogramas"
+          TopLeft="208.152658662093,349.764150943396" />
+        <NodeLayout
+          Size="147,42"
+          Id="Package\Data Afiliados"
+          TopLeft="207.152658662093,96.0660377358491" />
+        <NodeLayout
+          Size="155,42"
+          Id="Package\Data Comercial"
+          TopLeft="203.152658662093,180.632075471698" />
+        <NodeLayout
+          Size="173,42"
+          Id="Package\Data de Consumos"
+          TopLeft="194.152658662093,265.198113207547" />
+        <NodeLayout
+          Size="241,42"
+          Id="Package\Data de Ordenes e Internaciones"
+          TopLeft="160.152658662093,518.896226415094" />
+        <NodeLayout
+          Size="185,42"
+          Id="Package\Data de Recaudacion"
+          TopLeft="188.152658662093,688.028301886792" />
+        <NodeLayout
+          Size="207,42"
+          Id="Package\Indicadores de Consumos"
+          TopLeft="177.152658662093,434.330188679245" />
+        <NodeLayout
+          Size="125,42"
+          Id="Package\Objetivos"
+          TopLeft="487.257075471698,303.367924528302" />
+        <NodeLayout
+          Size="175,42"
+          Id="Package\Proyecto Empresas"
+          TopLeft="193.152658662093,603.462264150943" />
+        <NodeLayout
+          Size="146,42"
+          Id="Package\Tablas Varias"
+          TopLeft="476.757075471698,98.8396226415094" />
+        <NodeLayout
+          Size="408,42"
+          Id="Package\Tableros Consumos - Costo Salud - Afiliados - PMO - Internaciones"
+          TopLeft="76.6526586620926,772.594339622641" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="280.652658662093,138.066037735849">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,42.5660377358491"
+              Start="0,0"
+              End="0,35.0660377358491">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,35.0660377358491" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="280.652658662093,222.632075471698">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,42.5660377358491"
+              Start="0,0"
+              End="0,35.0660377358491">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,35.0660377358491" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="280.652658662093,307.198113207547">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,42.5660377358491"
+              Start="0,0"
+              End="0,35.0660377358491">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,35.0660377358491" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="280.652658662093,391.764150943396">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,42.5660377358491"
+              Start="0,0"
+              End="0,35.0660377358491">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,35.0660377358491" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="280.652658662093,476.330188679245">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,42.566037735849"
+              Start="0,0"
+              End="0,35.066037735849">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,35.066037735849" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 5]"
+          TopLeft="280.652658662093,560.896226415094">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,42.566037735849"
+              Start="0,0"
+              End="0,35.066037735849">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,35.066037735849" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 6]"
+          TopLeft="280.652658662093,645.462264150943">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,42.566037735849"
+              Start="0,0"
+              End="0,35.066037735849">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,35.066037735849" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 7]"
+          TopLeft="280.652658662093,730.028301886792">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,42.566037735849"
+              Start="0,0"
+              End="0,35.066037735849">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,35.066037735849" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 8]"
+          TopLeft="280.652658662093,53.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,42.5660377358491"
+              Start="0,0"
+              End="0,35.0660377358491">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,35.0660377358491" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Restricción]"
+          TopLeft="280.652658662093,814.594339622641">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,42.566037735849"
+              Start="0,0"
+              End="0,35.066037735849">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,35.066037735849" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <AnnotationLayout
+          Text="TRANSACCIONES - Traditum: Cuando llegue el momento agregar Conexia y demás transacciones."
+          ParentId="Package"
+          Size="516,38"
+          Id="490716de-7a0a-45ec-a367-c0c1fd61b72e"
+          TopLeft="15.7075471698113,1060.33018867925">
+          <AnnotationLayout.FontInfo>
+            <mssge:FontInfo
+              Family="Tahoma"
+              Size="11.25"
+              Color="#FF080000">
+              <mssge:FontInfo.TextDecorations>
+                <av:TextDecorationCollection />
+              </mssge:FontInfo.TextDecorations>
+            </mssge:FontInfo>
+          </AnnotationLayout.FontInfo>
+        </AnnotationLayout>
+        <AnnotationLayout
+          Text="COSTO ALTAS Y BAJAS--COBRANZA--INDICADORES CONTABLES"
+          ParentId="Package"
+          Size="376,51"
+          Id="cd171054-fe11-475c-8cf1-69c15b46292e"
+          TopLeft="5.5,1005.38679245283">
+          <AnnotationLayout.FontInfo>
+            <mssge:FontInfo
+              Family="Tahoma"
+              Size="11.25"
+              Color="#FFFF0000"
+              Weight="Bold">
+              <mssge:FontInfo.TextDecorations>
+                <av:TextDecorationCollection />
+              </mssge:FontInfo.TextDecorations>
+            </mssge:FontInfo>
+          </AnnotationLayout.FontInfo>
+        </AnnotationLayout>
+        <AnnotationLayout
+          Text="PROXIMAMENTE DEBEMOS TENER EN CUENTA LOS SIGUIENTES PROCESOS PARA PASARLOS A HISTORICO. "
+          ParentId="Package"
+          Size="630,51"
+          Id="b018474b-33d4-4589-9850-11fff2c436f6"
+          TopLeft="13.5188679245283,931.38679245283">
+          <AnnotationLayout.FontInfo>
+            <mssge:FontInfo
+              Family="Tahoma"
+              Size="11.25"
+              Color="#FF008000"
+              Style="Italic"
+              Weight="Bold">
+              <mssge:FontInfo.TextDecorations>
+                <av:TextDecorationCollection />
+              </mssge:FontInfo.TextDecorations>
+            </mssge:FontInfo>
+          </AnnotationLayout.FontInfo>
+        </AnnotationLayout>
+        <AnnotationLayout
+          Text="CALL CENTER--TRAZABILIDAD DE FICHAS--PADRON BAJAS OBRA SOCIAL--CONTACTOS"
+          ParentId="Package"
+          Size="479,51"
+          Id="dad40842-b50f-4286-b5c0-e99094561c4b"
+          TopLeft="339.5,985.367924528302">
+          <AnnotationLayout.FontInfo>
+            <mssge:FontInfo
+              Family="Tahoma"
+              Size="11.25"
+              Color="#FFFF0000"
+              Weight="Bold">
+              <mssge:FontInfo.TextDecorations>
+                <av:TextDecorationCollection />
+              </mssge:FontInfo.TextDecorations>
+            </mssge:FontInfo>
+          </AnnotationLayout.FontInfo>
+        </AnnotationLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

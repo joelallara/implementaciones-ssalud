@@ -1,0 +1,1767 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="4/21/2020 10:37:43 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="LA22671-08835"
+  DTS:CreatorName="AMS\nborio"
+  DTS:DTSID="{6AEE2987-8EEC-4154-89C9-33B866D51DC3}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="Actualiza H_TABLERO_COVID"
+  DTS:PackageType="5"
+  DTS:VersionBuild="25"
+  DTS:VersionGUID="{575B0A16-2AD8-428F-A9E7-FC3004BF488B}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[DS_DW_SALUD]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{63B77F6E-3573-4D7D-AF97-509035324548}"
+      DTS:ObjectName="DS_DW_SALUD">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[$Project::DS_DW_SALUD]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=DWHPROD;User ID=cgestion;Initial Catalog=DW_SALUD;Provider=SQLNCLI11;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA5rEJhiY+mESfEwi6+POY1AAAAAAIAAAARABUAFMAAAADZgAAwAAAABAAAACOJ50RPkpd4AKM4GYHv7cjAAAAAASAAACgAAAAEAAAAGoI8qVTPV7RptTUzoQvY/IYAAAAcMxNUTewt3YfUbOSuFXkyvh632DNiS95FAAAADyeL6pXzhotwd2BV87LUmpLPd7k</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[DS_MSDB]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{5D6834A2-3369-48E8-968C-1C59816788D4}"
+      DTS:ObjectName="DS_MSDB">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[$Project::DS_MSDB]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=P-IS-01;User ID=cgestion;Initial Catalog=MSDB;Provider=SQLNCLI11;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA5rEJhiY+mESfEwi6+POY1AAAAAAIAAAARABUAFMAAAADZgAAwAAAABAAAADuqEZHHkLfiKs9FJe4rozqAAAAAASAAACgAAAAEAAAACwJpFquFnePCVvby/C8yGsYAAAAqoMeACkKp0cP8ne1IqVwAg0JHGSatTxuFAAAAKpI9lNqgSASgt7gQ9TlxS313Jbd</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Origen archivo]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{2B3D5DCF-12D0-49EA-AD29-B79726B638A6}"
+      DTS:ObjectName="Origen archivo">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=\\P-IS-01\SSIS2017$\03 - Archivos\Tablero Covid\Planilla COVID-19.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Planilla COVID-19 - DESTINO]"
+      DTS:CreationName="FILE"
+      DTS:DTSID="{AA3511D1-1E08-426F-837D-6446331515A9}"
+      DTS:ObjectName="Planilla COVID-19 - DESTINO">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="\\P-IS-01\SSIS2017$\03 - Archivos\Tablero Covid\Planilla COVID-19.xlsx" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Planilla COVID-19 - ORIGEN]"
+      DTS:CreationName="FILE"
+      DTS:DTSID="{91FF8E6E-7226-4522-9DB1-AB4AD9F576D9}"
+      DTS:ObjectName="Planilla COVID-19 - ORIGEN">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="\\ams12\procesoplanillasestadisticas$\Tableros\Tablero COVID\Planilla COVID-19.xlsx" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{DEA3480D-9A32-4F05-B952-96765D027E6D}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{DEA3480D-9A32-4F05-B952-96765D027E6D}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza campos"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tarea Ejecutar SQL"
+      DTS:DTSID="{34760DA9-C077-4C8F-AE9B-B30B505AC6D4}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza campos"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{63B77F6E-3573-4D7D-AF97-509035324548}"
+          SQLTask:SqlStatementSource="UPDATE H_TABLERO_COVID&#xA;SET cantidad_confirmados = 0&#xA;&#xA;UPDATE H_TABLERO_COVID&#xA;SET cantidad_en_tratamiento = 0&#xA;&#xA;UPDATE H_TABLERO_COVID&#xA;SET cantidad_fallecido = 0&#xA;&#xA;UPDATE H_TABLERO_COVID&#xA;SET cantidad_inconcluso = 0&#xA;&#xA;UPDATE H_TABLERO_COVID&#xA;SET cantidad_negativos = 0&#xA;&#xA;UPDATE H_TABLERO_COVID&#xA;SET cantidad_recuperado = 0&#xA;&#xA;UPDATE H_TABLERO_COVID&#xA;SET cantidad_confirmados_dia_anterior = 0&#xA;&#xA;UPDATE H_TABLERO_COVID&#xA;SET cantidad_recuperados_dia_anterior = 0&#xA;&#xA;UPDATE H_TABLERO_COVID&#xA;SET cantidad_fallecidos_dia_anterior = 0&#xA;&#xA;UPDATE H_TABLERO_COVID&#xA;SET cantidad_total = 1&#xA;&#xA;&#xA;UPDATE H_TABLERO_COVID&#xA;SET cantidad_confirmados = 1&#xA;WHERE resultado_test = 'POSITIVO'&#xA;&#xA;UPDATE H_TABLERO_COVID&#xA;SET cantidad_inconcluso = 1&#xA;WHERE resultado_test = 'SIN RESULTADO'&#xA;&#xA;UPDATE H_TABLERO_COVID&#xA;SET cantidad_negativos = 1&#xA;WHERE resultado_test = 'NEGATIVO'&#xA;&#xA;UPDATE H_TABLERO_COVID&#xA;SET cantidad_en_tratamiento = 1&#xA;WHERE resultado_test = 'POSITIVO' and estado_asociado IN ('EXTRA HOSPITALARIA', 'SIN EGRESO')&#xA;&#xA;UPDATE H_TABLERO_COVID&#xA;SET cantidad_fallecido = 1&#xA;WHERE resultado_test = 'POSITIVO' and estado_asociado = 'FALLECIMIENTO'&#xA;&#xA;UPDATE H_TABLERO_COVID&#xA;SET cantidad_recuperado = 1&#xA;WHERE resultado_test = 'POSITIVO' and estado_asociado = 'ALTA'&#xA;&#xA;UPDATE H_TABLERO_COVID&#xA;SET fecha_fallecimiento = fecha_alta&#xA;WHERE estado_asociado = 'FALLECIMIENTO'&#xA;&#xA;UPDATE H_TABLERO_COVID&#xA;SET cantidad_confirmados_dia_anterior = 1&#xA;FROM H_TABLERO_COVID H1 WHERE EXISTS (SELECT * FROM H_TABLERO_COVID N1 WHERE H1.id_persona=N1.id_persona and N1.fecha_actualizacion=DATEADD(DAY, CASE (DATEPART(WEEKDAY, H1.fecha_actualizacion) + @@DATEFIRST) % 7 WHEN 1 THEN -2 WHEN 2 THEN -3 ELSE -1 END, DATEDIFF(DAY, 0, H1.fecha_actualizacion))  AND N1.cantidad_en_tratamiento = 1 )&#xA;&#xA;UPDATE H_TABLERO_COVID&#xA;SET cantidad_recuperados_dia_anterior = 1&#xA;FROM H_TABLERO_COVID H1 WHERE EXISTS (SELECT * FROM H_TABLERO_COVID N1 WHERE H1.id_persona=N1.id_persona and N1.fecha_actualizacion=DATEADD(DAY, CASE (DATEPART(WEEKDAY, H1.fecha_actualizacion) + @@DATEFIRST) % 7 WHEN 1 THEN -2 WHEN 2 THEN -3 ELSE -1 END, DATEDIFF(DAY, 0, H1.fecha_actualizacion))  AND N1.cantidad_recuperado = 1 )&#xA;&#xA;UPDATE H_TABLERO_COVID&#xA;SET cantidad_fallecidos_dia_anterior = 1&#xA;FROM H_TABLERO_COVID H1 WHERE EXISTS (SELECT * FROM H_TABLERO_COVID N1 WHERE H1.id_persona=N1.id_persona and N1.fecha_actualizacion=DATEADD(DAY, CASE (DATEPART(WEEKDAY, H1.fecha_actualizacion) + @@DATEFIRST) % 7 WHEN 1 THEN -2 WHEN 2 THEN -3 ELSE -1 END, DATEDIFF(DAY, 0, H1.fecha_actualizacion))  AND N1.cantidad_fallecido = 1 )&#xA;&#xA;UPDATE H_TABLERO_COVID&#xA;SET de_provincia_MAPBOX = de_provincia_asociado&#xA;&#xA;UPDATE H_TABLERO_COVID&#xA;SET de_provincia_asociado =&#xA;CASE&#xA;&#x9;WHEN de_provincia_asociado = 'RIO NEGRO' THEN 'RÍO NEGRO'&#xA;&#x9;WHEN de_provincia_asociado = 'CORDOBA' THEN 'CÓRDOBA'&#xA;&#x9;WHEN de_provincia_asociado = 'ENTRE RIOS' THEN 'ENTRE RÍOS'&#xA;&#x9;WHEN de_provincia_asociado = 'NEUQUEN' THEN 'NEUQUÉN'&#xA;&#x9;WHEN de_provincia_asociado = 'TUCUMAN' THEN 'TUCUMÁN'&#xA;&#x9;ELSE de_provincia_asociado&#xA;END&#xA;&#xA;&#xA;UPDATE H_TABLERO_COVID&#xA;SET de_pais = 'Argentina'&#xA;&#xA;DECLARE @MaxFecha DATETIME&#xA;SET @MaxFecha = (SELECT MAX(fecha_actualizacion) FROM H_TABLERO_COVID)&#xA;&#xA;UPDATE H_TABLERO_COVID&#xA;SET marca_fecha_actual = &#xA;&#x9;CASE&#xA;&#x9;&#x9;WHEN fecha_actualizacion = @MaxFecha THEN 'Ultima fecha'&#xA;&#x9;ELSE CONVERT(VARCHAR(20), fecha_actualizacion, 103)&#xA;&#x9;END&#xA;&#xA;&#xA;UPDATE H_TABLERO_COVID&#xA;SET marca_fecha_actual_orden = RN&#xA;FROM H_TABLERO_COVID H INNER JOIN (SELECT fecha_actualizacion,&#xA;ROW_NUMBER() OVER (ORDER BY fecha_actualizacion) AS RN&#xA;FROM H_TABLERO_COVID&#xA;GROUP BY fecha_actualizacion) AS A ON (A.fecha_actualizacion=H.fecha_actualizacion)&#xA;&#xA;UPDATE H_TABLERO_COVID&#xA;SET grupo_estado_asociado = &#xA;&#x9;CASE&#xA;&#x9;&#x9;WHEN cantidad_recuperado = 1 THEN 'Recuperados'&#xA;&#x9;&#x9;WHEN cantidad_fallecido = 1 THEN 'Fallecidos'&#xA;&#x9;&#x9;WHEN cantidad_negativos = 1 THEN 'Negativos'&#xA;&#x9;&#x9;WHEN cantidad_en_tratamiento = 1 THEN 'Activos'&#xA;&#x9;&#x9;WHEN cantidad_inconcluso = 1 THEN 'Sin Resultado'&#xA;&#x9;END&#xA;&#xA;&#xA;UPDATE H_TABLERO_COVID&#xA;SET grupo_estado_asociado_orden = &#xA;&#x9;CASE&#xA;&#x9;&#x9;WHEN grupo_estado_asociado = 'Recuperados' THEN 2&#xA;&#x9;&#x9;WHEN grupo_estado_asociado = 'Fallecidos' THEN 3&#xA;&#x9;&#x9;WHEN grupo_estado_asociado= 'Negativos' THEN 4&#xA;&#x9;&#x9;WHEN grupo_estado_asociado = 'Activos' THEN 1&#xA;&#x9;&#x9;WHEN grupo_estado_asociado = 'Sin Resultado' THEN 5&#xA;&#x9;END&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Borra tabla"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tarea Ejecutar SQL"
+      DTS:DTSID="{DCD78E9F-8444-4475-9B05-FA3FF841AC23}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Borra tabla"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{63B77F6E-3573-4D7D-AF97-509035324548}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE H_TABLERO_COVID" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Copia archivo"
+      DTS:CreationName="Microsoft.FileSystemTask"
+      DTS:Description="Tarea Sistema de archivos"
+      DTS:DTSID="{84A20DCF-0334-4339-A730-D207623A72CF}"
+      DTS:ExecutableType="Microsoft.FileSystemTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Copia archivo"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <FileSystemData
+          TaskOverwriteDestFile="True"
+          TaskSourcePath="{91FF8E6E-7226-4522-9DB1-AB4AD9F576D9}"
+          TaskDestinationPath="{AA3511D1-1E08-426F-837D-6446331515A9}" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Llena tabla"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{58B0E062-85E1-453F-BC54-531822448901}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Llena tabla"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Llena tabla\Data Conversion"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Data Conversion"
+              name="Data Conversion"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Llena tabla\Data Conversion.Inputs[Data Conversion Input]"
+                  name="Data Conversion Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Llena tabla\Data Conversion.Inputs[Data Conversion Input].Columns[APELLIDO]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="APELLIDO"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[APELLIDO]" />
+                    <inputColumn
+                      refId="Package\Llena tabla\Data Conversion.Inputs[Data Conversion Input].Columns[NOMBRE]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="NOMBRE"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[NOMBRE]" />
+                    <inputColumn
+                      refId="Package\Llena tabla\Data Conversion.Inputs[Data Conversion Input].Columns[RANGO ETARIO]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="RANGO ETARIO"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[RANGO ETARIO]" />
+                    <inputColumn
+                      refId="Package\Llena tabla\Data Conversion.Inputs[Data Conversion Input].Columns[SEXO]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="SEXO"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[SEXO]" />
+                    <inputColumn
+                      refId="Package\Llena tabla\Data Conversion.Inputs[Data Conversion Input].Columns[OBRA SOCIAL]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="OBRA SOCIAL"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[OBRA SOCIAL]" />
+                    <inputColumn
+                      refId="Package\Llena tabla\Data Conversion.Inputs[Data Conversion Input].Columns[PLAN]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="PLAN"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[PLAN]" />
+                    <inputColumn
+                      refId="Package\Llena tabla\Data Conversion.Inputs[Data Conversion Input].Columns[PROVINCIA ASOCIADO]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="PROVINCIA ASOCIADO"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[PROVINCIA ASOCIADO]" />
+                    <inputColumn
+                      refId="Package\Llena tabla\Data Conversion.Inputs[Data Conversion Input].Columns[LOCALIDAD ASOCIADO]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="LOCALIDAD ASOCIADO"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[LOCALIDAD ASOCIADO]" />
+                    <inputColumn
+                      refId="Package\Llena tabla\Data Conversion.Inputs[Data Conversion Input].Columns[RESULTADO]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="RESULTADO"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[RESULTADO]" />
+                    <inputColumn
+                      refId="Package\Llena tabla\Data Conversion.Inputs[Data Conversion Input].Columns[SECTOR INTENACIÓN]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="SECTOR INTENACIÓN"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[SECTOR INTENACIÓN]" />
+                    <inputColumn
+                      refId="Package\Llena tabla\Data Conversion.Inputs[Data Conversion Input].Columns[ARM]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="ARM"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[ARM]" />
+                    <inputColumn
+                      refId="Package\Llena tabla\Data Conversion.Inputs[Data Conversion Input].Columns[EGRESO INSTITUCIÓN]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="EGRESO INSTITUCIÓN"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[EGRESO INSTITUCIÓN]" />
+                    <inputColumn
+                      refId="Package\Llena tabla\Data Conversion.Inputs[Data Conversion Input].Columns[ESTADO]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="ESTADO"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[ESTADO]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Llena tabla\Data Conversion.Outputs[Data Conversion Output]"
+                  exclusionGroup="1"
+                  name="Data Conversion Output"
+                  synchronousInputId="Package\Llena tabla\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Llena tabla\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of APELLIDO]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="255"
+                      lineageId="Package\Llena tabla\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of APELLIDO]"
+                      name="Copy of APELLIDO"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[APELLIDO]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Llena tabla\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of NOMBRE]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="255"
+                      lineageId="Package\Llena tabla\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of NOMBRE]"
+                      name="Copy of NOMBRE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[NOMBRE]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Llena tabla\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of RANGO ETARIO]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\Llena tabla\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of RANGO ETARIO]"
+                      name="Copy of RANGO ETARIO"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[RANGO ETARIO]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Llena tabla\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of SEXO]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="255"
+                      lineageId="Package\Llena tabla\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of SEXO]"
+                      name="Copy of SEXO"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[SEXO]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Llena tabla\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of OBRA SOCIAL]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="255"
+                      lineageId="Package\Llena tabla\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of OBRA SOCIAL]"
+                      name="Copy of OBRA SOCIAL"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[OBRA SOCIAL]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Llena tabla\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of PLAN]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="255"
+                      lineageId="Package\Llena tabla\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of PLAN]"
+                      name="Copy of PLAN"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[PLAN]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Llena tabla\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of PROVINCIA ASOCIADO]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="255"
+                      lineageId="Package\Llena tabla\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of PROVINCIA ASOCIADO]"
+                      name="Copy of PROVINCIA ASOCIADO"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[PROVINCIA ASOCIADO]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Llena tabla\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of LOCALIDAD ASOCIADO]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="255"
+                      lineageId="Package\Llena tabla\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of LOCALIDAD ASOCIADO]"
+                      name="Copy of LOCALIDAD ASOCIADO"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[LOCALIDAD ASOCIADO]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Llena tabla\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of RESULTADO]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="255"
+                      lineageId="Package\Llena tabla\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of RESULTADO]"
+                      name="Copy of RESULTADO"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[RESULTADO]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Llena tabla\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of SECTOR INTENACIÓN]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="255"
+                      lineageId="Package\Llena tabla\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of SECTOR INTENACIÓN]"
+                      name="Copy of SECTOR INTENACIÓN"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[SECTOR INTENACIÓN]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Llena tabla\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of ARM]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="255"
+                      lineageId="Package\Llena tabla\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of ARM]"
+                      name="Copy of ARM"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[ARM]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Llena tabla\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of EGRESO INSTITUCIÓN]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="255"
+                      lineageId="Package\Llena tabla\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of EGRESO INSTITUCIÓN]"
+                      name="Copy of EGRESO INSTITUCIÓN"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[EGRESO INSTITUCIÓN]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Llena tabla\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of ESTADO]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="255"
+                      lineageId="Package\Llena tabla\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of ESTADO]"
+                      name="Copy of ESTADO"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[ESTADO]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Llena tabla\Data Conversion.Outputs[Data Conversion Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Data Conversion Error Output"
+                  synchronousInputId="Package\Llena tabla\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Llena tabla\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Llena tabla\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Llena tabla\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Llena tabla\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Llena tabla\Excel Source"
+              componentClassID="Microsoft.ExcelSource"
+              contactInfo="Excel Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Excel Source"
+              name="Excel Source"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">'Campos Necesarios$'</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mapping from parameters in the SQL command to variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Llena tabla\Excel Source.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Origen archivo]"
+                  connectionManagerRefId="Package.ConnectionManagers[Origen archivo]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output]"
+                  name="Excel Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[N° PERSONA]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].ExternalColumns[N° PERSONA]"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[N° PERSONA]"
+                      name="N° PERSONA"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[APELLIDO]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].ExternalColumns[APELLIDO]"
+                      length="255"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[APELLIDO]"
+                      name="APELLIDO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[NOMBRE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].ExternalColumns[NOMBRE]"
+                      length="255"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[NOMBRE]"
+                      name="NOMBRE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[EDAD]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].ExternalColumns[EDAD]"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[EDAD]"
+                      name="EDAD"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[RANGO ETARIO]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].ExternalColumns[RANGO ETARIO]"
+                      length="255"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[RANGO ETARIO]"
+                      name="RANGO ETARIO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[SEXO]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].ExternalColumns[SEXO]"
+                      length="255"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[SEXO]"
+                      name="SEXO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[OBRA SOCIAL]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].ExternalColumns[OBRA SOCIAL]"
+                      length="255"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[OBRA SOCIAL]"
+                      name="OBRA SOCIAL"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[PLAN]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].ExternalColumns[PLAN]"
+                      length="255"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[PLAN]"
+                      name="PLAN"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[PROVINCIA ASOCIADO]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].ExternalColumns[PROVINCIA ASOCIADO]"
+                      length="255"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[PROVINCIA ASOCIADO]"
+                      name="PROVINCIA ASOCIADO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[LOCALIDAD ASOCIADO]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].ExternalColumns[LOCALIDAD ASOCIADO]"
+                      length="255"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[LOCALIDAD ASOCIADO]"
+                      name="LOCALIDAD ASOCIADO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[RESULTADO]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].ExternalColumns[RESULTADO]"
+                      length="255"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[RESULTADO]"
+                      name="RESULTADO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[FECHA INTERNACIÓN]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].ExternalColumns[FECHA INTERNACIÓN]"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[FECHA INTERNACIÓN]"
+                      name="FECHA INTERNACIÓN"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[FECHA DE ALTA]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].ExternalColumns[FECHA DE ALTA]"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[FECHA DE ALTA]"
+                      name="FECHA DE ALTA"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[DÍAS INTERNACIÓN]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].ExternalColumns[DÍAS INTERNACIÓN]"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[DÍAS INTERNACIÓN]"
+                      name="DÍAS INTERNACIÓN"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[SECTOR INTENACIÓN]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].ExternalColumns[SECTOR INTENACIÓN]"
+                      length="255"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[SECTOR INTENACIÓN]"
+                      name="SECTOR INTENACIÓN"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[ARM]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].ExternalColumns[ARM]"
+                      length="255"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[ARM]"
+                      name="ARM"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[EGRESO INSTITUCIÓN]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].ExternalColumns[EGRESO INSTITUCIÓN]"
+                      length="255"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[EGRESO INSTITUCIÓN]"
+                      name="EGRESO INSTITUCIÓN"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[Latitud]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].ExternalColumns[Latitud]"
+                      length="255"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[Latitud]"
+                      name="Latitud"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[Longitud]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].ExternalColumns[Longitud]"
+                      length="255"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[Longitud]"
+                      name="Longitud"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[Fecha Actualizacion]"
+                      dataType="date"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].ExternalColumns[Fecha Actualizacion]"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[Fecha Actualizacion]"
+                      name="Fecha Actualizacion"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[ESTADO]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].ExternalColumns[ESTADO]"
+                      length="255"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[ESTADO]"
+                      name="ESTADO"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].ExternalColumns[N° PERSONA]"
+                      dataType="r8"
+                      name="N° PERSONA" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].ExternalColumns[APELLIDO]"
+                      dataType="wstr"
+                      length="255"
+                      name="APELLIDO" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].ExternalColumns[NOMBRE]"
+                      dataType="wstr"
+                      length="255"
+                      name="NOMBRE" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].ExternalColumns[EDAD]"
+                      dataType="r8"
+                      name="EDAD" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].ExternalColumns[RANGO ETARIO]"
+                      dataType="wstr"
+                      length="255"
+                      name="RANGO ETARIO" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].ExternalColumns[SEXO]"
+                      dataType="wstr"
+                      length="255"
+                      name="SEXO" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].ExternalColumns[OBRA SOCIAL]"
+                      dataType="wstr"
+                      length="255"
+                      name="OBRA SOCIAL" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].ExternalColumns[PLAN]"
+                      dataType="wstr"
+                      length="255"
+                      name="PLAN" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].ExternalColumns[PROVINCIA ASOCIADO]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROVINCIA ASOCIADO" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].ExternalColumns[LOCALIDAD ASOCIADO]"
+                      dataType="wstr"
+                      length="255"
+                      name="LOCALIDAD ASOCIADO" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].ExternalColumns[RESULTADO]"
+                      dataType="wstr"
+                      length="255"
+                      name="RESULTADO" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].ExternalColumns[FECHA INTERNACIÓN]"
+                      dataType="date"
+                      name="FECHA INTERNACIÓN" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].ExternalColumns[FECHA DE ALTA]"
+                      dataType="date"
+                      name="FECHA DE ALTA" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].ExternalColumns[DÍAS INTERNACIÓN]"
+                      dataType="r8"
+                      name="DÍAS INTERNACIÓN" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].ExternalColumns[SECTOR INTENACIÓN]"
+                      dataType="wstr"
+                      length="255"
+                      name="SECTOR INTENACIÓN" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].ExternalColumns[ARM]"
+                      dataType="wstr"
+                      length="255"
+                      name="ARM" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].ExternalColumns[EGRESO INSTITUCIÓN]"
+                      dataType="wstr"
+                      length="255"
+                      name="EGRESO INSTITUCIÓN" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].ExternalColumns[Latitud]"
+                      dataType="r8"
+                      name="Latitud" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].ExternalColumns[Longitud]"
+                      dataType="r8"
+                      name="Longitud" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].ExternalColumns[Fecha Actualizacion]"
+                      dataType="date"
+                      name="Fecha Actualizacion" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].ExternalColumns[ESTADO]"
+                      dataType="wstr"
+                      length="255"
+                      name="ESTADO" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Error Output]"
+                  isErrorOut="true"
+                  name="Excel Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Error Output].Columns[Fecha Actualizacion]"
+                      dataType="date"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Error Output].Columns[Fecha Actualizacion]"
+                      name="Fecha Actualizacion" />
+                    <outputColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Error Output].Columns[N° PERSONA]"
+                      dataType="r8"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Error Output].Columns[N° PERSONA]"
+                      name="N° PERSONA" />
+                    <outputColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Error Output].Columns[APELLIDO]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Error Output].Columns[APELLIDO]"
+                      name="APELLIDO" />
+                    <outputColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Error Output].Columns[NOMBRE]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Error Output].Columns[NOMBRE]"
+                      name="NOMBRE" />
+                    <outputColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Error Output].Columns[EDAD]"
+                      dataType="r8"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Error Output].Columns[EDAD]"
+                      name="EDAD" />
+                    <outputColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Error Output].Columns[RANGO ETARIO]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Error Output].Columns[RANGO ETARIO]"
+                      name="RANGO ETARIO" />
+                    <outputColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Error Output].Columns[SEXO]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Error Output].Columns[SEXO]"
+                      name="SEXO" />
+                    <outputColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Error Output].Columns[OBRA SOCIAL]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Error Output].Columns[OBRA SOCIAL]"
+                      name="OBRA SOCIAL" />
+                    <outputColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Error Output].Columns[PLAN]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Error Output].Columns[PLAN]"
+                      name="PLAN" />
+                    <outputColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Error Output].Columns[PROVINCIA ASOCIADO]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Error Output].Columns[PROVINCIA ASOCIADO]"
+                      name="PROVINCIA ASOCIADO" />
+                    <outputColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Error Output].Columns[LOCALIDAD ASOCIADO]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Error Output].Columns[LOCALIDAD ASOCIADO]"
+                      name="LOCALIDAD ASOCIADO" />
+                    <outputColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Error Output].Columns[RESULTADO]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Error Output].Columns[RESULTADO]"
+                      name="RESULTADO" />
+                    <outputColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Error Output].Columns[FECHA INTERNACIÓN]"
+                      dataType="date"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Error Output].Columns[FECHA INTERNACIÓN]"
+                      name="FECHA INTERNACIÓN" />
+                    <outputColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Error Output].Columns[FECHA DE ALTA]"
+                      dataType="date"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Error Output].Columns[FECHA DE ALTA]"
+                      name="FECHA DE ALTA" />
+                    <outputColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Error Output].Columns[DÍAS INTERNACIÓN]"
+                      dataType="r8"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Error Output].Columns[DÍAS INTERNACIÓN]"
+                      name="DÍAS INTERNACIÓN" />
+                    <outputColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Error Output].Columns[SECTOR INTENACIÓN]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Error Output].Columns[SECTOR INTENACIÓN]"
+                      name="SECTOR INTENACIÓN" />
+                    <outputColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Error Output].Columns[ARM]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Error Output].Columns[ARM]"
+                      name="ARM" />
+                    <outputColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Error Output].Columns[EGRESO INSTITUCIÓN]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Error Output].Columns[EGRESO INSTITUCIÓN]"
+                      name="EGRESO INSTITUCIÓN" />
+                    <outputColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Error Output].Columns[ESTADO]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Error Output].Columns[ESTADO]"
+                      name="ESTADO" />
+                    <outputColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Error Output].Columns[Latitud]"
+                      dataType="r8"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Error Output].Columns[Latitud]"
+                      name="Latitud" />
+                    <outputColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Error Output].Columns[Longitud]"
+                      dataType="r8"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Error Output].Columns[Longitud]"
+                      name="Longitud" />
+                    <outputColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Llena tabla\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Llena tabla\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[H_TABLERO_COVID]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Llena tabla\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[DS_DW_SALUD]"
+                  connectionManagerRefId="Package.ConnectionManagers[DS_DW_SALUD]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[EDAD]"
+                      cachedDataType="r8"
+                      cachedName="EDAD"
+                      externalMetadataColumnId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[edad]"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[EDAD]" />
+                    <inputColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[N° PERSONA]"
+                      cachedDataType="r8"
+                      cachedName="N° PERSONA"
+                      externalMetadataColumnId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_persona]"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[N° PERSONA]" />
+                    <inputColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[FECHA INTERNACIÓN]"
+                      cachedDataType="r8"
+                      cachedName="FECHA INTERNACIÓN"
+                      externalMetadataColumnId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_internacion]"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[FECHA INTERNACIÓN]" />
+                    <inputColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[FECHA DE ALTA]"
+                      cachedDataType="r8"
+                      cachedName="FECHA DE ALTA"
+                      externalMetadataColumnId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_alta]"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[FECHA DE ALTA]" />
+                    <inputColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[DÍAS INTERNACIÓN]"
+                      cachedDataType="r8"
+                      cachedName="DÍAS INTERNACIÓN"
+                      externalMetadataColumnId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[dias_internacion]"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[DÍAS INTERNACIÓN]" />
+                    <inputColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of APELLIDO]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="Copy of APELLIDO"
+                      externalMetadataColumnId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[apellido]"
+                      lineageId="Package\Llena tabla\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of APELLIDO]" />
+                    <inputColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of NOMBRE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="Copy of NOMBRE"
+                      externalMetadataColumnId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[nombre]"
+                      lineageId="Package\Llena tabla\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of NOMBRE]" />
+                    <inputColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of RANGO ETARIO]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="Copy of RANGO ETARIO"
+                      externalMetadataColumnId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[rango_etario]"
+                      lineageId="Package\Llena tabla\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of RANGO ETARIO]" />
+                    <inputColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of SEXO]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="Copy of SEXO"
+                      externalMetadataColumnId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[sexo]"
+                      lineageId="Package\Llena tabla\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of SEXO]" />
+                    <inputColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of OBRA SOCIAL]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="Copy of OBRA SOCIAL"
+                      externalMetadataColumnId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_obra_social]"
+                      lineageId="Package\Llena tabla\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of OBRA SOCIAL]" />
+                    <inputColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of PLAN]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="Copy of PLAN"
+                      externalMetadataColumnId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_plan]"
+                      lineageId="Package\Llena tabla\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of PLAN]" />
+                    <inputColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of PROVINCIA ASOCIADO]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="Copy of PROVINCIA ASOCIADO"
+                      externalMetadataColumnId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[de_provincia_asociado]"
+                      lineageId="Package\Llena tabla\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of PROVINCIA ASOCIADO]" />
+                    <inputColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of LOCALIDAD ASOCIADO]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="Copy of LOCALIDAD ASOCIADO"
+                      externalMetadataColumnId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[de_localidad_asociado]"
+                      lineageId="Package\Llena tabla\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of LOCALIDAD ASOCIADO]" />
+                    <inputColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of RESULTADO]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="Copy of RESULTADO"
+                      externalMetadataColumnId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[resultado_test]"
+                      lineageId="Package\Llena tabla\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of RESULTADO]" />
+                    <inputColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of SECTOR INTENACIÓN]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="Copy of SECTOR INTENACIÓN"
+                      externalMetadataColumnId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[sector_internacion]"
+                      lineageId="Package\Llena tabla\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of SECTOR INTENACIÓN]" />
+                    <inputColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of ARM]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="Copy of ARM"
+                      externalMetadataColumnId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[arm]"
+                      lineageId="Package\Llena tabla\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of ARM]" />
+                    <inputColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of EGRESO INSTITUCIÓN]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="Copy of EGRESO INSTITUCIÓN"
+                      externalMetadataColumnId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[estado_asociado]"
+                      lineageId="Package\Llena tabla\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of EGRESO INSTITUCIÓN]" />
+                    <inputColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Latitud]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Latitud"
+                      externalMetadataColumnId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[latitud]"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[Latitud]" />
+                    <inputColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Longitud]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Longitud"
+                      externalMetadataColumnId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[longitud]"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[Longitud]" />
+                    <inputColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Fecha Actualizacion]"
+                      cachedDataType="date"
+                      cachedName="Fecha Actualizacion"
+                      externalMetadataColumnId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_actualizacion]"
+                      lineageId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output].Columns[Fecha Actualizacion]" />
+                    <inputColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of ESTADO]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="Copy of ESTADO"
+                      externalMetadataColumnId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[estado_salud]"
+                      lineageId="Package\Llena tabla\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of ESTADO]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_persona]"
+                      dataType="i4"
+                      name="id_persona" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[apellido]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="apellido" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[nombre]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="nombre" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[edad]"
+                      dataType="i4"
+                      name="edad" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[rango_etario]"
+                      dataType="wstr"
+                      length="50"
+                      name="rango_etario" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[sexo]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      name="sexo" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_obra_social]"
+                      codePage="1252"
+                      dataType="str"
+                      length="25"
+                      name="id_obra_social" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_plan]"
+                      codePage="1252"
+                      dataType="str"
+                      length="25"
+                      name="id_plan" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[de_provincia_asociado]"
+                      codePage="1252"
+                      dataType="str"
+                      length="40"
+                      name="de_provincia_asociado" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[de_localidad_asociado]"
+                      codePage="1252"
+                      dataType="str"
+                      length="40"
+                      name="de_localidad_asociado" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[resultado_test]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      name="resultado_test" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_internacion]"
+                      dataType="dbTimeStamp"
+                      name="fecha_internacion" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_alta]"
+                      dataType="dbTimeStamp"
+                      name="fecha_alta" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[dias_internacion]"
+                      dataType="i4"
+                      name="dias_internacion" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[sector_internacion]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      name="sector_internacion" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[arm]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      name="arm" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[estado_asociado]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      name="estado_asociado" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[latitud]"
+                      dataType="numeric"
+                      name="latitud"
+                      precision="12"
+                      scale="9" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[longitud]"
+                      dataType="numeric"
+                      name="longitud"
+                      precision="12"
+                      scale="9" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_fallecimiento]"
+                      dataType="dbTimeStamp"
+                      name="fecha_fallecimiento" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_positivo]"
+                      dataType="dbTimeStamp"
+                      name="fecha_positivo" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[cantidad_confirmados]"
+                      dataType="i4"
+                      name="cantidad_confirmados" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[cantidad_negativos]"
+                      dataType="i4"
+                      name="cantidad_negativos" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[cantidad_inconcluso]"
+                      dataType="i4"
+                      name="cantidad_inconcluso" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[cantidad_fallecido]"
+                      dataType="i4"
+                      name="cantidad_fallecido" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[cantidad_recuperado]"
+                      dataType="i4"
+                      name="cantidad_recuperado" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[cantidad_en_tratamiento]"
+                      dataType="i4"
+                      name="cantidad_en_tratamiento" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_actualizacion]"
+                      dataType="dbTimeStamp"
+                      name="fecha_actualizacion" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[cantidad_total]"
+                      dataType="i4"
+                      name="cantidad_total" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[cantidad_confirmados_dia_anterior]"
+                      dataType="i4"
+                      name="cantidad_confirmados_dia_anterior" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[cantidad_recuperados_dia_anterior]"
+                      dataType="i4"
+                      name="cantidad_recuperados_dia_anterior" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[cantidad_fallecidos_dia_anterior]"
+                      dataType="i4"
+                      name="cantidad_fallecidos_dia_anterior" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[de_provincia_MAPBOX]"
+                      codePage="1252"
+                      dataType="str"
+                      length="40"
+                      name="de_provincia_MAPBOX" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[grupo_estado_asociado]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      name="grupo_estado_asociado" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[grupo_estado_asociado_orden]"
+                      dataType="i4"
+                      name="grupo_estado_asociado_orden" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[estado_salud]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      name="estado_salud" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[marca_fecha_actual]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      name="marca_fecha_actual" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[marca_fecha_actual_orden]"
+                      dataType="i4"
+                      name="marca_fecha_actual_orden" />
+                    <externalMetadataColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[de_pais]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      name="de_pais" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Llena tabla\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Llena tabla\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Llena tabla\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Llena tabla\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Llena tabla.Paths[Data Conversion Output]"
+              endId="Package\Llena tabla\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="Data Conversion Output"
+              startId="Package\Llena tabla\Data Conversion.Outputs[Data Conversion Output]" />
+            <path
+              refId="Package\Llena tabla.Paths[Excel Source Output]"
+              endId="Package\Llena tabla\Data Conversion.Inputs[Data Conversion Input]"
+              name="Excel Source Output"
+              startId="Package\Llena tabla\Excel Source.Outputs[Excel Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{13B0E2B0-8381-45DA-BF09-8CA3B8A072DE}"
+      DTS:From="Package\Borra tabla"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Llena tabla" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{401C319D-9E40-47EB-BCEC-DE985ED04049}"
+      DTS:From="Package\Llena tabla"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Actualiza campos" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{FC51A3F9-D507-4C01-93D6-68AD7627BCD1}"
+      DTS:From="Package\Copia archivo"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Borra tabla" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="165,42"
+          Id="Package\Actualiza campos"
+          TopLeft="250.875,300" />
+        <NodeLayout
+          Size="133,42"
+          Id="Package\Borra tabla"
+          TopLeft="266.875,142.666666666667" />
+        <NodeLayout
+          Size="146,42"
+          Id="Package\Copia archivo"
+          TopLeft="260.375,64" />
+        <NodeLayout
+          Size="133,42"
+          Id="Package\Llena tabla"
+          TopLeft="266.875,221.333333333333" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="333.375,184.666666666667">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,36.6666666666667"
+              Start="0,0"
+              End="0,29.1666666666667">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,29.1666666666667" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="333.375,263.333333333333">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,36.6666666666667"
+              Start="0,0"
+              End="0,29.1666666666667">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,29.1666666666667" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="333.375,106">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,36.6666666666667"
+              Start="0,0"
+              End="0,29.1666666666667">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,29.1666666666667" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Llena tabla">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="177,42"
+          Id="Package\Llena tabla\OLE DB Destination"
+          TopLeft="188,280.666666666667" />
+        <NodeLayout
+          Size="161,42"
+          Id="Package\Llena tabla\Data Conversion"
+          TopLeft="196,204.333333333334" />
+        <NodeLayout
+          Size="144,42"
+          Id="Package\Llena tabla\Excel Source"
+          TopLeft="204.5,128" />
+        <EdgeLayout
+          Id="Package\Llena tabla.Paths[Excel Source Output]"
+          TopLeft="276.5,170">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,34.333333333334"
+              Start="0,0"
+              End="0,26.833333333334">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26.833333333334" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Llena tabla.Paths[Data Conversion Output]"
+          TopLeft="276.5,246.333333333334">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,34.333333333333"
+              Start="0,0"
+              End="0,26.833333333333">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26.833333333333" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Llena tabla\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Llena tabla\Excel Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

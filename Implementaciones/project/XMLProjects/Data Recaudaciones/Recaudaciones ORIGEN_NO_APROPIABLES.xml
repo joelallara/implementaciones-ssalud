@@ -1,0 +1,2638 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="8/9/2016 7:40:21 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AMS06X"
+  DTS:CreatorName="AMS\nprida"
+  DTS:DelayValidation="True"
+  DTS:DTSID="{3A132CB8-9F3F-4B92-85FF-A81EF09C4A0B}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="Recaudaciones ORIGEN_NO_APROPIABLES"
+  DTS:PackageType="5"
+  DTS:VersionBuild="54"
+  DTS:VersionGUID="{1A935E08-639B-492C-A7D4-040E739F77F3}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Excel No Apropiables Final]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{627DAD14-D368-4338-9C3E-E32850345C29}"
+      DTS:ObjectName="Excel No Apropiables Final">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=\\P-IS-01\SSIS2017$\03 - Archivos\Data Recaudaciones\No Apropiables Final.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{E74A2659-8F3B-42F7-81BF-2EAABFF1E33E}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">1,7,OnError</DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnError"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{E74A2659-8F3B-42F7-81BF-2EAABFF1E33E}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza H_RECAUDACION"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{C97B8499-2415-4BE1-A452-7725C5FD038A}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza H_RECAUDACION"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{E98BA7A5-A37B-425A-9974-434BB6F83FD9}"
+          SQLTask:SqlStatementSource="---- Para Actualizar el campo id_periodo_consumo_M    para el Data de Recaudaciones, siempre se registra el periodo anterior al que procesamos&#xA;---- Se declara en la Varible el periodo Anterior, restandole un periodo al de la AUX_PERIODO_MES_BORRA (periodo que procesamos).&#xA;&#xA;Declare @Periodo int, @Periodo_Anterior int&#xA;&#xA;Set @Periodo = (select MAX(id_periodo) from AUX_PERIODO_MES_BORRA)&#xA;&#xA;Set @Periodo_Anterior = (dbo.PeriodosAnteriores(@Periodo, 2))&#xA;&#xA;---- Actualizamos el id_periodo_consumo_M con el periodo Anterior al que actualmente estamos procesando para Data Recaudaciones.&#xA;&#xA;update H_RECAUDACION_DETALLE set id_periodo_consumo_M = @Periodo_Anterior&#xA;from H_RECAUDACION_DETALLE&#xA;where id_periodo = @Periodo&#xA;and id_origen_recaudacion = 29&#xA;&#xA;&#xA;-- ESTE ORIGEN INGRESA A PERSONAS INVENTADAS, ESTO ES ASI PORQUE TIENE QUE SUMAR A UNA POSICION EN PARTICULAR, POR ESO SE DIO DE ALTA PERSONAS EN LOCALIDADES DE CADA POSICIÓN.&#xA;-- PARA LOS DATOS DE PROYECTO EMPRESA, VA TODO POR DEFECTO A INDIVIDUAL.&#xA;--- actualiza la fuente de la recaudacion en 0 porque se sabe que el origen 29 no apropiable viene siempre de un excel.&#xA;UPDATE H_RECAUDACION_DETALLE &#xA;set id_factura_A_E_rec = 'A',&#xA;id_empresa_PE_rec = 0,&#xA;id_tipo_entidad_PE_rec = 'I',&#xA;id_marca_PE_rec = 7,&#xA;id_convenio_especial_rec = 0,&#xA;id_fuente_recaudacion = 0&#xA;WHERE id_periodo = @Periodo&#xA;and id_origen_recaudacion = 29&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Data Flow Task"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:DelayValidation="True"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{3268D53B-E980-475C-BFB8-F7D2A8AA7201}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Data Flow Task"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <pipeline
+          BLOBTempStoragePath=""
+          bufferTempStoragePath=""
+          version="1">
+          <components>
+            <component
+              refId="Package\Data Flow Task\Excel Source"
+              componentClassID="Microsoft.ExcelSource"
+              contactInfo="Excel Source;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Excel Source"
+              name="Excel Source"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">Hoja1$</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mapping from parameters in the SQL command to variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task\Excel Source.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Excel No Apropiables Final]"
+                  connectionManagerRefId="Package.ConnectionManagers[Excel No Apropiables Final]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output]"
+                  name="Excel Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].Columns[id_periodo]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].ExternalColumns[id_periodo]"
+                      lineageId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].Columns[id_periodo]"
+                      name="id_periodo"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].ExternalColumns[id_periodo]"
+                      dataType="r8"
+                      name="id_periodo" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].ExternalColumns[afiliado]"
+                      dataType="r8"
+                      name="afiliado" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].ExternalColumns[subnumero]"
+                      dataType="r8"
+                      name="subnumero" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].ExternalColumns[secuencia]"
+                      dataType="r8"
+                      name="secuencia" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].ExternalColumns[id_persona]"
+                      dataType="r8"
+                      name="id_persona" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].ExternalColumns[id_origen_recaudacion]"
+                      dataType="r8"
+                      name="id_origen_recaudacion" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].ExternalColumns[id_producto]"
+                      dataType="r8"
+                      name="id_producto" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].ExternalColumns[id_subproducto]"
+                      dataType="r8"
+                      name="id_subproducto" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].ExternalColumns[id_plan_producto]"
+                      dataType="wstr"
+                      length="255"
+                      name="id_plan_producto" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].ExternalColumns[id_entidad]"
+                      dataType="r8"
+                      name="id_entidad" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].ExternalColumns[id_localidad]"
+                      dataType="r8"
+                      name="id_localidad" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].ExternalColumns[edad_actual]"
+                      dataType="r8"
+                      name="edad_actual" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].ExternalColumns[total_recaudacion]"
+                      dataType="r8"
+                      name="total_recaudacion" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].ExternalColumns[grilla]"
+                      dataType="r8"
+                      name="grilla" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].ExternalColumns[fecha_ingreso_segmento]"
+                      dataType="wstr"
+                      length="255"
+                      name="fecha_ingreso_segmento" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].ExternalColumns[fecha_ingreso_salud]"
+                      dataType="wstr"
+                      length="255"
+                      name="fecha_ingreso_salud" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].ExternalColumns[id_categoria]"
+                      dataType="wstr"
+                      length="255"
+                      name="id_categoria" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].ExternalColumns[id_grupo_categoria_afil]"
+                      dataType="wstr"
+                      length="255"
+                      name="id_grupo_categoria_afil" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].ExternalColumns[id_empresa]"
+                      dataType="r8"
+                      name="id_empresa" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].ExternalColumns[Id_Tipo_Entidad]"
+                      dataType="r8"
+                      name="Id_Tipo_Entidad" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].ExternalColumns[rcosto1]"
+                      dataType="r8"
+                      name="rcosto1" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].ExternalColumns[rcosto2]"
+                      dataType="r8"
+                      name="rcosto2" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].ExternalColumns[rcosto3]"
+                      dataType="r8"
+                      name="rcosto3" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].ExternalColumns[rcosto4]"
+                      dataType="r8"
+                      name="rcosto4" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].ExternalColumns[id_producto_original]"
+                      dataType="r8"
+                      name="id_producto_original" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].ExternalColumns[id_subproducto_original]"
+                      dataType="r8"
+                      name="id_subproducto_original" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].ExternalColumns[id_plan_producto_original]"
+                      dataType="wstr"
+                      length="255"
+                      name="id_plan_producto_original" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].ExternalColumns[grilla_original]"
+                      dataType="r8"
+                      name="grilla_original" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].ExternalColumns[id_rango_edad_rec]"
+                      dataType="r8"
+                      name="id_rango_edad_rec" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Error Output]"
+                  isErrorOut="true"
+                  name="Excel Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Error Output].Columns[id_periodo]"
+                      dataType="r8"
+                      lineageId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Error Output].Columns[id_periodo]"
+                      name="id_periodo" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[AUX_PERIODO_MES_BORRA]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="{E98BA7A5-A37B-425A-9974-434BB6F83FD9}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DS_DW_SALUD]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[id_periodo]"
+                      cachedDataType="r8"
+                      cachedName="id_periodo"
+                      externalMetadataColumnId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_periodo]"
+                      lineageId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output].Columns[id_periodo]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_periodo]"
+                      dataType="i4"
+                      name="id_periodo" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Data Flow Task.Paths[Excel Source Output]"
+              endId="Package\Data Flow Task\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="Excel Source Output"
+              startId="Package\Data Flow Task\Excel Source.Outputs[Excel Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Elimino Periodos"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:DTSID="{AD286949-E6D9-4ED6-B338-F5E8606C1A5C}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Elimino Periodos"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{E98BA7A5-A37B-425A-9974-434BB6F83FD9}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE AUX_PERIODO_MES_BORRA" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Incorporacion"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{4B0BD820-CCF5-4D15-8CCE-8A53D401209B}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Incorporacion"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <pipeline
+          BLOBTempStoragePath=""
+          bufferTempStoragePath=""
+          version="1">
+          <components>
+            <component
+              refId="Package\Incorporacion\Data Conversion"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Data Conversion;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Data Conversion"
+              name="Data Conversion"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Incorporacion\Data Conversion.Inputs[Data Conversion Input]"
+                  name="Data Conversion Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Incorporacion\Data Conversion.Inputs[Data Conversion Input].Columns[id_periodo]"
+                      cachedDataType="r8"
+                      cachedName="id_periodo"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_periodo]" />
+                    <inputColumn
+                      refId="Package\Incorporacion\Data Conversion.Inputs[Data Conversion Input].Columns[afiliado]"
+                      cachedDataType="r8"
+                      cachedName="afiliado"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[afiliado]" />
+                    <inputColumn
+                      refId="Package\Incorporacion\Data Conversion.Inputs[Data Conversion Input].Columns[subnumero]"
+                      cachedDataType="r8"
+                      cachedName="subnumero"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[subnumero]" />
+                    <inputColumn
+                      refId="Package\Incorporacion\Data Conversion.Inputs[Data Conversion Input].Columns[secuencia]"
+                      cachedDataType="r8"
+                      cachedName="secuencia"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[secuencia]" />
+                    <inputColumn
+                      refId="Package\Incorporacion\Data Conversion.Inputs[Data Conversion Input].Columns[id_persona]"
+                      cachedDataType="r8"
+                      cachedName="id_persona"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_persona]" />
+                    <inputColumn
+                      refId="Package\Incorporacion\Data Conversion.Inputs[Data Conversion Input].Columns[id_origen_recaudacion]"
+                      cachedDataType="r8"
+                      cachedName="id_origen_recaudacion"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_origen_recaudacion]" />
+                    <inputColumn
+                      refId="Package\Incorporacion\Data Conversion.Inputs[Data Conversion Input].Columns[id_producto]"
+                      cachedDataType="r8"
+                      cachedName="id_producto"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_producto]" />
+                    <inputColumn
+                      refId="Package\Incorporacion\Data Conversion.Inputs[Data Conversion Input].Columns[id_subproducto]"
+                      cachedDataType="r8"
+                      cachedName="id_subproducto"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_subproducto]" />
+                    <inputColumn
+                      refId="Package\Incorporacion\Data Conversion.Inputs[Data Conversion Input].Columns[id_plan_producto]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="id_plan_producto"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_plan_producto]" />
+                    <inputColumn
+                      refId="Package\Incorporacion\Data Conversion.Inputs[Data Conversion Input].Columns[id_entidad]"
+                      cachedDataType="r8"
+                      cachedName="id_entidad"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_entidad]" />
+                    <inputColumn
+                      refId="Package\Incorporacion\Data Conversion.Inputs[Data Conversion Input].Columns[id_localidad]"
+                      cachedDataType="r8"
+                      cachedName="id_localidad"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_localidad]" />
+                    <inputColumn
+                      refId="Package\Incorporacion\Data Conversion.Inputs[Data Conversion Input].Columns[edad_actual]"
+                      cachedDataType="r8"
+                      cachedName="edad_actual"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[edad_actual]" />
+                    <inputColumn
+                      refId="Package\Incorporacion\Data Conversion.Inputs[Data Conversion Input].Columns[total_recaudacion]"
+                      cachedDataType="r8"
+                      cachedName="total_recaudacion"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[total_recaudacion]" />
+                    <inputColumn
+                      refId="Package\Incorporacion\Data Conversion.Inputs[Data Conversion Input].Columns[grilla]"
+                      cachedDataType="r8"
+                      cachedName="grilla"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[grilla]" />
+                    <inputColumn
+                      refId="Package\Incorporacion\Data Conversion.Inputs[Data Conversion Input].Columns[fecha_ingreso_segmento]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="fecha_ingreso_segmento"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[fecha_ingreso_segmento]" />
+                    <inputColumn
+                      refId="Package\Incorporacion\Data Conversion.Inputs[Data Conversion Input].Columns[fecha_ingreso_salud]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="fecha_ingreso_salud"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[fecha_ingreso_salud]" />
+                    <inputColumn
+                      refId="Package\Incorporacion\Data Conversion.Inputs[Data Conversion Input].Columns[id_categoria]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="id_categoria"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_categoria]" />
+                    <inputColumn
+                      refId="Package\Incorporacion\Data Conversion.Inputs[Data Conversion Input].Columns[id_grupo_categoria_afil]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="id_grupo_categoria_afil"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_grupo_categoria_afil]" />
+                    <inputColumn
+                      refId="Package\Incorporacion\Data Conversion.Inputs[Data Conversion Input].Columns[id_empresa]"
+                      cachedDataType="r8"
+                      cachedName="id_empresa"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_empresa]" />
+                    <inputColumn
+                      refId="Package\Incorporacion\Data Conversion.Inputs[Data Conversion Input].Columns[Id_Tipo_Entidad]"
+                      cachedDataType="r8"
+                      cachedName="Id_Tipo_Entidad"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[Id_Tipo_Entidad]" />
+                    <inputColumn
+                      refId="Package\Incorporacion\Data Conversion.Inputs[Data Conversion Input].Columns[rcosto1]"
+                      cachedDataType="r8"
+                      cachedName="rcosto1"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[rcosto1]" />
+                    <inputColumn
+                      refId="Package\Incorporacion\Data Conversion.Inputs[Data Conversion Input].Columns[rcosto2]"
+                      cachedDataType="r8"
+                      cachedName="rcosto2"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[rcosto2]" />
+                    <inputColumn
+                      refId="Package\Incorporacion\Data Conversion.Inputs[Data Conversion Input].Columns[rcosto3]"
+                      cachedDataType="r8"
+                      cachedName="rcosto3"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[rcosto3]" />
+                    <inputColumn
+                      refId="Package\Incorporacion\Data Conversion.Inputs[Data Conversion Input].Columns[rcosto4]"
+                      cachedDataType="r8"
+                      cachedName="rcosto4"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[rcosto4]" />
+                    <inputColumn
+                      refId="Package\Incorporacion\Data Conversion.Inputs[Data Conversion Input].Columns[id_producto_original]"
+                      cachedDataType="r8"
+                      cachedName="id_producto_original"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_producto_original]" />
+                    <inputColumn
+                      refId="Package\Incorporacion\Data Conversion.Inputs[Data Conversion Input].Columns[id_subproducto_original]"
+                      cachedDataType="r8"
+                      cachedName="id_subproducto_original"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_subproducto_original]" />
+                    <inputColumn
+                      refId="Package\Incorporacion\Data Conversion.Inputs[Data Conversion Input].Columns[id_plan_producto_original]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="id_plan_producto_original"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_plan_producto_original]" />
+                    <inputColumn
+                      refId="Package\Incorporacion\Data Conversion.Inputs[Data Conversion Input].Columns[grilla_original]"
+                      cachedDataType="r8"
+                      cachedName="grilla_original"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[grilla_original]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output]"
+                  exclusionGroup="1"
+                  name="Data Conversion Output"
+                  synchronousInputId="Package\Incorporacion\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_periodo]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_periodo]"
+                      name="Copy of id_periodo"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_periodo]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of afiliado]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of afiliado]"
+                      name="Copy of afiliado"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[afiliado]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of subnumero]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of subnumero]"
+                      name="Copy of subnumero"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[subnumero]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of secuencia]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of secuencia]"
+                      name="Copy of secuencia"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[secuencia]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_persona]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_persona]"
+                      name="Copy of id_persona"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_persona]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_origen_recaudacion]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_origen_recaudacion]"
+                      name="Copy of id_origen_recaudacion"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_origen_recaudacion]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_producto]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_producto]"
+                      name="Copy of id_producto"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_producto]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_subproducto]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_subproducto]"
+                      name="Copy of id_subproducto"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_subproducto]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_plan_producto]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_plan_producto]"
+                      name="Copy of id_plan_producto"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_plan_producto]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_entidad]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_entidad]"
+                      name="Copy of id_entidad"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_entidad]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_localidad]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_localidad]"
+                      name="Copy of id_localidad"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_localidad]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of edad_actual]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of edad_actual]"
+                      name="Copy of edad_actual"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[edad_actual]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of total_recaudacion]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of total_recaudacion]"
+                      name="Copy of total_recaudacion"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[total_recaudacion]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of grilla]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of grilla]"
+                      name="Copy of grilla"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[grilla]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of fecha_ingreso_segmento]"
+                      dataType="date"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of fecha_ingreso_segmento]"
+                      name="Copy of fecha_ingreso_segmento"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[fecha_ingreso_segmento]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of fecha_ingreso_salud]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="255"
+                      lineageId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of fecha_ingreso_salud]"
+                      name="Copy of fecha_ingreso_salud"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[fecha_ingreso_salud]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_categoria]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="255"
+                      lineageId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_categoria]"
+                      name="Copy of id_categoria"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_categoria]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_grupo_categoria_afil]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="255"
+                      lineageId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_grupo_categoria_afil]"
+                      name="Copy of id_grupo_categoria_afil"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_grupo_categoria_afil]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_empresa]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_empresa]"
+                      name="Copy of id_empresa"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_empresa]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Id_Tipo_Entidad]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Id_Tipo_Entidad]"
+                      name="Copy of Id_Tipo_Entidad"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[Id_Tipo_Entidad]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of rcosto1]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of rcosto1]"
+                      name="Copy of rcosto1"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[rcosto1]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of rcosto2]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of rcosto2]"
+                      name="Copy of rcosto2"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[rcosto2]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of rcosto3]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of rcosto3]"
+                      name="Copy of rcosto3"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[rcosto3]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of rcosto4]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of rcosto4]"
+                      name="Copy of rcosto4"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[rcosto4]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_producto_original]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_producto_original]"
+                      name="Copy of id_producto_original"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_producto_original]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_subproducto_original]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_subproducto_original]"
+                      name="Copy of id_subproducto_original"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_subproducto_original]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_plan_producto_original]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_plan_producto_original]"
+                      name="Copy of id_plan_producto_original"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_plan_producto_original]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of grilla_original]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of grilla_original]"
+                      name="Copy of grilla_original"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[grilla_original]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Data Conversion Error Output"
+                  synchronousInputId="Package\Incorporacion\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Incorporacion\Excel Source"
+              componentClassID="Microsoft.ExcelSource"
+              contactInfo="Excel Source;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Excel Source"
+              name="Excel Source"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">Hoja1$</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mapping from parameters in the SQL command to variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Incorporacion\Excel Source.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Excel No Apropiables Final]"
+                  connectionManagerRefId="Package.ConnectionManagers[Excel No Apropiables Final]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output]"
+                  name="Excel Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_periodo]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[id_periodo]"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_periodo]"
+                      name="id_periodo"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[afiliado]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[afiliado]"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[afiliado]"
+                      name="afiliado"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[subnumero]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[subnumero]"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[subnumero]"
+                      name="subnumero"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[secuencia]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[secuencia]"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[secuencia]"
+                      name="secuencia"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_persona]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[id_persona]"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_persona]"
+                      name="id_persona"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_origen_recaudacion]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[id_origen_recaudacion]"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_origen_recaudacion]"
+                      name="id_origen_recaudacion"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_producto]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[id_producto]"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_producto]"
+                      name="id_producto"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_subproducto]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[id_subproducto]"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_subproducto]"
+                      name="id_subproducto"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_plan_producto]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[id_plan_producto]"
+                      length="255"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_plan_producto]"
+                      name="id_plan_producto"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_entidad]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[id_entidad]"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_entidad]"
+                      name="id_entidad"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_localidad]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[id_localidad]"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_localidad]"
+                      name="id_localidad"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[edad_actual]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[edad_actual]"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[edad_actual]"
+                      name="edad_actual"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[total_recaudacion]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[total_recaudacion]"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[total_recaudacion]"
+                      name="total_recaudacion"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[grilla]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[grilla]"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[grilla]"
+                      name="grilla"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[fecha_ingreso_segmento]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[fecha_ingreso_segmento]"
+                      length="255"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[fecha_ingreso_segmento]"
+                      name="fecha_ingreso_segmento"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[fecha_ingreso_salud]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[fecha_ingreso_salud]"
+                      length="255"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[fecha_ingreso_salud]"
+                      name="fecha_ingreso_salud"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_categoria]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[id_categoria]"
+                      length="255"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_categoria]"
+                      name="id_categoria"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_grupo_categoria_afil]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[id_grupo_categoria_afil]"
+                      length="255"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_grupo_categoria_afil]"
+                      name="id_grupo_categoria_afil"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_empresa]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[id_empresa]"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_empresa]"
+                      name="id_empresa"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[Id_Tipo_Entidad]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[Id_Tipo_Entidad]"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[Id_Tipo_Entidad]"
+                      name="Id_Tipo_Entidad"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[rcosto1]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[rcosto1]"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[rcosto1]"
+                      name="rcosto1"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[rcosto2]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[rcosto2]"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[rcosto2]"
+                      name="rcosto2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[rcosto3]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[rcosto3]"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[rcosto3]"
+                      name="rcosto3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[rcosto4]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[rcosto4]"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[rcosto4]"
+                      name="rcosto4"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_producto_original]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[id_producto_original]"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_producto_original]"
+                      name="id_producto_original"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_subproducto_original]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[id_subproducto_original]"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_subproducto_original]"
+                      name="id_subproducto_original"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_plan_producto_original]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[id_plan_producto_original]"
+                      length="255"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_plan_producto_original]"
+                      name="id_plan_producto_original"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[grilla_original]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[grilla_original]"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[grilla_original]"
+                      name="grilla_original"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_rango_edad_rec]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[id_rango_edad_rec]"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_rango_edad_rec]"
+                      name="id_rango_edad_rec"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[id_periodo]"
+                      dataType="r8"
+                      name="id_periodo" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[afiliado]"
+                      dataType="r8"
+                      name="afiliado" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[subnumero]"
+                      dataType="r8"
+                      name="subnumero" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[secuencia]"
+                      dataType="r8"
+                      name="secuencia" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[id_persona]"
+                      dataType="r8"
+                      name="id_persona" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[id_origen_recaudacion]"
+                      dataType="r8"
+                      name="id_origen_recaudacion" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[id_producto]"
+                      dataType="r8"
+                      name="id_producto" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[id_subproducto]"
+                      dataType="r8"
+                      name="id_subproducto" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[id_plan_producto]"
+                      dataType="wstr"
+                      length="255"
+                      name="id_plan_producto" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[id_entidad]"
+                      dataType="r8"
+                      name="id_entidad" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[id_localidad]"
+                      dataType="r8"
+                      name="id_localidad" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[edad_actual]"
+                      dataType="r8"
+                      name="edad_actual" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[total_recaudacion]"
+                      dataType="r8"
+                      name="total_recaudacion" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[grilla]"
+                      dataType="r8"
+                      name="grilla" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[fecha_ingreso_segmento]"
+                      dataType="wstr"
+                      length="255"
+                      name="fecha_ingreso_segmento" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[fecha_ingreso_salud]"
+                      dataType="wstr"
+                      length="255"
+                      name="fecha_ingreso_salud" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[id_categoria]"
+                      dataType="wstr"
+                      length="255"
+                      name="id_categoria" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[id_grupo_categoria_afil]"
+                      dataType="wstr"
+                      length="255"
+                      name="id_grupo_categoria_afil" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[id_empresa]"
+                      dataType="r8"
+                      name="id_empresa" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[Id_Tipo_Entidad]"
+                      dataType="r8"
+                      name="Id_Tipo_Entidad" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[rcosto1]"
+                      dataType="r8"
+                      name="rcosto1" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[rcosto2]"
+                      dataType="r8"
+                      name="rcosto2" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[rcosto3]"
+                      dataType="r8"
+                      name="rcosto3" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[rcosto4]"
+                      dataType="r8"
+                      name="rcosto4" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[id_producto_original]"
+                      dataType="r8"
+                      name="id_producto_original" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[id_subproducto_original]"
+                      dataType="r8"
+                      name="id_subproducto_original" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[id_plan_producto_original]"
+                      dataType="wstr"
+                      length="255"
+                      name="id_plan_producto_original" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[grilla_original]"
+                      dataType="r8"
+                      name="grilla_original" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].ExternalColumns[id_rango_edad_rec]"
+                      dataType="r8"
+                      name="id_rango_edad_rec" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output]"
+                  isErrorOut="true"
+                  name="Excel Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[id_periodo]"
+                      dataType="r8"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[id_periodo]"
+                      name="id_periodo" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[afiliado]"
+                      dataType="r8"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[afiliado]"
+                      name="afiliado" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[subnumero]"
+                      dataType="r8"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[subnumero]"
+                      name="subnumero" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[secuencia]"
+                      dataType="r8"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[secuencia]"
+                      name="secuencia" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[id_persona]"
+                      dataType="r8"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[id_persona]"
+                      name="id_persona" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[id_origen_recaudacion]"
+                      dataType="r8"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[id_origen_recaudacion]"
+                      name="id_origen_recaudacion" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[id_producto]"
+                      dataType="r8"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[id_producto]"
+                      name="id_producto" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[id_subproducto]"
+                      dataType="r8"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[id_subproducto]"
+                      name="id_subproducto" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[id_plan_producto]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[id_plan_producto]"
+                      name="id_plan_producto" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[id_entidad]"
+                      dataType="r8"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[id_entidad]"
+                      name="id_entidad" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[id_localidad]"
+                      dataType="r8"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[id_localidad]"
+                      name="id_localidad" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[edad_actual]"
+                      dataType="r8"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[edad_actual]"
+                      name="edad_actual" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[total_recaudacion]"
+                      dataType="r8"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[total_recaudacion]"
+                      name="total_recaudacion" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[grilla]"
+                      dataType="r8"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[grilla]"
+                      name="grilla" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[fecha_ingreso_segmento]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[fecha_ingreso_segmento]"
+                      name="fecha_ingreso_segmento" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[fecha_ingreso_salud]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[fecha_ingreso_salud]"
+                      name="fecha_ingreso_salud" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[id_categoria]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[id_categoria]"
+                      name="id_categoria" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[id_grupo_categoria_afil]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[id_grupo_categoria_afil]"
+                      name="id_grupo_categoria_afil" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[id_empresa]"
+                      dataType="r8"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[id_empresa]"
+                      name="id_empresa" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[Id_Tipo_Entidad]"
+                      dataType="r8"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[Id_Tipo_Entidad]"
+                      name="Id_Tipo_Entidad" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[rcosto1]"
+                      dataType="r8"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[rcosto1]"
+                      name="rcosto1" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[rcosto2]"
+                      dataType="r8"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[rcosto2]"
+                      name="rcosto2" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[rcosto3]"
+                      dataType="r8"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[rcosto3]"
+                      name="rcosto3" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[rcosto4]"
+                      dataType="r8"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[rcosto4]"
+                      name="rcosto4" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[id_producto_original]"
+                      dataType="r8"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[id_producto_original]"
+                      name="id_producto_original" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[id_subproducto_original]"
+                      dataType="r8"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[id_subproducto_original]"
+                      name="id_subproducto_original" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[id_plan_producto_original]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[id_plan_producto_original]"
+                      name="id_plan_producto_original" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[grilla_original]"
+                      dataType="r8"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[grilla_original]"
+                      name="grilla_original" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[id_rango_edad_rec]"
+                      dataType="r8"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[id_rango_edad_rec]"
+                      name="id_rango_edad_rec" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Incorporacion\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[H_RECAUDACION_DETALLE]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Incorporacion\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="{E98BA7A5-A37B-425A-9974-434BB6F83FD9}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DS_DW_SALUD]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of id_periodo]"
+                      cachedDataType="r8"
+                      cachedName="Copy of id_periodo"
+                      externalMetadataColumnId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_periodo]"
+                      lineageId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_periodo]" />
+                    <inputColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of afiliado]"
+                      cachedDataType="r8"
+                      cachedName="Copy of afiliado"
+                      externalMetadataColumnId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[afiliado]"
+                      lineageId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of afiliado]" />
+                    <inputColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of subnumero]"
+                      cachedDataType="r8"
+                      cachedName="Copy of subnumero"
+                      externalMetadataColumnId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[subnumero]"
+                      lineageId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of subnumero]" />
+                    <inputColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of secuencia]"
+                      cachedDataType="r8"
+                      cachedName="Copy of secuencia"
+                      externalMetadataColumnId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[secuencia]"
+                      lineageId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of secuencia]" />
+                    <inputColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of id_persona]"
+                      cachedDataType="r8"
+                      cachedName="Copy of id_persona"
+                      externalMetadataColumnId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_persona]"
+                      lineageId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_persona]" />
+                    <inputColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of id_origen_recaudacion]"
+                      cachedDataType="r8"
+                      cachedName="Copy of id_origen_recaudacion"
+                      externalMetadataColumnId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_origen_recaudacion]"
+                      lineageId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_origen_recaudacion]" />
+                    <inputColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of id_producto]"
+                      cachedDataType="r8"
+                      cachedName="Copy of id_producto"
+                      externalMetadataColumnId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_producto]"
+                      lineageId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_producto]" />
+                    <inputColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of id_subproducto]"
+                      cachedDataType="r8"
+                      cachedName="Copy of id_subproducto"
+                      externalMetadataColumnId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_subproducto]"
+                      lineageId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_subproducto]" />
+                    <inputColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of id_plan_producto]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="Copy of id_plan_producto"
+                      externalMetadataColumnId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_plan_producto]"
+                      lineageId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_plan_producto]" />
+                    <inputColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of id_entidad]"
+                      cachedDataType="r8"
+                      cachedName="Copy of id_entidad"
+                      externalMetadataColumnId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_entidad]"
+                      lineageId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_entidad]" />
+                    <inputColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of id_localidad]"
+                      cachedDataType="r8"
+                      cachedName="Copy of id_localidad"
+                      externalMetadataColumnId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_localidad]"
+                      lineageId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_localidad]" />
+                    <inputColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of edad_actual]"
+                      cachedDataType="r8"
+                      cachedName="Copy of edad_actual"
+                      externalMetadataColumnId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[edad_actual]"
+                      lineageId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of edad_actual]" />
+                    <inputColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of total_recaudacion]"
+                      cachedDataType="r8"
+                      cachedName="Copy of total_recaudacion"
+                      externalMetadataColumnId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[total_recaudacion]"
+                      lineageId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of total_recaudacion]" />
+                    <inputColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of grilla]"
+                      cachedDataType="r8"
+                      cachedName="Copy of grilla"
+                      externalMetadataColumnId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[grilla]"
+                      lineageId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of grilla]" />
+                    <inputColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of fecha_ingreso_segmento]"
+                      cachedDataType="date"
+                      cachedName="Copy of fecha_ingreso_segmento"
+                      externalMetadataColumnId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_ingreso_segmento]"
+                      lineageId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of fecha_ingreso_segmento]" />
+                    <inputColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of rcosto1]"
+                      cachedDataType="r8"
+                      cachedName="Copy of rcosto1"
+                      externalMetadataColumnId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[rcosto1]"
+                      lineageId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of rcosto1]" />
+                    <inputColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of rcosto2]"
+                      cachedDataType="r8"
+                      cachedName="Copy of rcosto2"
+                      externalMetadataColumnId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[rcosto2]"
+                      lineageId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of rcosto2]" />
+                    <inputColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of rcosto3]"
+                      cachedDataType="r8"
+                      cachedName="Copy of rcosto3"
+                      externalMetadataColumnId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[rcosto3]"
+                      lineageId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of rcosto3]" />
+                    <inputColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of rcosto4]"
+                      cachedDataType="r8"
+                      cachedName="Copy of rcosto4"
+                      externalMetadataColumnId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[rcosto4]"
+                      lineageId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of rcosto4]" />
+                    <inputColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of id_producto_original]"
+                      cachedDataType="r8"
+                      cachedName="Copy of id_producto_original"
+                      externalMetadataColumnId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_producto_original]"
+                      lineageId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_producto_original]" />
+                    <inputColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of id_subproducto_original]"
+                      cachedDataType="r8"
+                      cachedName="Copy of id_subproducto_original"
+                      externalMetadataColumnId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_subproducto_original]"
+                      lineageId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_subproducto_original]" />
+                    <inputColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of id_plan_producto_original]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="Copy of id_plan_producto_original"
+                      externalMetadataColumnId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_plan_producto_original]"
+                      lineageId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_plan_producto_original]" />
+                    <inputColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of grilla_original]"
+                      cachedDataType="r8"
+                      cachedName="Copy of grilla_original"
+                      externalMetadataColumnId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[grilla_original]"
+                      lineageId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of grilla_original]" />
+                    <inputColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[id_rango_edad_rec]"
+                      cachedDataType="r8"
+                      cachedName="id_rango_edad_rec"
+                      externalMetadataColumnId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_rango_edad_rec]"
+                      lineageId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output].Columns[id_rango_edad_rec]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_periodo]"
+                      dataType="i4"
+                      name="id_periodo" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[afiliado]"
+                      dataType="i4"
+                      name="afiliado" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[subnumero]"
+                      dataType="i4"
+                      name="subnumero" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[secuencia]"
+                      dataType="i4"
+                      name="secuencia" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_persona]"
+                      dataType="i4"
+                      name="id_persona" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_origen_recaudacion]"
+                      dataType="i4"
+                      name="id_origen_recaudacion" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_producto]"
+                      dataType="i4"
+                      name="id_producto" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_subproducto]"
+                      dataType="i4"
+                      name="id_subproducto" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_plan_producto]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      name="id_plan_producto" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_entidad]"
+                      dataType="i4"
+                      name="id_entidad" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_localidad]"
+                      dataType="i4"
+                      name="id_localidad" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[edad_actual]"
+                      dataType="i4"
+                      name="edad_actual" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[total_recaudacion]"
+                      dataType="r8"
+                      name="total_recaudacion" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[grilla]"
+                      dataType="i4"
+                      name="grilla" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_ingreso_segmento]"
+                      dataType="dbTimeStamp"
+                      name="fecha_ingreso_segmento" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_ingreso_salud]"
+                      dataType="dbTimeStamp"
+                      name="fecha_ingreso_salud" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_categoria]"
+                      dataType="i4"
+                      name="id_categoria" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[rcosto1]"
+                      dataType="i4"
+                      name="rcosto1" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[rcosto2]"
+                      dataType="i4"
+                      name="rcosto2" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[rcosto3]"
+                      dataType="i4"
+                      name="rcosto3" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[rcosto4]"
+                      dataType="i4"
+                      name="rcosto4" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_producto_original]"
+                      dataType="i4"
+                      name="id_producto_original" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_subproducto_original]"
+                      dataType="i4"
+                      name="id_subproducto_original" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_plan_producto_original]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      name="id_plan_producto_original" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[grilla_original]"
+                      dataType="i4"
+                      name="grilla_original" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_empresa_recaudacion]"
+                      dataType="i4"
+                      name="id_empresa_recaudacion" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_tipo_entidad_recaudacion]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="id_tipo_entidad_recaudacion" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_periodo_liquidacion]"
+                      dataType="i4"
+                      name="id_periodo_liquidacion" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_factura_A_E_rec]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="id_factura_A_E_rec" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_empresa_PE_rec]"
+                      dataType="i4"
+                      name="id_empresa_PE_rec" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_tipo_entidad_PE_rec]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="id_tipo_entidad_PE_rec" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_marca_PE_rec]"
+                      dataType="i4"
+                      name="id_marca_PE_rec" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_convenio_especial_rec]"
+                      dataType="i4"
+                      name="id_convenio_especial_rec" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_periodo_consumo_M]"
+                      dataType="i4"
+                      name="id_periodo_consumo_M" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_rango_edad_rec]"
+                      dataType="i4"
+                      name="id_rango_edad_rec" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_fuente_recaudacion]"
+                      dataType="i4"
+                      name="id_fuente_recaudacion" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_convenio]"
+                      dataType="i4"
+                      name="id_convenio" />
+                    <externalMetadataColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_tipo_entidad_convenio]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="id_tipo_entidad_convenio" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Incorporacion\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Incorporacion\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Incorporacion\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Incorporacion\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Incorporacion.Paths[Data Conversion Output]"
+              endId="Package\Incorporacion\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="Data Conversion Output"
+              startId="Package\Incorporacion\Data Conversion.Outputs[Data Conversion Output]" />
+            <path
+              refId="Package\Incorporacion.Paths[Excel Source Output]"
+              endId="Package\Incorporacion\Data Conversion.Inputs[Data Conversion Input]"
+              name="Excel Source Output"
+              startId="Package\Incorporacion\Excel Source.Outputs[Excel Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Obtiene último período"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Obtiene último período"
+      DTS:DTSID="{A5542D4A-C779-4572-A4B3-69D4D15C1D17}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Obtiene último período"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{E98BA7A5-A37B-425A-9974-434BB6F83FD9}"
+          SQLTask:SqlStatementSource="DECLARE @PERIODO INTEGER&#xA;SELECT @PERIODO = (SELECT MAX(ID_PERIODO)&#xA;   FROM AUX_PERIODO_MES_BORRA)&#xA;TRUNCATE TABLE  AUX_PERIODO_MES_BORRA&#xA;INSERT INTO AUX_PERIODO_MES_BORRA(ID_PERIODO)&#xA;VALUES (@PERIODO)&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{9288C5A2-9429-4D16-9086-3AAD95B51B8F}"
+      DTS:From="Package\Incorporacion"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Elimino Periodos" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{9F4F0E67-4803-4581-A133-CF1143F97DE2}"
+      DTS:From="Package\Elimino Periodos"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Data Flow Task" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{CCE07693-D777-4CD9-AD0A-4DB86ED29B43}"
+      DTS:From="Package\Data Flow Task"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Obtiene último período" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{DB4C5C85-ADEB-4592-B367-569DE4FCCE29}"
+      DTS:From="Package\Obtiene último período"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Actualiza H_RECAUDACION" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib">
+        <NodeLayout
+          Size="222,42"
+          Id="Package\Actualiza H_RECAUDACION"
+          TopLeft="74.4465408805031,390.27358490566" />
+        <NodeLayout
+          Size="146,42"
+          Id="Package\Incorporacion"
+          TopLeft="112.446540880503,13.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="184.223270440252,55.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,94.5"
+              Start="0,0"
+              End="0,87">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,87" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="184.223270440252,329">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,61.2735849056604"
+              Start="0,0"
+              End="0,53.7735849056604">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,53.7735849056604" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="155,42"
+          Id="Package\Data Flow Task"
+          TopLeft="45.5,76.7075471698113" />
+        <NodeLayout
+          Size="162,42"
+          Id="Package\Elimino Periodos"
+          TopLeft="42,8.47169811320757" />
+        <NodeLayout
+          Size="190,42"
+          Id="Package\Obtiene último período"
+          TopLeft="28,144.943396226415" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="123,50.4716981132076">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,26.2358490566038"
+              Start="0,0"
+              End="0,18.7358490566038">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18.7358490566038" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="123,118.707547169811">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,26.2358490566038"
+              Start="0,0"
+              End="0,18.7358490566038">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18.7358490566038" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <GroupLayout
+          Text="Actualiza el periodo en AUX_PERIODO_MES_BORRA"
+          ParentId="Package"
+          HeaderHeight="43.924528301886795"
+          IsExpanded="True"
+          PanelSize="265,204"
+          Size="265,248"
+          Id="82ca0bdd-7596-42ed-9220-cf26477b00bc"
+          TopLeft="59.9465408805031,98.4433962264151">
+          <GroupLayout.ChildrenIds>
+            <s:String>Package\Data Flow Task</s:String>
+            <s:String>Package\Elimino Periodos</s:String>
+            <s:String>Package\Obtiene último período</s:String>
+            <s:String>Package.PrecedenceConstraints[Constraint 1]</s:String>
+            <s:String>Package.PrecedenceConstraints[Constraint 2]</s:String>
+          </GroupLayout.ChildrenIds>
+        </GroupLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Data Flow Task">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="177,42"
+          Id="Package\Data Flow Task\OLE DB Destination"
+          TopLeft="5.5,147.27358490566" />
+        <NodeLayout
+          Size="144,42"
+          Id="Package\Data Flow Task\Excel Source"
+          TopLeft="22,5.5" />
+        <EdgeLayout
+          Id="Package\Data Flow Task.Paths[Excel Source Output]"
+          TopLeft="94,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,99.7735849056604"
+              Start="0,0"
+              End="0,92.2735849056604">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,92.2735849056604" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Task\Excel Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Task\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Incorporacion">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="177,42"
+          Id="Package\Incorporacion\OLE DB Destination"
+          TopLeft="14.9685534591195,219.160377358491" />
+        <NodeLayout
+          Size="161,42"
+          Id="Package\Incorporacion\Data Conversion"
+          TopLeft="22.9685534591195,112.330188679245" />
+        <NodeLayout
+          Size="144,42"
+          Id="Package\Incorporacion\Excel Source"
+          TopLeft="31.4685534591195,5.5" />
+        <EdgeLayout
+          Id="Package\Incorporacion.Paths[Excel Source Output]"
+          TopLeft="103.46855345912,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,64.8301886792453"
+              Start="0,0"
+              End="0,57.3301886792453">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,57.3301886792453" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Incorporacion.Paths[Data Conversion Output]"
+          TopLeft="103.46855345912,154.330188679245">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,64.8301886792453"
+              Start="0,0"
+              End="0,57.3301886792453">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,57.3301886792453" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Incorporacion\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

@@ -1,0 +1,333 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="10/28/2019 10:03:33 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="DES6103"
+  DTS:CreatorName="AMS\jallara"
+  DTS:DTSID="{25E5AB4F-ADC6-4D3E-A0C9-F1C0AA709A3F}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="IndEst_INDICADORES_ESTRATEGICOS_AUTOMATIZADOS"
+  DTS:PackageType="5"
+  DTS:VersionBuild="71"
+  DTS:VersionGUID="{BE8BC97C-E762-4194-92BF-0A6DA889B051}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{DD9CFC79-04D2-4F66-BFD0-D45B8B3530D5}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{3F649B93-135E-4230-9189-C8D8C7D8F60D}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="V_Periodo">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{DD9CFC79-04D2-4F66-BFD0-D45B8B3530D5}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza totales (compañía 0) y valor_indicador_cierre_ej_ant para todos los indicadores automatizados en AUX"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tarea Ejecutar SQL"
+      DTS:DTSID="{D8ED6635-9F2D-4256-9519-A6A2BAA8E173}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza totales (compañía 0) y valor_indicador_cierre_ej_ant para todos los indicadores automatizados en AUX"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{40B1FFCE-4DC1-4E73-BA3E-E7A00EC122E0}"
+          SQLTask:SqlStatementSource="Declare @PeriodoEj int set @PeriodoEj = ?&#xA;Declare @PeriodoFinalEjAnt int set @PeriodoFinalEjAnt = (select max(id_periodo) from D_PERIODO where vigente_comercial = 1 and id_mes=6)&#xA;&#xA;---Inserta totales por mes (compañía 0)&#xA;insert into AUX_H_INDICADORES_ESTRATEGICOS&#xA;select id_indicador_estrategico,&#xA;&#x9;ID_Periodo,&#xA;&#x9;@PeriodoFinalEjAnt id_periodo_cierre_ej_ant,&#xA;&#x9;sum(valor_indicador_cierre_ej_ant) as valor_indicador_cierre_ej_ant,&#xA;&#x9;sum(valor_indicador_estrategico) valor_indicador_estrategico,&#xA;&#x9;sum(objetivo_presupuesto) as objetivo_presupuesto,&#xA;&#x9;sum(valor_indicador_estrategico_mensual) valor_indicador_estrategico_mensual,&#xA;&#x9;sum(objetivo_presupuesto_mensual) as objetivo_presupuesto_mensual,&#xA;&#x9;0 as id_compania&#xA;from AUX_H_INDICADORES_ESTRATEGICOS&#xA;where id_indicador_estrategico in (1,46,47,51)&#xA;&#x9;and id_periodo = @PeriodoEj&#xA;group by ID_Periodo, id_indicador_estrategico&#xA;&#xA;&#xA;--Crea temp con los indicadores que debera recorrer el loop para actualizar valor de ej anterior&#xA;select id_indicador&#xA;into #Indicadores&#xA;from (&#xA;  VALUES (1), (46), (47), (48), (49), (50), (51)&#xA;&#x9;) [1 to 10](id_indicador)&#xA;&#xA;&#xA;--Actualiza valor cierre ejercicio anterior para indicadores 1, 46,47,48,49,50 y 51&#xA;declare @cnt_ind int = 1&#xA;declare @cnt_total_ind int = (select count(id_indicador) from #Indicadores)&#xA;&#xA;&#xA;WHILE @cnt_ind &lt;= @cnt_total_ind&#xA;BEGIN&#xA;&#x9;&#xA;&#x9;declare @Indicador int = (SELECT id_indicador from (SELECT RowNr, id_indicador&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;    FROM ( SELECT ROW_NUMBER() OVER (ORDER BY id_indicador) AS RowNr, id_indicador&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;FROM #Indicadores) sub&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHERE sub.RowNr = @cnt_ind)indicador)&#xA;&#xA;&#xA;&#x9;&#x9;update AUX_H_INDICADORES_ESTRATEGICOS&#xA;&#x9;&#x9;set valor_indicador_cierre_ej_ant = isnull((select valor_indicador_estrategico&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; from H_INDICADORES_ESTRATEGICOS &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; where id_periodo = @PeriodoFinalEjAnt&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; and id_compania = HI.id_compania&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; and id_indicador_estrategico = @Indicador),0)&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; &#xA;&#x9;&#x9;from AUX_H_INDICADORES_ESTRATEGICOS HI&#xA;&#x9;&#x9;where id_periodo = @PeriodoEj&#xA;&#x9;&#x9;&#x9;and id_indicador_estrategico = @Indicador&#xA;&#xA;&#x9;&#x9;SET @cnt_ind = @cnt_ind + 1;&#xA;END;&#xA;&#xA;drop table #Indicadores" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="User::V_Periodo"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="130"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Inserta ALTAS GRUPOS AFINIDAD, INDIVIDUAL y LINEA EMPRESA en AUX"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tarea Ejecutar SQL"
+      DTS:DTSID="{7F30B85B-417C-49F0-8587-CE32498F0315}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Inserta ALTAS GRUPOS AFINIDAD, INDIVIDUAL y LINEA EMPRESA en AUX"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{40B1FFCE-4DC1-4E73-BA3E-E7A00EC122E0}"
+          SQLTask:SqlStatementSource="Declare @PeriodoEj int set @PeriodoEj = ?&#xA;Declare @PeriodoInicialEj int = (select id_periodo from D_PERIODO where ID_EJERCICIO = (select ID_EJERCICIO from D_PERIODO where id_periodo = @PeriodoEj) and ID_MES = 7)&#xA;Declare @PeriodoFinalEjAnt int set @PeriodoFinalEjAnt = (select max(id_periodo) from D_PERIODO where vigente_comercial = 1 and id_mes=6)&#xA;&#xA;&#xA;&#x9;&#xA;/* ALTAS MENSUALES */&#xA;--Calcula cantidad de altas mensuales por compañia para los indicadores 48,49 y 50&#xA;select&#x9;a13.id_tipo_venta  id_tipo_venta,&#xA;&#x9;max(a18.de_tipo_venta)  de_tipo_venta,&#xA;&#x9;a16.id_compania  id_compania,&#xA;&#x9;max(a19.de_compania)  de_compania,&#xA;&#x9;a11.id_periodo  ID_Periodo,&#xA;&#x9;sum(a11.comer_cant_altas_genuina)  altas&#xA;into #AltasComp&#xA;from&#x9;H_ALTAS_GENUINAS&#x9;a11&#xA;&#x9;join&#x9;H_CONVENIOS_EMPRESAS&#x9;a12&#xA;&#x9;&#x9;on &#x9;(a11.id_convenio = a12.id_convenio and &#xA;&#x9;a11.id_periodo = a12.id_periodo and &#xA;&#x9;a11.id_tipo_entidad_convenio = a12.id_tipo_entidad_convenio)&#xA;&#x9;join&#x9;D_SUBTIPOS_VENTA&#x9;a13&#xA;&#x9;&#x9;on &#x9;(a12.id_subtipo_venta = a13.id_subtipo_venta)&#xA;&#x9;join&#x9;D_PLANES&#x9;a14&#xA;&#x9;&#x9;on &#x9;(a11.id_plan_producto = a14.id_plan_producto and &#xA;&#x9;a11.id_producto = a14.id_producto)&#xA;&#x9;join&#x9;D_SUBRUBRO_LEY&#x9;a15&#xA;&#x9;&#x9;on &#x9;(a14.Id_SubRubro_Ley = a15.Id_SubRubro_Ley)&#xA;&#x9;join&#x9;D_RUBRO_LEY&#x9;a16&#xA;&#x9;&#x9;on &#x9;(a15.id_Rubro_Ley = a16.id_Rubro_Ley)&#xA;&#x9;join&#x9;D_PRODUCTOS&#x9;a17&#xA;&#x9;&#x9;on &#x9;(a14.id_producto = a17.id_producto)&#xA;&#x9;join&#x9;D_TIPOS_VENTA&#x9;a18&#xA;&#x9;&#x9;on &#x9;(a13.id_tipo_venta = a18.id_tipo_venta)&#xA;&#x9;join&#x9;D_COMPANIA&#x9;a19&#xA;&#x9;&#x9;on &#x9;(a16.id_compania = a19.id_compania)&#xA;where&#x9;(a17.id_clase_producto in ('S ')&#xA;&#x9;and a14.Id_SubRubro_Ley not in (4)&#xA;&#x9;and not ((a11.id_producto = 16 and a11.id_plan_producto = 'CC   ')&#xA;&#x9;or  (a11.id_producto=16 and a11.id_plan_producto='CM   ')&#xA;&#x9;or  (a11.id_producto=16 and a11.id_plan_producto='CS1  ')&#xA;&#x9;or  (a11.id_producto=16 and a11.id_plan_producto='CS100')&#xA;&#x9;or  (a11.id_producto=4 and a11.id_plan_producto='M    ')&#xA;&#x9;or  (a11.id_producto=16 and a11.id_plan_producto='M    ')&#xA;&#x9;or  (a11.id_producto=20 and a11.id_plan_producto='M    ')&#xA;&#x9;or  (a11.id_producto=14 and a11.id_plan_producto='Z    ')&#xA;&#x9;or  (a11.id_producto=20 and a11.id_plan_producto='Z    ')&#xA;&#x9;or  (a11.id_producto=1 and a11.id_plan_producto='C    ')&#xA;&#x9;or  (a11.id_producto=4 and a11.id_plan_producto='Z    '))&#xA;&#x9;and a11.id_periodo &gt;= @PeriodoInicialEj&#xA;&#x9;and a11.id_periodo &lt;= @PeriodoEj)&#xA;group by&#x9;a13.id_tipo_venta,&#xA;&#x9;a16.id_compania,&#xA;&#x9;a11.id_periodo&#xA;order by id_tipo_venta, id_compania, ID_Periodo&#xA;&#xA;&#xA;--Calcula Altas totales mensuales por compania&#xA;select  id_periodo, id_compania, sum(altas) total_altas&#xA;into #AltasTotalComp&#xA;from #AltasComp&#xA;group by id_periodo, id_compania&#xA;&#xA;&#xA;--Calcula porcentajes de altas mensuales&#xA;select ac.id_tipo_venta, ac.id_periodo, ac.id_compania, ROUND((CAST(altas as float)/CAST(total_altas as float)),3) porc_ind, altas, total_altas&#xA;into #PorcIndComp&#xA;from #AltasComp AC&#xA;&#x9;join #AltasTotalComp T&#xA;&#x9;&#x9;on (AC.id_compania = T.id_compania and AC.id_periodo = T.id_periodo)&#xA;&#xA;&#xA;--Calcula altas acumuladas por compañia&#xA;select id_tipo_venta, id_compania, ROUND((CAST(sum(altas)as float)/CAST(sum(total_altas)as float)),3) porc_acumulado_altas&#xA;into #AcumAltasComp&#xA;from #PorcIndComp&#xA;where ID_Periodo &gt;= @PeriodoInicialEj &#xA;&#x9;and ID_Periodo &lt;= @PeriodoEj&#xA;group by id_tipo_venta, id_compania&#xA;order by id_tipo_venta, id_compania&#xA;&#xA;&#xA;/* OBJETIVOS MENSUALES */&#xA;--Objetivos indicadores&#xA;select&#x9;a12.id_tipo_venta  id_tipo_venta,&#xA;&#x9;max(a17.de_tipo_venta)  de_tipo_venta,&#xA;&#x9;a15.id_compania  id_compania,&#xA;&#x9;max(a18.de_compania)  de_compania,&#xA;&#x9;a11.id_periodo  ID_Periodo,&#xA;&#x9;sum(a11.afiliados_objetivo)  objetivos&#xA;into #ObjComp&#xA;from&#x9;H_OBJETIVOS&#x9;a11&#xA;&#x9;join&#x9;D_SUBTIPOS_VENTA&#x9;a12&#xA;&#x9;&#x9;on &#x9;(a11.id_subtipo_venta = a12.id_subtipo_venta)&#xA;&#x9;join&#x9;D_PLANES&#x9;a13&#xA;&#x9;&#x9;on &#x9;(a11.id_plan_producto = a13.id_plan_producto and &#xA;&#x9;a11.id_producto = a13.id_producto)&#xA;&#x9;join&#x9;D_SUBRUBRO_LEY&#x9;a14&#xA;&#x9;&#x9;on &#x9;(a13.Id_SubRubro_Ley = a14.Id_SubRubro_Ley)&#xA;&#x9;join&#x9;D_RUBRO_LEY&#x9;a15&#xA;&#x9;&#x9;on &#x9;(a14.id_Rubro_Ley = a15.id_Rubro_Ley)&#xA;&#x9;join&#x9;D_PRODUCTOS&#x9;a16&#xA;&#x9;&#x9;on &#x9;(a13.id_producto = a16.id_producto)&#xA;&#x9;join&#x9;D_TIPOS_VENTA&#x9;a17&#xA;&#x9;&#x9;on &#x9;(a12.id_tipo_venta = a17.id_tipo_venta)&#xA;&#x9;join&#x9;D_COMPANIA&#x9;a18&#xA;&#x9;&#x9;on &#x9;(a15.id_compania = a18.id_compania)&#xA;where&#x9;(a16.id_clase_producto in ('S ')&#xA;&#x9;and a13.Id_SubRubro_Ley not in (4)&#xA;&#x9;and not ((a11.id_producto = 16 and a11.id_plan_producto = 'CC   ')&#xA;&#x9;or  (a11.id_producto=16 and a11.id_plan_producto='CM   ')&#xA;&#x9;or  (a11.id_producto=16 and a11.id_plan_producto='CS1  ')&#xA;&#x9;or  (a11.id_producto=16 and a11.id_plan_producto='CS100')&#xA;&#x9;or  (a11.id_producto=4 and a11.id_plan_producto='M    ')&#xA;&#x9;or  (a11.id_producto=16 and a11.id_plan_producto='M    ')&#xA;&#x9;or  (a11.id_producto=20 and a11.id_plan_producto='M    ')&#xA;&#x9;or  (a11.id_producto=14 and a11.id_plan_producto='Z    ')&#xA;&#x9;or  (a11.id_producto=20 and a11.id_plan_producto='Z    ')&#xA;&#x9;or  (a11.id_producto=1 and a11.id_plan_producto='C    ')&#xA;&#x9;or  (a11.id_producto=4 and a11.id_plan_producto='Z    '))&#xA;&#x9;and a11.id_periodo between @PeriodoInicialEj&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;and @PeriodoEj&#xA;&#x9;and a11.id_movimiento = 'A')&#xA;group by&#x9;a12.id_tipo_venta,&#xA;&#x9;a15.id_compania,&#xA;&#x9;a11.id_periodo&#xA;&#xA;&#xA;--Calcula objetivos totales por periodo, por compania&#xA;select  id_periodo, id_compania, sum(objetivos) total_obj&#xA;into #ObjTotalComp&#xA;from #ObjComp&#xA;group by id_periodo, id_compania&#xA;&#xA;&#xA;--Calcula % Objetivos por periodo&#xA;select oc.id_tipo_venta, oc.id_periodo, oc.id_compania, ROUND((CAST(objetivos as float)/CAST(total_obj as float)),3) porc_obj, objetivos, total_obj&#xA;into #PorcObjComp&#xA;from #ObjComp OC&#xA;&#x9;join #ObjTotalComp T&#xA;&#x9;&#x9;on (OC.id_compania = T.id_compania and OC.id_periodo = T.id_periodo)&#xA;&#xA;&#xA;--Calcula objetivos acumulados por compañia&#xA;select id_tipo_venta, id_compania, ROUND((CAST(sum(objetivos)as float)/CAST(sum(total_obj)as float)),3) porc_acumulado_obj&#xA;into #AcumObjComp&#xA;from #PorcObjComp&#xA;where ID_Periodo &gt;= @PeriodoInicialEj &#xA;&#x9;and ID_Periodo &lt;= @PeriodoEj&#xA;group by id_tipo_venta, id_compania&#xA;order by id_tipo_venta, id_compania&#xA;&#xA;&#xA;--Inserta indicadores mensuales por compañia&#xA;insert into AUX_H_INDICADORES_ESTRATEGICOS&#xA;select &#xA;&#x9;CASE&#xA;&#x9;&#x9;WHEN P.id_tipo_venta = 3 THEN 48&#xA;&#x9;&#x9;WHEN P.id_tipo_venta = 2 THEN 49&#xA;&#x9;&#x9;WHEN P.id_tipo_venta = 1 THEN 50&#xA;&#x9;END as id_indicador_estrategico,&#xA;&#x9;P.id_periodo,&#xA;&#x9;@PeriodoFinalEjAnt id_periodo_cierre_ej_ant,&#xA;&#x9;0 valor_indicador_cierre_ej_ant,&#xA;&#x9;porc_acumulado_altas valor_indicador_estrategico,&#xA;&#x9;isnull(porc_acumulado_obj,0) objetivo_presupuesto,&#xA;&#x9;porc_ind as valor_indicador_estrategico_mensual,&#xA;&#x9;isnull(porc_obj,0) objetivo_presupuesto_mensual,&#xA;&#x9;P.id_compania&#xA;from #PorcIndComp P&#xA;&#x9;join #AcumAltasComp A&#xA;&#x9;&#x9;on (P.id_compania = A.id_compania and P.id_tipo_venta = A.id_tipo_venta)&#xA;&#x9;left join #AcumObjComp O&#xA;&#x9;&#x9;on (P.id_compania = O.id_compania and P.id_tipo_venta = O.id_tipo_venta)&#xA;&#x9;left join #PorcObjComp PO&#xA;&#x9;&#x9;on (P.id_compania = PO.id_compania and P.id_tipo_venta = PO.id_tipo_venta and P.ID_Periodo = PO.ID_Periodo) &#xA;where P.id_periodo = @PeriodoEj&#xA;order by id_indicador_estrategico&#xA;&#xA;&#xA;/* VALORES TOTALES */&#xA;--Calcula altas totales mensuales&#xA;select ac.ID_Periodo, ac.id_tipo_venta, (sum(altas)) total_mensual_altas, (sum(objetivos)) total_mensual_obj&#xA;into #TotalMens&#xA;from #AltasComp AC&#xA;&#x9;join #ObjComp OC&#xA;&#x9;&#x9;on (AC.ID_Periodo = OC.ID_Periodo and AC.id_tipo_venta = OC.id_tipo_venta and AC.id_compania = OC.id_compania)&#xA;group by AC.ID_Periodo, AC.id_tipo_venta&#xA;&#xA;&#xA;--Calcula porcentajes mensuales para altas&#xA;select &#xA;&#x9;x.id_periodo, &#xA;&#x9;id_tipo_venta, &#xA;&#x9;ROUND((CAST(total_mensual_altas as float)/CAST(total_a as float)),3) porc_altas_total, &#xA;&#x9;total_a, &#xA;&#x9;total_mensual_altas,&#xA;&#x9;ROUND((CAST(total_mensual_obj as float)/CAST(total_o as float)),3) porc_obj_total, &#xA;&#x9;total_o,&#xA;&#x9;total_mensual_obj&#xA;into #PorcTotal&#xA;from (select tc.id_periodo, sum(total_altas) total_a, sum(total_obj) total_o &#xA;&#x9;&#x9;from #AltasTotalComp TC&#xA;&#x9;&#x9;join #ObjTotalComp OT&#xA;&#x9;&#x9;&#x9;on(TC.id_compania = OT.id_compania and TC.ID_Periodo = OT.ID_Periodo)&#xA;&#x9;&#x9;group by TC.id_periodo) as x&#xA;&#x9;join #TotalMens TM&#xA;&#x9;&#x9;on (x.ID_Periodo = TM.id_periodo)&#xA;&#xA;&#xA;--Calcula acumulado total&#xA;select id_tipo_venta, &#xA;&#x9;ROUND((CAST(sum(total_mensual_altas)as float)/CAST(sum(total_a)as float)),3) porc_acumulado_altas,&#xA;&#x9;ROUND((CAST(sum(total_mensual_obj)as float)/CAST(sum(total_o)as float)),3) porc_acumulado_obj&#xA;into #AcumTotal&#xA;from #PorcTotal&#xA;where ID_Periodo &gt;= @PeriodoInicialEj&#xA;&#x9;and ID_Periodo &lt;= @PeriodoEj &#xA;group by id_tipo_venta&#xA;order by id_tipo_venta&#xA;&#xA;&#xA;--Inserta indicadores totales&#xA;insert into AUX_H_INDICADORES_ESTRATEGICOS&#xA;select &#xA;&#x9;CASE&#xA;&#x9;&#x9;WHEN PA.id_tipo_venta = 3 THEN 48&#xA;&#x9;&#x9;WHEN PA.id_tipo_venta = 2 THEN 49&#xA;&#x9;&#x9;WHEN PA.id_tipo_venta = 1 THEN 50&#xA;&#x9;END as id_indicador_estrategico,&#xA;&#x9;PA.id_periodo,&#xA;&#x9;@PeriodoFinalEjAnt id_periodo_cierre_ej_ant,&#xA;&#x9;0 valor_indicador_cierre_ej_ant,&#xA;&#x9;porc_acumulado_altas valor_indicador_estrategico,&#xA;&#x9;porc_acumulado_obj objetivo_presupuesto,&#xA;&#x9;porc_altas_total as valor_indicador_estrategico_mensual,&#xA;&#x9;porc_obj_total objetivo_presupuesto_mensual,&#xA;&#x9;0 id_compania&#xA;from #PorcTotal PA&#xA;&#x9;join #AcumTotal A&#xA;&#x9;&#x9;on (PA.id_tipo_venta = A.id_tipo_venta)&#xA;where PA.id_periodo = @PeriodoEj&#xA;order by id_indicador_estrategico&#xA;&#xA;&#xA;drop table #AltasComp&#xA;drop table #AltasTotalComp&#xA;drop table #PorcIndComp&#xA;drop table #AcumAltasComp&#xA;drop table #ObjComp&#xA;drop table #TotalMens&#xA;drop table #PorcTotal&#xA;drop table #AcumTotal&#xA;drop table #ObjTotalComp&#xA;drop table #PorcObjComp&#xA;drop table #AcumObjComp&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="User::V_Periodo"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="130"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Inserta CRECIMIENTO en AUX"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tarea Ejecutar SQL"
+      DTS:DTSID="{486328EF-9701-4669-9ABD-FD17173AFEE1}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Inserta CRECIMIENTO en AUX"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{40B1FFCE-4DC1-4E73-BA3E-E7A00EC122E0}"
+          SQLTask:SqlStatementSource="Declare @PeriodoEj int set @PeriodoEj = ?&#xA;Declare @PeriodoInicialEj int = (select id_periodo from D_PERIODO where ID_EJERCICIO = (select ID_EJERCICIO from D_PERIODO where id_periodo = @PeriodoEj) and ID_MES = 7)&#xA;Declare @PeriodoFinalEjAnt int set @PeriodoFinalEjAnt = (select max(id_periodo) from D_PERIODO where vigente_comercial = 1 and id_mes=6)&#xA;&#xA;/* CRECIMIENTO */&#xA;----Calcula stock sin AMPSPmoMonot&#xA;select&#x9;a11.id_periodo  ID_Periodo,&#xA;&#x9;a16.id_compania  id_compania,&#xA;&#x9;sum(a11.comer_cant_grupo_activo)  stock&#xA;into #StockActual&#xA;from&#x9;H_COMER_STOCK_AFILIA&#x9;a11&#xA;&#x9;join&#x9;D_PERSONAS&#x9;a12&#xA;&#x9;&#x9;on &#x9;(a11.id_persona = a12.id_persona)&#xA;&#x9;join&#x9;D_LOCALIDADES_AFILIADO&#x9;a13&#xA;&#x9;&#x9;on &#x9;(a12.id_localidad_afiliado = a13.id_localidad_afiliado)&#xA;&#x9;join&#x9;D_PLANES&#x9;a14&#xA;&#x9;&#x9;on &#x9;(a11.id_plan_producto = a14.id_plan_producto and &#xA;&#x9;a11.id_producto = a14.id_producto)&#xA;&#x9;join&#x9;D_SUBRUBRO_LEY&#x9;a15&#xA;&#x9;&#x9;on &#x9;(a14.Id_SubRubro_Ley = a15.Id_SubRubro_Ley)&#xA;&#x9;join&#x9;D_RUBRO_LEY&#x9;a16&#xA;&#x9;&#x9;on &#x9;(a15.id_Rubro_Ley = a16.id_Rubro_Ley)&#xA;&#x9;join&#x9;D_PLANES_AGRUPADOS&#x9;a17&#xA;&#x9;&#x9;on &#x9;(a14.id_plan_agrupado = a17.id_plan_agrupado)&#xA;&#x9;join&#x9;D_PRODUCTOS&#x9;a18&#xA;&#x9;&#x9;on &#x9;(a11.id_producto = a18.id_producto)&#xA;where&#x9;(a18.id_clase_producto in ('S ')&#xA;&#x9;and a14.Id_SubRubro_Ley in (1, 2, 3, 5, 6, 7)&#xA;&#x9;and not ((a11.id_producto = 4 and a11.id_plan_producto = 'OS   ' and a11.subgrupo_plan = 24)&#xA;&#x9;or  (a11.id_producto=20 and a11.id_plan_producto='OS   ' and a11.subgrupo_plan=24))&#xA;&#x9;and a13.id_zona_comercial not in (0, 1, 20)&#xA;&#x9;and a17.id_plan_agrupado_S not in (84, 85, 58, 78, 29)&#xA;&#x9;and not ((a11.id_producto = 4 and a11.id_plan_producto = 'PMO  ')&#xA;&#x9;or  (a11.id_producto=16 and a11.id_plan_producto='PMO  ')&#xA;&#x9;or  (a11.id_producto=35 and a11.id_plan_producto='PMO  ')&#xA;&#x9;or  (a11.id_producto=73 and a11.id_plan_producto='PMO  ')&#xA;&#x9;or  (a11.id_producto=0 and a11.id_plan_producto='PMO  ')&#xA;&#x9;or  (a11.id_producto=76 and a11.id_plan_producto='PMO  '))&#xA;&#x9;and a11.id_producto not in (78)&#xA;&#x9;and (not (a11.id_convenio = 402725&#xA;&#x9;and a11.id_tipo_entidad_convenio = 'E'))&#xA;&#x9;and a18.id_segmento not in (3)&#xA;&#x9;and not ((a11.id_producto = 16 and a11.id_plan_producto = 'CC   ')&#xA;&#x9;or  (a11.id_producto=16 and a11.id_plan_producto='CM   ')&#xA;&#x9;or  (a11.id_producto=16 and a11.id_plan_producto='CS1  ')&#xA;&#x9;or  (a11.id_producto=16 and a11.id_plan_producto='CS100')&#xA;&#x9;or  (a11.id_producto=4 and a11.id_plan_producto='M    ')&#xA;&#x9;or  (a11.id_producto=16 and a11.id_plan_producto='M    ')&#xA;&#x9;or  (a11.id_producto=20 and a11.id_plan_producto='M    ')&#xA;&#x9;or  (a11.id_producto=14 and a11.id_plan_producto='Z    ')&#xA;&#x9;or  (a11.id_producto=20 and a11.id_plan_producto='Z    ')&#xA;&#x9;or  (a11.id_producto=1 and a11.id_plan_producto='C    ')&#xA;&#x9;or  (a11.id_producto=4 and a11.id_plan_producto='Z    '))&#xA;&#x9;and a11.id_periodo &gt;=  @PeriodoInicialEj&#xA;&#x9;and a11.id_periodo &lt;= @PeriodoEj)&#xA;group by&#x9;a11.id_periodo,&#xA;&#x9;a16.id_compania &#xA;&#xA;&#xA;----Calcula crecimiento real mensual&#xA;select act.id_compania, (act.stock_act - ant.stock_ant) crecimiento&#xA;into #Crecimiento&#xA;from (select id_compania, stock as stock_act &#xA;&#x9;  from #StockActual &#xA;&#x9;  where id_periodo = @PeriodoEj) act&#xA;&#x9;join (select id_compania, stock as stock_ant &#xA;&#x9;&#x9;  from #StockActual &#xA;&#x9;&#x9;  where id_periodo = dbo.PeriodosAnteriores(@PeriodoEj, 2)) ant&#xA;&#x9;on (act.id_compania = ant.id_compania)&#xA;&#xA;&#xA;----Calcula objetivo crecimiento proyectado mensual&#xA;select a.id_periodo, a.id_compania,(altas - bajas) obj_crecimiento&#xA;into #ObjCrecimiento&#xA;from (select id_periodo, id_compania, objetivo_presupuesto_mensual as altas &#xA;&#x9;  from AUX_H_INDICADORES_ESTRATEGICOS &#xA;&#x9;  where id_indicador_estrategico = 47 and id_periodo between @PeriodoInicialEj and @PeriodoEj) a&#xA;&#x9;join (select id_periodo, id_compania, objetivo_presupuesto_mensual as bajas &#xA;&#x9;&#x9;  from AUX_H_INDICADORES_ESTRATEGICOS &#xA;&#x9;&#x9;  where id_indicador_estrategico = 51 and id_periodo between @PeriodoInicialEj and @PeriodoEj) b&#xA;&#x9;on (a.id_compania = b.id_compania and a.id_periodo = b.id_periodo)&#xA;&#xA;&#xA;----Inserta Crecimiento real y proyectado mensual&#xA;insert into AUX_H_INDICADORES_ESTRATEGICOS&#xA;SELECT 46 id_indicador_estrategico,&#xA;&#x9;oc.id_periodo,&#xA;&#x9;@PeriodoFinalEjAnt id_periodo_cierre_ej_ant,&#xA;&#x9;0 valor_indicador_cierre_ej_ant,&#xA;&#x9;0 valor_indicador_estrategico,&#xA;&#x9;0 objetivo_presupuesto,&#xA;&#x9;crecimiento as valor_indicador_estrategico_mensual,&#xA;&#x9;obj_crecimiento objetivo_presupuesto_mensual,&#xA;&#x9;c.id_compania&#xA;FROM #ObjCrecimiento oc&#xA;&#x9;join #Crecimiento c&#xA;&#x9;&#x9;on (oc.id_compania = c.id_compania)&#xA;where oc.ID_Periodo = @PeriodoEj&#xA;&#xA;&#xA;----Calcula crecimiento real y proyectado acumulados&#xA;select H.id_compania,&#xA;    (sum(H.valor_indicador_estrategico_mensual) + max(A.valor_indicador_estrategico_mensual)) crecimiento_real_acu,&#xA;    (sum(H.objetivo_presupuesto_mensual) + max(A.objetivo_presupuesto_mensual)) crecimiento_proy_acu&#xA;into #CrecimientoAcu&#xA;from H_INDICADORES_ESTRATEGICOS H&#xA;    JOIN AUX_H_INDICADORES_ESTRATEGICOS A&#xA;     on (H.id_compania = A.id_compania and H.id_indicador_estrategico = A.id_indicador_estrategico)&#xA;where H.id_indicador_estrategico = 46&#xA;&#x9;and H.id_periodo &gt;= @PeriodoInicialEj and H.id_periodo &lt; @PeriodoEj&#xA;group by H.id_compania&#xA;&#xA;&#xA;----Actualiza crecimiento real y proy&#xA;update AUX_H_INDICADORES_ESTRATEGICOS&#xA;set valor_indicador_estrategico = crecimiento_real_acu,&#xA;&#x9;objetivo_presupuesto = crecimiento_proy_acu&#xA;from AUX_H_INDICADORES_ESTRATEGICOS hi&#xA;&#x9;join #CrecimientoAcu ca&#xA;&#x9;&#x9;on (hi.id_compania = ca.id_compania)&#xA;where id_periodo = @PeriodoEj&#xA;&#x9;and id_indicador_estrategico = 46&#xA;&#xA;&#xA;drop table #StockActual&#xA;drop table #Crecimiento&#xA;drop table #ObjCrecimiento&#xA;drop table #CrecimientoAcu&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="User::V_Periodo"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="130"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Inserta STOCK, ALTAS y BAJAS en AUX"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tarea Ejecutar SQL"
+      DTS:DTSID="{E3876D9D-3FC8-4C74-B682-5F0A1EFB5202}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Inserta STOCK, ALTAS y BAJAS en AUX"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{40B1FFCE-4DC1-4E73-BA3E-E7A00EC122E0}"
+          SQLTask:SqlStatementSource="Declare @PeriodoEj int set @PeriodoEj = ?&#xA;Declare @PeriodoInicialEj int = (select id_periodo from D_PERIODO where ID_EJERCICIO = (select ID_EJERCICIO from D_PERIODO where id_periodo = @PeriodoEj) and ID_MES = 7)&#xA;Declare @PeriodoFinalEjAnt int set @PeriodoFinalEjAnt = (select max(id_periodo) from D_PERIODO where vigente_comercial = 1 and id_mes=6)&#xA;&#xA;&#xA;/* STOCK AFILIADOS */&#xA;--Calcula Stock Afiliados por compañia&#xA;select&#x9;a14.id_compania  id_compania,&#xA;&#x9;a11.id_periodo  ID_Periodo,&#xA;&#x9;sum(a11.comer_cant_grupo_activo)  stock&#xA;into #StockAfilia&#xA;from&#x9;H_COMER_STOCK_AFILIA&#x9;a11&#xA;&#x9;join&#x9;D_PLANES&#x9;a12&#xA;&#x9;&#x9;on &#x9;(a11.id_plan_producto = a12.id_plan_producto and &#xA;&#x9;a11.id_producto = a12.id_producto)&#xA;&#x9;join&#x9;D_SUBRUBRO_LEY&#x9;a13&#xA;&#x9;&#x9;on &#x9;(a12.Id_SubRubro_Ley = a13.Id_SubRubro_Ley)&#xA;&#x9;join&#x9;D_RUBRO_LEY&#x9;a14&#xA;&#x9;&#x9;on &#x9;(a13.id_Rubro_Ley = a14.id_Rubro_Ley)&#xA;&#x9;join&#x9;D_PRODUCTOS&#x9;a15&#xA;&#x9;&#x9;on &#x9;(a11.id_producto = a15.id_producto)&#xA;&#x9;join&#x9;D_COMPANIA&#x9;a16&#xA;&#x9;&#x9;on &#x9;(a14.id_compania = a16.id_compania)&#xA;where&#x9;(a15.id_clase_producto in ('S ')&#xA;    and a12.id_SubRubro_ley not in (4)&#xA;    and not ((a11.id_producto = 16 and a11.id_plan_producto = 'CC   ')&#xA;    or  (a11.id_producto=16 and a11.id_plan_producto='CM   ')&#xA;    or  (a11.id_producto=16 and a11.id_plan_producto='CS1  ')&#xA;    or  (a11.id_producto=16 and a11.id_plan_producto='CS100')&#xA;    or  (a11.id_producto=4 and a11.id_plan_producto='M    ')&#xA;    or  (a11.id_producto=16 and a11.id_plan_producto='M    ')&#xA;    or  (a11.id_producto=20 and a11.id_plan_producto='M    ')&#xA;    or  (a11.id_producto=14 and a11.id_plan_producto='Z    ')&#xA;    or  (a11.id_producto=20 and a11.id_plan_producto='Z    ')&#xA;    or  (a11.id_producto=1 and a11.id_plan_producto='C    ')&#xA;    or  (a11.id_producto=4 and a11.id_plan_producto='Z    '))&#xA;    and a11.id_periodo = @PeriodoEj)&#xA;group by&#x9;a14.id_compania,&#xA;&#x9;a11.id_periodo&#xA;&#xA;&#xA;---Inserta stock mensual&#xA;insert into AUX_H_INDICADORES_ESTRATEGICOS&#xA;select 1,&#xA;&#x9;ID_Periodo,&#xA;&#x9;@PeriodoFinalEjAnt id_periodo_cierre_ej_ant,&#xA;&#x9;0 as valor_indicador_cierre_ej_ant,&#xA;&#x9;stock valor_indicador_estrategico,&#xA;&#x9;0 as objetivo_presupuesto,&#xA;&#x9;stock valor_indicador_estrategico_mensual,&#xA;&#x9;0 as objetivo_presupuesto_mensual,&#xA;&#x9;id_compania&#xA;from #StockAfilia&#xA;where ID_Periodo = @PeriodoEj&#xA;&#xA;&#xA;--Calcula Afiliados AMPS, PMO y Monotributistas Sociales periodo actual y anterior&#xA;select&#x9;a14.id_compania  id_compania,&#xA;&#x9;max(a16.de_compania)  de_compania,&#xA;&#x9;a11.id_periodo  ID_Periodo,&#xA;&#x9;sum(a11.comer_cant_grupo_activo)  stock_sancor&#xA;into #StockAmpsPmoMono&#xA;from&#x9;H_COMER_STOCK_AFILIA&#x9;a11&#xA;&#x9;join&#x9;D_PLANES&#x9;a12&#xA;&#x9;&#x9;on &#x9;(a11.id_plan_producto = a12.id_plan_producto and &#xA;&#x9;a11.id_producto = a12.id_producto)&#xA;&#x9;join&#x9;D_SUBRUBRO_LEY&#x9;a13&#xA;&#x9;&#x9;on &#x9;(a12.Id_SubRubro_Ley = a13.Id_SubRubro_Ley)&#xA;&#x9;join&#x9;D_RUBRO_LEY&#x9;a14&#xA;&#x9;&#x9;on &#x9;(a13.id_Rubro_Ley = a14.id_Rubro_Ley)&#xA;&#x9;join&#x9;D_PRODUCTOS&#x9;a15&#xA;&#x9;&#x9;on &#x9;(a11.id_producto = a15.id_producto)&#xA;&#x9;join&#x9;D_COMPANIA&#x9;a16&#xA;&#x9;&#x9;on &#x9;(a14.id_compania = a16.id_compania)&#xA;where&#x9;(a15.id_clase_producto in ('S ')&#xA;&#x9;and a12.Id_SubRubro_Ley not in (4)&#xA;&#x9;and not ((a11.id_producto = 16 and a11.id_plan_producto = 'CC   ')&#xA;&#x9;or  (a11.id_producto=16 and a11.id_plan_producto='CM   ')&#xA;&#x9;or  (a11.id_producto=16 and a11.id_plan_producto='CS1  ')&#xA;&#x9;or  (a11.id_producto=16 and a11.id_plan_producto='CS100')&#xA;&#x9;or  (a11.id_producto=4 and a11.id_plan_producto='M    ')&#xA;&#x9;or  (a11.id_producto=16 and a11.id_plan_producto='M    ')&#xA;&#x9;or  (a11.id_producto=20 and a11.id_plan_producto='M    ')&#xA;&#x9;or  (a11.id_producto=14 and a11.id_plan_producto='Z    ')&#xA;&#x9;or  (a11.id_producto=20 and a11.id_plan_producto='Z    ')&#xA;&#x9;or  (a11.id_producto=1 and a11.id_plan_producto='C    ')&#xA;&#x9;or  (a11.id_producto=4 and a11.id_plan_producto='Z    '))&#xA;&#x9;and (a11.id_producto = 18 or a11.id_plan_producto = 'PMO'&#xA;&#x9;&#x9;or a11.id_plan_producto = 'OS   '&#xA;&#x9;and (a11.subgrupo_plan = 24&#xA;&#x9;and a11.id_producto in (4, 20))&#xA;&#x9;and ((a11.id_plan_producto = 'OS   '&#xA;&#x9;and a11.id_producto in (4, 14, 16, 20, 22, 23, 25, 35))&#xA;&#x9;or (a11.id_plan_producto = ' OS  '&#xA;&#x9;and a11.id_producto in (4, 14, 16, 20))))&#xA;&#x9;and a11.id_periodo = @PeriodoEj)&#xA;group by&#x9;a14.id_compania,&#xA;&#x9;a11.id_periodo&#xA;&#xA;&#xA;&#xA;&#xA;/* ALTAS Y BAJAS */&#xA;--Calcula Altas&#xA;select&#x9;a11.id_periodo  ID_Periodo,&#xA;&#x9;a16.id_compania  id_compania,&#xA;&#x9;sum(a11.comer_cant_altas_genuina)  altas&#xA;into #Altas&#xA;from&#x9;H_ALTAS_GENUINAS&#x9;a11&#xA;&#x9;join&#x9;D_PERSONAS&#x9;a12&#xA;&#x9;&#x9;on &#x9;(a11.id_persona = a12.id_persona)&#xA;&#x9;join&#x9;D_LOCALIDADES_AFILIADO&#x9;a13&#xA;&#x9;&#x9;on &#x9;(a12.id_localidad_afiliado = a13.id_localidad_afiliado)&#xA;&#x9;join&#x9;D_PLANES&#x9;a14&#xA;&#x9;&#x9;on &#x9;(a11.id_plan_producto = a14.id_plan_producto and &#xA;&#x9;a11.id_producto = a14.id_producto)&#xA;&#x9;join&#x9;D_SUBRUBRO_LEY&#x9;a15&#xA;&#x9;&#x9;on &#x9;(a14.Id_SubRubro_Ley = a15.Id_SubRubro_Ley)&#xA;&#x9;join&#x9;D_RUBRO_LEY&#x9;a16&#xA;&#x9;&#x9;on &#x9;(a15.id_Rubro_Ley = a16.id_Rubro_Ley)&#xA;&#x9;join&#x9;D_PLANES_AGRUPADOS&#x9;a17&#xA;&#x9;&#x9;on &#x9;(a14.id_plan_agrupado = a17.id_plan_agrupado)&#xA;&#x9;join&#x9;D_PRODUCTOS&#x9;a18&#xA;&#x9;&#x9;on &#x9;(a14.id_producto = a18.id_producto)&#xA;where&#x9;(a18.id_clase_producto in ('S ')&#xA;&#x9;and a14.Id_SubRubro_Ley in (1, 2, 3, 5, 6, 7)&#xA;&#x9;and a13.id_zona_comercial not in (0, 1, 20)&#xA;&#x9;and a17.id_plan_agrupado_S not in (84, 85, 58, 78, 29)&#xA;&#x9;and not ((a11.id_producto = 4 and a11.id_plan_producto = 'PMO  ')&#xA;&#x9;or  (a11.id_producto=16 and a11.id_plan_producto='PMO  ')&#xA;&#x9;or  (a11.id_producto=35 and a11.id_plan_producto='PMO  ')&#xA;&#x9;or  (a11.id_producto=73 and a11.id_plan_producto='PMO  ')&#xA;&#x9;or  (a11.id_producto=0 and a11.id_plan_producto='PMO  ')&#xA;&#x9;or  (a11.id_producto=76 and a11.id_plan_producto='PMO  '))&#xA;&#x9;and a14.id_producto not in (78)&#xA;&#x9;and (not (a11.id_convenio = 402725&#xA;&#x9;and a11.id_tipo_entidad_convenio = 'E'))&#xA;&#x9;and a18.id_segmento not in (3)&#xA;&#x9;and not ((a11.id_producto = 16 and a11.id_plan_producto = 'CC   ')&#xA;&#x9;or  (a11.id_producto=16 and a11.id_plan_producto='CM   ')&#xA;&#x9;or  (a11.id_producto=16 and a11.id_plan_producto='CS1  ')&#xA;&#x9;or  (a11.id_producto=16 and a11.id_plan_producto='CS100')&#xA;&#x9;or  (a11.id_producto=4 and a11.id_plan_producto='M    ')&#xA;&#x9;or  (a11.id_producto=16 and a11.id_plan_producto='M    ')&#xA;&#x9;or  (a11.id_producto=20 and a11.id_plan_producto='M    ')&#xA;&#x9;or  (a11.id_producto=14 and a11.id_plan_producto='Z    ')&#xA;&#x9;or  (a11.id_producto=20 and a11.id_plan_producto='Z    ')&#xA;&#x9;or  (a11.id_producto=1 and a11.id_plan_producto='C    ')&#xA;&#x9;or  (a11.id_producto=4 and a11.id_plan_producto='Z    '))&#xA;&#x9;and a11.id_periodo &gt;= @PeriodoInicialEj&#xA;&#x9;and a11.id_periodo &lt;= @PeriodoEj)&#xA;group by&#x9;a11.id_periodo,&#xA;&#x9;a16.id_compania &#xA;&#xA;&#xA;---Calcula Bajas&#xA;select&#x9;a11.id_periodo  ID_Periodo,&#xA;&#x9;a16.id_compania  id_compania,&#xA;&#x9;sum(a11.comer_cant_bajas_genuina)  bajas&#xA;into #Bajas&#xA;from&#x9;H_BAJAS_GENUINAS&#x9;a11&#xA;&#x9;join&#x9;D_PERSONAS&#x9;a12&#xA;&#x9;&#x9;on &#x9;(a11.id_persona = a12.id_persona)&#xA;&#x9;join&#x9;D_LOCALIDADES_AFILIADO&#x9;a13&#xA;&#x9;&#x9;on &#x9;(a12.id_localidad_afiliado = a13.id_localidad_afiliado)&#xA;&#x9;join&#x9;D_PLANES&#x9;a14&#xA;&#x9;&#x9;on &#x9;(a11.id_plan_producto = a14.id_plan_producto and &#xA;&#x9;a11.id_producto = a14.id_producto)&#xA;&#x9;join&#x9;D_SUBRUBRO_LEY&#x9;a15&#xA;&#x9;&#x9;on &#x9;(a14.Id_SubRubro_Ley = a15.Id_SubRubro_Ley)&#xA;&#x9;join&#x9;D_RUBRO_LEY&#x9;a16&#xA;&#x9;&#x9;on &#x9;(a15.id_Rubro_Ley = a16.id_Rubro_Ley)&#xA;&#x9;join&#x9;D_PLANES_AGRUPADOS&#x9;a17&#xA;&#x9;&#x9;on &#x9;(a14.id_plan_agrupado = a17.id_plan_agrupado)&#xA;&#x9;join&#x9;D_PRODUCTOS&#x9;a18&#xA;&#x9;&#x9;on &#x9;(a14.id_producto = a18.id_producto)&#xA;where&#x9;(a18.id_clase_producto in ('S ')&#xA;&#x9;and a14.Id_SubRubro_Ley in (1, 2, 3, 5, 6, 7)&#xA;&#x9;and not ((a11.id_producto = 4 and a11.id_plan_producto = 'OS   ' and a11.subgrupo_plan = 24)&#xA;&#x9;or  (a11.id_producto=20 and a11.id_plan_producto='OS   ' and a11.subgrupo_plan=24))&#xA;&#x9;and a13.id_zona_comercial not in (0, 1, 20)&#xA;&#x9;and a17.id_plan_agrupado_S not in (84, 85, 58, 78, 29)&#xA;&#x9;and not ((a11.id_producto = 4 and a11.id_plan_producto = 'PMO  ')&#xA;&#x9;or  (a11.id_producto=16 and a11.id_plan_producto='PMO  ')&#xA;&#x9;or  (a11.id_producto=35 and a11.id_plan_producto='PMO  ')&#xA;&#x9;or  (a11.id_producto=73 and a11.id_plan_producto='PMO  ')&#xA;&#x9;or  (a11.id_producto=0 and a11.id_plan_producto='PMO  ')&#xA;&#x9;or  (a11.id_producto=76 and a11.id_plan_producto='PMO  '))&#xA;&#x9;and a14.id_producto not in (78)&#xA;&#x9;and (not (a11.id_convenio = 402725&#xA;&#x9;and a11.id_tipo_entidad_convenio = 'E'))&#xA;&#x9;and a18.id_segmento not in (3)&#xA;&#x9;and not ((a11.id_producto = 16 and a11.id_plan_producto = 'CC   ')&#xA;&#x9;or  (a11.id_producto=16 and a11.id_plan_producto='CM   ')&#xA;&#x9;or  (a11.id_producto=16 and a11.id_plan_producto='CS1  ')&#xA;&#x9;or  (a11.id_producto=16 and a11.id_plan_producto='CS100')&#xA;&#x9;or  (a11.id_producto=4 and a11.id_plan_producto='M    ')&#xA;&#x9;or  (a11.id_producto=16 and a11.id_plan_producto='M    ')&#xA;&#x9;or  (a11.id_producto=20 and a11.id_plan_producto='M    ')&#xA;&#x9;or  (a11.id_producto=14 and a11.id_plan_producto='Z    ')&#xA;&#x9;or  (a11.id_producto=20 and a11.id_plan_producto='Z    ')&#xA;&#x9;or  (a11.id_producto=1 and a11.id_plan_producto='C    ')&#xA;&#x9;or  (a11.id_producto=4 and a11.id_plan_producto='Z    '))&#xA;&#x9;and a11.id_periodo &gt;= @PeriodoInicialEj&#xA;&#x9;and a11.id_periodo &lt;= @PeriodoEj)&#xA;group by&#x9;a11.id_periodo,&#xA;&#x9;a16.id_compania &#xA;&#xA;&#xA;--Calcula altas y bajas acumuladas&#xA;select a.id_compania, sum(altas) acumulado_a, sum(bajas) acumulado_b&#xA;into #Acumulado&#xA;from #Altas A&#xA;&#x9;join #Bajas B&#xA;&#x9;&#x9;on (a.ID_Periodo = b.ID_Periodo and a.id_compania = b.id_compania)&#xA;where a.ID_Periodo &gt;= @PeriodoInicialEj&#xA;&#x9;and a.ID_Periodo &lt;= @PeriodoEj&#xA;group by a.id_compania&#xA;&#xA;&#xA;---Inserta Altas en consultas_dw.h_indicadores_estrategicos_compania&#xA;insert into AUX_H_INDICADORES_ESTRATEGICOS&#xA;select 47 id_indicador_estrategico,&#xA;&#x9;A.ID_Periodo,&#xA;&#x9;@PeriodoFinalEjAnt id_periodo_cierre_ej_ant,&#xA;&#x9;0 as valor_indicador_cierre_ej_ant,&#xA;&#x9;sum(acumulado_a) valor_indicador_estrategico,&#xA;&#x9;0 as objetivo_presupuesto,&#xA;&#x9;max(altas) as valor_indicador_estrategico_mensual,&#xA;&#x9;0 as objetivo_presupuesto_mensual,&#xA;&#x9;A.id_compania&#xA;from #Altas A&#xA;&#x9;join #Acumulado AC&#xA;&#x9;&#x9;on (AC.id_compania = A.id_compania)&#xA;where A.ID_Periodo = @PeriodoEj&#xA;group by A.ID_Periodo, A.id_compania&#xA;&#xA;&#xA;---Inserta Bajas en consultas_dw.h_indicadores_estrategicos_compania&#xA;insert into AUX_H_INDICADORES_ESTRATEGICOS&#xA;select 51 id_indicador_estrategico,&#xA;&#x9;B.ID_Periodo,&#xA;&#x9;@PeriodoFinalEjAnt id_periodo_cierre_ej_ant,&#xA;&#x9;0 as valor_indicador_cierre_ej_ant,&#xA;&#x9;(sum(acumulado_b)) valor_indicador_estrategico,&#xA;&#x9;0 as objetivo_presupuesto,&#xA;&#x9;max(bajas) as valor_indicador_estrategico_mensual,&#xA;&#x9;0 as objetivo_presupuesto_mensual,&#xA;&#x9;B.id_compania&#xA;from #Bajas B&#xA;&#x9;join #Acumulado AC&#xA;&#x9;&#x9;on (AC.id_compania = B.id_compania)&#xA;where B.ID_Periodo = @PeriodoEj&#xA;group by B.ID_Periodo, B.id_compania&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;/* OBJETIVOS ALTAS, BAJAS Y STOCK*/&#xA;--Calcula Objetivos &#xA;select&#x9;a11.id_periodo  ID_Periodo,&#xA;&#x9;a14.id_compania  id_compania,&#xA;&#x9;max(a17.de_compania)  de_compania,&#xA;&#x9;sum(a11.afiliados_objetivo)  objetivo,&#xA;&#x9;a11.id_movimiento&#xA;into #Objetivos&#xA;from&#x9;H_OBJETIVOS&#x9;a11&#xA;&#x9;join&#x9;D_PLANES&#x9;a12&#xA;&#x9;&#x9;on &#x9;(a11.id_plan_producto = a12.id_plan_producto and &#xA;&#x9;a11.id_producto = a12.id_producto)&#xA;&#x9;join&#x9;D_SUBRUBRO_LEY&#x9;a13&#xA;&#x9;&#x9;on &#x9;(a12.Id_SubRubro_Ley = a13.Id_SubRubro_Ley)&#xA;&#x9;join&#x9;D_RUBRO_LEY&#x9;a14&#xA;&#x9;&#x9;on &#x9;(a13.id_Rubro_Ley = a14.id_Rubro_Ley)&#xA;&#x9;join&#x9;D_PLANES_AGRUPADOS&#x9;a15&#xA;&#x9;&#x9;on &#x9;(a12.id_plan_agrupado = a15.id_plan_agrupado)&#xA;&#x9;join&#x9;D_PRODUCTOS&#x9;a16&#xA;&#x9;&#x9;on &#x9;(a12.id_producto = a16.id_producto)&#xA;&#x9;join&#x9;D_COMPANIA&#x9;a17&#xA;&#x9;&#x9;on &#x9;(a14.id_compania = a17.id_compania)&#xA;where&#x9;(a16.id_clase_producto in ('S ')&#xA;&#x9;and a11.id_zona_comercial not in (0, 1, 20)&#xA;&#x9;and a15.id_plan_agrupado_S not in (84, 85, 58, 78, 29)&#xA;&#x9;and not ((a11.id_producto = 4 and a11.id_plan_producto = 'PMO  ')&#xA;&#x9;or  (a11.id_producto=16 and a11.id_plan_producto='PMO  ')&#xA;&#x9;or  (a11.id_producto=35 and a11.id_plan_producto='PMO  ')&#xA;&#x9;or  (a11.id_producto=73 and a11.id_plan_producto='PMO  ')&#xA;&#x9;or  (a11.id_producto=0 and a11.id_plan_producto='PMO  ')&#xA;&#x9;or  (a11.id_producto=76 and a11.id_plan_producto='PMO  '))&#xA;&#x9;and a12.id_producto not in (78)&#xA;&#x9;and a16.id_segmento not in (3)&#xA;&#x9;and not ((a11.id_producto = 16 and a11.id_plan_producto = 'CC   ')&#xA;&#x9;or  (a11.id_producto=16 and a11.id_plan_producto='CM   ')&#xA;&#x9;or  (a11.id_producto=16 and a11.id_plan_producto='CS1  ')&#xA;&#x9;or  (a11.id_producto=16 and a11.id_plan_producto='CS100')&#xA;&#x9;or  (a11.id_producto=4 and a11.id_plan_producto='M    ')&#xA;&#x9;or  (a11.id_producto=16 and a11.id_plan_producto='M    ')&#xA;&#x9;or  (a11.id_producto=20 and a11.id_plan_producto='M    ')&#xA;&#x9;or  (a11.id_producto=14 and a11.id_plan_producto='Z    ')&#xA;&#x9;or  (a11.id_producto=20 and a11.id_plan_producto='Z    ')&#xA;&#x9;or  (a11.id_producto=1 and a11.id_plan_producto='C    ')&#xA;&#x9;or  (a11.id_producto=4 and a11.id_plan_producto='Z    '))&#xA;&#x9;and a11.id_periodo &gt;= @PeriodoInicialEj&#xA;&#x9;and a11.id_periodo &lt;= @PeriodoEj&#xA;&#x9;and a11.id_movimiento = 'A' or a11.id_movimiento = 'B' or a11.id_movimiento = 'S')&#xA;group by&#x9;a11.id_periodo,&#xA;&#x9;a14.id_compania, a11.id_movimiento&#xA;&#xA;&#xA;--Actualiza objetivo mensual de altas, bajas y stock&#xA;update AUX_H_INDICADORES_ESTRATEGICOS&#xA;set objetivo_presupuesto_mensual = objetivo&#xA;from AUX_H_INDICADORES_ESTRATEGICOS HI&#xA;&#x9;join #Objetivos O&#xA;&#x9;&#x9;on (O.id_compania = HI.id_compania and O.ID_Periodo = HI.id_periodo)&#xA;where id_indicador_estrategico = (CASE&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN id_movimiento = 'S' THEN 1&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN id_movimiento = 'A' THEN 47&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN id_movimiento = 'B' THEN 51&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  END)&#xA;&#x9;and o.id_periodo = @PeriodoEj&#xA;&#xA;&#xA;--Actualiza objetivo stock para Sancor (suma Amps-PMO-Monot) y Staff&#xA;update AUX_H_INDICADORES_ESTRATEGICOS&#xA;set objetivo_presupuesto = (CASE&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN o.id_compania = 1 THEN (o.objetivo + sa.stock_sancor)&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN o.id_compania = 2 THEN o.objetivo&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;END),&#xA;&#x9;objetivo_presupuesto_mensual = (CASE&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN o.id_compania = 1 THEN (o.objetivo + sa.stock_sancor)&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN o.id_compania = 2 THEN o.objetivo&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;END)&#xA;from AUX_H_INDICADORES_ESTRATEGICOS HI &#xA;&#x9;join #Objetivos O&#xA;&#x9;&#x9;on (hi.id_periodo = o.id_periodo and hi.id_compania = o.id_compania)&#xA;&#x9;join&#x9;#StockAmpsPmoMono sa&#xA;&#x9;&#x9;on&#x9;(hi.id_periodo = sa.id_periodo)&#xA;where id_indicador_estrategico = 1&#xA;&#x9;and hi.id_periodo = @PeriodoEj&#xA;&#x9;and id_movimiento = 'S'&#xA;&#xA;&#xA;--Calcula objetivo acumulado altas y bajas&#xA;select id_compania, sum(objetivo) acumulado, id_movimiento&#xA;into #ObjAcumulado&#xA;from #Objetivos &#xA;where ID_Periodo &gt;= @PeriodoInicialEj&#xA;&#x9;and ID_Periodo &lt;= @PeriodoEj&#xA;&#x9;and id_movimiento in ('A','B')&#xA;group by id_compania, id_movimiento&#xA;&#xA;&#x9;&#xA;--Actualiza objetivo altas y bajas total&#xA;update AUX_H_INDICADORES_ESTRATEGICOS&#xA;set objetivo_presupuesto =  acumulado&#xA;from AUX_H_INDICADORES_ESTRATEGICOS HI&#xA;&#x9;join #ObjAcumulado AC&#xA;&#x9;&#x9;on (AC.id_compania = HI.id_compania)&#xA;where HI.ID_Periodo = @PeriodoEj&#xA;&#x9;and id_indicador_estrategico = (CASE&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN id_movimiento = 'A' THEN 47&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN id_movimiento = 'B' THEN 51&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;    END)&#xA;&#xA;&#xA;drop table #StockAfilia&#xA;drop table #StockAmpsPmoMono&#xA;drop table #Altas&#xA;drop table #Bajas&#xA;drop table #Acumulado&#xA;drop table #Objetivos&#xA;drop table #ObjAcumulado" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="User::V_Periodo"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="130"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Obtiene Periodo"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tarea Ejecutar SQL"
+      DTS:DTSID="{61C02569-9C5A-4B2A-95D8-BBE0CDBA3AA0}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Obtiene Periodo"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{40B1FFCE-4DC1-4E73-BA3E-E7A00EC122E0}"
+          SQLTask:SqlStatementSource="select top 1 H.id_periodo from D_PERIODO H where H.vigente_comercial=1 group by  H.id_periodo order by H.id_periodo desc"
+          SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="id_periodo"
+            SQLTask:DtsVariableName="User::V_Periodo" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{2DED3BB0-9CCA-4709-AA5D-15D6EFF46221}"
+      DTS:From="Package\Obtiene Periodo"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Inserta STOCK, ALTAS y BAJAS en AUX" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{CD44B98C-838C-44B4-8092-1ABD1762F8E0}"
+      DTS:From="Package\Inserta STOCK, ALTAS y BAJAS en AUX"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Inserta CRECIMIENTO en AUX" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{F5D32F92-8A85-42B8-A2D6-A88B90DECD17}"
+      DTS:From="Package\Inserta CRECIMIENTO en AUX"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Inserta ALTAS GRUPOS AFINIDAD, INDIVIDUAL y LINEA EMPRESA en AUX" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
+      DTS:CreationName=""
+      DTS:DTSID="{1412CC80-85F0-43DA-8B64-83EAF4208159}"
+      DTS:From="Package\Inserta ALTAS GRUPOS AFINIDAD, INDIVIDUAL y LINEA EMPRESA en AUX"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 4"
+      DTS:To="Package\Actualiza totales (compañía 0) y valor_indicador_cierre_ej_ant para todos los indicadores automatizados en AUX" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="628,42"
+          Id="Package\Actualiza totales (compañía 0) y valor_indicador_cierre_ej_ant para todos los indicadores automatizados en AUX"
+          TopLeft="64.866666666667,433.5" />
+        <NodeLayout
+          Size="464,42"
+          Id="Package\Inserta ALTAS GRUPOS AFINIDAD, INDIVIDUAL y LINEA EMPRESA en AUX"
+          TopLeft="146.866666666667,351.1" />
+        <NodeLayout
+          Size="233,42"
+          Id="Package\Inserta CRECIMIENTO en AUX"
+          TopLeft="262.366666666667,268.7" />
+        <NodeLayout
+          Size="281,42"
+          Id="Package\Inserta STOCK, ALTAS y BAJAS en AUX"
+          TopLeft="238.366666666667,186.3" />
+        <NodeLayout
+          Size="158,42"
+          Id="Package\Obtiene Periodo"
+          TopLeft="299.866666666667,103.9" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="378.866666666667,145.9">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,40.4"
+              Start="0,0"
+              End="0,32.9">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,32.9" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="378.866666666667,228.3">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,40.4"
+              Start="0,0"
+              End="0,32.9">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,32.9" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="378.866666666667,310.7">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,40.4"
+              Start="0,0"
+              End="0,32.9">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,32.9" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="378.866666666667,393.1">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,40.4"
+              Start="0,0"
+              End="0,32.9">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,32.9" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

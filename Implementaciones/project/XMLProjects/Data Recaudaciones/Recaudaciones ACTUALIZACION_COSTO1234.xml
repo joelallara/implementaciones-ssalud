@@ -1,0 +1,454 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/19/2016 3:32:59 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AMS06X"
+  DTS:CreatorName="AMS\nborio"
+  DTS:DTSID="{66A4CE79-736E-4759-8EE2-48DEAE080471}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="Recaudaciones ACTUALIZACION_COSTO1234"
+  DTS:PackageType="5"
+  DTS:VersionBuild="45"
+  DTS:VersionGUID="{A29485FE-CBE8-453A-98D4-DE19763CD0F6}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{B7583A57-7DB1-4572-BAF8-594FD80A458A}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{B7583A57-7DB1-4572-BAF8-594FD80A458A}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza Costo 1"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{C4410C9D-1B54-4148-A830-1CC1D831C0A6}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza Costo 1"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{E98BA7A5-A37B-425A-9974-434BB6F83FD9}"
+          SQLTask:SqlStatementSource="DECLARE @Periodo INT&#xA;SET @Periodo = (Select MAX(id_periodo) from AUX_PERIODO_MES_BORRA)&#xA;&#xA;UPDATE H_RECAUDACION_DETALLE&#xA;SET rcosto1 = 1&#xA;from&#x9;H_RECAUDACION_DETALLE&#x9;a11&#xA;&#x9;join&#x9;D_PLANES&#x9;a12&#xA;&#x9;  on &#x9;(a11.id_plan_producto = a12.id_plan_producto and &#xA;&#x9;a11.id_producto = a12.id_producto)&#xA;&#x9;join&#x9;D_PRODUCTOS&#x9;a13&#xA;&#x9;  on &#x9;(a12.id_producto = a13.id_producto)&#xA;where&#x9;(a11.id_origen_recaudacion not in (17, 18, 19, 20, 21, 22, 24, 25, 26, 29, 30)&#xA;-- AND NOT EXISTS (SELECT * FROM FILTRO_PLAN_PRODUCTO a14 WHERE a11.id_producto=a14.id_producto and a11.id_plan_producto=a14.id_plan_producto)&#xA; AND a13.id_segmento not in (3)&#xA; AND a12.id_subrubro_ley in (1, 2, 3, 5, 6, 7)&#xA; AND a11.id_periodo = @Periodo)&#xA;&#xA;UPDATE H_RECAUDACION_DETALLE&#xA;SET rcosto1 = 0&#xA;WHERE rcosto1 IS NULL and id_periodo = @Periodo&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza Costo 2"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{BF075D33-625A-4724-AE22-D88AD67140FE}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza Costo 2"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{E98BA7A5-A37B-425A-9974-434BB6F83FD9}"
+          SQLTask:SqlStatementSource="DECLARE @Periodo INT&#xA;SET @Periodo = (Select MAX(id_periodo) from AUX_PERIODO_MES_BORRA)&#xA;&#xA;UPDATE H_RECAUDACION_DETALLE&#xA;SET rcosto2 = 1&#xA;from&#x9;H_RECAUDACION_DETALLE&#x9;a11&#xA;&#x9;join&#x9;D_PLANES&#x9;a12&#xA;&#x9;  on &#x9;(a11.id_plan_producto = a12.id_plan_producto and &#xA;&#x9;a11.id_producto = a12.id_producto)&#xA;&#x9;join&#x9;D_PRODUCTOS&#x9;a13&#xA;&#x9;  on &#x9;(a12.id_producto = a13.id_producto)&#xA;where -- NOT EXISTS (SELECT * FROM FILTRO_PLAN_PRODUCTO a14 WHERE a11.id_producto=a14.id_producto and a11.id_plan_producto=a14.id_plan_producto)&#xA; a13.id_segmento not in (3)&#xA; and a12.id_subrubro_ley in (1, 2, 3, 5, 6, 7)&#xA; and a13.Id_Clase_Producto in ('S ')&#xA; and a11.id_origen_recaudacion not in (18, 29, 30, 17)&#xA; and a11.id_periodo = @Periodo&#xA; &#xA;UPDATE H_RECAUDACION_DETALLE&#xA;SET rcosto2 = 0&#xA;WHERE rcosto2 IS NULL AND id_periodo = @Periodo" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza Costo 3"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{A162499A-C083-472A-9E57-E1204EE81051}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza Costo 3"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{E98BA7A5-A37B-425A-9974-434BB6F83FD9}"
+          SQLTask:SqlStatementSource="DECLARE @Periodo INT&#xA;SET @Periodo =(Select MAX(id_periodo) from AUX_PERIODO_MES_BORRA)&#xA;&#xA;UPDATE H_RECAUDACION_DETALLE&#xA;SET rcosto3 = 1 &#xA;from&#x9;H_RECAUDACION_DETALLE&#x9;a11&#xA;&#x9;join&#x9;D_PLANES&#x9;a12&#xA;&#x9;  on &#x9;(a11.id_plan_producto = a12.id_plan_producto and &#xA;&#x9;a11.id_producto = a12.id_producto)&#xA;&#x9;join&#x9;D_PRODUCTOS&#x9;a13&#xA;&#x9;  on &#x9;(a12.id_producto = a13.id_producto)&#xA;where --NOT EXISTS (SELECT * FROM FILTRO_PLAN_PRODUCTO a14 WHERE a11.id_producto=a14.id_producto and a11.id_plan_producto=a14.id_plan_producto)&#xA; a13.id_segmento not in (3)&#xA; and a11.id_periodo = @Periodo&#xA; and ((a13.Id_Clase_Producto in ('G ')&#xA; and a11.id_origen_recaudacion not in (18, 29)&#xA; and not ((a11.id_producto = 5 and a11.id_plan_producto = 'S10  ')&#xA;   or  (a11.id_producto=5 and a11.id_plan_producto='S10-C')&#xA;   or  (a11.id_producto=5 and a11.id_plan_producto='S10-S')&#xA;   or  (a11.id_producto=10 and a11.id_plan_producto='S10  ')&#xA;   or  (a11.id_producto=13 and a11.id_plan_producto='S10  ')&#xA;   or  (a11.id_producto=1 and a11.id_plan_producto='S10  ')&#xA;   or  (a11.id_producto=34 and a11.id_plan_producto='S10  ')&#xA;   or  (a11.id_producto=34 and a11.id_plan_producto='S10-C')&#xA;   or  (a11.id_producto=34 and a11.id_plan_producto='S10-S')&#xA;   or  (a11.id_producto=5 and a11.id_plan_producto='S20  ')&#xA;   or  (a11.id_producto=5 and a11.id_plan_producto='S20-C')&#xA;   or  (a11.id_producto=5 and a11.id_plan_producto='S20-S')&#xA;   or  (a11.id_producto=34 and a11.id_plan_producto='S20  ')&#xA;   or  (a11.id_producto=34 and a11.id_plan_producto='S20-C')&#xA;   or  (a11.id_producto=34 and a11.id_plan_producto='S20-S'))&#xA;   and exists (SELECT id_periodo, id_persona FROM H_COMER_STOCK_AFILIA S WHERE S.id_periodo=a11.id_periodo AND S.id_persona=a11.id_persona)))&#xA; &#xA; &#xA;UPDATE H_RECAUDACION_DETALLE&#xA;SET rcosto3 = 1 &#xA;where id_origen_recaudacion in (30) &#xA;and id_periodo = @Periodo&#xA; &#xA;UPDATE H_RECAUDACION_DETALLE&#xA;SET rcosto3 = 1 &#xA;From H_RECAUDACION_DETALLE&#x9;a11&#xA;&#x9;join&#x9;D_PLANES&#x9;a12&#xA;&#x9;  on &#x9;(a11.id_plan_producto = a12.id_plan_producto and &#xA;&#x9;a11.id_producto = a12.id_producto)&#xA;&#x9;join&#x9;D_PRODUCTOS&#x9;a13&#xA;&#x9;  on &#x9;(a12.id_producto = a13.id_producto)&#xA;where (a12.id_subrubro_ley in (1, 2, 3, 5, 6, 7)&#xA; and a13.Id_Clase_Producto in ('S ')&#xA; and a11.id_origen_recaudacion not in (18, 29, 17, 30))&#xA; and a11.id_periodo = @Periodo&#xA;  &#xA;UPDATE H_RECAUDACION_DETALLE&#xA;SET rcosto3 = 1 &#xA;From H_RECAUDACION_DETALLE&#x9;a11&#xA;&#x9;join&#x9;D_PRODUCTOS&#x9;a13&#xA;&#x9;  on &#x9;(a11.id_producto = a13.id_producto)&#xA;where a13.Id_Clase_Producto in ('U')and id_periodo = @Periodo &#xA; &#xA;&#xA;UPDATE H_RECAUDACION_DETALLE&#xA;SET rcosto3 = 0&#xA;WHERE rcosto3 is null and id_periodo = @Periodo&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza Costo 4"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{EB0B554A-0819-4761-B00D-5823B4F22E2F}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza Costo 4"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{E98BA7A5-A37B-425A-9974-434BB6F83FD9}"
+          SQLTask:SqlStatementSource="DECLARE @Periodo INT&#xA;SET @Periodo = (Select MAX(id_periodo) from AUX_PERIODO_MES_BORRA)&#xA;&#xA;UPDATE H_RECAUDACION_DETALLE&#xA;SET rcosto4 = 1 &#xA;from&#x9;H_RECAUDACION_DETALLE&#x9;a11&#xA;&#x9;join&#x9;D_PLANES&#x9;a12&#xA;&#x9;  on &#x9;(a11.id_plan_producto = a12.id_plan_producto and &#xA;&#x9;a11.id_producto = a12.id_producto)&#xA;&#x9;join&#x9;D_PRODUCTOS&#x9;a13&#xA;&#x9;  on &#x9;(a12.id_producto = a13.id_producto)&#xA;where --NOT EXISTS (SELECT * FROM FILTRO_PLAN_PRODUCTO a14 WHERE a11.id_producto=a14.id_producto and a11.id_plan_producto=a14.id_plan_producto)&#xA; a13.id_segmento not in (3)&#xA; and a11.id_periodo = @Periodo&#xA; and ((a13.Id_Clase_Producto in ('G ')&#xA; and a11.id_origen_recaudacion not in (18, 29)&#xA; and not ((a11.id_producto = 5 and a11.id_plan_producto = 'S10  ')&#xA;   or  (a11.id_producto=5 and a11.id_plan_producto='S10-C')&#xA;   or  (a11.id_producto=5 and a11.id_plan_producto='S10-S')&#xA;   or  (a11.id_producto=10 and a11.id_plan_producto='S10  ')&#xA;   or  (a11.id_producto=13 and a11.id_plan_producto='S10  ')&#xA;   or  (a11.id_producto=1 and a11.id_plan_producto='S10  ')&#xA;   or  (a11.id_producto=34 and a11.id_plan_producto='S10  ')&#xA;   or  (a11.id_producto=34 and a11.id_plan_producto='S10-C')&#xA;   or  (a11.id_producto=34 and a11.id_plan_producto='S10-S')&#xA;   or  (a11.id_producto=5 and a11.id_plan_producto='S20  ')&#xA;   or  (a11.id_producto=5 and a11.id_plan_producto='S20-C')&#xA;   or  (a11.id_producto=5 and a11.id_plan_producto='S20-S')&#xA;   or  (a11.id_producto=34 and a11.id_plan_producto='S20  ')&#xA;   or  (a11.id_producto=34 and a11.id_plan_producto='S20-C')&#xA;   or  (a11.id_producto=34 and a11.id_plan_producto='S20-S'))&#xA;   and exists (SELECT id_periodo, id_persona FROM H_COMER_STOCK_AFILIA S WHERE S.id_periodo=a11.id_periodo AND S.id_persona=a11.id_persona)))&#xA; &#xA; &#xA;UPDATE H_RECAUDACION_DETALLE&#xA;SET rcosto4 = 1 &#xA;where id_origen_recaudacion in (30, 29)&#xA;and id_periodo = @Periodo&#xA;  &#xA; &#xA;UPDATE H_RECAUDACION_DETALLE&#xA;SET rcosto4 = 1 &#xA;From H_RECAUDACION_DETALLE&#x9;a11&#xA;&#x9;join&#x9;D_PLANES&#x9;a12&#xA;&#x9;  on &#x9;(a11.id_plan_producto = a12.id_plan_producto and &#xA;&#x9;a11.id_producto = a12.id_producto)&#xA;&#x9;join&#x9;D_PRODUCTOS&#x9;a13&#xA;&#x9;  on &#x9;(a12.id_producto = a13.id_producto)&#xA;where (a12.id_subrubro_ley in (1, 2, 3, 5, 6, 7)&#xA; and a13.Id_Clase_Producto in ('S ')&#xA; and a11.id_origen_recaudacion not in (18, 29, 17, 30))&#xA;and a11.id_periodo = @Periodo&#xA; &#xA; &#xA;UPDATE H_RECAUDACION_DETALLE&#xA;SET rcosto4 = 1 &#xA;From H_RECAUDACION_DETALLE&#x9;a11&#xA;&#x9;join&#x9;D_PRODUCTOS&#x9;a13&#xA;&#x9;  on &#x9;(a11.id_producto = a13.id_producto)&#xA;where a13.Id_Clase_Producto in ('U')&#xA;and a11.id_periodo = @Periodo&#xA; &#xA;&#xA;Update H_RECAUDACION_DETALLE&#xA;Set rcosto4 = 0&#xA;Where rcosto4 is null and id_periodo = @Periodo&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza Grilla"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{9316374F-504C-4C3F-B3F1-B6324C1A89F3}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza Grilla"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{E98BA7A5-A37B-425A-9974-434BB6F83FD9}"
+          SQLTask:SqlStatementSource="DECLARE @Periodo INT&#xA;Set @Periodo = (Select max(id_periodo) from AUX_PERIODO_MES_BORRA)&#xA;&#xA;UPDATE H_RECAUDACION_DETALLE&#xA;SET grilla_original = grilla&#xA;WHERE id_periodo = @Periodo&#xA;&#xA;--RECAUDACION&#xA;-- Busco las personas que tengan supra y las inserto en la temporal&#xA;Select R.afiliado, R.id_persona Into #AfiliadoPersona&#xA;From H_RECAUDACION_DETALLE R Inner join D_PRODUCTOS P On (R.id_producto_original=P.id_producto)&#xA;Where P.id_clase_producto IN ('G', 'U') and id_periodo = @Periodo and rcosto3 = 1&#xA;Group by R.afiliado, R.id_persona&#xA;&#xA;-- Busco los productos de Salud para los registros obtenidos anteriormente&#xA;Select R.afiliado, R.id_persona, R.id_producto_original, R.id_subproducto_original, R.id_plan_producto_original, R.grilla Into #CuentasSalud&#xA;From H_RECAUDACION_DETALLE R Inner join D_PRODUCTOS P On (R.id_producto_original=P.id_producto)&#xA;Inner join #AfiliadoPersona A On (R.afiliado=A.afiliado and R.id_persona=A.id_persona)&#xA;Where P.id_clase_producto IN ('S') and id_periodo = @Periodo&#xA;Group by R.afiliado, R.id_persona, R.id_producto_original, R.id_subproducto_original, R.id_plan_producto_original, R.grilla &#xA;&#xA;-- Actualizo producto, subproducto y plan con los datos obtenidos en el paso anterior.&#xA;Update H_RECAUDACION_DETALLE&#xA;Set grilla = C.grilla&#xA;From H_RECAUDACION_DETALLE R &#xA;Inner join #CuentasSalud C On (R.afiliado=C.afiliado and R.id_persona=C.id_persona and R.id_plan_producto=C.id_plan_producto_original and R.id_producto=C.id_producto_original)&#xA;Inner join D_PRODUCTOS P On (R.id_producto_original=P.id_producto)&#xA;Where R.id_periodo = @Periodo AND P.id_clase_producto IN ('G', 'U')&#xA;&#xA;&#xA;-- Buscamos incosistencias que se dan por las personas que no tienen salud, pero que no llego recaudacion por el planb de salud&#xA;Select id_persona into #NoActualizado&#xA;from H_RECAUDACION_DETALLE R where not exists (select id_producto,id_plan_producto,grilla from D_GRILLAS G where (R.grilla=G.grilla and R.id_producto=G.id_producto and R.id_plan_producto=G.id_plan_producto))&#xA;and rcosto3 = 1 and R.id_periodo = @Periodo&#xA;group by id_persona, afiliado&#xA;&#xA;&#xA;-- buscamos del stock la grilla de salud que se corresponde para ese afiliado y plan&#xA;Select R.id_persona, R.id_plan_producto, R.grilla Into #Datos&#xA;From H_COMER_STOCK_AFILIA R Inner join #NoActualizado A On (R.id_persona=A.id_persona)&#xA;Where id_periodo = @Periodo&#xA;Group by R.afiliado, R.id_plan_producto, R.id_persona, R.grilla&#xA;&#xA;Update H_RECAUDACION_DETALLE&#xA;Set grilla = C.grilla&#xA;From H_RECAUDACION_DETALLE R &#xA;Inner join #Datos C On (R.id_persona=C.id_persona and R.id_plan_producto=C.id_plan_producto)&#xA;Inner join D_PRODUCTOS P On (R.id_producto_original=P.id_producto)&#xA;Where R.id_periodo = @Periodo AND P.id_clase_producto IN ('G', 'U')&#xA;&#xA;&#xA;DROP TABLE #AfiliadoPersona&#xA;DROP TABLE #CuentasSalud&#xA;drop table #NoActualizado&#xA;drop table #Datos" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza Plan, Producto, Subproducto"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{9FADA19F-6AA4-4951-B318-392B06E82270}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza Plan, Producto, Subproducto"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{E98BA7A5-A37B-425A-9974-434BB6F83FD9}"
+          SQLTask:SqlStatementSource="DECLARE @Periodo INT&#xA;Set @Periodo = (Select MAX(id_periodo) from AUX_PERIODO_MES_BORRA)&#xA;&#xA;----- Actualiza el id_producto, id_plan producto y id_subproducto original que viene en el txt. &#xA;----- Se agrego la condición que actualice solo cuando el mismo esta null, para que no pise la info en caso de reproceso.&#xA;UPDATE H_RECAUDACION_DETALLE&#xA;SET id_producto_original = id_producto,&#xA;&#x9;id_subproducto_original = id_subproducto,&#xA;&#x9;id_plan_producto_original = id_plan_producto&#xA;Where id_periodo = @Periodo&#xA;and (id_producto_original is null or id_subproducto_original is null or  id_plan_producto_original is null)&#xA;&#xA;&#xA;--RECAUDACION&#xA;-- Busco las personas que tengan supra y las inserto en la temporal&#xA;Select R.afiliado, R.id_persona Into #AfiliadoPersona&#xA;From H_RECAUDACION_DETALLE R Inner join D_PRODUCTOS P On (R.id_producto=P.id_producto)&#xA;Where P.id_clase_producto IN ('G', 'U') and id_periodo = @Periodo and rcosto3 = 1&#xA;Group by R.afiliado, R.id_persona&#xA;&#xA;-- Busco los productos de Salud para los registros obtenidos anteriormente&#xA;Select R.afiliado, R.id_persona, R.id_producto, R.id_subproducto, R.id_plan_producto Into #CuentasSalud&#xA;From H_RECAUDACION_DETALLE R Inner join D_PRODUCTOS P On (R.id_producto=P.id_producto)&#xA;Inner join #AfiliadoPersona A On (R.afiliado=A.afiliado and R.id_persona=A.id_persona)&#xA;Where P.id_clase_producto IN ('S') and R.id_producto &lt;&gt; 18 and id_periodo = @Periodo&#xA;Group by R.afiliado, R.id_persona, R.id_producto, R.id_subproducto, R.id_plan_producto &#xA;&#xA;-- Actualizo producto, subproducto y plan con los datos obtenidos en el paso anterior.&#xA;Update H_RECAUDACION_DETALLE&#xA;Set id_producto = C.id_producto,&#xA;&#x9;id_subproducto = C.id_subproducto,&#xA;&#x9;id_plan_producto = C.id_plan_producto&#xA;From H_RECAUDACION_DETALLE R &#xA;Inner join #CuentasSalud C On (R.afiliado=C.afiliado and R.id_persona=C.id_persona)&#xA;Inner join D_PRODUCTOS P On (R.id_producto=P.id_producto)&#xA;Where R.id_periodo = @Periodo AND P.id_clase_producto IN ('G', 'U') and R.rcosto3 = 1&#xA;&#xA;&#xA;-- Las personas que me quedaron sin actualizar, porque tenia salud en ese periodo, pero no con ese afiliado, las actualizo aca.&#xA;Select id_periodo, id_persona, id_producto = NULL, id_subproducto = NULL, id_plan_producto = NULL INTO #Personas &#xA;from H_RECAUDACION_DETALLE H INNER JOIN D_PRODUCTOS P ON (H.id_producto=P.id_producto) where id_periodo = @Periodo and rcosto3 = 1 and P.id_clase_producto IN ('G', 'U')&#xA;&#xA;Alter table #Personas alter column id_plan_producto CHAR(5)&#xA;&#xA;UPDATE #Personas&#xA;SET id_producto = S.id_producto,&#xA;&#x9;id_subproducto = S.id_subproducto,&#xA;&#x9;id_plan_producto = S.id_plan_producto&#xA;from H_COMER_STOCK_AFILIA S INNER JOIN #Personas P on (S.id_persona=P.id_persona)&#xA;WHERE P.id_producto IS NULL and S.id_producto &lt;&gt; 18&#xA;&#xA;&#xA;&#xA;UPDATE H_RECAUDACION_DETALLE&#xA;SET id_producto = T.id_producto,&#xA;&#x9;id_subproducto = T.id_subproducto,&#xA;&#x9;id_plan_producto = T.id_plan_producto&#xA;From H_RECAUDACION_DETALLE H inner join #Personas T on (H.id_persona=T.id_persona and H.id_periodo=T.id_periodo)&#xA;inner join D_PRODUCTOS P on (H.id_producto=P.id_producto)&#xA;where P.id_clase_producto in ('G', 'U') AND H.id_periodo = @Periodo and T.id_producto is not null&#xA;&#xA;&#xA;Drop table #Personas&#xA;DROP TABLE #AfiliadoPersona&#xA;DROP TABLE #CuentasSalud" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Actualizo H_RECAUDACION_DETALLE"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{89DFF94F-8F79-4192-A7A4-5E0C6E672A25}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualizo H_RECAUDACION_DETALLE"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{E98BA7A5-A37B-425A-9974-434BB6F83FD9}"
+          SQLTask:SqlStatementSource="---- Para Actualizar el campo id_periodo_consumo_M    para el Data de Recaudaciones, siempre se registra el periodo anterior al que procesamos&#xA;---- Se declara en la Varible el periodo Anterior, restandole un periodo al de la AUX_PERIODO_MES_BORRA (periodo que procesamos).&#xA;Declare @Periodo int, @Periodo_Anterior int&#xA;&#xA;Set @Periodo = (select MAX(id_periodo) from AUX_PERIODO_MES_BORRA)&#xA;&#xA;Set @Periodo_Anterior = (dbo.PeriodosAnteriores(@Periodo, 2))&#xA;&#xA;---- Actualizamos el id_periodo_consumo_M con el periodo Anterior al que actualmente estamos procesando para Data Recaudaciones.&#xA;&#xA;update H_RECAUDACION_DETALLE set id_periodo_consumo_M = @Periodo_Anterior&#xA;from H_RECAUDACION_DETALLE&#xA;where id_periodo = @Periodo" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Agrego Origen 30"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{F3B0859E-F27A-4D23-A306-FBEE5A3388C3}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Agrego Origen 30"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{E98BA7A5-A37B-425A-9974-434BB6F83FD9}"
+          SQLTask:SqlStatementSource="DECLARE @PERIODO INT&#xA;SET @PERIODO = (select max(id_periodo) from AUX_PERIODO_MES_BORRA)&#xA;&#xA;--borramos lo que exista de origen 30 para el periodo a procesar&#xA;DELETE H_RECAUDACION_DETALLE WHERE id_periodo = @Periodo and id_origen_recaudacion = 30&#xA;&#xA;-- Inserta en tabla temporal de acuerdo al origen de recaudacion. Una para 17 y otra para 18.&#xA;Select distinct afiliado into #ori17 from H_RECAUDACION_DETALLE where id_origen_recaudacion = 17 and id_persona &lt;&gt; 0 and id_periodo = @PERIODO&#xA;Select distinct afiliado into #ori18 from H_RECAUDACION_DETALLE where id_origen_recaudacion = 18 and id_persona &lt;&gt; 0 and id_periodo = @PERIODO&#xA;&#xA;-- Inserta en la tabla auxiliar los afiliados que tienen origen 17 y tambien 18.&#xA;Select afiliado, null AS Cantidad, null as Total &#xA;into #AFILIADO_ORIGEN_30&#xA;from #ori17 where afiliado in (select afiliado from #ori18) &#xA;&#xA;-- Actualiza el total de recaudacion para cada afiliado de la tabla Auxiliar.&#xA;Update #AFILIADO_ORIGEN_30&#xA;Set total = sumTotal &#xA;from #AFILIADO_ORIGEN_30 A inner join (Select afiliado, SUM(total_recaudacion) As sumTotal &#xA;from H_RECAUDACION_DETALLE Where id_periodo = @PERIODO and id_origen_recaudacion = 17 and id_persona &lt;&gt; 0&#xA;Group by afiliado) As H on (H.afiliado=A.afiliado)&#xA;&#xA;-- Actualiza la cantidad de personas para cada afiliado de la tabla Auxiliar.&#xA;Update #AFILIADO_ORIGEN_30&#xA;Set cantidad = cantTotal &#xA;from #AFILIADO_ORIGEN_30 A inner join (Select afiliado, COUNT(DISTINCT id_persona) As cantTotal &#xA;From H_RECAUDACION_DETALLE Where id_periodo = @PERIODO and id_origen_recaudacion = 18 and id_persona &lt;&gt; 0 &#xA;Group by afiliado) As H on (H.afiliado=A.afiliado)&#xA;&#xA;-- Inserta en la tabla de recaudacion los datos actualizados en la tabla auxiliar.&#xA;-- Relacionado por afiliado e insertando con origen 30 y costo3 y costo4 = 1.&#xA;-- El total de recaudacion con el calculo realizado sobre el total/cantidad de integrantes.&#xA;SELECT [id_periodo]&#xA;      ,H.[afiliado]&#xA;      ,[subnumero]&#xA;      ,[secuencia]&#xA;      ,[id_persona]&#xA;      ,30 as origen_recaudacion&#xA;      ,[id_producto]&#xA;      ,[id_subproducto]&#xA;      ,[id_plan_producto]&#xA;      ,[id_entidad]&#xA;      ,[id_localidad]&#xA;      ,[edad_actual]&#xA;      ,(A.Total/A.Cantidad)&#x9;total_recaudacion&#xA;      ,[grilla]&#xA;      ,[fecha_ingreso_segmento]&#xA;      ,[fecha_ingreso_salud]&#xA;      ,[id_categoria]&#xA;      ,[id_empresa_recaudacion]&#xA;      ,[Id_Tipo_Entidad_recaudacion]&#xA;      ,NULL as id_rango_edad_rec&#xA;  INTO #AUX_RECAUDACION_ORIGEN_30&#xA;  FROM [H_RECAUDACION_DETALLE] H INNER JOIN #AFILIADO_ORIGEN_30 A&#xA;  ON (H.afiliado=A.afiliado)&#xA; where id_origen_recaudacion = 18 and id_periodo = @PERIODO and id_persona &lt;&gt; 0&#xA;&#xA;/* Actualiza el rango de edad en AUX_RECAUDACION_ORIGEN_30. */&#xA;&#xA;UPDATE #AUX_RECAUDACION_ORIGEN_30&#xA;    set id_rango_edad_rec = case&#xA;      WHEN edad_actual between 0 and 1 THEN 1&#xA;      WHEN edad_actual between 2 and 18 THEN 2&#xA;      WHEN edad_actual between 19 and 45 THEN 3&#xA;      WHEN edad_actual between 46 and 65 THEN 4&#xA;      WHEN edad_actual between 66 and 75 THEN 5&#xA;      WHEN edad_actual &gt;= 76 and edad_actual &lt; 999 THEN 6&#xA;      WHEN edad_actual = 999 or edad_actual &lt; 0 THEN 0&#xA;      END&#xA;   FROM #AUX_RECAUDACION_ORIGEN_30&#xA;&#xA;Insert into H_RECAUDACION_DETALLE&#xA;(id_periodo, afiliado, subnumero, secuencia, id_persona, id_origen_recaudacion,&#xA;[id_producto]&#xA;      ,[id_subproducto]&#xA;      ,[id_plan_producto]&#xA;      ,[id_entidad]&#xA;      ,[id_localidad]&#xA;      ,[edad_actual]&#xA;      ,total_recaudacion&#xA;      ,[grilla]&#xA;      ,[fecha_ingreso_segmento]&#xA;      ,[fecha_ingreso_salud]&#xA;      ,[id_categoria]&#xA;      ,[id_empresa_recaudacion]&#xA;      ,[Id_Tipo_Entidad_recaudacion]&#xA;      ,id_rango_edad_rec)&#xA;Select [id_periodo]&#xA;      ,[afiliado]&#xA;      ,[subnumero]&#xA;      ,[secuencia]&#xA;      ,[id_persona]&#xA;      ,origen_recaudacion&#xA;      ,[id_producto]&#xA;      ,[id_subproducto]&#xA;      ,[id_plan_producto]&#xA;      ,[id_entidad]&#xA;      ,[id_localidad]&#xA;      ,[edad_actual]&#xA;      ,total_recaudacion&#xA;      ,[grilla]&#xA;      ,[fecha_ingreso_segmento]&#xA;      ,[fecha_ingreso_salud]&#xA;      ,[id_categoria]&#xA;      ,[id_empresa_recaudacion]&#xA;      ,[Id_Tipo_Entidad_recaudacion]&#xA;      ,id_rango_edad_rec&#xA;from #AUX_RECAUDACION_ORIGEN_30 &#xA;&#xA; DROP TABLE #ORI17&#xA; DROP TABLE #ORI18&#xA; DROP TABLE #AFILIADO_ORIGEN_30&#xA; DROP TABLE #AUX_RECAUDACION_ORIGEN_30 " xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{1CA86BB9-788C-4633-B20B-27C8E15D8DA6}"
+      DTS:From="Package\Actualiza Costo 1"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Actualiza Costo 2" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{2DA1F5FF-EB6A-4EB0-A985-1C044633E597}"
+      DTS:From="Package\Actualiza Costo 2"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Actualiza Costo 3" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{E1B6C478-0401-40C0-A5B2-F5A2B6D19B7E}"
+      DTS:From="Package\Actualiza Costo 3"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Actualiza Costo 4" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{54DA3B67-5EA7-4BF8-88B2-EED32FBFF4A6}"
+      DTS:From="Package\Actualiza Costo 4"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Actualiza Plan, Producto, Subproducto" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
+      DTS:CreationName=""
+      DTS:DTSID="{9C228B5E-8143-42E7-B916-E7CA40CD5A2A}"
+      DTS:From="Package\Actualiza Plan, Producto, Subproducto"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 4"
+      DTS:To="Package\Actualiza Grilla" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 5]"
+      DTS:CreationName=""
+      DTS:DTSID="{47DC7A29-138B-4CD0-B75E-3C567FA4ACB9}"
+      DTS:From="Package\Agrego Origen 30"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 5"
+      DTS:To="Package\Actualiza Costo 1" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 6]"
+      DTS:CreationName=""
+      DTS:DTSID="{0C735000-771B-4D0C-8DA6-7CDB2478447A}"
+      DTS:From="Package\Actualiza Grilla"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 6"
+      DTS:To="Package\Actualizo H_RECAUDACION_DETALLE" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="164,42"
+          Id="Package\Actualiza Costo 1"
+          TopLeft="58.2063679245283,91.6347708894879" />
+        <NodeLayout
+          Size="164,42"
+          Id="Package\Actualiza Costo 2"
+          TopLeft="58.2063679245283,177.769541778976" />
+        <NodeLayout
+          Size="164,42"
+          Id="Package\Actualiza Costo 3"
+          TopLeft="58.2063679245283,263.904312668464" />
+        <NodeLayout
+          Size="164,42"
+          Id="Package\Actualiza Costo 4"
+          TopLeft="58.2063679245283,350.039083557951" />
+        <NodeLayout
+          Size="153,42"
+          Id="Package\Actualiza Grilla"
+          TopLeft="63.7063679245283,522.308625336927" />
+        <NodeLayout
+          Size="267,42"
+          Id="Package\Actualiza Plan, Producto, Subproducto"
+          TopLeft="6.70636792452831,436.173854447439" />
+        <NodeLayout
+          Size="277,42"
+          Id="Package\Actualizo H_RECAUDACION_DETALLE"
+          TopLeft="1.70636792452831,608.443396226415" />
+        <NodeLayout
+          Size="166,42"
+          Id="Package\Agrego Origen 30"
+          TopLeft="57.2063679245283,5.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="140.206367924528,133.634770889488">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,44.1347708894879"
+              Start="0,0"
+              End="0,36.6347708894879">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,36.6347708894879" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="140.206367924528,219.769541778976">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,44.1347708894879"
+              Start="0,0"
+              End="0,36.6347708894879">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,36.6347708894879" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="140.206367924528,305.904312668464">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,44.1347708894879"
+              Start="0,0"
+              End="0,36.6347708894879">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,36.6347708894879" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="140.206367924528,392.039083557951">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,44.1347708894879"
+              Start="0,0"
+              End="0,36.6347708894879">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,36.6347708894879" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="140.206367924528,478.173854447439">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,44.1347708894879"
+              Start="0,0"
+              End="0,36.6347708894879">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,36.6347708894879" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 5]"
+          TopLeft="140.206367924528,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,44.1347708894879"
+              Start="0,0"
+              End="0,36.6347708894879">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,36.6347708894879" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 6]"
+          TopLeft="140.206367924528,564.308625336927">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,44.1347708894879"
+              Start="0,0"
+              End="0,36.6347708894879">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,36.6347708894879" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

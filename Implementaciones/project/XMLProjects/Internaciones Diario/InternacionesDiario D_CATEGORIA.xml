@@ -1,0 +1,101 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="11/15/2019 9:48:17 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="DA21465-XXXXX"
+  DTS:CreatorName="AMS\aquaglia"
+  DTS:DTSID="{FBF0F7EB-DDAD-47E6-BD61-C3C169669DB0}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="InternacionesDiario D_CATEGORIA"
+  DTS:PackageType="5"
+  DTS:VersionBuild="3"
+  DTS:VersionGUID="{1F834D47-A1AC-488E-9223-5361AAF2004F}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{B4ED8132-54B2-4813-95B7-564AA2347F02}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">1,7,OnError</DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnError"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{B4ED8132-54B2-4813-95B7-564AA2347F02}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza D_CATEGORIA"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Eliminar los registros de acreedores"
+      DTS:DTSID="{1764445e-e9a5-463e-9a80-b6887da5d924}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza D_CATEGORIA"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{87B3EF38-D424-4CA0-9B98-F49ED069F118}"
+          SQLTask:SqlStatementSource="/* Actualiza la información existente en D_CATEGORIA. */ &#xA;UPDATE D_CATEGORIA&#xA;SET de_categoria = w_t703_desc&#xA;FROM AS400.HOST03.SMPDATD.T703FCATE A INNER JOIN D_CATEGORIA P ON (A.w_t703_cate=P.id_categoria)&#xA;where w_t703_desc COLLATE SQL_Latin1_General_CP850_CI_AI&lt;&gt;de_categoria&#xA;&#xA;&#xA;/* Inserta la información faltante en D_CATEGORIA. */&#xA;-- id_grupo_especialidad se coloca en F/D, para luego revisar&#xA; INSERT INTO D_CATEGORIA&#xA; (id_categoria, de_categoria,id_grupo_categoria)&#xA; SELECT w_t703_cate as id_categoria, w_t703_desc as de_categoria, 2 as id_grupo_categoria &#xA; from AS400.HOST03.SMPDATD.T703FCATE&#xA; WHERE w_t703_cate not in (SELECT id_categoria FROM D_CATEGORIA)&#xA; &#xA; " xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="218,42"
+          Id="Package\Actualiza D_CATEGORIA"
+          TopLeft="451,158" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

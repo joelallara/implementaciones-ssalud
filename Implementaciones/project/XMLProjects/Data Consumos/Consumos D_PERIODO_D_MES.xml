@@ -1,0 +1,209 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/31/2016 9:41:11 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AMS06X"
+  DTS:CreatorName="AMS\nborio"
+  DTS:DTSID="{4FCC1BFE-B5D0-4D12-9ACF-0F151679CCCC}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="Consumos D_PERIODO_D_MES"
+  DTS:PackageType="5"
+  DTS:VersionBuild="24"
+  DTS:VersionGUID="{983D4FD3-AAD5-4BB7-862C-4376A02C8DC3}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{27A68C1E-EAFE-4908-8B9D-E47127F46227}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">1,7,OnError</DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnError"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{27A68C1E-EAFE-4908-8B9D-E47127F46227}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Actualizar D_EJERCICIO"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{E7B0F4F5-6728-4DFE-B69A-AFFCDD9DA773}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualizar D_EJERCICIO"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{6601EFDC-B0A3-4B05-9A3F-EFAAD98885BF}"
+          SQLTask:SqlStatementSource="---- Actualización de la marca vigencia_consumos&#xA;Declare @Ejercicio_Vigente int, @Ejercicio_Anterior int, @Ejercicio_Anterior_2 int , @Ejercicio_Anterior_3 int&#xA;&#xA; SET @Ejercicio_Vigente = (select Max(id_ejercicio) from D_PERIODO where vigente_consumo = 1) --- ( si el periodo vigente esta en este ejercicio).&#xA; SET @Ejercicio_Anterior = (select @Ejercicio_Vigente - 1) --- (si es el ejercicio anterior al vigente de consumos) &#xA; SET @Ejercicio_Anterior_2 = (select @Ejercicio_Anterior - 1) --- (si es el ejercicio anterior al anterior al vigente de consumos) &#xA; SET @Ejercicio_Anterior_3 = (select @Ejercicio_Anterior_2 - 1) --- (si es el ejercicio tiene una diferencia de 3 o más ejecicios al vigente de consumos) &#xA;&#xA;update D_EJERCICIO&#xA;set vigencia_consumos = CASE &#xA;WHEN (ID_EJERCICIO = @Ejercicio_Vigente  ) THEN 'VIGENTE'&#xA;WHEN (ID_EJERCICIO = @Ejercicio_Anterior  ) THEN 'VIGENTE -1' &#xA;WHEN (ID_EJERCICIO = @Ejercicio_Anterior_2  ) THEN 'VIGENTE -2' &#xA;WHEN (ID_EJERCICIO &lt;=@Ejercicio_Anterior_3  ) THEN '' &#xA;END&#xA;FROM D_EJERCICIO &#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Actualizar D_MES"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{E77272B6-15FA-43C1-9D67-38E4EFBF7300}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualizar D_MES"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{6601EFDC-B0A3-4B05-9A3F-EFAAD98885BF}"
+          SQLTask:SqlStatementSource="&#xA;/* Actualiza el Orden de Consumos en la D_MES. */&#xA;&#xA;&#x9;-- Inicializa todo en cero.&#xA;&#x9;&#x9;UPDATE D_MES SET id_orden_consumo = 0 &#xA;&#xA;&#x9;-- Fija el Maximo Orden de Consumo teniendo en cuenta el periodo que se esta actualizando en el Data de Consumos.&#xA;&#x9;&#x9;UPDATE D_MES&#xA;&#x9;&#x9;&#x9;SET id_orden_consumo = 12 &#xA;&#x9;&#x9;WHERE id_mes = (SELECT MONTH(CAST(CAST(dbo.Devuelve_Fecha(MAX(id_periodo)) as CHAR(8)) as datetime)) from AUX_PERIODO_MES_BORRA)&#xA;&#xA;&#xA;&#xA;&#x9;-- La variable @Mes_Actualizar lleva el control del mes al que debemos asignarle un Orden.&#xA;&#x9;Declare @Mes_Actualizar int&#xA;&#xA;&#x9;-- La variable @Valor_Orden indica que posición ocupa en el Orden a calcular por cada Mes.&#xA;&#x9;Declare @Valor_Orden Int Set @Valor_Orden = (select MAX(id_orden_consumo)-1 from D_MES where id_orden_consumo &lt;&gt; 0)&#xA;&#xA;&#xA;&#x9;WHILE @Valor_Orden &gt; 0 -- Cuando este valor es cero se termina el script.&#xA;&#xA;&#x9;begin&#xA;&#xA;&#x9;&#x9;-- Para este seteo relacionamos con la D_PERIODO para poder jugar con las funciones de fechas, cuestión que con la D_MES no pudimos.&#xA;&#x9;&#x9;&#x9;Set @Mes_Actualizar = (&#x9;select MONTH(CAST(CAST(dbo.Devuelve_Fecha(dbo.PeriodoAnterior((CAST(CAST(dbo.Devuelve_Fecha(MIN(id_periodo)) as CHAR(8)) as datetime)))) as CHAR(8)) as datetime)) &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;from D_MES D&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;join D_PERIODO P on D.id_mes = P.id_mes&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;where id_periodo in (select top 12 id_periodo from D_PERIODO where vigente_consumo = 1 order by id_periodo desc) -- Se asegura que solo trabaje con los meses de consumos. Esta actualizacion del campo vigente_consumo es siempre anterior a este script.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;and D.id_orden_consumo &lt;&gt; 0) -- Como puso en cero todos los valores, va a ir eligiendo los valores antoriores al último actualizado.&#xA;&#xA;&#x9;&#x9;-- Actualiza el id_orden_consumo con el valor correspondiente segun el Data de Consumos.&#xA;&#x9;&#x9;&#x9;UPDATE D_MES&#xA;&#x9;&#x9;&#x9;&#x9;SET id_orden_consumo = @Valor_Orden&#xA;&#x9;&#x9;&#x9;WHERE id_mes = @Mes_Actualizar&#xA;&#xA;&#x9;&#x9;-- Resta un valor a la variable @Valor_Orden que parte en 12 y llega a cero, momento en el que sale de la sentencia.&#xA;&#x9;&#x9;&#x9;Set @Valor_Orden = (select MIN(id_orden_consumo)-1 from D_MES where id_orden_consumo &lt;&gt; 0)&#xA;&#xA;&#x9;end&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Actualizar D_PERIODO"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{262A8520-B7DF-4A00-9987-612BC597A717}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualizar D_PERIODO"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{6601EFDC-B0A3-4B05-9A3F-EFAAD98885BF}"
+          SQLTask:SqlStatementSource="&#xA;&#x9;/* Actualiza D_PERIODO */&#xA;&#xA;&#x9;&#x9;UPDATE D_PERIODO&#xA;&#x9;&#x9;&#x9;SET vigente_consumo = 1&#xA;&#x9;&#x9;WHERE id_periodo = (select max(id_periodo) from AUX_PERIODO_MES_BORRA)&#xA;&#xA;&#x9;&#x9;UPDATE D_PERIODO set id_periodo_anual = 0&#xA;&#xA;&#x9;&#x9;UPDATE D_PERIODO set id_periodo_anual = 1&#xA;&#x9;&#x9;WHERE id_periodo in (select top 36 id_periodo from D_PERIODO where vigente_consumo = 1 order by id_periodo desc)&#xA;&#xA;&#x9;&#x9;UPDATE D_PERIODO set id_periodo_anual = 2&#xA;&#x9;&#x9;WHERE id_periodo in (select top 24 id_periodo from D_PERIODO where vigente_consumo = 1 order by id_periodo desc)&#xA;&#xA;&#x9;&#x9;UPDATE D_PERIODO set id_periodo_anual = 3&#xA;&#x9;&#x9;WHERE id_periodo in (select top 12 id_periodo from D_PERIODO where vigente_consumo = 1 order by id_periodo desc)&#xA;&#xA;&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{965CD43D-09E8-4156-BB73-F5CF5B96D30C}"
+      DTS:From="Package\Actualizar D_PERIODO"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Actualizar D_MES" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{42182C72-5E86-4662-BD76-B0FCF7478DD9}"
+      DTS:From="Package\Actualizar D_MES"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Actualizar D_EJERCICIO" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="203,42"
+          Id="Package\Actualizar D_EJERCICIO"
+          TopLeft="5.8553459119497,149.38679245283" />
+        <NodeLayout
+          Size="168,42"
+          Id="Package\Actualizar D_MES"
+          TopLeft="23.3553459119497,77.4433962264151" />
+        <NodeLayout
+          Size="195,42"
+          Id="Package\Actualizar D_PERIODO"
+          TopLeft="9.8553459119497,5.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="107.35534591195,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,29.9433962264151"
+              Start="0,0"
+              End="0,22.4433962264151">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,22.4433962264151" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="107.35534591195,119.443396226415">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,29.9433962264151"
+              Start="0,0"
+              End="0,22.4433962264151">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,22.4433962264151" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

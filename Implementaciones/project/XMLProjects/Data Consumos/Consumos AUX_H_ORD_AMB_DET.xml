@@ -1,0 +1,1011 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="9/21/2015 9:42:05 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AMS06X"
+  DTS:CreatorName="AMS\pgonzalez"
+  DTS:DelayValidation="True"
+  DTS:DTSID="{3A196B93-C3DC-4557-AA9F-CCF849280F9D}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="Consumos AUX_H_ORD_AMB_DET"
+  DTS:PackageType="5"
+  DTS:VersionBuild="221"
+  DTS:VersionGUID="{90AC770E-9E37-4742-80DF-7269E6198153}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{7D1A24AE-5287-41DF-A92A-064D0F725E1E}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{6C8FD525-DEFD-4520-8FCD-192F7069AD2D}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="V_Periodo">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">1,7,OnError</DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnError"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{7D1A24AE-5287-41DF-A92A-064D0F725E1E}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza AUX_H_ORD_AMB_DET"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{B997409A-E9B1-41A5-A453-7290C5BC85A1}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza AUX_H_ORD_AMB_DET"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{6601EFDC-B0A3-4B05-9A3F-EFAAD98885BF}"
+          SQLTask:SqlStatementSource="&#xA;&#xA;/* PERSONAS / CAPITAS - */&#xA;&#xA;&#x9;DECLARE @Periodo_Recepcion INT set @Periodo_Recepcion = ?&#xA;&#xA;&#x9;DECLARE @Fecha_Recepcion datetime SET @Fecha_Recepcion = (SUBSTRING(CAST(@Periodo_Recepcion as CHAR(6)),1,4)+'-'+SUBSTRING(CAST(@Periodo_Recepcion as CHAR(6)),5,2)+'-'+'01')&#xA;&#xA;&#xA;/* Las capitas de Ostel las actualizamos en $530. En el sistema harán cambios a partir del 201712  */&#xA;&#x9;--UPDATE Consultas_DW.dbo.TMP_IND_CONS_PERSONAS_CAPITAS&#xA;&#x9;--&#x9;set importe = 607 &#xA;&#x9;--where Id_Capita in (210,211) and Id_Periodo &lt; 201712&#xA;&#xA;/* Las capitas de Osconara las actualizamos según script en base al mail de Lucia Berro. Aun no se definió un nuevo valor.  */&#xA;&#x9;--UPDATE Consultas_DW.dbo.TMP_IND_CONS_PERSONAS_CAPITAS&#xA;&#x9;--&#x9;set importe = 648 &#xA;&#x9;--where Id_Capita in (205)&#xA;&#xA;/* Las capitas de Ostel las actualizamos en $530. En el sistema harán cambios a partir del 201712  */&#xA;&#x9;--UPDATE Consultas_DW.dbo.TMP_IND_CONS_PERSONAS_CAPITAS&#xA;&#x9;--&#x9;set importe = 2000.22&#xA;&#x9;--where Id_Capita in (209)&#xA;&#xA;&#xA;&#x9;DELETE FROM AUX_H_ORD_AMB_DET Where id_reintegro = 'C'&#xA;&#xA;&#x9;INSERT INTO AUX_H_ORD_AMB_DET&#xA;&#x9;(id_periodo, id_posicion,&#x9;id_tipo_orden,&#x9;nro_orden,&#x9;id_prestacion,&#x9;id_posicion_barra,&#x9;nro_cursograma,&#x9;fecha_recepcion,&#x9;fecha_prestacion,&#x9;fecha_cierre,&#x9;id_origen_prestacion,&#x9;afiliado,&#x9;subnumero,&#x9;secuencia,&#x9;id_persona,&#x9;edad_orden,&#x9;id_producto, id_subproducto,&#x9;id_plan_producto,&#x9;id_acreedor,&#x9;id_provision_prest,&#x9;id_profesional,&#x9;id_posicion_auditor,&#x9;id_reintegro,&#x9;id_no_facturador,&#x9;cant_prest_amb_recon,&#x9;imp_prest_amb_recon,&#x9;cant_prest_amb_acep,&#x9;imp_prest_amb_acep,&#x9;cant_prest_amb_pag,&#x9;imp_pret_amb_pag,&#x9;id_provision,&#x9;id_prof_prescr,&#x9;id_programa_especial,&#x9;id_monodroga,&#x9;id_tipo_reintegro,&#x9;id_tipo_carga,&#x9;id_marca_valorizacion,&#x9;id_tipo_refacturacion,&#x9;id_tipo_papel,&#x9;id_posicion_emision,&#x9;grilla,&#x9;id_tipo_profesional_preescribiente,&#x9;fecha_ingreso_segmento,&#x9;id_categoria,&#x9;id_grupo_categoria_afil,&#x9;id_Tipo_Prestador,&#x9;Nro_Lote/*,&#x9;fecha_proceso,&#x9;id_persona_empresa*/, id_tipo_orden_relacionada,&#x9;id_orden_relacionada,&#x9;cant_prest_amb_fact,&#x9;imp_prest_amb_fact,&#x9;imp_iva_amb_pag, id_prestacion_acreedor,&#x9;nro_secuencia, id_capita)&#xA;&#x9;select distinct&#xA;&#x9;&#x9;&#x9;id_periodo,&#xA;&#x9;&#x9;&#x9;999 as id_posicion,&#xA;&#x9;&#x9;&#x9;999 as id_tipo_orden,&#xA;&#x9;&#x9;&#x9;0 as nro_orden,&#xA;&#x9;&#x9;&#x9;C.id_prestacion,&#xA;&#x9;&#x9;&#x9;0 as id_posicion_barra,&#xA;&#x9;&#x9;&#x9;0 as nro_cursograma,&#xA;&#x9;&#x9;&#x9;@Fecha_Recepcion as fecha_recepcion,&#xA;&#x9;&#x9;&#x9;@Fecha_Recepcion as fecha_prestacion,&#xA;&#x9;&#x9;&#x9;@Fecha_Recepcion as fecha_cierre,&#xA;&#x9;&#x9;&#x9;'A' as id_origen_prestacion,&#xA;&#x9;&#x9;&#x9;TC.Afiliado,&#xA;&#x9;&#x9;&#x9;TC.Subnumero,&#xA;&#x9;&#x9;&#x9;TC.Secuencia,&#xA;&#x9;&#x9;&#x9;TC.Id_Persona,&#xA;&#x9;&#x9;&#x9;0 as edad_orden,&#xA;&#x9;&#x9;&#x9;TC.id_producto,&#xA;&#x9;&#x9;&#x9;TC.id_subproducto,&#xA;&#x9;&#x9;&#x9;TC.id_plan_producto,&#xA;&#x9;&#x9;&#x9;C.id_acreedor,&#xA;&#x9;&#x9;&#x9;P.id_provision_prest,&#xA;&#x9;&#x9;&#x9;C.id_acreedor as id_profesional,&#xA;&#x9;&#x9;&#x9;999 as id_posicion_auditor,&#xA;&#x9;&#x9;&#x9;'C' as id_reintegro,&#xA;&#x9;&#x9;&#x9;99999 as id_no_facturador,&#xA;&#x9;&#x9;&#x9;1 as cant_prest_amb_recon,&#xA;&#x9;&#x9;&#x9;SUM(TC.importe) as imp_prest_amb_recon,&#xA;&#x9;&#x9;&#x9;1 as cant_prest_amb_acep,&#xA;&#x9;&#x9;&#x9;SUM(TC.importe) as imp_prest_amb_acep,&#xA;&#x9;&#x9;&#x9;1 as cant_prest_amb_pag,&#xA;&#x9;&#x9;&#x9;SUM(TC.importe) as imp_pret_amb_pag,&#xA;&#x9;&#x9;&#x9;A.id_provision_acreedor as id_provision,&#xA;&#x9;&#x9;&#x9;99999999 as id_prof_prescr,&#xA;&#x9;&#x9;&#x9;'X' as id_programa_especial,&#xA;&#x9;&#x9;&#x9;99999 as id_monodroga,&#xA;&#x9;&#x9;&#x9;'X' as id_tipo_reintegro,&#xA;&#x9;&#x9;&#x9;'N' as id_tipo_carga,&#xA;&#x9;&#x9;&#x9;'P' as id_marca_valorizacion,&#xA;&#x9;&#x9;&#x9;'N' as id_tipo_refacturacion,&#xA;&#x9;&#x9;&#x9;'O' as id_tipo_papel,&#xA;&#x9;&#x9;&#x9;999 as id_posicion_emision,&#xA;&#x9;&#x9;&#x9;0 as grilla,&#xA;&#x9;&#x9;&#x9;'P' as id_tipo_profesional_preescribiente,&#xA;&#x9;&#x9;&#x9;null as fecha_ingreso_segmento,&#xA;&#x9;&#x9;&#x9;0 id_categoria,&#xA;&#x9;&#x9;&#x9;0 as id_grupo_categoria_afil,&#xA;&#x9;&#x9;&#x9;'P' as id_Tipo_Prestador,&#xA;&#x9;&#x9;&#x9;0 as Nro_Lote,&#xA;&#x9;&#x9;&#x9;--fecha_proceso,&#xA;&#x9;&#x9;&#x9;--id_persona_empresa,&#xA;&#x9;&#x9;&#x9;999 as id_tipo_orden_relacionada,&#xA;&#x9;&#x9;&#x9;0 as id_orden_relacionada,&#xA;&#x9;&#x9;&#x9;1 as cant_prest_amb_fact,&#xA;&#x9;&#x9;&#x9;SUM(TC.importe) as imp_prest_amb_fact,&#xA;&#x9;&#x9;&#x9;0 imp_iva_amb_pag, &#xA;&#x9;&#x9;&#x9;9999999999 as id_prestacion_acreedor,&#xA;&#x9;&#x9;&#x9;0 as nro_secuencia, &#xA;&#x9;&#x9;&#x9;TC.Id_Capita&#xA;&#x9;from Consultas_DW.dbo.TMP_IND_CONS_PERSONAS_CAPITAS TC&#xA;&#x9;join D_CAPITAS_SALUD C on C.id_capita = TC.Id_Capita&#xA;&#x9;join D_PRESTACION P on P.id_prestacion = C.id_prestacion&#xA;&#x9;join D_ACREEDOR A on A.id_acreedor = C.id_acreedor and A.id_tipo_prestador = C.id_tipo_prestador&#xA;&#x9;where id_periodo = dbo.DevuelvePeriodo(@Fecha_Recepcion)&#xA;&#x9;and (SUBSTRING(C.fecha_vigencia_hasta,1,6) &gt;= @Periodo_Recepcion or C.fecha_vigencia_hasta = 0) /* Asegura que las capitas estén en el periodo procesado. */&#xA;&#x9;GROUP BY&#xA;&#x9;&#x9;&#x9;id_periodo,&#xA;&#x9;&#x9;&#x9;C.id_prestacion,&#xA;&#x9;&#x9;&#x9;TC.Afiliado,&#xA;&#x9;&#x9;&#x9;TC.Subnumero,&#xA;&#x9;&#x9;&#x9;TC.Secuencia,&#xA;&#x9;&#x9;&#x9;TC.Id_Persona,&#xA;&#x9;&#x9;&#x9;TC.id_producto,&#xA;&#x9;&#x9;&#x9;TC.id_subproducto,&#xA;&#x9;&#x9;&#x9;TC.id_plan_producto,&#xA;&#x9;&#x9;&#x9;C.id_acreedor,&#xA;&#x9;&#x9;&#x9;P.id_provision_prest,&#xA;&#x9;&#x9;&#x9;C.id_acreedor,&#xA;&#x9;&#x9;&#x9;A.id_provision_acreedor,&#xA;&#x9;&#x9;&#x9;TC.id_capita&#xA;&#xA;&#xA;/* Prorateo de Cruz del Eje. */&#xA;&#xA;&#x9;&#x9;SET DATEFORMAT 'YMD'&#xA;&#x9;&#x9;DECLARE @OPENQUERY nvarchar(4000),&#xA;&#x9;&#x9;&#x9;&#x9;@TSQL nvarchar(4000), &#xA;&#x9;&#x9;&#x9;&#x9;@Servidor nvarchar(4000),&#xA;&#x9;&#x9;&#x9;&#x9;@Query nvarchar(4000),&#xA;&#x9;&#x9;&#x9;&#x9;@FechaMin CHAR(8),&#xA;&#x9;&#x9;&#x9;&#x9;@d char (1),&#xA;&#x9;&#x9;&#x9;&#x9;@periodo varchar(6),&#xA;&#x9;&#x9;&#x9;&#x9;@f46 char(3)&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;SET @periodo = (SELECT MAX(id_periodo)FROM AUX_PERIODO_MES_BORRA)&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#xA;&#x9;&#x9;&#x9;&#x9;SET @f46 = ('F46')&#xA;&#x9;&#x9;&#x9;&#x9;SET&#x9;@d = ('D') &#xA;&#xA;&#x9;&#x9;---- Se Genera la Temporal &#xA;&#x9;&#x9;-- Calcula el total&#xA;&#x9;&#x9;&#x9;&#x9;SET @Servidor = 'HOST03'  &#xA;&#x9;&#x9;&#x9;&#x9;SET @OPENQUERY = 'SELECT * INTO ##temp1 FROM OPENQUERY('+ @Servidor + ',''' &#xA;&#x9;&#x9;&#x9;&#x9;SET @TSQL = '&#x9;SELECT W_V550_FREC AS Fecha_Recepcion, W_V550_NPRO AS Id_Acreedor, (CASE when W_V550_CCCT = (''''D'''') then W_V551_IMPO * (-1) else W_V551_IMPO end) AS Importe_Facturado&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;FROM AMSPROVD.V550FDECAB C&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;JOIN AMSPROVD.V551FDEVTO D on C.W_V550_TALO = D.W_V551_TALO and C.W_V550_TCOM = D.W_V551_TCOM and C.W_V550_NCOM = D.W_V551_NCOM&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHERE W_V550_PFAC = '+ @periodo +' and W_V550_NPRO = 122875 and C.W_V550_TCOM in (''''F46'''')'')'&#xA;&#x9;&#x9;&#x9;&#x9;SET @Query = @OPENQUERY+@TSQL&#xA;&#x9;&#x9;&#x9;&#x9;exec  (@Query)&#xA;&#xA;&#x9;&#x9;--Inserta el nuevo periodo&#xA;&#x9;&#x9;INSERT INTO TMP_CANT_PERIODO_H_ORD_AMB_DET &#xA;&#x9;&#x9;(id_periodo, cantidad, costo, costounitario)&#xA;&#x9;&#x9;SELECT id_periodo, COUNT(id_periodo) as cantidad, 0.0 as costo, 0.0 as costounitario &#xA;&#x9;&#x9;FROM AUX_H_ORD_AMB_DET&#xA;&#x9;&#x9;WHERE&#x9;id_acreedor = 122875 and id_reintegro = 'C' and id_periodo = @periodo &#xA;&#x9;&#x9;&#x9;&#x9;and @periodo not in (select id_periodo from TMP_CANT_PERIODO_H_ORD_AMB_DET) --Asegura no duplicar información de un mismo periodo.&#xA;&#x9;&#x9;GROUP BY id_periodo &#xA;&#xA;&#x9;&#x9;--Setea el costo y el costo unitario&#xA;&#x9;&#x9;UPDATE TMP_CANT_PERIODO_H_ORD_AMB_DET &#xA;&#x9;&#x9;&#x9;SET costo = t.Importe_Facturado, &#xA;&#x9;&#x9;&#x9;&#x9;costounitario = t.Importe_Facturado / cantidad&#xA;&#x9;&#x9;FROM TMP_CANT_PERIODO_H_ORD_AMB_DET H &#xA;&#x9;&#x9;JOIN ##temp1 T on left(T.Fecha_Recepcion,6) = h.id_periodo&#xA;&#xA;&#x9;/* Actualiza la AUX_H_ORD_AMB_DET */&#xA;&#x9;&#x9;UPDATE AUX_H_ORD_AMB_DET &#xA;&#x9;&#x9;&#x9;SET imp_prest_amb_acep = costounitario,&#xA;&#x9;&#x9;&#x9;&#x9;imp_prest_amb_recon = costounitario,&#xA;&#x9;&#x9;&#x9;&#x9;imp_pret_amb_pag = costounitario,&#xA;&#x9;&#x9;&#x9;&#x9;imp_prest_amb_fact = costounitario&#xA;&#x9;&#x9;FROM AUX_H_ORD_AMB_DET H&#xA;&#x9;&#x9;JOIN TMP_CANT_PERIODO_H_ORD_AMB_DET T on H.id_periodo = T.id_periodo&#xA;&#x9;&#x9;WHERE id_acreedor = 122875 and id_reintegro = 'C' and h.id_periodo = (select max(id_periodo) from TMP_CANT_PERIODO_H_ORD_AMB_DET)&#xA;&#xA;&#x9;&#x9;--update AUX_H_ORD_AMB_DET &#xA;&#x9;&#x9;--set cant_prest_amb_acep = 1,&#xA;&#x9;&#x9;--cant_prest_amb_recon = 1,&#xA;&#x9;&#x9;-- cant_prest_amb_pag = 1,&#xA;&#x9;&#x9;-- cant_prest_amb_fact = 1&#xA;&#x9;&#x9;--from AUX_H_ORD_AMB_DET h inner join TMP_CANT_PERIODO_H_ORD_AMB_DET t on h.id_periodo = t.id_periodo&#xA;&#x9;&#x9;--where id_acreedor = 122875 and id_reintegro = 'C' and h.id_periodo =(select max(id_periodo) from TMP_CANT_PERIODO_H_ORD_AMB_DET)&#xA;&#xA;&#x9;&#x9;drop table ##temp1" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="@Periodo"
+            SQLTask:DtsVariableName="User::V_Periodo"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="3"
+            SQLTask:ParameterSize="0" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:DelayValidation="True"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{50ad72df-f43e-48f3-8e1d-b9eefcdfb0dd}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza TMP_IND_CONS_PERSONAS_CAPITAS"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <pipeline
+          BLOBTempStoragePath=""
+          bufferTempStoragePath=""
+          version="1">
+          <components>
+            <component
+              refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\Data Conversion"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Data Conversion;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Data Conversion"
+              name="Data Conversion"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\Data Conversion.Inputs[Data Conversion Input]"
+                  name="Data Conversion Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\Data Conversion.Inputs[Data Conversion Input].Columns[ID_PLAN_PRODUCTO]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="5"
+                      cachedName="ID_PLAN_PRODUCTO"
+                      lineageId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_PLAN_PRODUCTO]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\Data Conversion.Outputs[Data Conversion Output]"
+                  exclusionGroup="1"
+                  name="Data Conversion Output"
+                  synchronousInputId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of ID_PLAN_PRODUCTO]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="5"
+                      lineageId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of ID_PLAN_PRODUCTO]"
+                      name="Copy of ID_PLAN_PRODUCTO"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_PLAN_PRODUCTO]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\Data Conversion.Outputs[Data Conversion Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Data Conversion Error Output"
+                  synchronousInputId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[TMP_IND_CONS_PERSONAS_CAPITAS]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="{65965BA3-EE16-452F-AF9B-33066561630A}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DS_CONSULTAS_DW]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ID_CAPITA]"
+                      cachedDataType="i2"
+                      cachedName="ID_CAPITA"
+                      externalMetadataColumnId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Id_Capita]"
+                      lineageId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_CAPITA]" />
+                    <inputColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ID_PERIODO]"
+                      cachedDataType="numeric"
+                      cachedName="ID_PERIODO"
+                      cachedPrecision="6"
+                      externalMetadataColumnId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Id_Periodo]"
+                      lineageId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_PERIODO]" />
+                    <inputColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ID_PERSONA]"
+                      cachedDataType="numeric"
+                      cachedName="ID_PERSONA"
+                      cachedPrecision="8"
+                      externalMetadataColumnId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Id_Persona]"
+                      lineageId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_PERSONA]" />
+                    <inputColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[AFILIADO]"
+                      cachedDataType="numeric"
+                      cachedName="AFILIADO"
+                      cachedPrecision="8"
+                      externalMetadataColumnId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Afiliado]"
+                      lineageId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Output].Columns[AFILIADO]" />
+                    <inputColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[SUBNUMERO]"
+                      cachedDataType="numeric"
+                      cachedName="SUBNUMERO"
+                      cachedPrecision="3"
+                      externalMetadataColumnId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Subnumero]"
+                      lineageId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Output].Columns[SUBNUMERO]" />
+                    <inputColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[SECUENCIA]"
+                      cachedDataType="numeric"
+                      cachedName="SECUENCIA"
+                      cachedPrecision="2"
+                      externalMetadataColumnId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Secuencia]"
+                      lineageId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Output].Columns[SECUENCIA]" />
+                    <inputColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ID_PRODUCTO]"
+                      cachedDataType="numeric"
+                      cachedName="ID_PRODUCTO"
+                      cachedPrecision="4"
+                      externalMetadataColumnId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Id_Producto]"
+                      lineageId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_PRODUCTO]" />
+                    <inputColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of ID_PLAN_PRODUCTO]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="5"
+                      cachedName="Copy of ID_PLAN_PRODUCTO"
+                      externalMetadataColumnId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Id_plan_Producto]"
+                      lineageId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of ID_PLAN_PRODUCTO]" />
+                    <inputColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ID_SUBPRODUCTO]"
+                      cachedDataType="numeric"
+                      cachedName="ID_SUBPRODUCTO"
+                      cachedPrecision="4"
+                      externalMetadataColumnId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_subproducto]"
+                      lineageId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_SUBPRODUCTO]" />
+                    <inputColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[IMPORTE]"
+                      cachedDataType="numeric"
+                      cachedName="IMPORTE"
+                      cachedPrecision="11"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[importe]"
+                      lineageId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Output].Columns[IMPORTE]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Id_Capita]"
+                      dataType="i4"
+                      name="Id_Capita" />
+                    <externalMetadataColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Id_Periodo]"
+                      dataType="i4"
+                      name="Id_Periodo" />
+                    <externalMetadataColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Id_Persona]"
+                      dataType="i4"
+                      name="Id_Persona" />
+                    <externalMetadataColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Afiliado]"
+                      dataType="i4"
+                      name="Afiliado" />
+                    <externalMetadataColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Subnumero]"
+                      dataType="i4"
+                      name="Subnumero" />
+                    <externalMetadataColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Secuencia]"
+                      dataType="i4"
+                      name="Secuencia" />
+                    <externalMetadataColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Id_Producto]"
+                      dataType="i4"
+                      name="Id_Producto" />
+                    <externalMetadataColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Id_plan_Producto]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      name="Id_plan_Producto" />
+                    <externalMetadataColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_subproducto]"
+                      dataType="i4"
+                      name="id_subproducto" />
+                    <externalMetadataColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[importe]"
+                      dataType="numeric"
+                      name="importe"
+                      precision="18"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[segmento]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="segmento" />
+                    <externalMetadataColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_localidad]"
+                      dataType="i4"
+                      name="id_localidad" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE DB Source"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT DISTINCT 
+  D.GENERADORES_ID as Id_Capita, 
+  D.PERIODO as Id_Periodo,
+  NUMERO_PERSONA as Id_Persona, 
+  CUENTA	 as Afiliado, 
+  SUBCUENTA as Subnumero, 
+  D.SECUENCIA as Secuencia,
+  CODIGO_PROD as Id_Producto,  
+  CODIGO_PLAN as Id_plan_Producto, 
+  CODIGO_SPR as id_subproducto,
+  IMPORTE
+FROM PADRONES.PADRONES_DETALLE D
+inner join PADRONES.GENERADORES G on g.ID = d.GENERADORES_ID
+inner join PADRONES.GENERADORES_TIPOS T on t.ID = g.GENERADORES_TIPOS_ID
+inner join PADRONES.PADRONES_CABECERA C on C.GENERADORES_ID = d.GENERADORES_ID
+inner join PADRONES.PADRONES_ESTADOS E on E.ID =  C.padrones_estados_id
+where T.ID = 1 and D.Periodo = ? and ((E.ID = 2 and d.generadores_id = 124) or (E.ID = 6))</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping">"""00001"":Input",{6C8FD525-DEFD-4520-8FCD-192F7069AD2D};</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Connections[OleDbConnection]"
+                  connectionManagerID="{35F84AFA-39B3-4DE2-B208-28F090C93A89}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DS_HOST03]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_CAPITA]"
+                      dataType="i2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_CAPITA]"
+                      lineageId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_CAPITA]"
+                      name="ID_CAPITA"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_PERIODO]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_PERIODO]"
+                      lineageId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_PERIODO]"
+                      name="ID_PERIODO"
+                      precision="6"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_PERSONA]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_PERSONA]"
+                      lineageId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_PERSONA]"
+                      name="ID_PERSONA"
+                      precision="8"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Output].Columns[AFILIADO]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[AFILIADO]"
+                      lineageId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Output].Columns[AFILIADO]"
+                      name="AFILIADO"
+                      precision="8"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Output].Columns[SUBNUMERO]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SUBNUMERO]"
+                      lineageId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Output].Columns[SUBNUMERO]"
+                      name="SUBNUMERO"
+                      precision="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Output].Columns[SECUENCIA]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SECUENCIA]"
+                      lineageId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Output].Columns[SECUENCIA]"
+                      name="SECUENCIA"
+                      precision="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_PRODUCTO]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_PRODUCTO]"
+                      lineageId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_PRODUCTO]"
+                      name="ID_PRODUCTO"
+                      precision="4"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_PLAN_PRODUCTO]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_PLAN_PRODUCTO]"
+                      length="5"
+                      lineageId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_PLAN_PRODUCTO]"
+                      name="ID_PLAN_PRODUCTO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_SUBPRODUCTO]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_SUBPRODUCTO]"
+                      lineageId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Output].Columns[ID_SUBPRODUCTO]"
+                      name="ID_SUBPRODUCTO"
+                      precision="4"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Output].Columns[IMPORTE]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[IMPORTE]"
+                      lineageId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Output].Columns[IMPORTE]"
+                      name="IMPORTE"
+                      precision="11"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_CAPITA]"
+                      dataType="i2"
+                      name="ID_CAPITA" />
+                    <externalMetadataColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_PERIODO]"
+                      dataType="numeric"
+                      name="ID_PERIODO"
+                      precision="6" />
+                    <externalMetadataColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_PERSONA]"
+                      dataType="numeric"
+                      name="ID_PERSONA"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[AFILIADO]"
+                      dataType="numeric"
+                      name="AFILIADO"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SUBNUMERO]"
+                      dataType="numeric"
+                      name="SUBNUMERO"
+                      precision="3" />
+                    <externalMetadataColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[SECUENCIA]"
+                      dataType="numeric"
+                      name="SECUENCIA"
+                      precision="2" />
+                    <externalMetadataColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_PRODUCTO]"
+                      dataType="numeric"
+                      name="ID_PRODUCTO"
+                      precision="4" />
+                    <externalMetadataColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_PLAN_PRODUCTO]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      name="ID_PLAN_PRODUCTO" />
+                    <externalMetadataColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[ID_SUBPRODUCTO]"
+                      dataType="numeric"
+                      name="ID_SUBPRODUCTO"
+                      precision="4" />
+                    <externalMetadataColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[IMPORTE]"
+                      dataType="numeric"
+                      name="IMPORTE"
+                      precision="11"
+                      scale="2" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_CAPITA]"
+                      dataType="i2"
+                      lineageId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_CAPITA]"
+                      name="ID_CAPITA" />
+                    <outputColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_PERIODO]"
+                      dataType="numeric"
+                      lineageId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_PERIODO]"
+                      name="ID_PERIODO"
+                      precision="6" />
+                    <outputColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_PERSONA]"
+                      dataType="numeric"
+                      lineageId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_PERSONA]"
+                      name="ID_PERSONA"
+                      precision="8" />
+                    <outputColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[AFILIADO]"
+                      dataType="numeric"
+                      lineageId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[AFILIADO]"
+                      name="AFILIADO"
+                      precision="8" />
+                    <outputColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SUBNUMERO]"
+                      dataType="numeric"
+                      lineageId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SUBNUMERO]"
+                      name="SUBNUMERO"
+                      precision="3" />
+                    <outputColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SECUENCIA]"
+                      dataType="numeric"
+                      lineageId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[SECUENCIA]"
+                      name="SECUENCIA"
+                      precision="2" />
+                    <outputColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_PRODUCTO]"
+                      dataType="numeric"
+                      lineageId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_PRODUCTO]"
+                      name="ID_PRODUCTO"
+                      precision="4" />
+                    <outputColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_PLAN_PRODUCTO]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      lineageId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_PLAN_PRODUCTO]"
+                      name="ID_PLAN_PRODUCTO" />
+                    <outputColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_SUBPRODUCTO]"
+                      dataType="numeric"
+                      lineageId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ID_SUBPRODUCTO]"
+                      name="ID_SUBPRODUCTO"
+                      precision="4" />
+                    <outputColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[IMPORTE]"
+                      dataType="numeric"
+                      lineageId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[IMPORTE]"
+                      name="IMPORTE"
+                      precision="11"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS.Paths[Data Conversion Output]"
+              endId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="Data Conversion Output"
+              startId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\Data Conversion.Outputs[Data Conversion Output]" />
+            <path
+              refId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS.Paths[OLE DB Source Output]"
+              endId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\Data Conversion.Inputs[Data Conversion Input]"
+              name="OLE DB Source Output"
+              startId="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza Variable - Borra Temporal"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{0B94A21E-9305-4F95-A445-ED7914C295E6}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza Variable - Borra Temporal"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{6601EFDC-B0A3-4B05-9A3F-EFAAD98885BF}"
+          SQLTask:SqlStatementSource="&#xA;/* Actualiza Variable Periodo Consumos. */&#xA;&#xA;&#x9;select CAST(MAX(id_periodo) as CHAR(6)) as Periodo from AUX_PERIODO_MES_BORRA&#xA;&#xA;/* Borra Temporal. */&#xA;&#x9;&#xA;&#x9;TRUNCATE TABLE Consultas_DW.dbo.TMP_IND_CONS_PERSONAS_CAPITAS&#xA;&#xA;&#xA;&#xA;&#xA;"
+          SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="Periodo"
+            SQLTask:DtsVariableName="User::V_Periodo" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Actualizar Tablas de NOTIFICACIONES"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{4bd41072-0125-475f-9697-11032f9d8503}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualizar Tablas de NOTIFICACIONES"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{6601EFDC-B0A3-4B05-9A3F-EFAAD98885BF}"
+          SQLTask:SqlStatementSource="&#xA;&#xA;/* Actualiza la tabla de PLANES */&#xA;&#xA;  -- Actualiza tabla disparadora Consultas_DW.dbo.NOTIFICACION_Planes_Dimensiones.&#xA;  INSERT INTO Consultas_DW.dbo.NOTIFICACION_Planes_Dimensiones&#xA;  (id_producto, id_plan_producto, informado, observaciones)&#xA;  SELECT DISTINCT id_producto, id_plan_producto, 0 as informado, 'TMP_IND_CONS_PERSONAS_CAPITAS' as observaciones&#xA;  FROM Consultas_DW.dbo.TMP_IND_CONS_PERSONAS_CAPITAS D&#xA;  where not exists (select P.id_producto, P.id_plan_producto from D_PLANES P where D.id_producto = P.id_producto and D.id_plan_producto COLLATE SQL_Latin1_General_CP850_CI_AI = P.id_plan_producto)&#xA;&#xA;&#xA;/* Actualiza la tabla de PRODUCTOS. */&#xA;&#xA;  -- Actualiza tabla disparadora Consultas_DW.dbo.NOTIFICACION_Planes_Dimensiones.&#xA;  INSERT INTO Consultas_DW.dbo.NOTIFICACION_Producto_Dimensiones&#xA;  (id_producto, de_producto, informado, observaciones)&#xA;  SELECT DISTINCT id_producto, 'F/D' as de_producto, 0 as informado, 'TMP_IND_CONS_PERSONAS_CAPITAS' AS  observaciones&#xA;  FROM Consultas_DW.dbo.TMP_IND_CONS_PERSONAS_CAPITAS D&#xA;  where id_producto not in (select distinct P.id_producto from D_PRODUCTOS P)&#xA;  &#xA;  &#xA;  " xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{0B7E8E05-C4EE-48CE-A7EC-85083AF45099}"
+      DTS:From="Package\Actualiza Variable - Borra Temporal"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{17B67DEB-D29E-4495-82FB-F28CE320761F}"
+      DTS:From="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Actualizar Tablas de NOTIFICACIONES" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{90C072C0-57EB-4C9A-BA91-364B4D8D95A2}"
+      DTS:From="Package\Actualizar Tablas de NOTIFICACIONES"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Actualiza AUX_H_ORD_AMB_DET" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="252,42"
+          Id="Package\Actualiza AUX_H_ORD_AMB_DET"
+          TopLeft="41.936320754717,208.179245283019" />
+        <NodeLayout
+          Size="333,42"
+          Id="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS"
+          TopLeft="1.43632075471697,73.059748427673" />
+        <NodeLayout
+          Size="253,42"
+          Id="Package\Actualiza Variable - Borra Temporal"
+          TopLeft="41.436320754717,5.5" />
+        <NodeLayout
+          Size="275,42"
+          Id="Package\Actualizar Tablas de NOTIFICACIONES"
+          TopLeft="30.436320754717,140.619496855346" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="167.936320754717,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,25.559748427673"
+              Start="0,0"
+              End="0,18.059748427673">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18.059748427673" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="167.936320754717,115.059748427673">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,25.559748427673"
+              Start="0,0"
+              End="0,18.059748427673">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18.059748427673" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="167.936320754717,182.619496855346">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,25.559748427673"
+              Start="0,0"
+              End="0,18.059748427673">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18.059748427673" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="157,42"
+          Id="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source"
+          TopLeft="22.8207547169811,6.5" />
+        <NodeLayout
+          Size="177,42"
+          Id="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Destination"
+          TopLeft="12.8207547169811,162.330188679245" />
+        <NodeLayout
+          Size="161,42"
+          Id="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\Data Conversion"
+          TopLeft="20.8207547169811,84.4150943396226" />
+        <EdgeLayout
+          Id="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS.Paths[OLE DB Source Output]"
+          TopLeft="101.320754716981,48.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,35.9150943396226"
+              Start="0,0"
+              End="0,28.4150943396226">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,28.4150943396226" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS.Paths[Data Conversion Output]"
+          TopLeft="101.320754716981,126.415094339623">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,35.9150943396226"
+              Start="0,0"
+              End="0,28.4150943396226">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,28.4150943396226" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Actualiza TMP_IND_CONS_PERSONAS_CAPITAS\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

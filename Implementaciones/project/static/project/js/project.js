@@ -1,3 +1,6 @@
+function modal(){
+    $('.modal').modal('show');
+ }
 
 $(document).ready(function () {
 

@@ -1,0 +1,136 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="7/27/2016 7:48:01 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AMS06X"
+  DTS:CreatorName="AMS\nprida"
+  DTS:DTSID="{681D5A6C-2308-40F4-A375-F5BDB9CEC6AD}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="Tablero_Consumos_Mayores_Consumidores"
+  DTS:PackageType="5"
+  DTS:VersionBuild="22"
+  DTS:VersionGUID="{3FBCA304-A753-4D5C-92D4-5680149F726D}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{EDD90D84-DB49-4FF8-9A40-3AB30965AB92}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{EDD90D84-DB49-4FF8-9A40-3AB30965AB92}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\DM_MAYORES_CONSUMIDORES"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tarea Ejecutar SQL"
+      DTS:DTSID="{02F28C92-3853-4FD9-A331-7FE0BDEEB3AE}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DM_MAYORES_CONSUMIDORES"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{BF595323-C78F-4C6D-A7DC-EA2565A19B14}"
+          SQLTask:SqlStatementSource="-- AQ 02.01.2020 &#xA;-- Se ajusta ETL para pasar a tabla definitiva el total de registros para que luego en los reportes coincidan los totales tanto de &#xA;-- reportes de Consumos como de T3, porque con la lógica de Top10 se lograba Total=Amb+Int, pero este total era menor al de Consumos&#xA;&#xA;&#xA;&#xA;-- Arma DM_AMS_MAYORES_CONSUMIDORES SE debe redefinir como DM_AMS_GRAV_MAYORES_CONSUMIDORES&#xA;&#xA;if exists (select * from sysobjects where name = 'AUX_DM_MAYORES_CONSUMIDORES')&#xA;  begin&#xA;     drop table AUX_DM_MAYORES_CONSUMIDORES&#xA;  end&#xA;&#xA;&#xA;---- Genera la tabla auxiliar AUX_DM_MAYORES_CONSUMIDORES ( agrega la info de H_ORD_AMB_DET)&#xA;&#xA;select DRL.id_compania, &#xA;a15.id_posicion, &#xA;a11.id_persona, &#xA;a11.id_origen_prestacion, &#xA;CE.id_subtipo_venta as id_subtipo_venta,&#xA;a13.id_plan_agrupado_G,&#xA;sum(a11.imp_pret_amb_pag) IMP_PAG&#xA;INTO AUX_DM_MAYORES_CONSUMIDORES&#xA;from H_ORD_AMB_DET a11&#xA; join D_PLANES a12&#xA;   on  (a11.id_plan_producto = a12.id_plan_producto and a11.id_producto = a12.id_producto)&#xA; join D_PLANES_AGRUPADOS a13&#xA;   on  (a12.id_plan_agrupado = a13.id_plan_agrupado)&#xA; join D_PERSONAS a14&#xA;   on  (a11.id_persona = a14.id_persona)&#xA; join D_LOCALIDADES_AFILIADO a15&#xA;   on  (a14.id_localidad_afiliado = a15.id_localidad_afiliado)&#xA; join D_PRODUCTOS a16&#xA;   on  (a11.id_producto = a16.id_producto)&#xA;  join D_SUBRUBRO_LEY DSL on (DSL.Id_SubRubro_Ley = a12.id_SubRubro_ley)&#xA;  join D_RUBRO_LEY DRL on (DSL.id_Rubro_Ley = DRL.Id_Rubro_ley)&#xA;  join H_CONVENIOS_EMPRESAS CE on a11.id_convenio = CE.id_convenio and a11.id_tipo_entidad_convenio = CE.id_tipo_entidad_convenio and a11.id_periodo = CE.id_periodo&#xA;WHERE a16.id_segmento not in (3)&#xA;AND NOT EXISTS (SELECT FPP.id_plan_producto,FPP.id_producto from FILTRO_PLAN_PRODUCTO FPP where FPP.id_plan_producto = a11.id_plan_producto and FPP.id_producto = a11.id_producto)&#xA;and a11.ccosto2 = 1&#xA;and DSL.id_SubRubro_ley in (1,2,3,5,6,7) &#xA; and a11.id_periodo in (select top 12 H.id_periodo from D_PERIODO H where H.vigente_consumo=1 group by  H.id_periodo order by H.id_periodo DESC)&#xA; and a11.id_persona not in (100,101,102,103,104,105,106,107)&#xA;group by DRL.id_compania, a15.id_posicion, a11.id_persona, a11.id_origen_prestacion, CE.id_subtipo_venta, a13.id_plan_agrupado_G&#xA;&#xA;&#xA;INSERT INTO AUX_DM_MAYORES_CONSUMIDORES&#xA;select DRL.id_compania, &#xA;a15.id_posicion, &#xA;a11.id_persona, &#xA;a11.id_origen_prestacion, &#xA;CE.id_subtipo_venta as id_subtipo_venta, &#xA;a13.id_plan_agrupado_G,&#xA;sum(a11.imp_prest_int_pag) IMP_PAG&#xA;from H_ORD_INT_DET a11&#xA; join D_PLANES a12&#xA;   on  (a11.id_plan_producto = a12.id_plan_producto and a11.id_producto = a12.id_producto)&#xA; join D_PLANES_AGRUPADOS a13&#xA;   on  (a12.id_plan_agrupado = a13.id_plan_agrupado)&#xA; join D_PERSONAS a14&#xA;   on  (a11.id_persona = a14.id_persona)&#xA; join D_LOCALIDADES_AFILIADO a15&#xA;   on  (a14.id_localidad_afiliado = a15.id_localidad_afiliado)&#xA; join D_PRODUCTOS a16&#xA;   on  (a11.id_producto = a16.id_producto)&#xA;  join D_SUBRUBRO_LEY DSL on (DSL.Id_SubRubro_Ley = a12.id_SubRubro_ley)&#xA;  join D_RUBRO_LEY DRL on (DSL.id_Rubro_Ley = DRL.Id_Rubro_ley)&#xA;  join H_CONVENIOS_EMPRESAS CE on a11.id_convenio = CE.id_convenio and a11.id_tipo_entidad_convenio = CE.id_tipo_entidad_convenio and a11.id_periodo = CE.id_periodo&#xA;WHERE a16.id_segmento not in (3)&#xA;AND NOT EXISTS (SELECT FPP.id_plan_producto,FPP.id_producto from FILTRO_PLAN_PRODUCTO FPP where FPP.id_plan_producto = a11.id_plan_producto and FPP.id_producto = a11.id_producto)&#xA;and a11.ccosto2 = 1&#xA;and DSL.id_SubRubro_ley in (1,2,3,5,6,7) &#xA; and a11.id_periodo in (select top 12 H.id_periodo from D_PERIODO H where H.vigente_consumo=1 group by  H.id_periodo order by H.id_periodo DESC)&#xA; and a11.id_persona not in (100,101,102,103,104,105,106,107)&#xA;group by DRL.id_compania, a15.id_posicion, a11.id_persona, a11.id_origen_prestacion, CE.id_subtipo_venta, a13.id_plan_agrupado_G&#xA;&#xA;&#xA;&#xA;--Creamos  un ORIGEN PRESTACION nuevo que sea TOTAl para poder calcular los TOP contemplando todos ellos&#xA;insert INTO AUX_DM_MAYORES_CONSUMIDORES&#xA;Select id_compania,  &#xA;id_posicion, &#xA;id_persona, &#xA;'T' AS id_origen_prestacion,&#xA;id_subtipo_venta,&#xA;id_plan_agrupado_G,&#xA; sum(IMP_PAG)&#xA;FROM AUX_DM_MAYORES_CONSUMIDORES &#xA;group by id_compania, id_posicion, Id_Persona, id_subtipo_venta ,id_plan_agrupado_G&#xA;&#xA;&#xA;ALTER TABLE AUX_DM_MAYORES_CONSUMIDORES ADD Apellido_mc_T3 nvarchar(20)&#xA;go&#xA;ALTER TABLE AUX_DM_MAYORES_CONSUMIDORES ADD Nombre_mc_T3 nvarchar(20)&#xA;go&#xA;ALTER TABLE AUX_DM_MAYORES_CONSUMIDORES ADD id_localidad_afiliado_mc_T3 int&#xA;go&#xA;ALTER TABLE AUX_DM_MAYORES_CONSUMIDORES ADD de_localidad_afiliado_mc_T3 nvarchar(30)&#xA;go&#xA;ALTER TABLE AUX_DM_MAYORES_CONSUMIDORES ADD id_fallecido_T3 char(1)&#xA;go &#xA;&#xA;update AUX_DM_MAYORES_CONSUMIDORES&#xA;set Apellido_mc_T3 = DP.Apellido,&#xA;Nombre_mc_T3 = DP.Nombre,&#xA;id_localidad_afiliado_mc_T3 = DP.id_localidad_afiliado,&#xA;de_localidad_afiliado_mc_T3 = DL.de_localidad_afiliado,&#xA;id_fallecido_T3 = DP.id_fallecido&#xA;from AUX_DM_MAYORES_CONSUMIDORES AUX &#xA;join D_PERSONAS DP on (DP.id_persona = AUX.id_persona)&#xA;join D_LOCALIDADES_AFILIADO DL on (DL.id_localidad_afiliado = DP.id_localidad_afiliado)&#xA;&#xA;&#xA;---- Borra la tabla DM_MAYORES_CONSUMIDORES&#xA;Truncate table DM_MAYORES_CONSUMIDORES&#xA;&#xA;&#xA;-- Pasaje a tabla definitiva DM_MAYORES_CONSUMIDORES --AQ&#xA;insert into DM_MAYORES_CONSUMIDORES&#xA;Select AUX.id_compania, &#xA;AUX.id_posicion, &#xA;AUX.id_persona, &#xA;AUX.Apellido_mc_T3, &#xA;AUX.Nombre_mc_T3, &#xA;AUX.id_localidad_afiliado_mc_T3, &#xA;AUX.de_localidad_afiliado_mc_T3, &#xA;AUX.id_fallecido_T3, &#xA;AUX.id_origen_prestacion, &#xA;AUX.IMP_PAG&#xA;, 0 as id_empresa_PE_T3 , &#xA;'I' as id_tipo_entidad_PE_T3 , &#xA;0 as id_marca_PE_T3, &#xA;AUX.id_plan_agrupado_G,&#xA;AUX.id_subtipo_venta&#xA;from AUX_DM_MAYORES_CONSUMIDORES AUX&#xA;&#xA;&#xA;&#xA;if exists (select * from sysobjects where name = 'AUX_DM_MAYORES_CONSUMIDORES')&#xA;  begin&#xA;     drop table AUX_DM_MAYORES_CONSUMIDORES&#xA;  end" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\DM_MAYORES_CONSUMIDORES_DETALLE"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tarea Ejecutar SQL"
+      DTS:Disabled="True"
+      DTS:DTSID="{50A40E13-B555-482E-A4F1-6AAB18BA9825}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DM_MAYORES_CONSUMIDORES_DETALLE"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{BF595323-C78F-4C6D-A7DC-EA2565A19B14}"
+          SQLTask:SqlStatementSource="if exists (select * from sysobjects where name = 'H1')&#xA;  begin&#xA;     drop table H1&#xA;  end&#xA;&#xA;if exists (select * from sysobjects where name = 'H2')&#xA;  begin&#xA;     drop table H2&#xA;  end&#xA;&#xA;------------------------&#xA;&#xA;select DRL.id_compania, a15.id_posicion, &#xA;a11.id_provision, &#xA; a11.id_prestacion, &#xA; a11.id_reintegro,  &#xA;DM.id_persona_mc_T3, a11.id_origen_prestacion, &#xA;sum(a11.imp_pret_amb_pag) Imp_Pag_AMB,&#xA;DM.id_subtipo_venta, &#xA;a13.id_plan_agrupado_G&#xA;INTO H1&#xA;from DM_MAYORES_CONSUMIDORES DM&#xA;inner join H_ORD_AMB_DET a11 ON DM.id_persona_mc_T3 = a11.id_persona &#xA;join H_CONVENIOS_EMPRESAS CE on CE.id_convenio = a11.id_convenio and a11.id_tipo_entidad_convenio = CE.id_tipo_entidad_convenio and CE.id_periodo = a11.id_periodo and DM.id_subtipo_venta = CE.id_subtipo_venta&#xA; join D_PLANES a12&#xA;   on  (a11.id_plan_producto = a12.id_plan_producto and a11.id_producto = a12.id_producto)&#xA; join D_PLANES_AGRUPADOS a13&#xA;   on  (a12.id_plan_agrupado = a13.id_plan_agrupado and a13.id_plan_agrupado_G = DM.id_plan_agrupado_G)&#xA; join D_PERSONAS a14&#xA;   on  (a11.id_persona = a14.id_persona)&#xA; join D_LOCALIDADES_AFILIADO a15&#xA;   on  (a14.id_localidad_afiliado = a15.id_localidad_afiliado)&#xA; join D_PRODUCTOS a16&#xA;   on  (a11.id_producto = a16.id_producto)&#xA;  join D_SUBRUBRO_LEY DSL on (DSL.Id_SubRubro_Ley = a12.id_SubRubro_ley)&#xA;  join D_RUBRO_LEY DRL on (DSL.id_Rubro_Ley = DRL.Id_Rubro_ley)&#xA;WHERE a16.id_segmento not in (3)&#xA;AND NOT EXISTS (SELECT FPP.id_plan_producto,FPP.id_producto from FILTRO_PLAN_PRODUCTO FPP where FPP.id_plan_producto = a11.id_plan_producto and FPP.id_producto = a11.id_producto)&#xA;and a11.ccosto2 = 1&#xA;and DSL.id_SubRubro_ley in (1,2,3,5,6,7) &#xA;and DM.id_origen_prestacion = 'T' -- ESTA CONDICION ESTA XQ SOLO DEBE CRUZAR LOS REGISTROS CON ORIGEN PRESTACION TOTAL PARA QUE NO DUPLIQUE IMPORTES&#xA; and a11.id_periodo in (select top 12 H.id_periodo from D_PERIODO H where H.vigente_consumo=1 group by  H.id_periodo order by H.id_periodo DESC)&#xA; and not EXISTS (select fpp.id_producto, fpp.id_plan_producto from FILTRO_PLAN_PRODUCTO fpp where fpp.id_producto = a11.id_producto and fpp.id_plan_producto = a11.id_plan_producto)&#xA;group by DRL.id_compania, a15.id_posicion,&#xA;a11.id_provision,  &#xA; a11.id_prestacion, &#xA; a11.id_reintegro,&#xA; DM.id_persona_mc_T3, &#xA; a11.id_origen_prestacion, &#xA; DM.id_subtipo_venta, &#xA; a13.id_plan_agrupado_G&#xA;&#xA;--INTERNACION&#xA;select DRL.id_compania, a15.id_posicion, &#xA;a11.id_provision,  &#xA; a11.id_prestacion,&#xA; a11.id_reintegro,  &#xA;DM.id_persona_mc_T3, a11.id_origen_prestacion, &#xA;sum(a11.imp_prest_int_pag) Imp_Pag_INT,&#xA;DM.id_subtipo_venta, &#xA;a13.id_plan_agrupado_G&#xA;INTO H2&#xA;from DM_MAYORES_CONSUMIDORES DM&#xA;inner join H_ORD_INT_DET a11 ON DM.id_persona_mc_T3 = a11.id_persona &#xA;join H_CONVENIOS_EMPRESAS CE on CE.id_convenio = a11.id_convenio and a11.id_tipo_entidad_convenio = CE.id_tipo_entidad_convenio and CE.id_periodo = a11.id_periodo and DM.id_subtipo_venta = CE.id_subtipo_venta&#xA; join D_PLANES a12&#xA;   on  (a11.id_plan_producto = a12.id_plan_producto and a11.id_producto = a12.id_producto)&#xA; join D_PLANES_AGRUPADOS a13&#xA;   on  (a12.id_plan_agrupado = a13.id_plan_agrupado and a13.id_plan_agrupado_G = DM.id_plan_agrupado_G)&#xA; join D_PERSONAS a14&#xA;   on  (a11.id_persona = a14.id_persona)&#xA; join D_LOCALIDADES_AFILIADO a15&#xA;   on  (a14.id_localidad_afiliado = a15.id_localidad_afiliado)&#xA; join D_PRODUCTOS a16&#xA;   on  (a11.id_producto = a16.id_producto)&#xA;  join D_SUBRUBRO_LEY DSL on (DSL.Id_SubRubro_Ley = a12.id_SubRubro_ley)&#xA;  join D_RUBRO_LEY DRL on (DSL.id_Rubro_Ley = DRL.Id_Rubro_ley)&#xA;WHERE a16.id_segmento not in (3)&#xA;AND NOT EXISTS (SELECT FPP.id_plan_producto,FPP.id_producto from FILTRO_PLAN_PRODUCTO FPP where FPP.id_plan_producto = a11.id_plan_producto and FPP.id_producto = a11.id_producto)&#xA;and a11.ccosto2 = 1&#xA;and DSL.id_SubRubro_ley in (1,2,3,5,6,7) &#xA;and DM.id_origen_prestacion = 'T' -- ESTA CONDICION ESTA XQ SOLO DEBE CRUZAR LOS REGISTROS CON ORIGEN PRESTACION TOTAL PARA QUE NO DUPLIQUE IMPORTES&#xA; and a11.id_periodo in (select top 12 H.id_periodo from D_PERIODO H where H.vigente_consumo=1 group by  H.id_periodo order by H.id_periodo DESC)&#xA; and not EXISTS (select fpp.id_producto, fpp.id_plan_producto from FILTRO_PLAN_PRODUCTO fpp where fpp.id_producto = a11.id_producto and fpp.id_plan_producto = a11.id_plan_producto)&#xA;group by DRL.id_compania, a15.id_posicion,&#xA;a11.id_provision, &#xA; a11.id_prestacion,&#xA; a11.id_reintegro,&#xA; DM.id_persona_mc_T3, &#xA; a11.id_origen_prestacion, &#xA; DM.id_subtipo_venta, &#xA; a13.id_plan_agrupado_G&#xA;&#xA;&#xA;  &#xA;Truncate table DM_MAYORES_CONSUMIDORES_DETALLE&#xA;&#xA;INSERT INTO DM_MAYORES_CONSUMIDORES_DETALLE&#xA;SELECT id_compania, id_persona_mc_T3, DP.Apellido, DP.Nombre, id_origen_prestacion, Id_Provision, &#xA;Id_Prestacion, Imp_Pag_AMB as IMP_PAG , 0 as id_empresa_PE_T3, 'I' as id_tipo_entidad_PE_T3, 0 as id_marca_PE_T3, id_plan_agrupado_G, 0 as id_convenio, 'I' as id_tipo_entidad_convenio, id_subtipo_venta&#xA;FROM H1 join D_PERSONAS DP on (id_persona_mc_T3 = DP.id_persona) &#xA;&#xA;union all&#xA;&#xA;SELECT id_compania, id_persona_mc_T3, DP.Apellido, DP.Nombre, id_origen_prestacion, Id_Provision, &#xA;Id_Prestacion, Imp_Pag_INT as IMP_PAG , 0 as id_empresa_PE_T3, 'I' as id_tipo_entidad_PE_T3, 0 as id_marca_PE_T3, id_plan_agrupado_G, 0 as id_convenio, 'I' as id_tipo_entidad_convenio, id_subtipo_venta&#xA;FROM H2 join D_PERSONAS DP on (id_persona_mc_T3 = DP.id_persona) &#xA;&#xA;&#xA;-----------------------------------------------------------------------------------&#xA;&#xA;if exists (select * from sysobjects where name = 'H1')&#xA;  begin&#xA;     drop table H1&#xA;  end&#xA;&#xA;if exists (select * from sysobjects where name = 'H2')&#xA;  begin&#xA;     drop table H2&#xA;  end&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{2BF94561-7FAE-45B2-9E00-2289BFC87A36}"
+      DTS:From="Package\DM_MAYORES_CONSUMIDORES"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\DM_MAYORES_CONSUMIDORES_DETALLE" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="254,42"
+          Id="Package\DM_MAYORES_CONSUMIDORES"
+          TopLeft="31.2311320754717,5.5" />
+        <NodeLayout
+          Size="309,42"
+          Id="Package\DM_MAYORES_CONSUMIDORES_DETALLE"
+          TopLeft="3.73113207547169,106.330188679245" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="158.231132075472,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,58.8301886792453"
+              Start="0,0"
+              End="0,51.3301886792453">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,51.3301886792453" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

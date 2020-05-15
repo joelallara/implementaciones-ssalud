@@ -11,7 +11,7 @@ project_patterns = ([
          PackageTasksView.as_view(),
          name="tasks"
          ),
-     path('actualizar_info_projectos',
+    path('actualizar_info_projectos',
          update_projects_info,
          name="update_projects_info"
          ),

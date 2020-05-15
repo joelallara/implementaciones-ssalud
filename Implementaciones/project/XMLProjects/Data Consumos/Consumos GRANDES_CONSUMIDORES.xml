@@ -1,0 +1,156 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="10/27/2016 1:28:53 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AMS06X"
+  DTS:CreatorName="AMS\nborio"
+  DTS:DTSID="{1E759E58-3115-4720-8B58-6AB92DBCC432}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="Consumos GRANDES_CONSUMIDORES"
+  DTS:PackageType="5"
+  DTS:VersionBuild="14"
+  DTS:VersionGUID="{A8341F05-8869-4BCD-8D43-2DB9449E9E2B}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{66B5501C-0F5C-450C-BC13-EEA8676D6210}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">1,7,OnError</DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnError"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{66B5501C-0F5C-450C-BC13-EEA8676D6210}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\GC Otros Subsidios"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{956BEFAB-371C-449D-A673-0B60C2438E1D}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="GC Otros Subsidios"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{6601EFDC-B0A3-4B05-9A3F-EFAAD98885BF}"
+          SQLTask:SqlStatementSource="SET DATEFORMAT 'YMD'&#xA;&#xA;&#xA;select&#x9;a11.id_persona  id_persona,&#xA;&#x9;sum(a11.imp_pret_amb_pag)  WJXBFS1&#xA;into #ZZSP00&#xA;from&#x9;H_ORD_AMB_DET&#x9;a11&#xA;&#x9;join&#x9;D_PRODUCTOS&#x9;a12&#xA;&#x9;  on &#x9;(a11.id_producto = a12.id_producto)&#xA;&#x9;join&#x9;D_PLANES&#x9;a13&#xA;&#x9;  on &#x9;(a11.id_plan_producto = a13.id_plan_producto and &#xA;&#x9;a11.id_producto = a13.id_producto)&#xA;where&#x9;(a12.Id_Clase_Producto in ('S ')&#xA; and a13.Id_SubRubro_Ley in (1, 2, 3, 5, 6, 7)&#xA; and a11.id_periodo in (select top 12 H.id_periodo  from D_PERIODO H where vigente_consumo = 1 group by  H.id_periodo order by H.id_periodo desc)&#xA; and not ((a11.id_producto = 16 and a11.id_plan_producto = 'CC   ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='CM   ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='CS1  ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='CS100')&#xA;   or  (a11.id_producto=4 and a11.id_plan_producto='M    ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='M    ')&#xA;   or  (a11.id_producto=20 and a11.id_plan_producto='M    ')&#xA;   or  (a11.id_producto=14 and a11.id_plan_producto='Z    ')&#xA;   or  (a11.id_producto=20 and a11.id_plan_producto='Z    ')&#xA;   or  (a11.id_producto=1 and a11.id_plan_producto='C    ')&#xA;   or  (a11.id_producto=4 and a11.id_plan_producto='Z    '))&#xA; and a11.ccosto3 = 1)&#xA;group by&#x9;a11.id_persona &#xA;&#xA;select&#x9;a11.id_persona  id_persona,&#xA;&#x9;sum(a11.imp_prest_int_pag)  WJXBFS1&#xA;into #ZZSP01&#xA;from&#x9;H_ORD_INT_DET&#x9;a11&#xA;&#x9;join&#x9;D_PRODUCTOS&#x9;a12&#xA;&#x9;  on &#x9;(a11.id_producto = a12.id_producto)&#xA;&#x9;join&#x9;D_PLANES&#x9;a13&#xA;&#x9;  on &#x9;(a11.id_plan_producto = a13.id_plan_producto and &#xA;&#x9;a11.id_producto = a13.id_producto)&#xA;where&#x9;(a12.Id_Clase_Producto in ('S ')&#xA; and a13.Id_SubRubro_Ley in (1, 2, 3, 5, 6, 7)&#xA; and a11.id_periodo in (select top 12 H.id_periodo  from D_PERIODO H where vigente_consumo = 1 group by  H.id_periodo order by H.id_periodo desc)&#xA; and not ((a11.id_producto = 16 and a11.id_plan_producto = 'CC   ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='CM   ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='CS1  ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='CS100')&#xA;   or  (a11.id_producto=4 and a11.id_plan_producto='M    ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='M    ')&#xA;   or  (a11.id_producto=20 and a11.id_plan_producto='M    ')&#xA;   or  (a11.id_producto=14 and a11.id_plan_producto='Z    ')&#xA;   or  (a11.id_producto=20 and a11.id_plan_producto='Z    ')&#xA;   or  (a11.id_producto=1 and a11.id_plan_producto='C    ')&#xA;   or  (a11.id_producto=4 and a11.id_plan_producto='Z    '))&#xA; and a11.ccosto3 = 1)&#xA;group by&#x9;a11.id_persona &#xA;&#xA;select&#x9;coalesce(pa11.id_persona, pa12.id_persona)  id_persona&#xA;&#x9;into #ZZMQ02&#xA;from&#x9;#ZZSP00&#x9;pa11&#xA;&#x9;full outer join&#x9;#ZZSP01&#x9;pa12&#xA;&#x9;  on &#x9;(pa11.id_persona = pa12.id_persona)&#xA;where&#x9;((ISNULL(pa11.WJXBFS1, 0) + ISNULL(pa12.WJXBFS1, 0)) &gt;=  500000.0) &#xA;&#xA;select&#x9;a11.id_persona  id_persona,&#xA;&#x9;sum(a11.imp_pret_amb_pag)  WJXBFS1&#xA;into #ZZSP03&#xA;from&#x9;H_ORD_AMB_DET&#x9;a11&#xA;&#x9;join&#x9;D_PLANES&#x9;a12&#xA;&#x9;  on &#x9;(a11.id_plan_producto = a12.id_plan_producto and &#xA;&#x9;a11.id_producto = a12.id_producto)&#xA;&#x9;join&#x9;#ZZMQ02&#x9;pa13&#xA;&#x9;  on &#x9;(a11.id_persona = pa13.id_persona)&#xA;&#x9;join&#x9;D_PRODUCTOS&#x9;a14&#xA;&#x9;  on &#x9;(a11.id_producto = a14.id_producto)&#xA;where&#x9;(a14.Id_Clase_Producto in ('S ')&#xA; and a12.Id_SubRubro_Ley in (1, 2, 3, 5, 6, 7)&#xA; and a11.id_periodo in (select top 12 H.id_periodo  from D_PERIODO H where vigente_consumo = 1 group by  H.id_periodo order by H.id_periodo desc)&#xA; and not ((a11.id_producto = 16 and a11.id_plan_producto = 'CC   ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='CM   ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='CS1  ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='CS100')&#xA;   or  (a11.id_producto=4 and a11.id_plan_producto='M    ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='M    ')&#xA;   or  (a11.id_producto=20 and a11.id_plan_producto='M    ')&#xA;   or  (a11.id_producto=14 and a11.id_plan_producto='Z    ')&#xA;   or  (a11.id_producto=20 and a11.id_plan_producto='Z    ')&#xA;   or  (a11.id_producto=1 and a11.id_plan_producto='C    ')&#xA;   or  (a11.id_producto=4 and a11.id_plan_producto='Z    '))&#xA; and a11.ccosto3 = 1)&#xA;group by&#x9;a11.id_persona &#xA;&#xA;select&#x9;a11.id_persona  id_persona,&#xA;&#x9;sum(a11.imp_prest_int_pag)  WJXBFS1&#xA;into #ZZSP04&#xA;from&#x9;H_ORD_INT_DET&#x9;a11&#xA;&#x9;join&#x9;D_PLANES&#x9;a12&#xA;&#x9;  on &#x9;(a11.id_plan_producto = a12.id_plan_producto and &#xA;&#x9;a11.id_producto = a12.id_producto)&#xA;&#x9;join&#x9;#ZZMQ02&#x9;pa13&#xA;&#x9;  on &#x9;(a11.id_persona = pa13.id_persona)&#xA;&#x9;join&#x9;D_PRODUCTOS&#x9;a14&#xA;&#x9;  on &#x9;(a11.id_producto = a14.id_producto)&#xA;where&#x9;(a14.Id_Clase_Producto in ('S ')&#xA; and a12.Id_SubRubro_Ley in (1, 2, 3, 5, 6, 7)&#xA; and a11.id_periodo in (select top 12 H.id_periodo  from D_PERIODO H where vigente_consumo = 1 group by  H.id_periodo order by H.id_periodo desc)&#xA; and not ((a11.id_producto = 16 and a11.id_plan_producto = 'CC   ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='CM   ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='CS1  ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='CS100')&#xA;   or  (a11.id_producto=4 and a11.id_plan_producto='M    ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='M    ')&#xA;   or  (a11.id_producto=20 and a11.id_plan_producto='M    ')&#xA;   or  (a11.id_producto=14 and a11.id_plan_producto='Z    ')&#xA;   or  (a11.id_producto=20 and a11.id_plan_producto='Z    ')&#xA;   or  (a11.id_producto=1 and a11.id_plan_producto='C    ')&#xA;   or  (a11.id_producto=4 and a11.id_plan_producto='Z    '))&#xA; and a11.ccosto3 = 1)&#xA;group by&#x9;a11.id_persona &#xA;&#xA;select&#x9;distinct coalesce(pa11.id_persona, pa12.id_persona)  id_persona,&#xA;&#x9;a15.Apellido  Apellido,&#xA;&#x9;a15.Nombre  Nombre,&#xA;&#x9;ISNULL(pa11.WJXBFS1, 0)  amb,&#xA;&#x9;ISNULL(pa12.WJXBFS1, 0)  int&#xA;&#x9;into #finalcosto2&#xA;from&#x9;#ZZSP03&#x9;pa11&#xA;&#x9;full outer join&#x9;#ZZSP04&#x9;pa12&#xA;&#x9;  on &#x9;(pa11.id_persona = pa12.id_persona)&#xA;&#x9;join&#x9;D_PERSONAS&#x9;a15&#xA;&#x9;  on &#x9;(coalesce(pa11.id_persona, pa12.id_persona) = a15.id_persona)&#xA;&#xA;&#xA;drop table #ZZSP00&#xA;&#xA;drop table #ZZSP01&#xA;&#xA;drop table #ZZMQ02&#xA;&#xA;drop table #ZZSP03&#xA;&#xA;drop table #ZZSP04&#xA;&#xA;&#xA;DECLARE @Periodo INT&#xA;Set @Periodo = (select MAX(Ult24Periodo.Periodo) from&#xA;(select top 12 H.id_periodo as Periodo from D_PERIODO H where vigente_consumo = 1 group by  H.id_periodo order by H.id_periodo desc) Ult24Periodo)&#xA;&#xA;DELETE H_GRANDES_CONSUMIDORES_U12M_Costo_otros_subsidios WHERE id_periodo = @Periodo&#xA;&#xA;insert H_GRANDES_CONSUMIDORES_U12M_Costo_otros_subsidios&#xA;select @Periodo, 0, id_persona, 0, (amb + int) as consumo, 1 as cantidad&#xA;from #finalcosto2&#xA;&#xA;SELECT * FROM H_GRANDES_CONSUMIDORES_U12M_Costo_otros_subsidios&#xA;&#xA;SELECT ST.id_persona, MAX(ST.ID_PERIODO) AS MAXPERI INTO #PERIODOSTOCK&#xA;FROM H_COMER_STOCK_AFILIA ST&#xA;INNER JOIN H_GRANDES_CONSUMIDORES_U12M_Costo_otros_subsidios GC ON (GC.id_persona = ST.id_persona)&#xA;WHERE ST.ID_PERIODO &lt;= @Periodo&#xA;GROUP BY ST.id_persona&#xA;&#xA;SELECT ST.ID_PERSONA, ST.ID_PERIODO, ST.ID_PRODUCTO, ST.ID_PLAN_PRODUCTO&#xA;INTO #STOCKPLAN &#xA;FROM H_COMER_STOCK_AFILIA ST&#xA;INNER JOIN #PERIODOSTOCK PS ON (ST.id_persona = PS.ID_PERSONA AND ST.id_periodo = PS.MAXPERI)&#xA;&#xA;UPDATE H_GRANDES_CONSUMIDORES_U12M_Costo_otros_subsidios&#xA;SET Id_SubRubro_Ley = PL.id_SubRubro_ley&#xA;FROM H_GRANDES_CONSUMIDORES_U12M_Costo_otros_subsidios GC &#xA;INNER JOIN #STOCKPLAN PS ON (PS.ID_PERSONA = GC.id_persona)&#xA;inner join D_PLANES PL ON (PS.id_producto = PL.id_producto AND PS.id_plan_producto = PL.id_plan_producto)&#xA;where GC.id_periodo = @Periodo&#xA;&#xA;update H_GRANDES_CONSUMIDORES_U12M_Costo_otros_subsidios&#xA;set id_compania = 2&#xA;where Id_SubRubro_Ley in (5,6,7) and id_periodo = @Periodo&#xA;&#xA;update H_GRANDES_CONSUMIDORES_U12M_Costo_otros_subsidios&#xA;set id_compania = 1&#xA;where Id_SubRubro_Ley in (1,2,3) and id_periodo = @Periodo" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\GC Subsidios SSS"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{489FD6F2-4628-480D-834E-843187C5AB61}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="GC Subsidios SSS"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{6601EFDC-B0A3-4B05-9A3F-EFAAD98885BF}"
+          SQLTask:SqlStatementSource="SET DATEFORMAT 'YMD'&#xA;&#xA;&#xA;select&#x9;a11.id_persona  id_persona,&#xA;&#x9;sum(a11.imp_pret_amb_pag)  WJXBFS1&#xA;into #ZZSP00&#xA;from&#x9;H_ORD_AMB_DET&#x9;a11&#xA;&#x9;join&#x9;D_PRODUCTOS&#x9;a12&#xA;&#x9;  on &#x9;(a11.id_producto = a12.id_producto)&#xA;&#x9;join&#x9;D_PLANES&#x9;a13&#xA;&#x9;  on &#x9;(a11.id_plan_producto = a13.id_plan_producto and &#xA;&#x9;a11.id_producto = a13.id_producto)&#xA;where&#x9;(a12.Id_Clase_Producto in ('S ')&#xA; and a13.Id_SubRubro_Ley in (1, 2, 3, 5, 6, 7)&#xA; and a11.id_periodo in (select top 12 H.id_periodo  from D_PERIODO H where vigente_consumo = 1 group by  H.id_periodo order by H.id_periodo desc)&#xA; and not ((a11.id_producto = 16 and a11.id_plan_producto = 'CC   ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='CM   ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='CS1  ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='CS100')&#xA;   or  (a11.id_producto=4 and a11.id_plan_producto='M    ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='M    ')&#xA;   or  (a11.id_producto=20 and a11.id_plan_producto='M    ')&#xA;   or  (a11.id_producto=14 and a11.id_plan_producto='Z    ')&#xA;   or  (a11.id_producto=20 and a11.id_plan_producto='Z    ')&#xA;   or  (a11.id_producto=1 and a11.id_plan_producto='C    ')&#xA;   or  (a11.id_producto=4 and a11.id_plan_producto='Z    '))&#xA; and a11.ccosto2 = 1)&#xA;group by&#x9;&#x9;a11.id_persona &#xA;&#xA;select&#x9;&#x9;a11.id_persona  id_persona,&#xA;&#x9;sum(a11.imp_prest_int_pag)  WJXBFS1&#xA;into #ZZSP01&#xA;from&#x9;H_ORD_INT_DET&#x9;a11&#xA;&#x9;join&#x9;D_PRODUCTOS&#x9;a12&#xA;&#x9;  on &#x9;(a11.id_producto = a12.id_producto)&#xA;&#x9;join&#x9;D_PLANES&#x9;a13&#xA;&#x9;  on &#x9;(a11.id_plan_producto = a13.id_plan_producto and &#xA;&#x9;a11.id_producto = a13.id_producto)&#xA;where&#x9;(a12.Id_Clase_Producto in ('S ')&#xA; and a13.Id_SubRubro_Ley in (1, 2, 3, 5, 6, 7)&#xA; and a11.id_periodo in (select top 12 H.id_periodo  from D_PERIODO H where vigente_consumo = 1 group by  H.id_periodo order by H.id_periodo desc)&#xA; and not ((a11.id_producto = 16 and a11.id_plan_producto = 'CC   ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='CM   ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='CS1  ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='CS100')&#xA;   or  (a11.id_producto=4 and a11.id_plan_producto='M    ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='M    ')&#xA;   or  (a11.id_producto=20 and a11.id_plan_producto='M    ')&#xA;   or  (a11.id_producto=14 and a11.id_plan_producto='Z    ')&#xA;   or  (a11.id_producto=20 and a11.id_plan_producto='Z    ')&#xA;   or  (a11.id_producto=1 and a11.id_plan_producto='C    ')&#xA;   or  (a11.id_producto=4 and a11.id_plan_producto='Z    '))&#xA; and a11.ccosto2 = 1)&#xA;group by&#x9;&#x9;a11.id_persona &#xA;&#xA;select&#x9;coalesce(pa11.id_persona, pa12.id_persona)  id_persona&#xA;&#x9;into #ZZMQ02&#xA;from&#x9;#ZZSP00&#x9;pa11&#xA;&#x9;full outer join&#x9;#ZZSP01&#x9;pa12&#xA;&#x9;  on &#x9;(pa11.id_persona = pa12.id_persona)&#xA;where&#x9;((ISNULL(pa11.WJXBFS1, 0) + ISNULL(pa12.WJXBFS1, 0)) &gt;=  500000.0) &#xA;&#xA;select&#x9;&#x9;a11.id_persona  id_persona,&#xA;&#x9;sum(a11.imp_pret_amb_pag)  WJXBFS1&#xA;into #ZZSP03&#xA;from&#x9;H_ORD_AMB_DET&#x9;a11&#xA;&#x9;join&#x9;D_PLANES&#x9;a12&#xA;&#x9;  on &#x9;(a11.id_plan_producto = a12.id_plan_producto and &#xA;&#x9;a11.id_producto = a12.id_producto)&#xA;&#x9;join&#x9;#ZZMQ02&#x9;pa13&#xA;&#x9;  on &#x9;(a11.id_persona = pa13.id_persona)&#xA;&#x9;join&#x9;D_PRODUCTOS&#x9;a14&#xA;&#x9;  on &#x9;(a11.id_producto = a14.id_producto)&#xA;where&#x9;(a14.Id_Clase_Producto in ('S ')&#xA; and a12.Id_SubRubro_Ley in (1, 2, 3, 5, 6, 7)&#xA; and a11.id_periodo in (select top 12 H.id_periodo  from D_PERIODO H where vigente_consumo = 1 group by  H.id_periodo order by H.id_periodo desc)&#xA; and not ((a11.id_producto = 16 and a11.id_plan_producto = 'CC   ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='CM   ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='CS1  ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='CS100')&#xA;   or  (a11.id_producto=4 and a11.id_plan_producto='M    ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='M    ')&#xA;   or  (a11.id_producto=20 and a11.id_plan_producto='M    ')&#xA;   or  (a11.id_producto=14 and a11.id_plan_producto='Z    ')&#xA;   or  (a11.id_producto=20 and a11.id_plan_producto='Z    ')&#xA;   or  (a11.id_producto=1 and a11.id_plan_producto='C    ')&#xA;   or  (a11.id_producto=4 and a11.id_plan_producto='Z    '))&#xA; and a11.ccosto2 = 1)&#xA;group by&#x9;&#x9;a11.id_persona &#xA;&#xA;select&#x9;&#x9;a11.id_persona  id_persona,&#xA;&#x9;sum(a11.imp_prest_int_pag)  WJXBFS1&#xA;into #ZZSP04&#xA;from&#x9;H_ORD_INT_DET&#x9;a11&#xA;&#x9;join&#x9;D_PLANES&#x9;a12&#xA;&#x9;  on &#x9;(a11.id_plan_producto = a12.id_plan_producto and &#xA;&#x9;a11.id_producto = a12.id_producto)&#xA;&#x9;join&#x9;#ZZMQ02&#x9;pa13&#xA;&#x9;  on &#x9;(a11.id_persona = pa13.id_persona)&#xA;&#x9;join&#x9;D_PRODUCTOS&#x9;a14&#xA;&#x9;  on &#x9;(a11.id_producto = a14.id_producto)&#xA;where&#x9;(a14.Id_Clase_Producto in ('S ')&#xA; and a12.Id_SubRubro_Ley in (1, 2, 3, 5, 6, 7)&#xA; and a11.id_periodo in (select top 12 H.id_periodo  from D_PERIODO H where vigente_consumo = 1 group by  H.id_periodo order by H.id_periodo desc)&#xA; and not ((a11.id_producto = 16 and a11.id_plan_producto = 'CC   ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='CM   ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='CS1  ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='CS100')&#xA;   or  (a11.id_producto=4 and a11.id_plan_producto='M    ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='M    ')&#xA;   or  (a11.id_producto=20 and a11.id_plan_producto='M    ')&#xA;   or  (a11.id_producto=14 and a11.id_plan_producto='Z    ')&#xA;   or  (a11.id_producto=20 and a11.id_plan_producto='Z    ')&#xA;   or  (a11.id_producto=1 and a11.id_plan_producto='C    ')&#xA;   or  (a11.id_producto=4 and a11.id_plan_producto='Z    '))&#xA; and a11.ccosto2 = 1)&#xA;group by&#x9;&#x9;a11.id_persona &#xA;&#xA;select&#x9;distinct coalesce(pa11.id_persona, pa12.id_persona)  id_persona,&#xA;&#x9;a15.Apellido  Apellido,&#xA;&#x9;a15.Nombre  Nombre,&#xA;&#x9;ISNULL(pa11.WJXBFS1, 0)  amb,&#xA;&#x9;ISNULL(pa12.WJXBFS1, 0)  int&#xA;&#x9;into #finalcosto2&#xA;from&#x9;#ZZSP03&#x9;pa11&#xA;&#x9;full outer join&#x9;#ZZSP04&#x9;pa12&#xA;&#x9;  on &#x9;(pa11.id_persona = pa12.id_persona)&#xA;&#x9;join&#x9;D_PERSONAS&#x9;a15&#xA;&#x9;  on &#x9;(coalesce(pa11.id_persona, pa12.id_persona) = a15.id_persona)&#xA;&#x9;&#xA;drop table #ZZSP00&#xA;&#xA;drop table #ZZSP01&#xA;&#xA;drop table #ZZMQ02&#xA;&#xA;drop table #ZZSP03&#xA;&#xA;drop table #ZZSP04&#xA;&#xA;&#xA;&#xA;--select * from #finalcosto2&#xA;&#xA;--- Todo esto va ....&#xA;DECLARE @Periodo INT&#xA;Set @Periodo = (select MAX(Ult24Periodo.Periodo) from&#xA;(select top 12 H.id_periodo as Periodo from D_PERIODO H where vigente_consumo = 1 group by  H.id_periodo order by H.id_periodo desc) Ult24Periodo)&#xA;&#xA;DELETE H_GRANDES_CONSUMIDORES_U12M WHERE id_periodo = @Periodo&#xA;&#xA;update #finalcosto2&#xA;set int = 0 where int is null&#xA;&#xA;insert H_GRANDES_CONSUMIDORES_U12M&#xA;select @Periodo, 0, id_persona, 0, (amb + int) as consumo, 1 as cantidad, null as id_posicion&#xA;from #finalcosto2&#xA;&#xA;SELECT ST.id_persona, MAX(ST.ID_PERIODO) AS MAXPERI INTO #PERIODOSTOCK&#xA;FROM H_COMER_STOCK_AFILIA ST&#xA;INNER JOIN H_GRANDES_CONSUMIDORES_U12M GC ON (GC.id_persona = ST.id_persona)&#xA;WHERE ST.ID_PERIODO &lt;= @Periodo&#xA;GROUP BY ST.id_persona&#xA;&#xA;SELECT ST.ID_PERSONA, ST.ID_PERIODO, ST.ID_PRODUCTO, ST.ID_PLAN_PRODUCTO&#xA;INTO #STOCKPLAN &#xA;FROM H_COMER_STOCK_AFILIA ST&#xA;INNER JOIN #PERIODOSTOCK PS ON (ST.id_persona = PS.ID_PERSONA AND ST.id_periodo = PS.MAXPERI)&#xA;&#xA;UPDATE H_GRANDES_CONSUMIDORES_U12M&#xA;SET Id_SubRubro_Ley = PL.id_SubRubro_ley&#xA;FROM H_GRANDES_CONSUMIDORES_U12M GC &#xA;INNER JOIN #STOCKPLAN PS ON (PS.ID_PERSONA = GC.id_persona)&#xA;inner join D_PLANES PL ON (PS.id_producto = PL.id_producto AND PS.id_plan_producto = PL.id_plan_producto)&#xA;where GC.id_periodo = @Periodo&#xA;&#xA;update H_GRANDES_CONSUMIDORES_U12M&#xA;set id_compania = 2&#xA;where Id_SubRubro_Ley in (5,6,7) and id_periodo = @Periodo&#xA;&#xA;update H_GRANDES_CONSUMIDORES_U12M&#xA;set id_compania = 1&#xA;where Id_SubRubro_Ley in (1,2,3) and id_periodo = @Periodo&#xA;&#xA;&#xA;----- Actualiza la posicion de los grandes consumidores, cruzando por D Perosnas y D Localidades&#xA;update H_GRANDES_CONSUMIDORES_U12M&#xA;set id_posicion = loc.id_posicion &#xA;from H_GRANDES_CONSUMIDORES_U12M GC&#xA;INNER JOIN D_PERSONAS PER ON (GC.id_persona = PER.id_persona)&#xA;INNER JOIN D_LOCALIDADES_AFILIADO LOC ON (PER.id_localidad_afiliado = LOC.id_localidad_afiliado)&#xA;WHERE id_periodo = @Periodo&#xA;&#xA;&#xA;--SELECT * FROM H_GRANDES_CONSUMIDORES_U12M" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{80E5FFF8-9BBB-4912-A02B-AD7F7901EECE}"
+      DTS:From="Package\GC Otros Subsidios"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\GC Subsidios SSS" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--Esta sección CDATA contiene la información de diseño del paquete. Esta sección incluye información como, por ejemplo, las coordenadas (x,y), el ancho y el alto.-->
+<!--Si edita manualmente esta sección y comete un error, puede eliminarlo. -->
+<!--El paquete podrá cargarse normalmente, pero se perderá la información de diseño anterior y el diseñador reorganizará los elementos automáticamente en la superficie de diseño.-->
+<Objects
+  Version="8">
+  <!--Cada uno de los nodos siguientes contiene propiedades que no afectan al comportamiento en tiempo de ejecución.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="176,42"
+          Id="Package\GC Otros Subsidios"
+          TopLeft="4.26886792452831,5.5" />
+        <NodeLayout
+          Size="171,42"
+          Id="Package\GC Subsidios SSS"
+          TopLeft="6.76886792452831,96.1792452830189" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="92.2688679245283,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,48.6792452830189"
+              Start="0,0"
+              End="0,41.1792452830189">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,41.1792452830189" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

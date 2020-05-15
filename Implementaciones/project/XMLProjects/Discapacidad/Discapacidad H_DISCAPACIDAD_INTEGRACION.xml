@@ -1,0 +1,210 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="7/1/2019 7:10:28 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AMS06X"
+  DTS:CreatorName="AMS\mpaludi"
+  DTS:DTSID="{E544F952-125E-48C3-B2ED-627E6B069CAA}"
+  DTS:EnableConfig="True"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="Discapacidad H_DISCAPACIDAD_INTEGRACION"
+  DTS:PackageType="5"
+  DTS:VersionBuild="17"
+  DTS:VersionGUID="{D91039CE-262B-42AD-8EB5-19EA674509E0}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{8F99229C-AC50-41B5-8EF0-7BFCD6F846C9}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">1,7,OnError</DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnError"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{8F99229C-AC50-41B5-8EF0-7BFCD6F846C9}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza Auxiliar"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{83F49D57-7021-4209-B617-D8EFEA17613D}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza Auxiliar"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{1D8B8A51-4890-496E-8E4F-724205552402}"
+          SQLTask:SqlStatementSource="declare @periodo int = dbo.PeriodosAnteriores(dbo.DevuelvePeriodo(getdate()),13)&#xA;&#xA;-- Inserto en Auxiliar&#xA;insert into AUX_H_DISCAPACIDAD_INTEGRACION&#xA;select &#x9;W86PER as id_Periodo, &#xA;&#x9;&#x9;wt1nev as nro_evaluacion_discapacidad,&#xA;&#x9;&#x9;WT1FVD as Fecha_vigencia_desde,  &#xA;&#x9;&#x9;OW1NOR as num_orden,&#xA;&#x9;&#x9;OW1NRP as num_pedido,&#xA;&#x9;&#x9;OW1TOR as Tipo_orden,&#xA;&#x9;&#x9;W87IDD as Numero_paso,&#xA;&#x9;&#x9;W04DET as Detalle_factura,-- Ver bien que es esto pasar a una d  y colocar un id&#xA;&#x9;&#x9;OW1MRE as Marca_de_recupero,&#xA;&#x9;&#x9;W87NOM as  de_codigo_prestacion,&#xA;&#x9;&#x9;W87PRE as id_nomencaldor,&#xA;&#x9;   &#x9;OW1NAF as Afiliado,&#xA;&#x9;&#x9;OW1SAF as Subnumero,&#xA;&#x9;&#x9;OW1SEC as Secuencia,&#xA;&#x9;    wt1npe as [id_persona], &#xA;&#x9;&#x9;W87NPR as id_acreedor, &#xA;&#x9;&#x9;'P' as id_tipo_prestador,  &#xA;&#x9;&#x9;WT1FER as fecha_realizacion,&#xA;&#x9;&#x9;OW1FDV  as fecha_devolucion,&#xA;&#x9;&#x9;OW1FAN  as fecha_anulacion,&#xA;&#x9;&#x9;WT1LEG as soporte_de_Legales, &#xA;&#x9;&#x9;W87POS as  Posicion, --siempre 73 discapacidad&#xA;&#x9;&#x9;OW1PRO as id_Producto ,&#xA;&#x9;&#x9;OW1SPR as id_Subproducto,&#xA;&#x9;&#x9;O01.ow1EIM as Estado_impresion,&#xA;&#x9;&#x9;o01.ow1eau as  Estado_auditoria,&#xA;&#x9;&#x9;m86.w86est as estado_planificacion,&#xA;&#x9;&#x9;W87CAN as cantidad ,&#xA;&#x9;&#x9;W87PVP as Porcentaje_cobertura_Pactado,&#xA;&#x9;&#x9;W87MVP as  Imp_pactado,&#xA;&#x9;&#x9;W87CAN * W87MVP  as imp_autorizado_disca,&#xA;&#x9;&#x9;0 as porc_prorateo,&#xA;&#x9;&#x9;0 as imp_facturado_prestador_disca,&#xA;&#x9;&#x9;0 as imp_subsidiado_sss_disca,&#xA;&#x9;&#x9;0 as imp_presentado_sss_disca,&#xA;&#x9;&#x9;0 as imp_aceptado_sss_disca&#xA;from as400.host03.smplibd.m01feva M01&#xA;&#x9;&#x9; inner join   as400.host03.smplibd.m86fpla M86 on m01.wt1nev = m86.w86nev -- Numero evento&#xA;&#x9;&#x9; inner join   as400.host03.smplibd.m87fpld M87 on m86.W86ID = m87.w87IDP -- Planificacion&#xA;&#x9;&#x9; inner join   as400.host03.smpordd.O01fmor O01 on m87.w87pos = O01.Ow1pos and m87.w87Ped = O01.OW1nrp -- Nunero persona y posicion&#xA;&#x9;&#x9; inner join as400.host03.smpordd.O04fmre  O04 on m87.w87pos = O04.&#x9;w04pos and m87.w87Ped = O04.w04nrp -- Nunero persona y posicion&#xA;where &#x9; m86.w86per &gt;= @periodo -- periodo&#xA;&#x9;   and O04.w04REN = 1 -- Renglon &#xA;&#xA;&#xA;-- Calculo el porcentaje del importe sobre el total de cada renglon &#xA;select id_persona, id_acreedor, nro_orden, sum(imp_autorizado_disca) as importe_total ,count(*) as cantidad &#xA;into #temp_imp_total&#xA;from AUX_H_DISCAPACIDAD_INTEGRACION group by id_persona, id_acreedor, nro_orden&#xA;&#xA;-- A traves del importe total calculo el prorateo&#xA;update AUX_H_DISCAPACIDAD_INTEGRACION&#xA;set porc_prorateo = imp_autorizado_disca / importe_total&#xA;from AUX_H_DISCAPACIDAD_INTEGRACION A  &#xA;&#x9;inner join #temp_imp_total T  on A.id_persona = t.id_persona and A.id_acreedor = t.id_acreedor  and A.nro_orden = t.nro_orden&#xA;where importe_total &lt;&gt; 0&#xA;&#xA;&#xA;-- SE PASAN LAS TABLAS DE LA INTRA Y DEL AS A NUESTRO SERVIDOR HASTA QUE TERMINE EL PROCESO PARA QUE MAXIMICE LA VELOCIDAD&#xA;select * into temp_tsur_pre_req from INTRANET.INTRANETX.DBO.TSUR_PRE_REQ PR &#xA;&#x9;where expe_nro &lt;&gt; 0  and pre_pos = 73 and pres_nom = 'DI'&#xA;select * into temp_fact_integ from as400.host03.desarrollo.fact_integ FI&#xA;select  ow1nrp as numero_pedido, ow1nor as numero_orden into temp_fmor &#xA;&#x9;from as400.host03.smpordd.o01fmor where ow1pos = 73&#xA;select * into temp_TSUR_LEG from INTRANET.INTRANETX.DBO.TSUR_LEG&#xA;&#xA;&#xA;--- USO TEMPORAL DE PASO PARA  Luego CALCULAR LOS IMPORTES&#xA;&#xA;--drop table #temp_importes&#xA;select numero_orden, W_FACNPRO, tl.LEG_NPE as numero_persona ,&#x9;&#x9;&#xA;&#x9;&#x9;cast(0.0 as decimal(12,2))&#x9;as Facturado_prestador, &#xA;&#x9;&#x9;cast(0.0 as decimal(12,2))&#x9;as Subsidiado_SSS, &#xA;&#x9;&#x9;cast(0.0 as decimal(12,2)) as presentado_sss,&#xA;&#x9;&#x9;cast(0.0 as decimal(12,2)) as aceptado_sss&#xA;into #temp_importes&#xA;&#x9;&#x9;&#x9;from temp_tsur_pre_req pr &#x9;INNER JOIN  temp_fmor f ON pr.pre_ped = f.numero_pedido&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;inner join temp_TSUR_LEG tl on pr.leg_nro  = tl.leg_nro&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;inner join  temp_fact_integ fi on fi.w_fackla = pr.req_fackla&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#xA;&#x9;WHERE W_FACAR &lt;&gt; 'C' -- Estado distinto a canceladop&#xA;&#x9;group by numero_orden, W_FACNPRO, tl.LEG_NPE&#xA;&#xA;&#xA;-- USO TEMPORAL PARA REALIZAR CALCULOS CON ESTADOS Y LUEGO PASARLOS&#xA;--drop table #temp_importes_individuales&#xA;select numero_orden, W_FACNPRO, tl.LEG_NPE as numero_persona,  W_FACAR as estado,&#xA;&#x9;&#x9;w_facimp as importe, W_FACIAP imprte_subs, W_FACDEB as importe_debito&#xA;&#x9;&#x9;into #temp_importes_individuales&#xA;&#x9;&#x9;&#x9;from temp_tsur_pre_req pr &#x9;INNER JOIN  temp_fmor f ON pr.pre_ped = f.numero_pedido&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;inner join temp_TSUR_LEG tl on pr.leg_nro  = tl.leg_nro&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;inner join  temp_fact_integ fi on fi.w_fackla = pr.req_fackla&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#xA;&#x9;WHERE W_FACAR &lt;&gt; 'C'  -- Estado distinto a canceladop&#xA;&#xA;&#xA;&#xA;&#xA;-- Calcula el importe facturado por el prestador que es la suma de todos los importes de facturas no canceladas&#xA;update  #temp_importes&#xA;set Facturado_prestador = importe_total&#xA;from #temp_importes T inner join (select numero_orden,W_FACNPRO,numero_persona ,sum(importe)  as importe_total&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  from #temp_importes_individuales&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  group by numero_orden,W_FACNPRO,numero_persona  )A&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;on t.numero_orden = A.numero_orden and t.W_FACNPRO = A.W_FACNPRO and t.numero_persona = a.numero_persona&#xA;&#xA;-- Calcula el importe subsidiado por la SSS es la suma de todos los importes de subsidios de facturas no canceladas&#xA;update  #temp_importes&#xA;set Subsidiado_SSS = importe_total&#xA;from #temp_importes T inner join (select numero_orden,W_FACNPRO,numero_persona ,sum(imprte_subs)  as importe_total&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  from #temp_importes_individuales&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  group by numero_orden,W_FACNPRO,numero_persona  )A&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;on t.numero_orden = A.numero_orden and t.W_FACNPRO = A.W_FACNPRO and t.numero_persona = a.numero_persona&#xA;-- Calcula el presentado es la suma de la resta de importe de facturado - el importe de debito de los estados Enviado, pagado, rechazado, Aceptado&#xA;update  #temp_importes&#xA;set presentado_sss = importe_total&#xA;from #temp_importes T inner join (select numero_orden,W_FACNPRO,numero_persona ,sum(importe-importe_debito)  as importe_total&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  from #temp_importes_individuales&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  where estado in ('E','G','R','A') --Enviado, Pagado,Rechazado, Aceptado&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  group by numero_orden,W_FACNPRO,numero_persona  )A&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;on t.numero_orden = A.numero_orden and t.W_FACNPRO = A.W_FACNPRO and t.numero_persona = a.numero_persona&#xA;-- Calcula el aceptado_sss es la suma de la resta de importe de facturado - el importe de debito de los estados Enviado, pagado, Aceptado&#xA;update  #temp_importes&#xA;set aceptado_sss =  importe_total&#xA;from #temp_importes T inner join (select numero_orden,W_FACNPRO,numero_persona ,sum(importe-importe_debito)  as importe_total&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  from #temp_importes_individuales&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  where estado in ('E','G','A') --Enviado, Pagado, Aceptado&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  group by numero_orden,W_FACNPRO,numero_persona  )A&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;on t.numero_orden = A.numero_orden and t.W_FACNPRO = A.W_FACNPRO and t.numero_persona = a.numero_persona&#xA;&#xA;-- Elimino temporales que uso para cruce&#xA;drop table temp_tsur_pre_req&#xA;drop table temp_fact_integ&#xA;drop table temp_fmor&#xA;drop table temp_TSUR_LEG&#xA;&#xA;&#xA;update AUX_H_DISCAPACIDAD_INTEGRACION&#xA;set imp_facturado_prestador_disca =  Facturado_prestador * porc_prorateo,&#xA;&#x9;imp_subsidiado_sss_disca = Subsidiado_SSS* porc_prorateo,&#xA;&#x9;imp_presentado_sss_disca = presentado_sss * porc_prorateo,&#xA;&#x9;imp_aceptado_sss_disca = aceptado_sss * porc_prorateo&#xA;from  AUX_H_DISCAPACIDAD_INTEGRACION A &#xA;&#x9;inner join #temp_importes T  on A.nro_orden = t.numero_orden and a.id_persona = t.numero_persona &#xA;&#x9;&#x9;and a.id_acreedor = t.W_FACNPRO&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza H_DISCAPACIDAD_INTEGRACION"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{06C3314E-9D2A-49AC-8BC6-DD9137941A79}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza H_DISCAPACIDAD_INTEGRACION"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{1D8B8A51-4890-496E-8E4F-724205552402}"
+          SQLTask:SqlStatementSource="declare @periodo int = dbo.PeriodosAnteriores(dbo.DevuelvePeriodo(getdate()),13)&#xA;&#xA;delete from H_DISCAPACIDAD_INTEGRACION where id_periodo &gt;= @periodo&#xA;&#xA;insert into H_DISCAPACIDAD_INTEGRACION&#xA;select id_periodo,nro_evaluacion_discapacidad,fecha_vigencia_desde,nro_orden,nro_pedido,id_tipo_orden,nro_paso,marca_recupero, id_nomenclador + cast(id_codigo_prestacion as varchar),&#xA;afiliado,subnumero,secuencia,id_persona,id_acreedor, 'P',&#xA;case when fecha_realizacion &lt;&gt; 0 then fecha_realizacion else '1900-01-01'end&#xA;,case when fecha_devolucion&lt;&gt; 0 then fecha_devolucion else '1900-01-01' end,&#xA;case when fecha_anulacion &lt;&gt; 0 then fecha_anulacion else '1900-01-01 'end, &#xA;soporte_legales,id_posicion,id_producto,id_subproducto,id_estado_impresion,id_estado_auditoria,id_estado_planificacion,&#xA;cant_practicas_disca,porc_cobertura_pactado,imp_pactado,imp_autorizado_disca,imp_facturado_prestador_disca, imp_subsidiado_sss_disca,imp_presentado_sss_disca,&#xA;imp_aceptado_sss_disca,0-- Obra Social&#xA;,null as id_plan_producto,null as id_convenio, null as id_tipo_entidad_convenio &#xA;from AUX_H_DISCAPACIDAD_INTEGRACION &#xA;where id_periodo &gt;= @periodo&#xA;&#xA;&#xA;--CALCULA LA OBRA SOCIAL A TRAVEZ DE PRODUCTO SUBPRODUCTO&#xA;update H_DISCAPACIDAD_INTEGRACION&#xA;set id_obra_social = t.iD_obra_social&#xA;from H_DISCAPACIDAD_INTEGRACION h inner join [TRANS_D_SUBPRODUCTOS_OS] t on &#xA;h.id_producto = t.id_producto and h.id_subproducto = t.id_subproducto&#xA;where h.id_periodo &gt;= @periodo&#xA;&#xA;&#xA;&#xA;&#x9;--- CALCULA EL PLAN A TRAVEZ DE CUENTA SUBCUENTA PERIODO&#xA;update h_discapacidad_integracion&#xA;set id_plan_producto = a.id_plan_producto &#xA;from h_discapacidad_integracion h inner join h_comer_stock_afilia a&#xA;on h.id_periodo = a.id_periodo and a.afiliado = h.afiliado and a.subnumero = h.subnumero&#xA;and h.secuencia = a.secuencia&#xA;&#xA;update h_discapacidad_integracion&#xA;set id_plan_producto = a.id_plan_producto &#xA;from h_discapacidad_integracion h inner join h_comer_stock_afilia a&#xA;on  a.afiliado = h.afiliado and a.subnumero = h.subnumero&#xA;and h.secuencia = a.secuencia and h.id_producto = a.id_producto and h.id_subproducto = a.id_subproducto&#xA;where h.id_plan_producto is null&#xA;&#xA;update h_discapacidad_integracion&#xA;set id_plan_producto = a.id_plan_producto&#xA;from h_discapacidad_integracion h inner join h_comer_stock_afilia a&#xA;on a.id_persona = h.id_persona and  h.id_periodo = a.id_periodo &#xA;where h.id_plan_producto is null&#xA;&#xA;&#xA;update h_discapacidad_integracion&#xA;set id_plan_producto = a.id_plan_producto&#xA;from h_discapacidad_integracion h inner join h_comer_stock_afilia a&#xA;on a.id_persona = h.id_persona and h.id_producto = a.id_producto and h.id_subproducto = a.id_subproducto&#xA;where h.id_plan_producto is null&#xA;&#xA;&#xA;update h_discapacidad_integracion&#xA;set id_plan_producto = a.id_plan_producto &#xA;from h_discapacidad_integracion h inner join h_comer_stock_afilia a&#xA;on  a.afiliado = h.afiliado and a.subnumero = h.subnumero&#xA;and h.secuencia = a.secuencia&#xA;where h.id_plan_producto is null&#xA;&#xA;update h_discapacidad_integracion&#xA;set id_plan_producto = a.id_plan_producto&#xA;from h_discapacidad_integracion h inner join h_comer_stock_afilia a&#xA;on a.id_persona = h.id_persona &#xA;where h.id_plan_producto is null&#xA;&#xA;&#xA;update h_discapacidad_integracion&#xA;set id_convenio = h.id_convenio,&#xA;&#x9;id_tipo_entidad_convenio = h.id_tipo_entidad_convenio&#xA;from h_discapacidad_integracion D inner join h_comer_STOCK_afilia h on h.afiliado = d.afiliado&#xA;and h.subnumero = d.subnumero and h.secuencia = d.secuencia and h.id_periodo = d.id_periodo&#xA;&#xA;update h_discapacidad_integracion&#xA;set id_convenio = h.id_convenio,&#xA;&#x9;id_tipo_entidad_convenio = h.id_tipo_entidad_convenio&#xA;from h_discapacidad_integracion D inner join h_comer_STOCK_afilia h &#xA;on h.id_persona = d.id_persona and h.id_periodo = d.id_periodo&#xA;where d.id_convenio is null&#xA;&#xA;update h_discapacidad_integracion&#xA;set id_convenio = 0,&#xA;&#x9;id_tipo_entidad_convenio ='I'&#xA;where id_convenio is null&#xA;&#xA;&#xA;delete from H_DISCAPACIDAD_INTEGRACION where id_periodo &gt;= dbo.DevuelvePeriodo(getdate())&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Borra Auxiliar"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{D59BC2DE-4A80-4986-A15D-6FF39386A864}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Borra Auxiliar"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{1D8B8A51-4890-496E-8E4F-724205552402}"
+          SQLTask:SqlStatementSource="truncate table AUX_H_DISCAPACIDAD_INTEGRACION&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{4537908B-F8FA-46B0-B519-9A5B1354DAC4}"
+      DTS:From="Package\Borra Auxiliar"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Actualiza Auxiliar" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{7A82F4AF-0DAC-4CE7-9616-0D16507ABD2C}"
+      DTS:From="Package\Actualiza Auxiliar"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Actualiza H_DISCAPACIDAD_INTEGRACION" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="163,42"
+          Id="Package\Actualiza Auxiliar"
+          TopLeft="77,85.877358490566" />
+        <NodeLayout
+          Size="306,42"
+          Id="Package\Actualiza H_DISCAPACIDAD_INTEGRACION"
+          TopLeft="5.5,166.254716981132" />
+        <NodeLayout
+          Size="145,42"
+          Id="Package\Borra Auxiliar"
+          TopLeft="86,5.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="158.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,38.377358490566"
+              Start="0,0"
+              End="0,30.877358490566">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,30.877358490566" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="158.5,127.877358490566">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,38.377358490566"
+              Start="0,0"
+              End="0,30.877358490566">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,30.877358490566" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

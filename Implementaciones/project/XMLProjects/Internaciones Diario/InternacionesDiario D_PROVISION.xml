@@ -1,0 +1,101 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="11/15/2019 10:12:38 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="DA21465-XXXXX"
+  DTS:CreatorName="AMS\aquaglia"
+  DTS:DTSID="{FEBCA46A-2CC9-4ABF-8647-991357BEEC37}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="InternacionesDiario D_PROVISION"
+  DTS:PackageType="5"
+  DTS:VersionBuild="3"
+  DTS:VersionGUID="{CC63200E-B480-4E8D-BC31-F40EC21E67C3}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{7276B350-855E-4032-AD34-EF0A5A3C4B48}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">1,7,OnError</DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnError"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{7276B350-855E-4032-AD34-EF0A5A3C4B48}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza D_PROVISION"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Eliminar los registros de acreedores"
+      DTS:DTSID="{ae5a1389-6a09-472d-91bb-22babc6cea17}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza D_PROVISION"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{87B3EF38-D424-4CA0-9B98-F49ED069F118}"
+          SQLTask:SqlStatementSource="&#xA;&#xA;/* Actualiza la información existente en D_PROVISION. */ &#xA; UPDATE D_PROVISION&#xA;SET de_provision = W_T704_DESC&#xA;FROM AS400.HOST03.SMPDATD.T704FTPRO A INNER JOIN D_PROVISION P ON (A.W_T704_TPRO=P.id_provision)&#xA;where W_T704_DESC COLLATE SQL_Latin1_General_CP850_CI_AI&lt;&gt;de_provision&#xA;&#xA;&#xA;/* Inserta la información faltante en D_PROVISION. */&#xA; INSERT INTO D_PROVISION&#xA; (id_provision, de_provision)&#xA; SELECT W_T704_TPRO as id_provision, W_T704_DESC as de_provision&#xA; from AS400.HOST03.SMPDATD.T704FTPRO&#xA; WHERE W_T704_TPRO not in (SELECT id_provision FROM D_PROVISION)&#xA; " xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="218,42"
+          Id="Package\Actualiza D_PROVISION"
+          TopLeft="155,146" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

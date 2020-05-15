@@ -1,0 +1,368 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="3/5/2018 12:43:42 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AMS06X"
+  DTS:CreatorName="AMS\jtrinchier"
+  DTS:DTSID="{25A072B1-D86C-419B-8822-75DACEF30B0B}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="Autorizaciones H_AUTORIZACIONES_DIARIAS"
+  DTS:PackageType="5"
+  DTS:VersionBuild="97"
+  DTS:VersionGUID="{5700017F-FA9D-467E-9818-D4F0F72D7DAC}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{02086438-C160-4BA6-8A84-131589E9EC94}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">1,7,OnError</DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnError"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{02086438-C160-4BA6-8A84-131589E9EC94}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza H_AUTORIZACIONES_DIARIAS"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{385414c6-d742-4c04-9e20-2b615c8ffebb}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza H_AUTORIZACIONES_DIARIAS"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{1B144804-0036-4789-9886-005715AEEDD1}"
+          SQLTask:SqlStatementSource="&#xA;&#x9;Declare @Periodo INT set @Periodo = (select MAX(id_periodo) from H_AUTORIZACIONES_DIARIAS)&#xA;&#xA;---- Cara la Table H_AUTORIZACIONES_DIARIAS&#xA;insert into dw_salud.dbo.H_AUTORIZACIONES_DIARIAS&#xA;(id_periodo,&#xA;id_posicion_aut,&#xA;nro_pedido,&#xA;afiliado,&#xA;subnumero,&#xA;secuencia,&#xA;id_persona,&#xA;id_producto,&#xA;id_subproducto,&#xA;id_plan_producto,&#xA;id_tipo_orden,&#xA;nro_orden,&#xA;Fecha_Autorizacion_Sistema,&#xA;Id_Prestacion,&#xA;Id_Prestacion_Autorizada,&#xA;id_entidad,&#xA;fecha_anulacion_orden,&#xA;fecha_devolucion_orden,&#xA;id_estado_aut_orden,&#xA;id_acreedor,&#xA;id_Tipo_Prestador,&#xA;id_prof_prescr,&#xA;id_tipo_profesional_preescribiente,&#xA;id_no_facturador,&#xA;id_tipo_no_facturador,&#xA;Id_Origen_Prestacion,&#xA;id_diagnostico,&#xA;edad_orden,&#xA;Id_Padron,&#xA;Id_Tipo_Beneficiario,&#xA;id_empresa_PE_aut,&#xA;id_tipo_entidad_PE_aut,&#xA;id_marca_PE_aut,&#xA;id_convenio_especial_aut,&#xA;cant_prestacion_aut,&#xA;cant_formularios,&#xA;fecha_recepcion_pedido_autorizacion,&#xA;diferencia_dias_autorizacion_pedido,&#xA;id_usuario_carga_autorizacion,&#xA;fecha_proceso_autorizacion,&#xA;id_estado_autorizacion_aut_diaria)&#xA;select &#xA;id_periodo,&#xA;id_posicion_aut,&#xA;nro_pedido,&#xA;afiliado,&#xA;subnumero,&#xA;secuencia,&#xA;id_persona,&#xA;id_producto,&#xA;id_subproducto,&#xA;id_plan_producto,&#xA;id_tipo_orden,&#xA;nro_orden,&#xA;Fecha_Autorizacion_Sistema,&#xA;Id_Prestacion,&#xA;Id_Prestacion_Autorizada,&#xA;id_entidad,&#xA;fecha_anulacion_orden,&#xA;fecha_devolucion_orden,&#xA;id_estado_aut_orden,&#xA;id_acreedor,&#xA;id_Tipo_Prestador,&#xA;id_prof_prescr,&#xA;id_tipo_profesional_preescribiente,&#xA;id_no_facturador,&#xA;id_tipo_no_facturador,&#xA;Id_Origen_Prestacion,&#xA;id_diagnostico,&#xA;edad_orden,&#xA;Id_Padron,&#xA;Id_Tipo_Beneficiario,&#xA;id_empresa_PE_aut,&#xA;id_tipo_entidad_PE_aut,&#xA;id_marca_PE_aut,&#xA;id_convenio_especial_aut,&#xA;cant_prestacion_aut,&#xA;0 as cant_formularios,&#xA;fecha_recepcion_pedido_autorizacion,&#xA;DATEDIFF(day,fecha_recepcion_pedido_autorizacion, Fecha_Autorizacion_Sistema) as diferencia_dias_autorizacion_pedido&#xA;, id_usuario_carga_autorizacion&#xA;,(CASE when fecha_proceso_autorizacion in (0) then '19000101' &#xA;else CONVERT(datetime,convert(char(8),(cast(fecha_proceso_autorizacion as int)))) end) as fecha_proceso_autorizacion&#xA;, 0  as  id_estado_autorizacion_aut_diaria&#xA; from consultas_DW.dbo.AUX_H_AUTORIZACIONES_DIARIAS &#xA;&#xA;&#xA;----- Borra los campos con Fecha_Autorizacion_Sistema  mayor a la del día de hoy&#xA;delete from H_AUTORIZACIONES_DIARIAS where Fecha_Autorizacion_Sistema &gt; GETDATE()&#xA;&#xA;&#xA;---- Información de consumos recibidos por cada formulario 4.&#xA;---- Suma el total pagado al prestador para todas las prestaciones de cada formulario 4 relacionado&#xA;&#xA;UPDATE H_AUTORIZACIONES_DIARIAS&#xA;SET imp_facturacion_aut = sumaPrest,&#xA;cant_facturacion_aut = cantPrest&#xA;FROM H_AUTORIZACIONES_DIARIAS H&#xA;INNER JOIN (SELECT nro_orden, id_tipo_orden, sum(imp_pret_amb_pag) AS sumaPrest&#xA;                                              ,id_persona     , SUM(cant_prest_amb_pag) AS cantPrest&#xA;                                              ,id_prestacion&#xA;FROM H_ORD_AMB_DET&#xA;WHERE ccosto3 = 1&#xA;GROUP BY nro_orden, id_tipo_orden, id_persona, id_prestacion ) AS I&#xA;ON (H.nro_orden=I.nro_orden AND H.id_tipo_orden=I.id_tipo_orden and H.id_persona = I.id_persona&#xA;and H.id_prestacion = I.id_prestacion)&#xA;&#xA;&#xA;----- Script para Calcular imp_facturacion_unitaria_aut, divide imp_facturacion_aut por cada cant_facturacion_aut&#xA;&#xA;UPDATE H_AUTORIZACIONES_DIARIAS&#xA;SET imp_facturacion_unitaria_aut = (imp_facturacion_aut/cant_facturacion_aut) &#xA;from H_AUTORIZACIONES_DIARIAS&#xA;where cant_facturacion_aut &gt; 0&#xA;&#xA;&#xA;&#xA;--- Actualiza el id_plan_agrupado_G en la tabla H_AUTORIZACIONES_DIARIAS.&#xA;UPDATE    H_AUTORIZACIONES_DIARIAS   SET id_plan_agrupado_G = A.id_plan_agrupado_G&#xA;from H_AUTORIZACIONES_DIARIAS H&#xA;inner join D_PLANES D on D.id_plan_producto = H.id_plan_producto and D.id_producto = H.id_producto&#xA;inner join D_PLANES_AGRUPADOS A on A.id_plan_agrupado = D.id_plan_agrupado&#xA;&#xA;&#xA;---- Actualiza en 1 la Cantidad de Prestaciones para Discapacidad (ya que informa kilometros)&#xA;&#xA;UPDATE H_AUTORIZACIONES_DIARIAS SET cant_prestacion_aut = 1&#xA;where Id_Prestacion in ('DI0803','DI096','DI0966','DI1398')&#xA;&#xA;&#xA;/* Actualiza Padron y Beneficiario para Resolución 650. */&#xA;&#xA;&#x9;UPDATE H_AUTORIZACIONES_DIARIAS &#xA;&#x9;&#x9;SET Id_Padron = (CASE when P.CM6PAD = 15 then 13 when P.CM6PAD = 14 then 11 else P.CM6PAD end), &#xA;&#x9;&#x9;&#x9;Id_Tipo_Beneficiario = P.CM6TBE&#xA;&#x9;FROM H_AUTORIZACIONES_DIARIAS H&#xA;&#x9;JOIN [CONSULTAS_DW].[dbo].[R650] P ON H.Id_Periodo = P.CM6PER AND H.Afiliado = P.CM6NAF AND H.Subnumero = P.CM6SAF AND H.Secuencia = P.CM6SEC&#xA;&#x9;WHERE H.id_periodo = @Periodo&#xA;&#xA;&#xA;&#xA;--ACTUALIZA ESTADO AUTORIZACION DIARIA&#xA;&#xA;&#xA;--ACTUALIZA ESTADO AUTORIZACION DIARIA&#xA;select id_persona, nro_orden, id_tipo_orden, Id_Prestacion, fecha_recepcion_pedido_autorizacion, Fecha_Autorizacion_Sistema,&#xA; cast(null as date) as fecha_ingreso_habil, cast(null as date) as fecha_vencimiento, null as id_estado_autorizacion_aut_diaria into #temp_tipo_aut&#xA; from H_AUTORIZACIONES_DIARIAS&#xA;&#xA;select fecha_recepcion_pedido_autorizacion, (select MIN(id_fecha) from D_FECHA where id_fecha &gt;= fecha_recepcion_pedido_autorizacion and id_dia_habil = 1 ) &#xA;as fecha_ingreso_habil into #tempfechainicio &#xA;from #temp_tipo_aut  &#xA; group by fecha_recepcion_pedido_autorizacion&#xA;&#xA;&#xA;update #temp_tipo_aut&#xA;set fecha_ingreso_habil = t2.fecha_ingreso_habil&#xA;from #temp_tipo_aut t1 inner join #tempfechainicio t2 &#xA;on t1.fecha_recepcion_pedido_autorizacion = t2.fecha_recepcion_pedido_autorizacion&#xA;&#xA;select fecha_ingreso_habil, (select Max (id_fecha) from (select  top 3 (id_fecha) from D_FECHA where id_fecha &gt;= fecha_ingreso_habil and id_dia_habil = 1 ) h)&#xA;as fecha_vencimiento into #tempfechavencimiento&#xA;from #temp_tipo_aut  &#xA; group by fecha_ingreso_habil&#xA;&#xA;update #temp_tipo_aut&#xA;set fecha_vencimiento = t2.fecha_vencimiento&#xA;from #temp_tipo_aut t1 inner join #tempfechavencimiento t2 &#xA;on t1.fecha_ingreso_habil = t2.fecha_ingreso_habil&#xA;&#xA;&#xA;update #temp_tipo_aut&#xA;set id_estado_autorizacion_aut_diaria = case when  fecha_vencimiento &gt;=Fecha_Autorizacion_Sistema then 1&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; when fecha_vencimiento &lt; Fecha_Autorizacion_Sistema then 2&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; when Fecha_Autorizacion_Sistema &lt; fecha_recepcion_pedido_autorizacion then 1&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; else 0 end &#xA;&#xA;&#xA;&#xA;update H_AUTORIZACIONES_DIARIAS&#xA;set id_estado_autorizacion_aut_diaria = t.id_estado_autorizacion_aut_diaria&#xA;from H_AUTORIZACIONES_DIARIAS h inner join #temp_tipo_aut  t on h.id_persona = t.id_persona and h.nro_orden = t.nro_orden and h.Id_Prestacion = t.Id_Prestacion&#xA;&#xA;drop table #temp_tipo_aut&#xA;drop table #tempfechainicio&#xA;drop table #tempfechavencimiento&#xA;&#xA;&#xA;&#xA;&#xA;---- Adicional se agrega la edad de la persona&#xA; update H_AUTORIZACIONES_DIARIAS  &#xA; set id_convenio = H.id_convenio,&#xA; id_tipo_entidad_convenio = H.id_tipo_entidad_convenio&#xA;  from H_AUTORIZACIONES_DIARIAS C&#xA;  inner join H_COMER_STOCK_AFILIA H on C.id_persona = H.id_persona  &#xA; and H.id_periodo = C.id_periodo&#xA;&#xA;&#xA;SELECT MAX(S.id_periodo) id_periodo, S.id_persona &#xA;INTO #TEMP &#xA;FROM H_COMER_STOCK_AFILIA S INNER JOIN H_AUTORIZACIONES_DIARIAS R ON (R.id_persona=S.id_persona)&#xA;WHERE R.id_convenio is null and S.id_periodo &lt;= R.id_periodo&#xA;and S.id_periodo &gt;= 201512&#xA;GROUP BY S.id_persona&#xA;&#xA;&#xA;SELECT DISTINCT id_periodo, id_persona, id_convenio, id_tipo_entidad_convenio&#xA;into #STOCK &#xA;FROM H_COMER_STOCK_AFILIA S&#xA;WHERE EXISTS (SELECT * FROM #TEMP T WHERE S.id_persona = T.id_persona and S.id_periodo = T.id_periodo)&#xA;and S.id_periodo &gt;= 201512&#xA;&#xA;CREATE INDEX IX_#STOCK_Persona&#xA;    ON #STOCK&#xA;    (id_persona)&#xA;&#xA;&#xA;  update H_AUTORIZACIONES_DIARIAS   &#xA;  set id_convenio = FAL.id_convenio,&#xA; id_tipo_entidad_convenio = FAL.id_tipo_entidad_convenio&#xA;  from H_AUTORIZACIONES_DIARIAS  C&#xA;  INNER JOIN #STOCK FAL on FAL.id_persona = C.id_persona and FAL.id_periodo = C.id_periodo&#xA; where  c.id_convenio is null&#xA; &#xA; &#xA; &#xA;update  H_AUTORIZACIONES_DIARIAS set id_empresa_PE_aut = 0,&#xA; id_tipo_entidad_convenio = 'I', &#xA; id_convenio = 0&#xA; where id_convenio is null &#xA; &#xA;&#xA;&#xA;select distinct id_convenio,id_tipo_entidad_convenio,0 as id_periodo_maximo into #convenios_nuevos from H_AUTORIZACIONES_DIARIAS &#xA;where id_convenio not in (select id_convenio from H_CONVENIOS_EMPRESAS where id_periodo = @periodo) and id_periodo = @Periodo&#xA;&#xA;update #convenios_nuevos&#xA;set id_periodo_maximo = maximo_periodo from&#xA;#convenios_nuevos c inner join (&#xA;select t.id_convenio, max(h.id_periodo) as maximo_periodo from #convenios_nuevos t inner join H_CONVENIOS_EMPRESAS h on t.id_convenio = h.id_convenio&#xA;&#x9;and t.id_tipo_entidad_convenio = h.id_tipo_entidad_convenio&#xA;group by t.id_convenio) A on c.id_convenio = a.id_convenio&#xA;&#xA;&#xA;insert into H_CONVENIOS_EMPRESAS&#xA;select @periodo,c.id_convenio,c.id_tipo_entidad_convenio,e.id_subtipo_venta,id_rango_stock,id_rango_costo,id_blindaje,interes_comercial,es_mutual&#xA;,id_holding,'AutDiaria' from #convenios_nuevos c inner join H_CONVENIOS_EMPRESAS e&#xA;on  c.id_convenio = e.id_convenio and c.id_periodo_maximo = e.id_periodo and c.id_tipo_entidad_convenio = e.id_tipo_entidad_convenio&#xA;drop table #convenios_nuevos&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza medianas ajustadas Medicamentos"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{b082b986-9f35-44a4-86d1-49706ae0321d}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza medianas ajustadas Medicamentos"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{1B144804-0036-4789-9886-005715AEEDD1}"
+          SQLTask:SqlStatementSource="SET DATEFORMAT 'YMD'&#xA;&#xA;/* Calcula Periodos (Desde - Hasta) a procesar de consumo */&#xA;--- Minimo periodo de los ultimos 12 meses vigentes de consumo&#xA;DECLARE @Periodo_Desde_Consumo INT&#xA;SET @Periodo_Desde_Consumo = (select min(id_periodo) from D_periodo where id_periodo in (select top 12 id_periodo from D_PERIODO&#xA;                           where vigente_consumo = 1&#xA;                            group by  id_periodo&#xA;                            order by id_periodo desc))&#xA;                            &#xA;--- Maximo periodo de Consumo                                &#xA;DECLARE @Periodo_Hasta_Consumo INT&#xA;SET @Periodo_Hasta_Consumo = (select MAX(id_periodo) from D_PERIODO where vigente_consumo = 1)&#xA;&#xA;&#xA;--- Periodo siguiente al ultimo vigente de consumo.&#xA;DECLARE @Periodo_Siguiente_Consumo_Cerrado INT&#xA;SET @Periodo_Siguiente_Consumo_Cerrado = (select dbo.PeriodosPosteriores(@Periodo_Hasta_Consumo, 2))&#xA;&#xA;&#xA;--- 13 meses Antes del maximo de H_AUTORIZACIONES_DIARIAS&#xA;DECLARE @Periodo_Desde_AUTORIZACIONES INT&#xA;SET @Periodo_Desde_AUTORIZACIONES = (select min(id_periodo) &#xA;                                     from H_AUTORIZACIONES_DIARIAS &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; where id_periodo in &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;(select distinct top 13 id_periodo &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;     from H_AUTORIZACIONES_DIARIAS&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; order by id_periodo desc))&#xA;&#xA;--- Maximo periodo de H_AUTORIZACIONES_DIARIAS&#xA;DECLARE @Periodo_Hasta_AUTORIZACIONES INT&#xA;SET @Periodo_Hasta_AUTORIZACIONES = (select MAX(id_periodo) from H_AUTORIZACIONES_DIARIAS)&#xA;&#xA;&#xA;/* Obtener el mes 7 de U12M de consumo */&#xA;DECLARE @mes7 INT&#xA;SET @mes7 =  ( select dbo.PeriodosPosteriores(@Periodo_Desde_Consumo,7))&#xA;&#xA;/* Calculo del % de aumento a aplicar a partir del mes 7 de consumo */&#xA;&#xA;DECLARE @aumento FLOAT&#xA;SET @aumento = (select SUM(aumento_medicamentos) from H_ARANCELES_AUMENTOS where id_periodo &gt;= @Periodo_Desde_Consumo &#xA;and id_periodo &lt;= @Periodo_Hasta_Consumo)/2&#xA;&#xA;&#xA;---- nueva tabla aumento&#xA;&#xA;&#xA;drop table TAumento_Medicamentos&#xA;&#xA;create table TAumento_Medicamentos&#xA;(&#xA;    id_periodo int primary key,&#xA;    id_periodo_anterior int,&#xA;    medicamentos float,&#xA;    aumento_mes_medicamentos float,&#xA;    aumento_acu_medicamentos float,&#xA;    aumento_medicamentos float&#xA;)&#xA;&#xA;INSERT TAumento_Medicamentos&#xA;    select id_periodo, 0 as id_periodo_anterior, 0 as medicamentos, 0 as aumento_mes_medicamentos&#xA;    , 0 as aumento_acu_medicamentos, 0 as aumento_medicamentos from D_PERIODO &#xA;&#x9;where id_periodo &gt;= @Periodo_Siguiente_Consumo_Cerrado and id_periodo &lt;= @Periodo_Hasta_AUTORIZACIONES&#xA;&#x9;&#xA;update TAumento_Medicamentos&#xA;set id_periodo_anterior = dbo.PeriodoAnteriorP(id_periodo)&#xA;&#x9;&#xA;UPDATE TAumento_Medicamentos&#xA;set medicamentos = ARA.aumento_medicamentos,&#xA;aumento_mes_medicamentos = 1 + medicamentos&#xA;from TAumento_Medicamentos AUM inner join H_ARANCELES_AUMENTOS ARA on (ARA.id_periodo = AUM.id_periodo)&#x9;&#xA;&#xA;UPDATE TAumento_Medicamentos&#xA;set aumento_mes_medicamentos = 1 + medicamentos&#xA;from TAumento_Medicamentos AUM inner join H_ARANCELES_AUMENTOS ARA on (ARA.id_periodo = AUM.id_periodo)&#x9;&#xA;&#xA;UPDATE TAumento_Medicamentos&#xA;set aumento_acu_medicamentos = (1 + @aumento) &#xA;from TAumento_Medicamentos AUM where id_periodo = @Periodo_Siguiente_Consumo_Cerrado&#xA;&#xA;UPDATE TAumento_Medicamentos&#xA;set aumento_medicamentos = aumento_mes_medicamentos * aumento_acu_medicamentos -1&#xA;from TAumento_Medicamentos AUM where id_periodo = @Periodo_Siguiente_Consumo_Cerrado&#xA;&#xA;WHILE (SELECT MIN(id_periodo) FROM TAumento_Medicamentos where id_periodo &gt; @Periodo_Siguiente_Consumo_Cerrado &#xA;and aumento_medicamentos = 0) &#xA;&lt;= (SELECT MAX(id_periodo) FROM TAumento_Medicamentos)&#xA;&#xA;BEGIN&#xA;&#x9;SELECT id_periodo_Anterior id_periodo, &#xA;&#x9;aumento_medicamentos&#xA;&#x9;INTO #paso FROM TAumento_Medicamentos where aumento_medicamentos = 0&#xA;&#x9;&#xA;&#x9;update #paso&#xA;&#x9;set aumento_medicamentos = aum.aumento_medicamentos&#xA;&#x9;from #paso pas inner join TAumento_Medicamentos Aum on (pas.id_periodo = aum.id_periodo)&#xA;&#x9;where aum.aumento_medicamentos &lt;&gt; 0&#xA;&#x9;&#xA;&#x9;UPDATE TAumento_Medicamentos&#xA;&#x9;SET aumento_acu_medicamentos = (pas.aumento_medicamentos + 1)&#xA;&#x9;FROM TAumento_Medicamentos Aum inner join #paso Pas on (Aum.id_periodo_anterior = Pas.id_Periodo)&#xA;&#x9;where pas.aumento_medicamentos &lt;&gt; 0&#xA;&#x9;&#xA;&#x9;UPDATE TAumento_Medicamentos&#xA;&#x9;SET aumento_medicamentos = aumento_mes_medicamentos * aumento_acu_medicamentos - 1&#xA;&#x9;FROM TAumento_Medicamentos Aum inner join #paso Pas on (Aum.id_periodo_anterior = Pas.id_Periodo)&#xA;&#x9;where aum.aumento_acu_medicamentos &lt;&gt; 0&#xA;&#x9;&#xA;&#x9;drop table #paso&#xA;&#x9;&#xA;END&#xA;&#xA;---- MEDIANA POR PLAN PRODUCTO y PRESTACIÓN&#xA;&#xA;UPDATE H_AUTORIZACIONES_DIARIAS SET mediana_PlanProducto_prestacion = D.mediana_PlanProducto_prestacion&#xA;from H_AUTORIZACIONES_DIARIAS H&#xA;inner join D_MEDIANAS_PLAN_PRODUCTO_PRESTACION  D ON  H.id_plan_producto = D.id_plan_producto &#xA;and H.id_producto = D.id_producto&#xA;and  H.Id_Prestacion = D.id_prestacion&#xA;where  SUBSTRING(H.Id_Prestacion, 1 , 2 )   in ('ME', 'M1')&#xA;&#xA;---- MEDIANA POR  PLAN AGRUPADO G y PRESTACIÓN&#xA;&#xA;UPDATE H_AUTORIZACIONES_DIARIAS SET mediana_PlanG_Prestacion = D.mediana_PlanG_Prestacion&#xA;from H_AUTORIZACIONES_DIARIAS H&#xA;inner join D_MEDIANAS_PLAN_G_PRESTACION  D ON  H.id_plan_agrupado_G = D.id_plan_agrupado_G and&#xA;                                                                H.Id_Prestacion = D.id_prestacion&#xA;where  SUBSTRING(H.Id_Prestacion, 1 , 2 )   in ('ME', 'M1')       &#xA;&#xA;---- MEDIANA POR PRESTACIÓN&#xA;UPDATE H_AUTORIZACIONES_DIARIAS SET mediana_prestacion = D.mediana_prestacion&#xA;from H_AUTORIZACIONES_DIARIAS H&#xA;inner join D_MEDIANAS_PRESTACION D ON  H.Id_Prestacion = D.id_prestacion  &#xA;where  SUBSTRING(H.Id_Prestacion, 1 , 2 )  in ('ME', 'M1')&#xA;&#xA;&#xA;&#xA;----- Actualiza las MEdianas con Aumento&#xA;&#xA;/* Actualizar los valores a todas las autorizaciones hasta el mes 6 de consumo */&#xA;&#xA;UPDATE H_AUTORIZACIONES_DIARIAS&#xA;set mediana_PlanProducto_prestacion_ajustada = mediana_PlanProducto_prestacion,&#xA;mediana_planG_prestacion_ajustada = mediana_planG_prestacion,&#xA;mediana_prestacion_ajustada = mediana_prestacion&#xA;WHERE id_periodo &gt;= @Periodo_Desde_AUTORIZACIONES and id_periodo &lt; @mes7&#xA;and SUBSTRING(Id_Prestacion, 1 , 2 )   in ('ME', 'M1')  &#xA;&#xA;/* Actualizar los valores a todas las autorizaciones a partir del mes 7 de consumo &#xA;hasta el periodo de consumo incluido */&#xA;&#xA;UPDATE H_AUTORIZACIONES_DIARIAS&#xA;set mediana_PlanProducto_prestacion_ajustada = mediana_PlanProducto_prestacion + mediana_PlanProducto_prestacion * @aumento,&#xA;mediana_planG_prestacion_ajustada = mediana_planG_prestacion + mediana_planG_prestacion * @aumento,&#xA;mediana_prestacion_ajustada = mediana_prestacion + mediana_prestacion * @aumento&#xA;WHERE id_periodo &gt; = @mes7 and id_periodo &lt;= @Periodo_Hasta_Consumo&#xA;and SUBSTRING(Id_Prestacion, 1 , 2 )   in ('ME', 'M1')  &#xA;&#xA;/* Actualizar los valores a todas las internaciones a partir del mes siguiente de consumo &#xA;hasta el ultimo periodo que hay internaciones */&#xA;&#xA;UPDATE H_AUTORIZACIONES_DIARIAS&#xA;set mediana_PlanProducto_prestacion_ajustada = mediana_PlanProducto_prestacion + mediana_PlanProducto_prestacion * aumento_medicamentos,&#xA;mediana_planG_prestacion_ajustada = mediana_planG_prestacion + mediana_planG_prestacion * aumento_medicamentos,&#xA;mediana_prestacion_ajustada = mediana_prestacion + mediana_prestacion * aumento_medicamentos&#xA;FROM H_AUTORIZACIONES_DIARIAS H&#xA;INNER JOIN TAumento_Medicamentos Aum on (H.id_periodo = aum.id_periodo) &#xA;WHERE H.id_periodo &gt;= @Periodo_Siguiente_Consumo_Cerrado and H.id_periodo &lt;= @Periodo_Hasta_AUTORIZACIONES&#xA;and SUBSTRING(Id_Prestacion, 1 , 2 )   in ('ME', 'M1')  &#xA;&#xA;&#xA; /* Actualizar el valor de IMPORTE Final Autorizaciones */&#xA;&#xA;update H_AUTORIZACIONES_DIARIAS&#xA;set imp_final_autorizaciones = CASE &#xA;WHEN (imp_facturacion_aut &lt;&gt; 0  ) THEN imp_facturacion_unitaria_aut * cant_facturacion_aut --- Se agrego la cant_facturacion_aut porque es lo más importante&#xA;WHEN (imp_facturacion_aut = 0 and mediana_planproducto_prestacion &lt;&gt; 0) THEN mediana_planproducto_prestacion * cant_prestacion_aut&#xA;WHEN (imp_facturacion_aut = 0 and mediana_planproducto_prestacion = 0 and&#xA;mediana_PlanG_prestacion &lt;&gt; 0) THEN mediana_PlanG_prestacion * cant_prestacion_aut&#xA;WHEN (imp_facturacion_aut = 0 and mediana_planproducto_prestacion = 0 and&#xA;mediana_PlanG_prestacion = 0) THEN mediana_prestacion * cant_prestacion_aut&#xA;END&#xA;FROM H_AUTORIZACIONES_DIARIAS H&#xA;WHERE id_periodo &gt;= @Periodo_Desde_AUTORIZACIONES AND id_periodo &lt;= @Periodo_Hasta_AUTORIZACIONES&#xA;and SUBSTRING(Id_Prestacion, 1 , 2 )  in ('ME', 'M1')&#xA;&#xA;&#xA; /* Actualizar el valor de Mediana Final Ajustada */&#xA;/* Si lo que se consideró es el Total Consumido no se ajusta, sino, van los valores ajustados */&#xA;&#xA;update H_AUTORIZACIONES_DIARIAS&#xA;set imp_final_autorizaciones_ajustada = CASE &#xA;WHEN (imp_facturacion_aut &lt;&gt; 0  ) THEN imp_final_autorizaciones&#xA;WHEN (imp_facturacion_aut = 0 and mediana_planproducto_prestacion_ajustada &lt;&gt; 0) THEN mediana_planproducto_prestacion_ajustada * cant_prestacion_aut&#xA;WHEN (imp_facturacion_aut = 0 and mediana_planproducto_prestacion_ajustada = 0 and&#xA;mediana_PlanG_prestacion_ajustada &lt;&gt; 0) THEN mediana_PlanG_prestacion_ajustada * cant_prestacion_aut&#xA;WHEN (imp_facturacion_aut = 0 and mediana_planproducto_prestacion_ajustada = 0 and&#xA;mediana_PlanG_prestacion_ajustada = 0) THEN mediana_prestacion_ajustada * cant_prestacion_aut&#xA;END&#xA;FROM H_AUTORIZACIONES_DIARIAS H&#xA;WHERE id_periodo &gt;= @Periodo_Desde_AUTORIZACIONES AND id_periodo &lt;= @Periodo_Hasta_AUTORIZACIONES&#xA;and SUBSTRING(Id_Prestacion, 1 , 2 )  in ('ME', 'M1')&#xA;&#xA;------- Actualización al campo cant_formularios&#xA;&#xA;---- Genera una auxiliar para calcular la cantidad de registros de iguales id_tipo_orden y nro_orden &#xA;select id_posicion_aut, nro_pedido, id_tipo_orden, nro_orden, COUNT(*) as cant&#xA;into #PASO_formularios&#xA;from H_AUTORIZACIONES_DIARIAS&#xA;group by id_posicion_aut, nro_pedido, id_tipo_orden, nro_orden&#xA;order by cant&#xA;&#xA;---- Actualiza el campo cant_formularios dividiendo 1 por la cantidad para cada id_tipo_orden y nro_orden &#xA;update H_AUTORIZACIONES_DIARIAS&#xA;set cant_formularios = 1/cast(pas.cant as float)&#xA;from H_AUTORIZACIONES_DIARIAS H&#xA;inner JOIN #PASO_formularios PAS on (H.id_tipo_orden = PAS.id_tipo_orden &#xA;and H.nro_orden = PAS.nro_orden&#xA;and H.id_posicion_aut = PAS.id_posicion_aut and H.nro_pedido = PAS.nro_pedido)&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; &#xA;/* Obtener el mes 6 de U13M de autorizaciones */&#xA;DECLARE @mes6 INT&#xA;SET @mes6 =  ( select dbo.PeriodosPosteriores(@Periodo_Desde_AUTORIZACIONES,6))&#xA;&#xA;&#xA;---- Actualiza el campo imp_nro_final y cant_nro_final para los primeros 6 meses de los U13M de autorizaciones&#xA;UPDATE H_AUTORIZACIONES_DIARIAS SET imp_autorizaciones_considerado = imp_facturacion_aut,&#xA;cant_autorizaciones_considerado = cant_facturacion_aut&#xA;from H_AUTORIZACIONES_DIARIAS&#xA;where  id_periodo BETWEEN @Periodo_Desde_AUTORIZACIONES AND @mes6&#xA;&#xA;---- Actualiza el campo imp_nro_final y cant_nro_final para los 7 ultimos meses de los U13M de autorizaciones&#xA;UPDATE H_AUTORIZACIONES_DIARIAS SET imp_autorizaciones_considerado = imp_final_autorizaciones_ajustada,&#xA;cant_autorizaciones_considerado = cant_prestacion_aut&#xA;from H_AUTORIZACIONES_DIARIAS&#xA;where @mes6 &lt; id_periodo &#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza medianas ajustadas SSS"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{7a35ec6d-48d6-4c49-a0a9-6fe04e4a684f}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza medianas ajustadas SSS"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{1B144804-0036-4789-9886-005715AEEDD1}"
+          SQLTask:SqlStatementSource="SET DATEFORMAT 'YMD'&#xA;&#xA;/* Calcula Periodos (Desde - Hasta) a procesar de consumo */&#xA;--- Minimo periodo de los ultimos 12 meses vigentes de consumo&#xA;DECLARE @Periodo_Desde_Consumo INT&#xA;SET @Periodo_Desde_Consumo = (select min(id_periodo) from D_periodo where id_periodo in (select top 12 id_periodo from D_PERIODO&#xA;                           where vigente_consumo = 1&#xA;                            group by  id_periodo&#xA;                            order by id_periodo desc))&#xA;                            &#xA;--- Maximo periodo de Consumo                                &#xA;DECLARE @Periodo_Hasta_Consumo INT&#xA;SET @Periodo_Hasta_Consumo = (select MAX(id_periodo) from D_PERIODO where vigente_consumo = 1)&#xA;&#xA;&#xA;--- Periodo siguiente al ultimo vigente de consumo.&#xA;DECLARE @Periodo_Siguiente_Consumo_Cerrado INT&#xA;SET @Periodo_Siguiente_Consumo_Cerrado = (select dbo.PeriodosPosteriores(@Periodo_Hasta_Consumo, 2))&#xA;&#xA;&#xA;--- 13 meses Antes del maximo de H_AUTORIZACIONES_DIARIAS&#xA;DECLARE @Periodo_Desde_AUTORIZACIONES INT&#xA;SET @Periodo_Desde_AUTORIZACIONES = (select min(id_periodo) &#xA;                                     from H_AUTORIZACIONES_DIARIAS &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; where id_periodo in &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;(select distinct top 13 id_periodo &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;     from H_AUTORIZACIONES_DIARIAS&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; order by id_periodo desc))&#xA;&#xA;--- Maximo periodo de H_AUTORIZACIONES_DIARIAS&#xA;DECLARE @Periodo_Hasta_AUTORIZACIONES INT&#xA;SET @Periodo_Hasta_AUTORIZACIONES = (select MAX(id_periodo) from H_AUTORIZACIONES_DIARIAS)&#xA;&#xA;/* Obtener el mes 7 de U12M de consumo */&#xA;DECLARE @mes7 INT&#xA;SET @mes7 =  ( select dbo.PeriodosPosteriores(@Periodo_Desde_Consumo,7))&#xA;&#xA;/* Calculo del % de aumento a aplicar a partir del mes 7 de consumo */&#xA;DECLARE @aumento FLOAT&#xA;SET @aumento = (select SUM(aumento_Sss) from H_ARANCELES_AUMENTOS where id_periodo &gt;= @Periodo_Desde_Consumo &#xA;and id_periodo &lt;= @Periodo_Hasta_Consumo)/2&#xA;&#xA;&#xA;---- MEDIANA POR POSICIÓN AFILIADO, PLAN AGRUPADO G y PRESTACIÓN&#xA;UPDATE H_AUTORIZACIONES_DIARIAS SET mediana_Posicion_PlanG_Prestacion = D.mediana_Posicion_PlanG_Prestacion&#xA;from H_AUTORIZACIONES_DIARIAS H&#xA;inner join D_PERSONAS P on  P.id_persona = H.id_persona&#xA;inner join D_LOCALIDADES L on L.id_localidad = P.id_localidad_afiliado  &#xA;inner join D_MEDIANAS_POSICION_AFILIADO_PLAN_G_PRESTACION D ON L.id_posicion = D.id_posicion and&#xA;                                                           H.id_plan_agrupado_G = D.id_plan_agrupado_G and&#xA;                                                           H.Id_Prestacion = D.id_prestacion&#xA;where H.Id_Prestacion  not in ('DI0803','DI096', 'DI0966','DI1398' )                                                                &#xA;        and SUBSTRING(H.Id_Prestacion, 1 , 2 )  not in ('ME', 'M1')&#xA;                                                           &#xA;---- MEDIANA POR POSICIÓN AFILIADO, y PRESTACIÓN&#xA;UPDATE H_AUTORIZACIONES_DIARIAS SET mediana_Posicion_Prestacion = D.mediana_Posicion_Prestacion&#xA;from H_AUTORIZACIONES_DIARIAS H&#xA;inner join D_PERSONAS P on  P.id_persona = H.id_persona&#xA;inner join D_LOCALIDADES L on L.id_localidad = P.id_localidad_afiliado  &#xA;inner join D_MEDIANAS_POSICION_AFILIADO_PRESTACION D &#xA;ON L.id_posicion = D.id_posicion and H.Id_Prestacion = D.id_prestacion &#xA;where  SUBSTRING(H.Id_Prestacion, 1 , 2 )  not in ('ME', 'M1')&#xA;                                                  &#xA;                                                           &#xA;---- MEDIANA POR PRESTACIÓN&#xA;UPDATE H_AUTORIZACIONES_DIARIAS SET mediana_prestacion = D.mediana_prestacion&#xA;from H_AUTORIZACIONES_DIARIAS H&#xA;inner join D_MEDIANAS_PRESTACION D ON  H.Id_Prestacion = D.id_prestacion  &#xA;where  SUBSTRING(H.Id_Prestacion, 1 , 2 )  not in ('ME', 'M1')&#xA;  &#xA;---- Actualización al campo imp_final_autorizaciones&#xA;&#xA;update H_AUTORIZACIONES_DIARIAS&#xA;set imp_final_autorizaciones = CASE &#xA;WHEN (imp_facturacion_aut &lt;&gt; 0  ) THEN imp_facturacion_unitaria_aut * cant_facturacion_aut --- Se agrego la cant_facturacion_aut porque es lo más importante&#xA;WHEN (imp_facturacion_aut = 0 and mediana_Posicion_PlanG_Prestacion &lt;&gt; 0 ) THEN mediana_Posicion_PlanG_Prestacion * cant_prestacion_aut&#xA;WHEN (imp_facturacion_aut = 0 and mediana_Posicion_PlanG_Prestacion = 0 and&#xA;mediana_posicion_prestacion &lt;&gt; 0) THEN mediana_posicion_prestacion * cant_prestacion_aut&#xA;WHEN (imp_facturacion_aut = 0 and mediana_posicion_planG_prestacion = 0 and&#xA;mediana_posicion_prestacion = 0) THEN mediana_prestacion * cant_prestacion_aut&#xA;END&#xA;FROM H_AUTORIZACIONES_DIARIAS H&#xA;WHERE id_periodo &gt;= @Periodo_Desde_AUTORIZACIONES AND id_periodo &lt;= @Periodo_Hasta_AUTORIZACIONES&#xA;and SUBSTRING(Id_Prestacion, 1 , 2 ) not in ('ME', 'M1')&#xA;&#xA;----- Actualiza las MEdianas con Aumento&#xA;&#xA;&#xA;/* Actualizar los valores a todas las autorizaciones hasta el mes 6 de consumo */&#xA;&#xA;UPDATE H_AUTORIZACIONES_DIARIAS&#xA;set mediana_posicion_planG_prestacion_ajustada = mediana_posicion_planG_prestacion,&#xA;mediana_posicion_prestacion_ajustada = mediana_posicion_prestacion,&#xA;mediana_prestacion_ajustada = mediana_prestacion&#xA;WHERE id_periodo &gt;= @Periodo_Desde_AUTORIZACIONES and id_periodo &lt; @mes7&#xA;and SUBSTRING(Id_Prestacion, 1 , 2 )  not in ('ME', 'M1')&#xA;&#xA;/* Actualizar los valores a todas las autorizaciones a partir del mes 7 de consumo &#xA;hasta el periodo de consumo incluido */&#xA;&#xA;UPDATE H_AUTORIZACIONES_DIARIAS&#xA;set mediana_posicion_planG_prestacion_ajustada = mediana_posicion_planG_prestacion + mediana_posicion_planG_prestacion * @aumento,&#xA;mediana_posicion_prestacion_ajustada = mediana_posicion_prestacion + mediana_posicion_prestacion * @aumento,&#xA;mediana_prestacion_ajustada = mediana_prestacion + mediana_prestacion * @aumento&#xA;WHERE id_periodo &gt; = @mes7 and id_periodo &lt;= @Periodo_Hasta_Consumo&#xA;and SUBSTRING(Id_Prestacion, 1 , 2 )  not in ('ME', 'M1')&#xA;&#xA;&#xA;/* Actualizar los valores a todas las internaciones a partir del mes siguiente de consumo &#xA;hasta el ultimo periodo que hay internaciones */&#xA;&#xA;UPDATE H_AUTORIZACIONES_DIARIAS&#xA;set mediana_posicion_planG_prestacion_ajustada = mediana_posicion_planG_prestacion + mediana_posicion_planG_prestacion * aumento,&#xA;mediana_posicion_prestacion_ajustada = mediana_posicion_prestacion + mediana_posicion_prestacion * aumento,&#xA;mediana_prestacion_ajustada = mediana_prestacion + mediana_prestacion * aumento&#xA;FROM H_AUTORIZACIONES_DIARIAS H&#xA;INNER JOIN TAumento Aum on (H.id_periodo = aum.id_periodo) &#xA;WHERE H.id_periodo &gt;= @Periodo_Siguiente_Consumo_Cerrado and H.id_periodo &lt;= @Periodo_Hasta_AUTORIZACIONES&#xA;and SUBSTRING(Id_Prestacion, 1 , 2 )  not in ('ME', 'M1')&#xA;&#xA;/* Actualizar el valor de Mediana Final Ajustada */&#xA;/* Si lo que se consideró es el Total Consumido no se ajusta, sino, van los valores ajustados */&#xA;&#xA;update H_AUTORIZACIONES_DIARIAS&#xA;set imp_final_autorizaciones_ajustada = CASE &#xA;WHEN (imp_facturacion_aut &lt;&gt; 0  ) THEN imp_final_autorizaciones&#xA;WHEN (imp_facturacion_aut = 0 and mediana_posicion_planG_prestacion_ajustada &lt;&gt; 0) THEN mediana_posicion_planG_prestacion_ajustada * cant_prestacion_aut&#xA;WHEN (imp_facturacion_aut = 0 and mediana_posicion_planG_prestacion_ajustada = 0 and&#xA;mediana_posicion_prestacion_ajustada &lt;&gt; 0) THEN mediana_posicion_prestacion_ajustada * cant_prestacion_aut&#xA;WHEN (imp_facturacion_aut = 0 and mediana_posicion_planG_prestacion_ajustada = 0 and&#xA;mediana_posicion_prestacion_ajustada = 0) THEN mediana_prestacion_ajustada * cant_prestacion_aut&#xA;END&#xA;FROM H_AUTORIZACIONES_DIARIAS H&#xA;WHERE id_periodo &gt;= @Periodo_Desde_AUTORIZACIONES AND id_periodo &lt;= @Periodo_Hasta_AUTORIZACIONES&#xA;and SUBSTRING(Id_Prestacion, 1 , 2 ) not in ('ME', 'M1')&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Borra la tabla AUX_H_AUTORIZACIONES_DIARIAS"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{1f702ebe-457d-48ba-97e5-56697b95d3d6}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Borra la tabla AUX_H_AUTORIZACIONES_DIARIAS"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{A2E09008-7E00-41A1-9BFA-943EE03F2A65}"
+          SQLTask:SqlStatementSource="---- Borra la tabla AUXILIAR&#xA;TRUNCATE TABLE CONSULTAS_DW.DBO.AUX_H_AUTORIZACIONES_DIARIAS" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Borra la tabla H_AUTORIZACIONES_DIARIAS"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{891e7a19-f807-4f12-8ed8-2f26a3916201}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Borra la tabla H_AUTORIZACIONES_DIARIAS"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{1B144804-0036-4789-9886-005715AEEDD1}"
+          SQLTask:SqlStatementSource="---- Borra la tabla H, para recargarla con información&#xA;TRUNCATE TABLE H_AUTORIZACIONES_DIARIAS" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Llena la AUX_H_AUTORIZACIONES_DIARIAS"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{f1f670ba-f289-4c5b-ae34-1422cf362b00}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Llena la AUX_H_AUTORIZACIONES_DIARIAS"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{1B144804-0036-4789-9886-005715AEEDD1}"
+          SQLTask:SqlStatementSource="---- Insert con lo info de la as400&#xA;&#xA;-- Query&#xA;-- DWHSMPP.QAUTF4F8&#xA;&#xA;insert into consultas_DW.dbo.AUX_H_AUTORIZACIONES_DIARIAS&#xA;(id_periodo&#xA;, id_posicion_aut&#xA;, nro_pedido&#xA;, afiliado&#xA;, subnumero&#xA;, secuencia&#xA;, id_persona&#xA;, id_producto&#xA;, id_subproducto&#xA;, id_plan_producto&#xA;, id_tipo_orden&#xA;, nro_orden&#xA;,id_entidad&#xA;, fecha_anulacion_orden&#xA;, fecha_devolucion_orden&#xA;, Fecha_Autorizacion_Sistema&#xA;,  ID_PRESTACION &#xA;, Id_Prestacion_Autorizada &#xA;,id_estado_aut_orden &#xA;,id_acreedor &#xA;, id_Tipo_Prestador &#xA;,  id_prof_prescr &#xA;,id_tipo_profesional_preescribiente &#xA;,id_no_facturador &#xA;, id_tipo_no_facturador&#xA;, Id_Origen_Prestacion &#xA;,id_diagnostico &#xA;, edad_orden &#xA;, Id_Padron &#xA;, Id_Tipo_Beneficiario &#xA;, id_empresa_PE_aut &#xA;, id_tipo_entidad_PE_aut &#xA;, id_marca_PE_aut &#xA;, id_convenio_especial_aut &#xA;,cant_prestacion_aut&#xA;, fecha_recepcion_pedido_autorizacion&#xA;, id_usuario_carga_autorizacion&#xA;, fecha_proceso_autorizacion)&#xA;select left(cast(OW1FAU as int),6) as id_periodo&#xA;, OW1POS as id_posicion_aut&#xA;,OW1NRP as nro_pedido&#xA;,OW1NAF as afiliado&#xA;,OW1SAF as subnumero&#xA;,OW1SEC as secuencia&#xA;,OW1NPE as id_persona&#xA;,OW1PRO as id_producto&#xA;,OW1SPR as id_subproducto&#xA;,OW1PLA as id_plan_producto&#xA;,OW1TOR as id_tipo_orden&#xA;,OW1NOR as nro_orden&#xA;,OW1ENT as id_entidad&#xA;,OW1FAN as fecha_anulacion_orden&#xA;,OW1FDV as fecha_devolucion_orden&#xA;,CONVERT (datetime,convert(char(8),(cast(OW1FAU as int)))) as Fecha_Autorizacion_Sistema&#xA;, (OW7NOM + OW7PRE) AS ID_PRESTACION&#xA;,OW7AUT as Id_Prestacion_Autorizada &#xA;,OW1EAU  as id_estado_aut_orden  &#xA;,OW1NPR as id_acreedor &#xA;,'P' as id_Tipo_Prestador&#xA;, W03CEN as id_prof_prescr &#xA;,'P'  as id_tipo_profesional_preescribiente &#xA;,W03EPR as id_no_facturador &#xA;,'P' as id_tipo_no_facturador&#xA;,W03IOA as Id_Origen_Prestacion &#xA;&#xA;,0 as id_diagnostico &#xA;,0 as edad_orden &#xA;,99 as Id_Padron &#xA;,99 as Id_Tipo_Beneficiario &#xA;&#xA;,null as id_empresa_PE_aut &#xA;,null as id_tipo_entidad_PE_aut &#xA;,null as id_marca_PE_aut &#xA;,null as id_convenio_especial_aut &#xA;,OW7CAN  as cant_prestacion_aut  &#xA;,CONVERT (datetime,convert(char(8),(cast(OW1FRP as int)))) as fecha_recepcion_pedido_autorizacion&#xA;,O07USA as id_usuario_carga_autorizacion&#xA;,OW7FPR as fecha_proceso_autorizacion&#xA;from AS400.HOST03.DWHSMPD.AAUTORIZA&#xA;&#xA;&#xA;&#xA;------- MARCAS PROYECTO EMPRESA&#xA;&#xA;&#xA;---- Actualiza los 4 campos cruzando por id_persona y id_periodo_fecha_internacion   &#xA;&#xA;---- Adicional se agrega la edad de la persona&#xA; update Consultas_DW.DBO.AUX_H_AUTORIZACIONES_DIARIAS  set id_empresa_PE_aut = H.id_empresa_PE,&#xA; id_tipo_entidad_PE_aut = H.id_tipo_entidad_PE, &#xA; id_marca_PE_aut = H.id_marca_PE, &#xA; id_convenio_especial_aut = H.id_convenio_especial,&#xA;edad_orden = H.edad_periodo&#xA;  from Consultas_DW.DBO.AUX_H_AUTORIZACIONES_DIARIAS C&#xA;  inner join H_COMER_STOCK_AFILIA H on C.id_persona = H.id_persona  &#xA; and H.id_periodo = C.id_periodo&#xA;&#xA;&#xA;SELECT MAX(S.id_periodo) id_periodo, S.id_persona &#xA;INTO #TEMP &#xA;FROM H_COMER_STOCK_AFILIA S INNER JOIN Consultas_DW.DBO.AUX_H_AUTORIZACIONES_DIARIAS R ON (R.id_persona=S.id_persona)&#xA;WHERE R.id_marca_PE_aut is null and S.id_periodo &lt;= R.id_periodo&#xA;and S.id_periodo &gt;= 201512&#xA;GROUP BY S.id_persona&#xA;&#xA;&#xA;SELECT DISTINCT id_periodo, id_persona, id_tipo_entidad_PE, id_empresa_PE, id_marca_PE, id_convenio_especial&#xA;into #STOCK &#xA;FROM H_COMER_STOCK_AFILIA S&#xA;WHERE EXISTS (SELECT * FROM #TEMP T WHERE S.id_persona = T.id_persona and S.id_periodo = T.id_periodo)&#xA;and S.id_periodo &gt;= 201512&#xA;&#xA;CREATE INDEX IX_#STOCK_Persona&#xA;    ON #STOCK&#xA;    (id_persona)&#xA;&#xA;&#xA;  update Consultas_DW.DBO.AUX_H_AUTORIZACIONES_DIARIAS   &#xA;  set id_empresa_PE_aut = FAL.id_empresa_PE,&#xA; id_tipo_entidad_PE_aut = FAL.id_tipo_entidad_PE, &#xA; id_marca_PE_aut = FAL.id_marca_PE, &#xA; id_convenio_especial_aut = FAL.id_convenio_especial&#xA;  from Consultas_DW.DBO.AUX_H_AUTORIZACIONES_DIARIAS  C&#xA;  INNER JOIN #STOCK FAL on FAL.id_persona = C.id_persona and FAL.id_periodo = C.id_periodo&#xA; where  id_marca_PE_aut is null&#xA; &#xA; &#xA; &#xA;update  Consultas_DW.DBO.AUX_H_AUTORIZACIONES_DIARIAS set id_empresa_PE_aut = 0,&#xA; id_tipo_entidad_PE_aut = 'I', &#xA; id_marca_PE_aut = 7,&#xA; id_convenio_especial_aut = 0&#xA; where id_marca_PE_aut is null &#xA; &#xA; update Consultas_DW.DBO.AUX_H_AUTORIZACIONES_DIARIAS&#xA; set id_marca_PE_aut = 9 &#xA; where id_producto = 18 and id_marca_pe_aut &lt;&gt; 9&#xA;&#xA;&#xA;&#xA;&#xA; ---- Actualiza para los que no tienen edad de la persona en la tabla d_personas&#xA; update Consultas_DW.DBO.AUX_H_AUTORIZACIONES_DIARIAS  set &#xA;edad_orden = D.Edad_actual&#xA;  from Consultas_DW.DBO.AUX_H_AUTORIZACIONES_DIARIAS  C&#xA;  inner join D_PERSONAS D on D.id_persona = C.id_persona &#xA; where&#xA; edad_orden = 0&#xA; and (Edad_actual not In (0, 1))&#xA; &#xA;&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;-------- Actualiza el campo    imp_facturacion_aut &#xA;&#xA;&#xA;/* Información de consumos recibidos por cada formulario 4. &#xA;Suma el total pagado al prestador para todas las prestaciones de cada formulario 4 relacionado.*/&#xA;--UPDATE H_AUTORIZACIONES_DIARIAS&#xA;--SET imp_facturacion_aut = sumaPrest&#xA;--FROM H_AUTORIZACIONES_DIARIAS H&#xA;--INNER JOIN (SELECT id_orden_relacionada, id_tipo_orden_relacionada, sum(imp_pret_amb_pag) AS sumaPrest&#xA;--   FROM H_ORD_AMB_DET&#xA;--   WHERE ccosto3 = 1&#xA;--   GROUP BY id_orden_relacionada, id_tipo_orden_relacionada) AS I&#xA;--ON (H.nro_orden=I.id_orden_relacionada AND H.id_tipo_orden=I.id_tipo_orden_relacionada)&#xA;&#xA;--UPDATE H_AUTORIZACIONES_DIARIAS&#xA;--SET imp_facturacion_aut = 0&#xA;--WHERE imp_facturacion_aut IS NULL&#xA;&#xA;&#xA;&#xA;/* Actualizo la tabla de PRESTACION */&#xA;        INSERT INTO D_PRESTACION &#xA;        (id_prestacion, id_nomenclador, de_codigo_prestacion ,de_prestacion, id_capitulo, id_subcapitulo, id_seccion, id_seguir_prestacion, id_grupo_prestacion, id_subgrupo_prestacion, id_accion_farmacologica, id_servicio_prest, id_catalogada, id_cod_resolucion, id_nivel_capitacion, id_complejidad, id_provision_prest, id_rubro_ind_consumo, id_prestacion_oncologia, id_marca_recupero_sur, simulador_convenio, evolucion_pareto, orden_pareto)&#xA;        SELECT DISTINCT id_prestacion, SUBSTRING(id_prestacion, 1 , 2 ) as id_nomenclador&#xA;        , SUBSTRING(id_prestacion, 3 , 8 ) as de_codigo_prestacion, 'F/D' as de_prestacion,&#xA;         99 as id_capitulo, 99 as id_subcapitulo, 99 as id_seccion, 'N' as id_seguir_prestacion, &#xA;         99 as id_grupo_prestacion, 99 as id_subgrupo_prestacion, 9999 as id_accion_farmacologica, &#xA;         99 as id_servicio_prest, 'S' as id_catalogada, 9 as id_cod_resolucion, &#xA;         999 as id_nivel_capitacion, 999 as id_complejidad, 0 as id_provision_prest, &#xA;         ' ' as id_rubro_ind_consumo, 'N' as id_prestacion_oncologia, 0 as id_marca_recupero_sur,&#xA;          0 as simulador_convenio, 0 as evolucion_pareto, 0 as orden_pareto&#xA;        FROM consultas_DW.dbo.AUX_H_AUTORIZACIONES_DIARIAS&#xA;        WHERE id_prestacion not in (SELECT distinct id_prestacion FROM D_PRESTACION)&#xA;&#xA;&#xA;&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{4A2CAD1B-9B71-4D67-B363-064D3082C243}"
+      DTS:From="Package\Borra la tabla H_AUTORIZACIONES_DIARIAS"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Actualiza H_AUTORIZACIONES_DIARIAS" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{5068EE1A-554C-4F5E-A421-89A753EBF435}"
+      DTS:From="Package\Actualiza H_AUTORIZACIONES_DIARIAS"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Actualiza medianas ajustadas SSS" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{B691EE14-23CA-4602-8D83-D1F6E1AD11E1}"
+      DTS:From="Package\Borra la tabla AUX_H_AUTORIZACIONES_DIARIAS"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Llena la AUX_H_AUTORIZACIONES_DIARIAS" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{0EE9867F-D39B-40BD-B372-97273F19B611}"
+      DTS:From="Package\Llena la AUX_H_AUTORIZACIONES_DIARIAS"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Borra la tabla H_AUTORIZACIONES_DIARIAS" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
+      DTS:CreationName=""
+      DTS:DTSID="{2B51DDC7-5C65-48C3-AE26-1C4C7B469FFA}"
+      DTS:From="Package\Actualiza medianas ajustadas SSS"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 4"
+      DTS:To="Package\Actualiza medianas ajustadas Medicamentos" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="289,42"
+          Id="Package\Actualiza H_AUTORIZACIONES_DIARIAS"
+          TopLeft="327.388364779874,227.069811320755" />
+        <NodeLayout
+          Size="299,42"
+          Id="Package\Actualiza medianas ajustadas Medicamentos"
+          TopLeft="322.388364779874,374.783018867925" />
+        <NodeLayout
+          Size="249,42"
+          Id="Package\Actualiza medianas ajustadas SSS"
+          TopLeft="347.388364779874,300.92641509434" />
+        <NodeLayout
+          Size="338,42"
+          Id="Package\Borra la tabla AUX_H_AUTORIZACIONES_DIARIAS"
+          TopLeft="302.888364779874,5.5" />
+        <NodeLayout
+          Size="309,42"
+          Id="Package\Borra la tabla H_AUTORIZACIONES_DIARIAS"
+          TopLeft="317.388364779874,153.21320754717" />
+        <NodeLayout
+          Size="311,42"
+          Id="Package\Llena la AUX_H_AUTORIZACIONES_DIARIAS"
+          TopLeft="316.388364779874,79.3566037735849" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="471.888364779874,195.21320754717">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,31.8566037735849"
+              Start="0,0"
+              End="0,24.3566037735849">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,24.3566037735849" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="471.888364779874,269.069811320755">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,31.8566037735849"
+              Start="0,0"
+              End="0,24.3566037735849">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,24.3566037735849" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="471.888364779874,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,31.8566037735849"
+              Start="0,0"
+              End="0,24.3566037735849">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,24.3566037735849" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="471.888364779874,121.356603773585">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,31.8566037735851"
+              Start="0,0"
+              End="0,24.3566037735851">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,24.3566037735851" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="471.888364779874,342.92641509434">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,31.8566037735849"
+              Start="0,0"
+              End="0,24.3566037735849">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,24.3566037735849" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

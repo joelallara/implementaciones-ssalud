@@ -1,0 +1,80 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="10/9/2019 11:23:15 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="DES6103"
+  DTS:CreatorName="AMS\jallara"
+  DTS:DTSID="{4E18C088-1E7C-4301-B6C2-BD7B4CE6CD44}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="IndConsumos AUX_H_INTERNACIONES_PROLONGADAS_INDICADORES"
+  DTS:PackageType="5"
+  DTS:VersionBuild="4"
+  DTS:VersionGUID="{BF3461D7-1178-4921-9FBC-1D23792FEB60}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{C33FA6BB-8BA8-4D96-AC38-3E977222147F}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{C33FA6BB-8BA8-4D96-AC38-3E977222147F}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Actualizar AUX_H_INTERNACIONES_PROLONGADAS_INDICADORES VIGENTE"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{c50bdd50-f8e3-4944-84b9-354704b2f57d}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualizar AUX_H_INTERNACIONES_PROLONGADAS_INDICADORES VIGENTE"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{A3223EA0-900E-4B20-A33F-FDC7A3B40426}"
+          SQLTask:SqlStatementSource="&#xA;&#xA; Declare @Periodo_Hasta_Ejecucion Int Set @Periodo_Hasta_Ejecucion = (select MAX(id_periodo) from AUX_PERIODO_MES_BORRA_IND_CONSUMOS)&#xA; Declare @Periodo_Desde_Ejecucion Int Set @Periodo_Desde_Ejecucion = dbo.PeriodosAnteriores(@Periodo_Hasta_Ejecucion,12) &#xA;&#xA;-- Obtiene las ordenes a trabajar.&#xA;&#xA; if exists (select * from sysobjects where name = 'TMP_INTERNACIONES_PROLONGADAS')&#xA;   begin&#xA;   drop table TMP_INTERNACIONES_PROLONGADAS&#xA;   end&#xA;&#xA; CREATE TABLE TMP_INTERNACIONES_PROLONGADAS&#xA; (ID int identity,&#xA; nro_orden int,&#xA; id_tipo_orden char(1),&#xA; id_persona int,&#xA; id_periodo_desde int,&#xA; fecha_internacion datetime,&#xA; id_periodo_hasta int,&#xA; fecha_alta_internacion datetime,&#xA; id_producto int,&#xA; id_subproducto int,&#xA; id_plan_producto char(5),&#xA; edad_orden int,&#xA; id_tipo_internacion char(2),&#xA; id_empresa_PE_ind int,&#xA; id_tipo_entidad_PE_ind char(1),&#xA; id_marca_PE_ind int,&#xA; id_convenio int,&#xA; id_tipo_entidad_convenio char(1))&#xA;&#xA; INSERT INTO TMP_INTERNACIONES_PROLONGADAS&#xA; (nro_orden, id_tipo_orden, id_persona, id_periodo_desde, fecha_internacion, id_periodo_hasta, fecha_alta_internacion, id_producto, id_subproducto, id_plan_producto, edad_orden, id_tipo_internacion, id_empresa_PE_ind, id_tipo_entidad_PE_ind, id_marca_PE_ind, id_convenio, id_tipo_entidad_convenio)&#xA; select nro_orden, id_tipo_orden, id_persona, id_periodo_fecha_internacion as id_periodo_desde, fecha_internacion, dbo.DevuelvePeriodo(CASE When fecha_alta_internacion is null then GETDATE() else fecha_alta_internacion end) as id_periodo_hasta, (CASE When fecha_alta_internacion is null then GETDATE() else fecha_alta_internacion end) as fecha_alta_internacion, id_producto, id_subproducto, id_plan_producto, edad_orden, id_tipo_internacion, H.id_empresa_PE_int as id_empresa_PE_ind, H.id_tipo_entidad_PE_int as id_tipo_entidad_PE_ind, H.id_marca_PE_int as id_marca_PE_ind, H.id_convenio, H.id_tipo_entidad_convenio&#xA; from DW_SALUD.dbo.H_INTERNACIONES_CARLOS H&#xA; where id_internacion_prolongada = 'S' --and id_periodo in (select distinct top 12 id_periodo from DW_SALUD.dbo.D_PERIODO WHERE vigente_consumo = 1 order by id_periodo desc)&#xA; and dbo.DevuelvePeriodo(fecha_internacion) between @Periodo_Desde_Ejecucion and @Periodo_Hasta_Ejecucion&#xA;&#xA;-- Genera rangos de periodos para cada Orden según su Inicio y Fin.&#xA;&#xA; Declare @Cant_Ordenes int Set @Cant_Ordenes = (SELECT MAX(ID) from TMP_INTERNACIONES_PROLONGADAS)&#xA; Declare @Contador Int Set @Contador = 1&#xA;&#xA; DELETE FROM Consultas_DW.dbo.TMP_PROLONGADAS_PERIODOS&#xA;&#xA; WHILE @Contador &lt;= @Cant_Ordenes&#xA;&#xA;  BEGIN&#xA; &#xA;  DECLARE @Periodo_Desde Int Set @Periodo_Desde = (select Id_periodo_Desde from TMP_INTERNACIONES_PROLONGADAS where ID = @Contador)&#xA;  DECLARE @Periodo_Hasta Int Set @Periodo_Hasta = (select Id_periodo_Hasta from TMP_INTERNACIONES_PROLONGADAS where ID = @Contador)&#xA;  &#xA;  INSERT INTO Consultas_DW.dbo.TMP_PROLONGADAS_PERIODOS&#xA;  (ID, id_periodo, total_dias_mes, maximo_mes, minimo_mes, cant_internaciones)&#xA;  SELECT @Contador, id_periodo, 0 as total_dias_mes, 0 as maximo_mes, 0 as minimo_mes, 0 as cant_internaciones--, 0 as mes_12&#xA;  FROM D_PERIODO&#xA;  WHERE id_periodo between @Periodo_Desde and @Periodo_Hasta&#xA;&#xA;  SET @Contador = @Contador + 1&#xA;&#xA;  END&#xA;&#xA;&#xA;-- Actualiza Cantidad de días por mes según Inicio y Alta de la Internacion.&#xA; &#xA; if exists (select * from sysobjects where name = 'Total_Dias_Meses')&#xA;   begin&#xA;   drop table Total_Dias_Meses&#xA;   end&#xA;&#xA; SELECT PP.id_periodo, MAX(DATEPART(day,id_fecha)) as total_dias_mes&#xA; Into Total_Dias_Meses&#xA; FROM Consultas_DW.dbo.TMP_PROLONGADAS_PERIODOS PP&#xA; JOIN D_FECHA F on PP.id_periodo = F.id_periodo&#xA; GROUP BY PP.id_periodo&#xA;&#xA; UPDATE Consultas_DW.dbo.TMP_PROLONGADAS_PERIODOS &#xA;  set total_dias_mes = F.total_dias_mes&#xA; FROM Consultas_DW.dbo.TMP_PROLONGADAS_PERIODOS PP&#xA; JOIN Total_Dias_Meses F on PP.id_periodo = F.id_periodo&#xA;&#xA; if exists (select * from sysobjects where name = 'Total_Dias_Meses')&#xA;   begin&#xA;   drop table Total_Dias_Meses&#xA;   end&#xA;&#xA;&#xA;-- Maximo Mes&#xA;&#xA; if exists (select * from sysobjects where name = 'Maximo')&#xA;   begin&#xA;   drop table Maximo&#xA;   end&#xA;&#xA; SELECT ID, MAX(id_periodo) as maximo_mes &#xA; Into Maximo from Consultas_DW.dbo.TMP_PROLONGADAS_PERIODOS GROUP BY ID&#xA;&#xA; UPDATE Consultas_DW.dbo.TMP_PROLONGADAS_PERIODOS&#xA;  Set maximo_mes = 1&#xA; FROM Consultas_DW.dbo.TMP_PROLONGADAS_PERIODOS PP&#xA; JOIN Maximo F on PP.ID = F.ID and PP.id_periodo = F.maximo_mes&#xA;&#xA; UPDATE Consultas_DW.dbo.TMP_PROLONGADAS_PERIODOS&#xA;  Set total_dias_mes = DATEPART(DD,fecha_alta_internacion)&#xA; FROM TMP_INTERNACIONES_PROLONGADAS P&#xA; JOIN Consultas_DW.dbo.TMP_PROLONGADAS_PERIODOS PR on P.ID = PR.ID&#xA; WHERE maximo_mes = 1&#xA;&#xA; if exists (select * from sysobjects where name = 'Maximo')&#xA;   begin&#xA;   drop table Maximo&#xA;   end&#xA;&#xA;&#xA;-- Minimo Mes: Actualiza los días y la cantidad de internaciones.&#xA;&#xA; if exists (select * from sysobjects where name = 'Minimo')&#xA;   begin&#xA;   drop table Minimo&#xA;   end&#xA;&#xA; SELECT ID, MIN(id_periodo) as minimo_mes &#xA; Into Minimo from Consultas_DW.dbo.TMP_PROLONGADAS_PERIODOS GROUP BY ID&#xA;&#xA; UPDATE Consultas_DW.dbo.TMP_PROLONGADAS_PERIODOS&#xA;  Set minimo_mes = 1&#xA; FROM Consultas_DW.dbo.TMP_PROLONGADAS_PERIODOS PP&#xA; JOIN Minimo F on PP.ID = F.ID and PP.id_periodo = F.minimo_mes&#xA;&#xA; UPDATE Consultas_DW.dbo.TMP_PROLONGADAS_PERIODOS&#xA;  Set total_dias_mes = total_dias_mes - DATEPART(DD,fecha_internacion),&#xA;   cant_internaciones = 1&#xA; FROM TMP_INTERNACIONES_PROLONGADAS P&#xA; JOIN Consultas_DW.dbo.TMP_PROLONGADAS_PERIODOS PR on P.ID = PR.ID&#xA; WHERE minimo_mes = 1&#xA;&#xA; if exists (select * from sysobjects where name = 'Minimo')&#xA;   begin&#xA;   drop table Minimo&#xA;   end&#xA;&#xA;&#xA;-- Marca las internaciones hasta el mes 12 en caso que superen este valor ya que debe tener un tope hasta 12 meses.&#xA;&#xA; if exists (select * from sysobjects where name = 'Mes_12')&#xA;   begin&#xA;   drop table Mes_12&#xA;   end&#xA;&#xA; SELECT ID, MIN(id_periodo) minimo_mes, dbo.PeriodosPosteriores(MIN(id_periodo),12) as mes_12&#xA; Into Mes_12&#xA; FROM Consultas_DW.dbo.TMP_PROLONGADAS_PERIODOS&#xA; WHERE ID in (SELECT ID from Consultas_DW.dbo.TMP_PROLONGADAS_PERIODOS &#xA;     GROUP BY ID&#xA;     HAVING COUNT(id_periodo) &gt; 12)&#xA; group by ID&#xA;&#xA; -- Actualiza el mes 12 en cada orden.&#xA; UPDATE Consultas_DW.dbo.TMP_PROLONGADAS_PERIODOS&#xA;  Set mes_12 = F.mes_12&#xA; FROM Consultas_DW.dbo.TMP_PROLONGADAS_PERIODOS PP&#xA; JOIN Mes_12 F on PP.ID = F.ID&#xA;&#xA; -- Borra los casos que superan los 12 meses.&#xA; DELETE FROM Consultas_DW.dbo.TMP_PROLONGADAS_PERIODOS &#xA; WHERE ID in (select distinct ID from Mes_12) and &#xA; id_periodo &gt; Mes_12&#xA;&#xA;&#xA; if exists (select * from sysobjects where name = 'Mes_12')&#xA;   begin&#xA;   drop table Mes_12&#xA;   end&#xA;&#xA;-- Actualiza Auxiliar.&#xA;&#xA; DELETE FROM DW_Salud.dbo.AUX_H_INTERNACIONES_PROLONGADAS_INDICADORES&#xA; WHERE dbo.DevuelvePeriodo(fecha_internacion) between @Periodo_Desde_Ejecucion and @Periodo_Hasta_Ejecucion&#xA;&#xA; INSERT INTO DW_Salud.dbo.AUX_H_INTERNACIONES_PROLONGADAS_INDICADORES&#xA; (id_periodo, fecha_internacion, fecha_alta_internacion, nro_orden, id_tipo_orden, id_persona, total_dias_mes, cant_internaciones, id_producto, id_subproducto, id_plan_producto, edad_orden, id_tipo_internacion, id_empresa_PE_ind, id_tipo_entidad_PE_ind, id_marca_PE_ind, id_convenio, id_tipo_entidad_convenio)&#xA; SELECT MIN(id_periodo) as id_periodo, fecha_internacion, fecha_alta_internacion, nro_orden, id_tipo_orden, id_persona, SUM(total_dias_mes) as total_dias_mes, SUM(cant_internaciones) as cant_internaciones, id_producto, id_subproducto, id_plan_producto, edad_orden, id_tipo_internacion, id_empresa_PE_ind, id_tipo_entidad_PE_ind, id_marca_PE_ind, id_convenio, id_tipo_entidad_convenio&#xA;&#xA; FROM TMP_INTERNACIONES_PROLONGADAS P&#xA; JOIN Consultas_DW.dbo.TMP_PROLONGADAS_PERIODOS PR on P.ID = PR.ID&#xA; WHERE dbo.DevuelvePeriodo(fecha_internacion) between @Periodo_Desde_Ejecucion and @Periodo_Hasta_Ejecucion &#xA; GROUP BY fecha_internacion, fecha_alta_internacion, nro_orden, id_tipo_orden, id_persona, id_producto, id_subproducto, id_plan_producto, edad_orden, id_tipo_internacion, id_empresa_PE_ind, id_tipo_entidad_PE_ind, id_marca_PE_ind, id_convenio, id_tipo_entidad_convenio&#xA;&#xA;&#xA;-- Internaciones en H_INTERNACIONES_CARLOS que no se cuentan en AUX_H_INTERNACIONES_PROLONGADAS_INDICADORES:&#xA;-- 416753&#xA;&#xA;&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="488,42"
+          Id="Package\Actualizar AUX_H_INTERNACIONES_PROLONGADAS_INDICADORES VIGENTE"
+          TopLeft="40,15" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

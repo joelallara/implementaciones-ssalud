@@ -1,0 +1,1540 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="1/29/2020 1:02:04 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="LA22676-08835"
+  DTS:CreatorName="AMS\nprida"
+  DTS:DTSID="{35167939-2477-4BC1-9090-BFF7872B3935}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="Documentacion_ATRIBUTOS HIJOS Y REPRESENTACIONES"
+  DTS:PackageType="5"
+  DTS:VersionBuild="31"
+  DTS:VersionGUID="{6BA0496F-AD36-4422-80E9-CEE080EE960C}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[file_Atributte_Forms]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{76AFFC95-2886-464E-8171-1DB31089AB9A}"
+      DTS:ObjectName="file_Atributte_Forms">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="Delimited"
+          DTS:LocaleID="11274"
+          DTS:HeaderRowsToSkip="6"
+          DTS:HeaderRowDelimiter="_x000D__x000A_"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x003C_none_x003E_"
+          DTS:CodePage="1252"
+          DTS:ConnectionString="\\P-IS-01\SSIS2017$\03 - Archivos\Documentacion Schema\Attribute_Forms.txt">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x003B_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="No usar"
+              DTS:DTSID="{AF72D568-BE33-454E-A835-D8EC1FA25854}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x003B_"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="XTZ"
+              DTS:DTSID="{960BFC6B-3238-486E-8F8D-F7CCBFD37537}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x003B_"
+              DTS:MaximumWidth="250"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Atributo"
+              DTS:DTSID="{5553148C-E695-484F-8AA2-DD09A35F5959}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x003B_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Categoria representacion"
+              DTS:DTSID="{369A6B2D-ED00-4122-8421-FDA4FC1C1A2D}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000D__x000A_"
+              DTS:MaximumWidth="250"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="representacion"
+              DTS:DTSID="{25817A6D-83D3-49B5-A662-DDAED235BB7C}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[file_Padres_Hijos]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{AFEE1406-168D-4F4C-BC6E-4BD47FA4AC92}"
+      DTS:ObjectName="file_Padres_Hijos">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="Delimited"
+          DTS:LocaleID="11274"
+          DTS:HeaderRowsToSkip="7"
+          DTS:HeaderRowDelimiter="_x000D__x000A_"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x003C_none_x003E_"
+          DTS:CodePage="1252"
+          DTS:ConnectionString="\\P-IS-01\SSIS2017$\03 - Archivos\Documentacion Schema\Attribute_Child.txt">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x003B_"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="No tomar"
+              DTS:DTSID="{0381D9A4-BD7B-4C2B-A282-1BCA44AF67F0}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x003B_"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="XTZ"
+              DTS:DTSID="{5A8D576A-6C87-42F7-AFBB-F1ADF2596B19}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x003B_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Atributo"
+              DTS:DTSID="{0440AC54-E1F8-4886-BCC3-15A06909C858}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x003B_"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Atributo Hijo"
+              DTS:DTSID="{18BC76DB-8EC0-472C-858F-60FBE1F719E7}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x003B_"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Tabla Hija"
+              DTS:DTSID="{D2E7A352-5C08-4F5F-B565-BEE18FF279FD}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000D__x000A_"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Relacion"
+              DTS:DTSID="{0F49F8A9-CBC7-4CDD-966D-48F596455DAA}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{AB210267-E9D4-4AFC-91A9-3F2E54D98E06}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{AB210267-E9D4-4AFC-91A9-3F2E54D98E06}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza ID de Schema"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tarea Ejecutar SQL"
+      DTS:DTSID="{E3F05941-140F-4FBE-BEE5-4417C38A72F7}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza ID de Schema"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{60170DD5-0B9F-4310-9EB3-380CE6FAF9F1}"
+          SQLTask:SqlStatementSource="&#xA;--exepcion 1: la relacion no esta dada directamente sobre el atributo convenio empresa porque depende del periodo, es por eso &#xA;--que donde se usa clave convenio-periodo se reemplaza por convenio empresa&#xA;update H_DOCUMENTACION_ATRIBUTOS_RELACIONES &#xA;set atributo_hijo = 'Convenio Empresa'&#xA;where atributo_hijo = 'Clave Convenio-Periodo'&#xA;--excepcion 2: la relacion interes comercial de la persona esta igual que lo de convenio&#xA;update H_DOCUMENTACION_ATRIBUTOS_RELACIONES &#xA;set atributo_hijo = 'Marca Persona Interes Comercial'&#xA;where atributo_hijo = 'Clave_Periodo-Afiliado-Persona'&#xA;&#xA;&#xA;--ACTUALIZAMOS LOS ID DE SCHEMA DE CADA OBJETO&#xA;update H_DOCUMENTACION_ATRIBUTOS_RELACIONES&#xA;set id_atributo_padre = DA.id_atributo_schema&#xA;from H_DOCUMENTACION_ATRIBUTOS_RELACIONES RA join D_DOCUMENTACION_ATRIBUTOS DA on DA.nombre_atributo = RA.atributo_padre&#xA;&#xA;update H_DOCUMENTACION_ATRIBUTOS_RELACIONES&#xA;set id_atributo_hijo = DA.id_atributo_schema&#xA;from H_DOCUMENTACION_ATRIBUTOS_RELACIONES RA join D_DOCUMENTACION_ATRIBUTOS DA on DA.nombre_atributo = RA.atributo_hijo&#xA;&#xA;update H_DOCUMENTACION_ATRIBUTOS_RELACIONES&#xA;set id_tabla_atributo_hijo = DA.id_tabla_schema&#xA;from H_DOCUMENTACION_ATRIBUTOS_RELACIONES RA join D_DOCUMENTACION_TABLAS DA on DA.nombre_tabla = RA.tabla_atributo_hijo&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Borra D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tarea Ejecutar SQL"
+      DTS:DTSID="{FB384C5C-9EB9-49B7-B184-094EAAC361E8}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Borra D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{60170DD5-0B9F-4310-9EB3-380CE6FAF9F1}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Borrar H_DOCUMENTACION_ATRIBUTOS _RELACIONES"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tarea Ejecutar SQL"
+      DTS:DTSID="{25DF4A2F-1625-4DEB-BF17-E7E413CB2EEC}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Borrar H_DOCUMENTACION_ATRIBUTOS _RELACIONES"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{60170DD5-0B9F-4310-9EB3-380CE6FAF9F1}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE H_DOCUMENTACION_ATRIBUTOS_RELACIONES" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{DE9915F8-FE24-4D6C-B8AD-499FB95DD28D}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\Conditional Split"
+              componentClassID="Microsoft.ConditionalSplit"
+              contactInfo="Conditional Split;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Routes data rows to different outputs depending on the content of the data. Use conditions (SSIS expressions) to specify which rows are routed. For example, separate records that need to be cleaned from those that are ready to be loaded or route only a subset of records."
+              name="Conditional Split"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\Conditional Split.Inputs[Conditional Split Input]"
+                  description="Input to the Conditional Split Transformation"
+                  name="Conditional Split Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\Conditional Split.Inputs[Conditional Split Input].Columns[XTZ]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="XTZ"
+                      lineageId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\Flat File Source.Outputs[Flat File Source Output].Columns[XTZ]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\Conditional Split.Outputs[Cargar]"
+                  description="Output 1 of the Conditional Split Transformation"
+                  errorOrTruncationOperation="Computation"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Cargar"
+                  synchronousInputId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\Conditional Split.Inputs[Conditional Split Input]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                      name="Expression">#{Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\Flat File Source.Outputs[Flat File Source Output].Columns[XTZ]} == "XTZ"</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the friendly version of the expression. This expression version uses column names."
+                      expressionType="Notify"
+                      name="FriendlyExpression">XTZ == "XTZ"</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                      name="EvaluationOrder">0</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\Conditional Split.Outputs[Conditional Split Default Output]"
+                  description="Default Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  name="Conditional Split Default Output"
+                  synchronousInputId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\Conditional Split.Inputs[Conditional Split Input]">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      name="IsDefaultOut">true</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\Conditional Split.Outputs[Conditional Split Error Output]"
+                  description="Error Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Conditional Split Error Output"
+                  synchronousInputId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\Conditional Split.Inputs[Conditional Split Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\Flat File Source"
+              componentClassID="Microsoft.FlatFileSource"
+              contactInfo="Flat File Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Flat File Source"
+              localeId="11274"
+              name="Flat File Source"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Specifies whether zero-length columns are treated as null."
+                  name="RetainNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of an output column containing the file name. If no name is specified, no output column containing the file name will be generated."
+                  name="FileNameColumnName"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\Flat File Source.Connections[FlatFileConnection]"
+                  connectionManagerID="Package.ConnectionManagers[file_Atributte_Forms]"
+                  connectionManagerRefId="Package.ConnectionManagers[file_Atributte_Forms]"
+                  name="FlatFileConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\Flat File Source.Outputs[Flat File Source Output]"
+                  name="Flat File Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\Flat File Source.Outputs[Flat File Source Output].Columns[Atributo]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Atributo]"
+                      length="250"
+                      lineageId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\Flat File Source.Outputs[Flat File Source Output].Columns[Atributo]"
+                      name="Atributo"
+                      truncationRowDisposition="IgnoreFailure">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\Flat File Source.Outputs[Flat File Source Output].Columns[Categoria representacion]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Categoria representacion]"
+                      length="50"
+                      lineageId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\Flat File Source.Outputs[Flat File Source Output].Columns[Categoria representacion]"
+                      name="Categoria representacion"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\Flat File Source.Outputs[Flat File Source Output].Columns[representacion]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[representacion]"
+                      length="250"
+                      lineageId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\Flat File Source.Outputs[Flat File Source Output].Columns[representacion]"
+                      name="representacion"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\Flat File Source.Outputs[Flat File Source Output].Columns[XTZ]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[XTZ]"
+                      length="255"
+                      lineageId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\Flat File Source.Outputs[Flat File Source Output].Columns[XTZ]"
+                      name="XTZ"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[No usar]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="No usar" />
+                    <externalMetadataColumn
+                      refId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Atributo]"
+                      codePage="1252"
+                      dataType="str"
+                      length="250"
+                      name="Atributo" />
+                    <externalMetadataColumn
+                      refId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Categoria representacion]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="Categoria representacion" />
+                    <externalMetadataColumn
+                      refId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[representacion]"
+                      codePage="1252"
+                      dataType="str"
+                      length="250"
+                      name="representacion" />
+                    <externalMetadataColumn
+                      refId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[XTZ]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="XTZ" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\Flat File Source.Outputs[Flat File Source Error Output]"
+                  isErrorOut="true"
+                  name="Flat File Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\Flat File Source.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      codePage="1252"
+                      dataType="text"
+                      description="Flat File Source Error Output Column"
+                      lineageId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\Flat File Source.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      name="Flat File Source Error Output Column" />
+                    <outputColumn
+                      refId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="{60170DD5-0B9F-4310-9EB3-380CE6FAF9F1}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DS_DW_SALUD]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[representacion]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="250"
+                      cachedName="representacion"
+                      externalMetadataColumnId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[de_representacion]"
+                      lineageId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\Flat File Source.Outputs[Flat File Source Output].Columns[representacion]" />
+                    <inputColumn
+                      refId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Categoria representacion]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="Categoria representacion"
+                      externalMetadataColumnId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[categoria_representacion]"
+                      lineageId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\Flat File Source.Outputs[Flat File Source Output].Columns[Categoria representacion]" />
+                    <inputColumn
+                      refId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Atributo]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="250"
+                      cachedName="Atributo"
+                      externalMetadataColumnId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[nombre_atributo]"
+                      lineageId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\Flat File Source.Outputs[Flat File Source Output].Columns[Atributo]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_representacion]"
+                      dataType="i4"
+                      name="id_representacion" />
+                    <externalMetadataColumn
+                      refId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[de_representacion]"
+                      codePage="1252"
+                      dataType="str"
+                      length="150"
+                      name="de_representacion" />
+                    <externalMetadataColumn
+                      refId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[categoria_representacion]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="categoria_representacion" />
+                    <externalMetadataColumn
+                      refId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_atributo_schema]"
+                      codePage="1252"
+                      dataType="str"
+                      length="200"
+                      name="id_atributo_schema" />
+                    <externalMetadataColumn
+                      refId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[nombre_atributo]"
+                      codePage="1252"
+                      dataType="str"
+                      length="250"
+                      name="nombre_atributo" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES.Paths[Cargar]"
+              endId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="Cargar"
+              startId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\Conditional Split.Outputs[Cargar]" />
+            <path
+              refId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES.Paths[Flat File Source Output]"
+              endId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\Conditional Split.Inputs[Conditional Split Input]"
+              name="Flat File Source Output"
+              startId="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\Flat File Source.Outputs[Flat File Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{111B84EB-1939-45B3-806D-53506634F11C}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\Conditional Split"
+              componentClassID="Microsoft.ConditionalSplit"
+              contactInfo="Conditional Split;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Routes data rows to different outputs depending on the content of the data. Use conditions (SSIS expressions) to specify which rows are routed. For example, separate records that need to be cleaned from those that are ready to be loaded or route only a subset of records."
+              name="Conditional Split"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\Conditional Split.Inputs[Conditional Split Input]"
+                  description="Input to the Conditional Split Transformation"
+                  name="Conditional Split Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\Conditional Split.Inputs[Conditional Split Input].Columns[XTZ]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="XTZ"
+                      lineageId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\Flat File Source.Outputs[Flat File Source Output].Columns[XTZ]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\Conditional Split.Outputs[Cargar]"
+                  description="Output 1 of the Conditional Split Transformation"
+                  errorOrTruncationOperation="Computation"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Cargar"
+                  synchronousInputId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\Conditional Split.Inputs[Conditional Split Input]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                      name="Expression">#{Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\Flat File Source.Outputs[Flat File Source Output].Columns[XTZ]} == "XTZ"</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the friendly version of the expression. This expression version uses column names."
+                      expressionType="Notify"
+                      name="FriendlyExpression">XTZ == "XTZ"</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                      name="EvaluationOrder">0</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\Conditional Split.Outputs[Conditional Split Default Output]"
+                  description="Default Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  name="Conditional Split Default Output"
+                  synchronousInputId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\Conditional Split.Inputs[Conditional Split Input]">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      name="IsDefaultOut">true</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\Conditional Split.Outputs[Conditional Split Error Output]"
+                  description="Error Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Conditional Split Error Output"
+                  synchronousInputId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\Conditional Split.Inputs[Conditional Split Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\Flat File Source"
+              componentClassID="Microsoft.FlatFileSource"
+              contactInfo="Flat File Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Flat File Source"
+              localeId="11274"
+              name="Flat File Source"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Specifies whether zero-length columns are treated as null."
+                  name="RetainNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of an output column containing the file name. If no name is specified, no output column containing the file name will be generated."
+                  name="FileNameColumnName"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\Flat File Source.Connections[FlatFileConnection]"
+                  connectionManagerID="Package.ConnectionManagers[file_Padres_Hijos]"
+                  connectionManagerRefId="Package.ConnectionManagers[file_Padres_Hijos]"
+                  name="FlatFileConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\Flat File Source.Outputs[Flat File Source Output]"
+                  name="Flat File Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\Flat File Source.Outputs[Flat File Source Output].Columns[Atributo]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Atributo]"
+                      length="50"
+                      lineageId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\Flat File Source.Outputs[Flat File Source Output].Columns[Atributo]"
+                      name="Atributo"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\Flat File Source.Outputs[Flat File Source Output].Columns[Atributo Hijo]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Atributo Hijo]"
+                      length="255"
+                      lineageId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\Flat File Source.Outputs[Flat File Source Output].Columns[Atributo Hijo]"
+                      name="Atributo Hijo"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\Flat File Source.Outputs[Flat File Source Output].Columns[Tabla Hija]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Tabla Hija]"
+                      length="255"
+                      lineageId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\Flat File Source.Outputs[Flat File Source Output].Columns[Tabla Hija]"
+                      name="Tabla Hija"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\Flat File Source.Outputs[Flat File Source Output].Columns[Relacion]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Relacion]"
+                      length="255"
+                      lineageId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\Flat File Source.Outputs[Flat File Source Output].Columns[Relacion]"
+                      name="Relacion"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\Flat File Source.Outputs[Flat File Source Output].Columns[XTZ]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[XTZ]"
+                      length="255"
+                      lineageId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\Flat File Source.Outputs[Flat File Source Output].Columns[XTZ]"
+                      name="XTZ"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[No tomar]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="No tomar" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Atributo]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="Atributo" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Atributo Hijo]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="Atributo Hijo" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Tabla Hija]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="Tabla Hija" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Relacion]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="Relacion" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[XTZ]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="XTZ" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\Flat File Source.Outputs[Flat File Source Error Output]"
+                  isErrorOut="true"
+                  name="Flat File Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\Flat File Source.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      codePage="1252"
+                      dataType="text"
+                      description="Flat File Source Error Output Column"
+                      lineageId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\Flat File Source.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      name="Flat File Source Error Output Column" />
+                    <outputColumn
+                      refId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[H_DOCUMENTACION_ATRIBUTOS_RELACIONES]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="{60170DD5-0B9F-4310-9EB3-380CE6FAF9F1}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DS_DW_SALUD]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Relacion]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="Relacion"
+                      externalMetadataColumnId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[relacion]"
+                      lineageId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\Flat File Source.Outputs[Flat File Source Output].Columns[Relacion]" />
+                    <inputColumn
+                      refId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Atributo]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="Atributo"
+                      externalMetadataColumnId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[atributo_padre]"
+                      lineageId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\Flat File Source.Outputs[Flat File Source Output].Columns[Atributo]" />
+                    <inputColumn
+                      refId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Atributo Hijo]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="Atributo Hijo"
+                      externalMetadataColumnId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[atributo_hijo]"
+                      lineageId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\Flat File Source.Outputs[Flat File Source Output].Columns[Atributo Hijo]" />
+                    <inputColumn
+                      refId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Tabla Hija]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="255"
+                      cachedName="Tabla Hija"
+                      externalMetadataColumnId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[tabla_atributo_hijo]"
+                      lineageId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\Flat File Source.Outputs[Flat File Source Output].Columns[Tabla Hija]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[atributo_padre]"
+                      codePage="1252"
+                      dataType="str"
+                      length="250"
+                      name="atributo_padre" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[atributo_hijo]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="atributo_hijo" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[tabla_atributo_hijo]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="tabla_atributo_hijo" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[relacion]"
+                      codePage="1252"
+                      dataType="str"
+                      length="255"
+                      name="relacion" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_atributo_padre]"
+                      codePage="1252"
+                      dataType="str"
+                      length="150"
+                      name="id_atributo_padre" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_atributo_hijo]"
+                      codePage="1252"
+                      dataType="str"
+                      length="150"
+                      name="id_atributo_hijo" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_tabla_atributo_hijo]"
+                      codePage="1252"
+                      dataType="str"
+                      length="150"
+                      name="id_tabla_atributo_hijo" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES.Paths[Cargar]"
+              endId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="Cargar"
+              startId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\Conditional Split.Outputs[Cargar]" />
+            <path
+              refId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES.Paths[Flat File Source Output]"
+              endId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\Conditional Split.Inputs[Conditional Split Input]"
+              name="Flat File Source Output"
+              startId="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\Flat File Source.Outputs[Flat File Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\ID schema y borra lo que no tiene que verse"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tarea Ejecutar SQL"
+      DTS:DTSID="{71FB0F0F-5852-4ACE-B3D3-20654B3C3859}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="ID schema y borra lo que no tiene que verse"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{60170DD5-0B9F-4310-9EB3-380CE6FAF9F1}"
+          SQLTask:SqlStatementSource="update D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES &#xA;set id_atributo_schema = A.id_atributo_schema&#xA;from D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES D join D_DOCUMENTACION_ATRIBUTOS A on A.nombre_atributo = D.nombre_atributo&#xA;&#xA;delete D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES&#xA;where id_representacion in (&#xA;select  min(id_representacion) as id_borrar&#xA;from D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES &#xA;where id_atributo_schema is not null and categoria_representacion = 'ID'&#xA;group by id_atributo_schema, categoria_representacion, nombre_atributo&#xA;having count(id_representacion) &gt;1) &#xA;&#xA;update D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES &#xA;set de_representacion = upper(trim(de_representacion))&#xA;&#xA;--DELETE D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES where id_atributo_schema IS NULL" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{5DE3DD1C-1C2F-4179-9E27-4D551A9088F0}"
+      DTS:From="Package\Borrar H_DOCUMENTACION_ATRIBUTOS _RELACIONES"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{11135179-F5F9-424C-8AB9-1296DC772AFF}"
+      DTS:From="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Actualiza ID de Schema" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{F61B31BF-2539-44D7-B274-5BF7FB6A95F9}"
+      DTS:From="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\ID schema y borra lo que no tiene que verse" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{D2B7E81E-65E4-44BA-9140-6B2AA2E60A24}"
+      DTS:From="Package\Borra D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="196,42"
+          Id="Package\Actualiza ID de Schema"
+          TopLeft="128.666666666667,265" />
+        <NodeLayout
+          Size="413,42"
+          Id="Package\Borra D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES"
+          TopLeft="402.333333333333,91" />
+        <NodeLayout
+          Size="374,42"
+          Id="Package\Borrar H_DOCUMENTACION_ATRIBUTOS _RELACIONES"
+          TopLeft="39.6666666666666,35" />
+        <NodeLayout
+          Size="416,42"
+          Id="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES"
+          TopLeft="398.833333333333,208.5" />
+        <NodeLayout
+          Size="370,42"
+          Id="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES"
+          TopLeft="41.6666666666666,150" />
+        <NodeLayout
+          Size="294,42"
+          Id="Package\ID schema y borra lo que no tiene que verse"
+          TopLeft="458.833333333333,326" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="226.666666666667,77">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,73"
+              Start="0,0"
+              End="0,65.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,65.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="226.666666666667,192">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,73"
+              Start="0,0"
+              End="0,65.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,65.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="606.333333333333,250.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,75.5"
+              Start="0,0"
+              End="0,68">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,68" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="607.833333333333,133">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,75.5"
+              Start="0,0"
+              End="0,68">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,68" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="156,42"
+          Id="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\Flat File Source"
+          TopLeft="310.875,77" />
+        <NodeLayout
+          Size="159,42"
+          Id="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\Conditional Split"
+          TopLeft="309.375,240.333333333333" />
+        <NodeLayout
+          Size="177,42"
+          Id="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\OLE DB Destination"
+          TopLeft="300.375,322" />
+        <EdgeLayout
+          Id="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES.Paths[Cargar]"
+          TopLeft="388.875,282.333333333333">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,39.6666666666667"
+              Start="0,0"
+              End="0,32.1666666666667">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,32.1666666666667" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-15.4362109375,10.3494466145833,30.872421875,11.4677734375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES.Paths[Flat File Source Output]"
+          TopLeft="388.875,119">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,121.333333333333"
+              Start="0,0"
+              End="0,113.833333333333">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,113.833333333333" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Carga D_DOCUMENTACION_ATRIBUTOS_REPRESENTACIONES\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="177,42"
+          Id="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\OLE DB Destination"
+          TopLeft="338.5,228" />
+        <NodeLayout
+          Size="159,42"
+          Id="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\Conditional Split"
+          TopLeft="347.5,161.5" />
+        <NodeLayout
+          Size="156,42"
+          Id="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\Flat File Source"
+          TopLeft="349,95" />
+        <EdgeLayout
+          Id="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES.Paths[Flat File Source Output]"
+          TopLeft="427,137">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,24.5"
+              Start="0,0"
+              End="0,17">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,17" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES.Paths[Cargar]"
+          TopLeft="427,203.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,24.5"
+              Start="0,0"
+              End="0,17">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,17" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-15.4362109375,2.76611328125,30.872421875,11.4677734375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Carga H_DOCUMENTACION_ATRIBUTOS_RELACIONES\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

@@ -1,0 +1,101 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="11/29/2017 11:53:27 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AMS06X"
+  DTS:CreatorName="AMS\jtrinchier"
+  DTS:DTSID="{CA9E2535-3C7D-4352-AD2A-CAE0DC46CC68}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="Evaluaciones Playvox D_MONITORES"
+  DTS:PackageType="5"
+  DTS:VersionBuild="8"
+  DTS:VersionGUID="{6118FF57-B246-458F-B573-84E2B25B572C}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{F2E45FEF-08BB-41E8-99A3-51B4CB8AEB1B}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">1,7,OnError</DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnError"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{F2E45FEF-08BB-41E8-99A3-51B4CB8AEB1B}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza D_MONITORES"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{1EFEFF19-DE29-443B-9846-CE4D264B7D18}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza D_MONITORES"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{D3AA9E3F-6BC3-471B-90AB-1F81547A9B0A}"
+          SQLTask:SqlStatementSource="--- Carga en la temporal los diferentes monitores de playvox&#xA;select distinct de_monitor &#xA;into #temp_de_monitores&#xA;from Consultas_DW.dbo.aux_h_info_evaluaciones_playvox&#xA;order by de_monitor&#xA;&#xA;&#xA;&#xA;--- Declara la variable @Max_ID_MONITOR&#xA;Declare @Max_ID_MONITOR  int&#xA;--set @Max_ID_MONITOR = (0)   la variable va en 0 si y solo la tabla esta vacia&#xA;set @Max_ID_MONITOR = (select MAX(id_monitor) from DW_SALUD.dbo.D_MONITORES)&#xA;&#xA;--- Se genero un ciclo donde la cantidad de registros distintos entre el excel y la tabla d_monitores.&#xA;--- Existen 2 posibilidades: si es mayor a 0 entra e ingresa info, si es igual a 0 finaliza el ciclo.&#xA;WHILE (select count(distinct de_monitor )from #temp_de_monitores T&#xA;where t.de_monitor not in (select d.de_monitor from DW_SALUD.dbo.D_MONITORES D)) &gt; 0  &#xA;BEGIN  &#xA;      insert into   DW_SALUD.dbo.D_MONITORES&#xA;      select   top 1 (@Max_ID_MONITOR + 1) , t.de_monitor &#xA;from #temp_de_monitores T&#xA;where t.de_monitor not in (select d.de_monitor from DW_SALUD.dbo.D_MONITORES D) &#xA;  set @Max_ID_MONITOR = (@Max_ID_MONITOR + 1)&#xA;END  " xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="207,42"
+          Id="Package\Actualiza D_MONITORES"
+          TopLeft="5.5,5.5" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

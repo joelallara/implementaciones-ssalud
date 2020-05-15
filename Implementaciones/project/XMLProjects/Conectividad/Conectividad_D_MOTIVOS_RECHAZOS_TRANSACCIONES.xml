@@ -1,0 +1,1307 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="7/13/2017 4:00:07 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AMS06X"
+  DTS:CreatorName="AMS\pgonzalez"
+  DTS:DTSID="{79840878-06A9-4F0B-8624-FC7757B81076}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="Conectividad_D_MOTIVOS_RECHAZOS_TRANSACCIONES"
+  DTS:PackageType="5"
+  DTS:VersionBuild="50"
+  DTS:VersionGUID="{0B00B092-DAEE-4A34-9716-8979D4E9EA68}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{BF5496E2-3477-47D1-9473-BBA973A12614}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">1,7,OnError</DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnError"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{BF5496E2-3477-47D1-9473-BBA973A12614}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza D_MOTIVOS_RECHAZOS_TRANSACCIONES"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{3B8F3100-A78A-40E5-8941-0A19E39F8E5E}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza D_MOTIVOS_RECHAZOS_TRANSACCIONES"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{8BD4D703-8049-4F8E-B36A-AAAD9C1434D4}"
+          SQLTask:SqlStatementSource="/* Actualiza Descripciones en D_MOTIVOS_RECHAZOS_TRANSACCIONES */&#xA;&#x9;&#x9;INSERT INTO D_MOTIVOS_RECHAZOS_TRANSACCIONES&#xA;&#x9;&#x9;(id_motivo_rechazo_transaccion, id_submotivo_rechazo_transaccion, de_motivo_rechazo_transaccion, id_programa_transaccion)&#xA;&#x9;&#x9;SELECT distinct codigo as id_motivo_rechazo_transaccion, 1 as id_submotivo_rechazo_transaccion, descripcion as id_submotivo_rechazo_transaccion, 'Sin Definir' as id_programa_transaccion&#xA;&#x9;&#x9;FROM [P-AUTORIZADOR-01].Autorizador.dbo.Respuestas  &#xA;&#x9;&#x9;WHERE Codigo not in (select distinct id_motivo_rechazo_transaccion from D_MOTIVOS_RECHAZOS_TRANSACCIONES)&#xA;&#xA;&#x9;/* Actualiza Descripciones en D_MOTIVOS_RECHAZOS_TRANSACCIONES */&#xA;&#x9;&#x9;UPDATE D_MOTIVOS_RECHAZOS_TRANSACCIONES&#xA;&#x9;&#x9;SET de_motivo_rechazo_transaccion = R.descripcion&#xA;&#x9;&#x9;FROM D_MOTIVOS_RECHAZOS_TRANSACCIONES T&#xA;&#x9;&#x9;JOIN [P-AUTORIZADOR-01].Autorizador.dbo.Respuestas R on T.id_motivo_rechazo_transaccion = R.codigo&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza id_motivo_rechazo_transaccion Desde CABECERA"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{7463e163-cf25-4930-b6fd-905f6f8a2379}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza id_motivo_rechazo_transaccion Desde CABECERA"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{8BD4D703-8049-4F8E-B36A-AAAD9C1434D4}"
+          SQLTask:SqlStatementSource=" /* Inserta casos de Motivos de Rechazos no parametrizados en D_MOTIVOS_RECHAZOS_TRANSACCIONES desde H_TRANSACCIONES_CABECERA. */&#xA;&#xA; INSERT INTO D_MOTIVOS_RECHAZOS_TRANSACCIONES&#xA; (id_motivo_rechazo_transaccion, de_motivo_rechazo_transaccion, id_submotivo_rechazo_transaccion, id_programa_transaccion)&#xA; select distinct id_motivo_rechazo_transaccion, 'No Definido.' as de_motivo_rechazo_transaccion, 0 as id_submotivo_rechazo_transaccion, 'No Definido.' as id_programa_transaccion&#xA; from H_TRANSACCIONES_CABECERA&#xA; where id_motivo_rechazo_transaccion not in (select distinct id_motivo_rechazo_transaccion from D_MOTIVOS_RECHAZOS_TRANSACCIONES)&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza id_motivo_rechazo_transaccion desde PRESTACIONES"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{459d4f51-588e-44f2-9fea-1c3cd1de1913}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza id_motivo_rechazo_transaccion desde PRESTACIONES"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{8BD4D703-8049-4F8E-B36A-AAAD9C1434D4}"
+          SQLTask:SqlStatementSource=" /* Inserta casos de Motivos de Rechazos no parametrizados en D_MOTIVOS_RECHAZOS_TRANSACCIONES desde H_TRANSACCIONES_PRESTACIONES. */&#xA;&#xA; INSERT INTO D_MOTIVOS_RECHAZOS_TRANSACCIONES&#xA; (id_motivo_rechazo_transaccion, de_motivo_rechazo_transaccion, id_submotivo_rechazo_transaccion, id_programa_transaccion)&#xA; select distinct id_motivo_rechazo_transaccion, 'No Definido.' as de_motivo_rechazo_transaccion, 0 as id_submotivo_rechazo_transaccion, 'No Definido.' as id_programa_transaccion&#xA; from H_TRANSACCIONES_PRESTACIONES&#xA; where id_motivo_rechazo_transaccion not in (select distinct id_motivo_rechazo_transaccion from D_MOTIVOS_RECHAZOS_TRANSACCIONES)&#xA;&#xA; " xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Nuevos motivos de rechazo"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{77F26C56-EFA4-4BD5-A61A-5ECBF0C4EFC4}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Nuevos motivos de rechazo"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Nuevos motivos de rechazo\AUTORIZADOR_Respuestas"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="AUTORIZADOR_Respuestas"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select codigo, descripcion FROM Respuestas order by codigo</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Nuevos motivos de rechazo\AUTORIZADOR_Respuestas.Connections[OleDbConnection]"
+                  connectionManagerID="{F615D9DF-C9A7-4656-A45F-A0C3D041EB79}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DS_AUTORIZADOR]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Nuevos motivos de rechazo\AUTORIZADOR_Respuestas.Outputs[OLE DB Source Output]"
+                  isSorted="true"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Nuevos motivos de rechazo\AUTORIZADOR_Respuestas.Outputs[OLE DB Source Output].Columns[codigo]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Nuevos motivos de rechazo\AUTORIZADOR_Respuestas.Outputs[OLE DB Source Output].ExternalColumns[codigo]"
+                      lineageId="Package\Nuevos motivos de rechazo\AUTORIZADOR_Respuestas.Outputs[OLE DB Source Output].Columns[codigo]"
+                      name="codigo"
+                      sortKeyPosition="1"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Nuevos motivos de rechazo\AUTORIZADOR_Respuestas.Outputs[OLE DB Source Output].Columns[descripcion]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Nuevos motivos de rechazo\AUTORIZADOR_Respuestas.Outputs[OLE DB Source Output].ExternalColumns[descripcion]"
+                      length="100"
+                      lineageId="Package\Nuevos motivos de rechazo\AUTORIZADOR_Respuestas.Outputs[OLE DB Source Output].Columns[descripcion]"
+                      name="descripcion"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Nuevos motivos de rechazo\AUTORIZADOR_Respuestas.Outputs[OLE DB Source Output].ExternalColumns[codigo]"
+                      dataType="i2"
+                      name="codigo" />
+                    <externalMetadataColumn
+                      refId="Package\Nuevos motivos de rechazo\AUTORIZADOR_Respuestas.Outputs[OLE DB Source Output].ExternalColumns[descripcion]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      name="descripcion" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Nuevos motivos de rechazo\AUTORIZADOR_Respuestas.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Nuevos motivos de rechazo\AUTORIZADOR_Respuestas.Outputs[OLE DB Source Error Output].Columns[codigo]"
+                      dataType="i2"
+                      lineageId="Package\Nuevos motivos de rechazo\AUTORIZADOR_Respuestas.Outputs[OLE DB Source Error Output].Columns[codigo]"
+                      name="codigo" />
+                    <outputColumn
+                      refId="Package\Nuevos motivos de rechazo\AUTORIZADOR_Respuestas.Outputs[OLE DB Source Error Output].Columns[descripcion]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      lineageId="Package\Nuevos motivos de rechazo\AUTORIZADOR_Respuestas.Outputs[OLE DB Source Error Output].Columns[descripcion]"
+                      name="descripcion" />
+                    <outputColumn
+                      refId="Package\Nuevos motivos de rechazo\AUTORIZADOR_Respuestas.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Nuevos motivos de rechazo\AUTORIZADOR_Respuestas.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Nuevos motivos de rechazo\AUTORIZADOR_Respuestas.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Nuevos motivos de rechazo\AUTORIZADOR_Respuestas.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Nuevos motivos de rechazo\Conditional Split"
+              componentClassID="Microsoft.ConditionalSplit"
+              contactInfo="Conditional Split;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Routes data rows to different outputs depending on the content of the data. Use conditions (SSIS expressions) to specify which rows are routed. For example, separate records that need to be cleaned from those that are ready to be loaded or route only a subset of records."
+              name="Conditional Split"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Nuevos motivos de rechazo\Conditional Split.Inputs[Conditional Split Input]"
+                  description="Input to the Conditional Split Transformation"
+                  name="Conditional Split Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Nuevos motivos de rechazo\Conditional Split.Inputs[Conditional Split Input].Columns[id_motivo_rechazo_transaccion]"
+                      cachedDataType="i4"
+                      cachedName="id_motivo_rechazo_transaccion"
+                      lineageId="Package\Nuevos motivos de rechazo\Merge Join.Outputs[Merge Join Output].Columns[id_motivo_rechazo_transaccion]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Nuevos motivos de rechazo\Conditional Split.Outputs[Nuevo Motivo]"
+                  description="Output 1 of the Conditional Split Transformation"
+                  errorOrTruncationOperation="Computation"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Nuevo Motivo"
+                  synchronousInputId="Package\Nuevos motivos de rechazo\Conditional Split.Inputs[Conditional Split Input]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                      name="Expression">[ISNULL](#{Package\Nuevos motivos de rechazo\Merge Join.Outputs[Merge Join Output].Columns[id_motivo_rechazo_transaccion]})</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the friendly version of the expression. This expression version uses column names."
+                      expressionType="Notify"
+                      name="FriendlyExpression">ISNULL(id_motivo_rechazo_transaccion)</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                      name="EvaluationOrder">0</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Nuevos motivos de rechazo\Conditional Split.Outputs[Conditional Split Default Output]"
+                  description="Default Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  name="Conditional Split Default Output"
+                  synchronousInputId="Package\Nuevos motivos de rechazo\Conditional Split.Inputs[Conditional Split Input]">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      name="IsDefaultOut">true</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Nuevos motivos de rechazo\Conditional Split.Outputs[Conditional Split Error Output]"
+                  description="Error Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Conditional Split Error Output"
+                  synchronousInputId="Package\Nuevos motivos de rechazo\Conditional Split.Inputs[Conditional Split Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Nuevos motivos de rechazo\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Nuevos motivos de rechazo\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Nuevos motivos de rechazo\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Nuevos motivos de rechazo\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Nuevos motivos de rechazo\Data Conversion"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Data Conversion"
+              name="Data Conversion"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Nuevos motivos de rechazo\Data Conversion.Inputs[Data Conversion Input]"
+                  name="Data Conversion Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Nuevos motivos de rechazo\Data Conversion.Inputs[Data Conversion Input].Columns[codigo]"
+                      cachedDataType="i4"
+                      cachedName="codigo"
+                      cachedSortKeyPosition="1"
+                      lineageId="Package\Nuevos motivos de rechazo\Merge Join.Outputs[Merge Join Output].Columns[codigo]" />
+                    <inputColumn
+                      refId="Package\Nuevos motivos de rechazo\Data Conversion.Inputs[Data Conversion Input].Columns[descripcion]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="100"
+                      cachedName="descripcion"
+                      lineageId="Package\Nuevos motivos de rechazo\Merge Join.Outputs[Merge Join Output].Columns[descripcion]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Nuevos motivos de rechazo\Data Conversion.Outputs[Data Conversion Output]"
+                  exclusionGroup="1"
+                  name="Data Conversion Output"
+                  synchronousInputId="Package\Nuevos motivos de rechazo\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Nuevos motivos de rechazo\Data Conversion.Outputs[Data Conversion Output].Columns[Copia de codigo]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Nuevos motivos de rechazo\Data Conversion.Outputs[Data Conversion Output].Columns[Copia de codigo]"
+                      name="Copia de codigo"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Nuevos motivos de rechazo\Merge Join.Outputs[Merge Join Output].Columns[codigo]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Nuevos motivos de rechazo\Data Conversion.Outputs[Data Conversion Output].Columns[Copia de descripcion]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="100"
+                      lineageId="Package\Nuevos motivos de rechazo\Data Conversion.Outputs[Data Conversion Output].Columns[Copia de descripcion]"
+                      name="Copia de descripcion"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Nuevos motivos de rechazo\Merge Join.Outputs[Merge Join Output].Columns[descripcion]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Nuevos motivos de rechazo\Data Conversion.Outputs[Data Conversion Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Data Conversion Error Output"
+                  synchronousInputId="Package\Nuevos motivos de rechazo\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Nuevos motivos de rechazo\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Nuevos motivos de rechazo\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Nuevos motivos de rechazo\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Nuevos motivos de rechazo\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Nuevos motivos de rechazo\Derived Column"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Derived Column"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Nuevos motivos de rechazo\Derived Column.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Nuevos motivos de rechazo\Derived Column.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Nuevos motivos de rechazo\Derived Column.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Nuevos motivos de rechazo\Derived Column.Outputs[Derived Column Output].Columns[id_submotivo_rechazo_transaccion]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Nuevos motivos de rechazo\Derived Column.Outputs[Derived Column Output].Columns[id_submotivo_rechazo_transaccion]"
+                      name="id_submotivo_rechazo_transaccion"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">1</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">1</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Nuevos motivos de rechazo\Derived Column.Outputs[Derived Column Output].Columns[id_programa_transaccion]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="11"
+                      lineageId="Package\Nuevos motivos de rechazo\Derived Column.Outputs[Derived Column Output].Columns[id_programa_transaccion]"
+                      name="id_programa_transaccion"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_STR,11,1252)[TRIM]("Sin Definir")</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_STR,11,1252)TRIM("Sin Definir")</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Nuevos motivos de rechazo\Derived Column.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Nuevos motivos de rechazo\Derived Column.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Nuevos motivos de rechazo\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Nuevos motivos de rechazo\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Nuevos motivos de rechazo\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Nuevos motivos de rechazo\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Nuevos motivos de rechazo\D_MOTIVO_RECHAZO_TRANSACCION"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="D_MOTIVO_RECHAZO_TRANSACCION"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT id_motivo_rechazo_transaccion, de_motivo_rechazo_transaccion
+FROM D_MOTIVOS_RECHAZOS_TRANSACCIONES
+order by id_motivo_rechazo_transaccion</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Nuevos motivos de rechazo\D_MOTIVO_RECHAZO_TRANSACCION.Connections[OleDbConnection]"
+                  connectionManagerID="{8BD4D703-8049-4F8E-B36A-AAAD9C1434D4}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DS_DW_SALUD]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Nuevos motivos de rechazo\D_MOTIVO_RECHAZO_TRANSACCION.Outputs[OLE DB Source Output]"
+                  isSorted="true"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Nuevos motivos de rechazo\D_MOTIVO_RECHAZO_TRANSACCION.Outputs[OLE DB Source Output].Columns[id_motivo_rechazo_transaccion]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Nuevos motivos de rechazo\D_MOTIVO_RECHAZO_TRANSACCION.Outputs[OLE DB Source Output].ExternalColumns[id_motivo_rechazo_transaccion]"
+                      lineageId="Package\Nuevos motivos de rechazo\D_MOTIVO_RECHAZO_TRANSACCION.Outputs[OLE DB Source Output].Columns[id_motivo_rechazo_transaccion]"
+                      name="id_motivo_rechazo_transaccion"
+                      sortKeyPosition="1"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Nuevos motivos de rechazo\D_MOTIVO_RECHAZO_TRANSACCION.Outputs[OLE DB Source Output].Columns[de_motivo_rechazo_transaccion]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Nuevos motivos de rechazo\D_MOTIVO_RECHAZO_TRANSACCION.Outputs[OLE DB Source Output].ExternalColumns[de_motivo_rechazo_transaccion]"
+                      length="100"
+                      lineageId="Package\Nuevos motivos de rechazo\D_MOTIVO_RECHAZO_TRANSACCION.Outputs[OLE DB Source Output].Columns[de_motivo_rechazo_transaccion]"
+                      name="de_motivo_rechazo_transaccion"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Nuevos motivos de rechazo\D_MOTIVO_RECHAZO_TRANSACCION.Outputs[OLE DB Source Output].ExternalColumns[id_motivo_rechazo_transaccion]"
+                      dataType="i4"
+                      name="id_motivo_rechazo_transaccion" />
+                    <externalMetadataColumn
+                      refId="Package\Nuevos motivos de rechazo\D_MOTIVO_RECHAZO_TRANSACCION.Outputs[OLE DB Source Output].ExternalColumns[de_motivo_rechazo_transaccion]"
+                      dataType="wstr"
+                      length="100"
+                      name="de_motivo_rechazo_transaccion" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Nuevos motivos de rechazo\D_MOTIVO_RECHAZO_TRANSACCION.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Nuevos motivos de rechazo\D_MOTIVO_RECHAZO_TRANSACCION.Outputs[OLE DB Source Error Output].Columns[id_motivo_rechazo_transaccion]"
+                      dataType="i4"
+                      lineageId="Package\Nuevos motivos de rechazo\D_MOTIVO_RECHAZO_TRANSACCION.Outputs[OLE DB Source Error Output].Columns[id_motivo_rechazo_transaccion]"
+                      name="id_motivo_rechazo_transaccion" />
+                    <outputColumn
+                      refId="Package\Nuevos motivos de rechazo\D_MOTIVO_RECHAZO_TRANSACCION.Outputs[OLE DB Source Error Output].Columns[de_motivo_rechazo_transaccion]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\Nuevos motivos de rechazo\D_MOTIVO_RECHAZO_TRANSACCION.Outputs[OLE DB Source Error Output].Columns[de_motivo_rechazo_transaccion]"
+                      name="de_motivo_rechazo_transaccion" />
+                    <outputColumn
+                      refId="Package\Nuevos motivos de rechazo\D_MOTIVO_RECHAZO_TRANSACCION.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Nuevos motivos de rechazo\D_MOTIVO_RECHAZO_TRANSACCION.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Nuevos motivos de rechazo\D_MOTIVO_RECHAZO_TRANSACCION.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Nuevos motivos de rechazo\D_MOTIVO_RECHAZO_TRANSACCION.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Nuevos motivos de rechazo\Merge Join"
+              componentClassID="Microsoft.MergeJoin"
+              contactInfo="Merge Join;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Combine two sorted data flows into one using the FULL, LEFT, or INNER join. We recommend this transformation when data flows can be sorted at their sources."
+              name="Merge Join"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of join to perform."
+                  name="JoinType"
+                  typeConverter="JoinType">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the number of columns in the ordering key."
+                  name="NumKeyColumns">1</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the null values are treated as equal values."
+                  name="TreatNullsAsEqual">true</property>
+                <property
+                  dataType="System.Int32"
+                  description="Indicates the requested maximum buffers per input before blocking."
+                  name="MaxBuffersPerInput">5</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Nuevos motivos de rechazo\Merge Join.Inputs[Merge Join Left Input]"
+                  hasSideEffects="true"
+                  name="Merge Join Left Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Nuevos motivos de rechazo\Merge Join.Inputs[Merge Join Left Input].Columns[codigo]"
+                      cachedDataType="i4"
+                      cachedName="codigo"
+                      cachedSortKeyPosition="1"
+                      lineageId="Package\Nuevos motivos de rechazo\AUTORIZADOR_Respuestas.Outputs[OLE DB Source Output].Columns[codigo]" />
+                    <inputColumn
+                      refId="Package\Nuevos motivos de rechazo\Merge Join.Inputs[Merge Join Left Input].Columns[descripcion]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="100"
+                      cachedName="descripcion"
+                      lineageId="Package\Nuevos motivos de rechazo\AUTORIZADOR_Respuestas.Outputs[OLE DB Source Output].Columns[descripcion]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+                <input
+                  refId="Package\Nuevos motivos de rechazo\Merge Join.Inputs[Merge Join Right Input]"
+                  hasSideEffects="true"
+                  name="Merge Join Right Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Nuevos motivos de rechazo\Merge Join.Inputs[Merge Join Right Input].Columns[id_motivo_rechazo_transaccion]"
+                      cachedDataType="i4"
+                      cachedName="id_motivo_rechazo_transaccion"
+                      cachedSortKeyPosition="1"
+                      lineageId="Package\Nuevos motivos de rechazo\D_MOTIVO_RECHAZO_TRANSACCION.Outputs[OLE DB Source Output].Columns[id_motivo_rechazo_transaccion]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Nuevos motivos de rechazo\Merge Join.Outputs[Merge Join Output]"
+                  isSorted="true"
+                  name="Merge Join Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Nuevos motivos de rechazo\Merge Join.Outputs[Merge Join Output].Columns[codigo]"
+                      dataType="i4"
+                      lineageId="Package\Nuevos motivos de rechazo\Merge Join.Outputs[Merge Join Output].Columns[codigo]"
+                      name="codigo"
+                      sortKeyPosition="1">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Nuevos motivos de rechazo\Merge Join.Inputs[Merge Join Left Input].Columns[codigo]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Nuevos motivos de rechazo\Merge Join.Outputs[Merge Join Output].Columns[descripcion]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      lineageId="Package\Nuevos motivos de rechazo\Merge Join.Outputs[Merge Join Output].Columns[descripcion]"
+                      name="descripcion">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Nuevos motivos de rechazo\Merge Join.Inputs[Merge Join Left Input].Columns[descripcion]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Nuevos motivos de rechazo\Merge Join.Outputs[Merge Join Output].Columns[id_motivo_rechazo_transaccion]"
+                      dataType="i4"
+                      lineageId="Package\Nuevos motivos de rechazo\Merge Join.Outputs[Merge Join Output].Columns[id_motivo_rechazo_transaccion]"
+                      name="id_motivo_rechazo_transaccion">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Nuevos motivos de rechazo\Merge Join.Inputs[Merge Join Right Input].Columns[id_motivo_rechazo_transaccion]}</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Nuevos motivos de rechazo\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[D_MOTIVOS_RECHAZOS_TRANSACCIONES]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Nuevos motivos de rechazo\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="{8BD4D703-8049-4F8E-B36A-AAAD9C1434D4}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DS_DW_SALUD]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Nuevos motivos de rechazo\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Nuevos motivos de rechazo\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copia de descripcion]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="Copia de descripcion"
+                      externalMetadataColumnId="Package\Nuevos motivos de rechazo\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[de_motivo_rechazo_transaccion]"
+                      lineageId="Package\Nuevos motivos de rechazo\Data Conversion.Outputs[Data Conversion Output].Columns[Copia de descripcion]" />
+                    <inputColumn
+                      refId="Package\Nuevos motivos de rechazo\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copia de codigo]"
+                      cachedDataType="i4"
+                      cachedName="Copia de codigo"
+                      externalMetadataColumnId="Package\Nuevos motivos de rechazo\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_motivo_rechazo_transaccion]"
+                      lineageId="Package\Nuevos motivos de rechazo\Data Conversion.Outputs[Data Conversion Output].Columns[Copia de codigo]" />
+                    <inputColumn
+                      refId="Package\Nuevos motivos de rechazo\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[id_submotivo_rechazo_transaccion]"
+                      cachedDataType="i4"
+                      cachedName="id_submotivo_rechazo_transaccion"
+                      externalMetadataColumnId="Package\Nuevos motivos de rechazo\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_submotivo_rechazo_transaccion]"
+                      lineageId="Package\Nuevos motivos de rechazo\Derived Column.Outputs[Derived Column Output].Columns[id_submotivo_rechazo_transaccion]" />
+                    <inputColumn
+                      refId="Package\Nuevos motivos de rechazo\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[id_programa_transaccion]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="11"
+                      cachedName="id_programa_transaccion"
+                      externalMetadataColumnId="Package\Nuevos motivos de rechazo\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_programa_transaccion]"
+                      lineageId="Package\Nuevos motivos de rechazo\Derived Column.Outputs[Derived Column Output].Columns[id_programa_transaccion]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Nuevos motivos de rechazo\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_motivo_rechazo_transaccion]"
+                      dataType="i4"
+                      name="id_motivo_rechazo_transaccion" />
+                    <externalMetadataColumn
+                      refId="Package\Nuevos motivos de rechazo\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_submotivo_rechazo_transaccion]"
+                      dataType="i4"
+                      name="id_submotivo_rechazo_transaccion" />
+                    <externalMetadataColumn
+                      refId="Package\Nuevos motivos de rechazo\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[de_motivo_rechazo_transaccion]"
+                      dataType="wstr"
+                      length="100"
+                      name="de_motivo_rechazo_transaccion" />
+                    <externalMetadataColumn
+                      refId="Package\Nuevos motivos de rechazo\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_programa_transaccion]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      name="id_programa_transaccion" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Nuevos motivos de rechazo\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Nuevos motivos de rechazo\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Nuevos motivos de rechazo\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Nuevos motivos de rechazo\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Nuevos motivos de rechazo\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Nuevos motivos de rechazo\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Nuevos motivos de rechazo.Paths[Data Conversion Output]"
+              endId="Package\Nuevos motivos de rechazo\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="Data Conversion Output"
+              startId="Package\Nuevos motivos de rechazo\Data Conversion.Outputs[Data Conversion Output]" />
+            <path
+              refId="Package\Nuevos motivos de rechazo.Paths[Derived Column Output]"
+              endId="Package\Nuevos motivos de rechazo\Data Conversion.Inputs[Data Conversion Input]"
+              name="Derived Column Output"
+              startId="Package\Nuevos motivos de rechazo\Derived Column.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Nuevos motivos de rechazo.Paths[Merge Join Output]"
+              endId="Package\Nuevos motivos de rechazo\Conditional Split.Inputs[Conditional Split Input]"
+              name="Merge Join Output"
+              startId="Package\Nuevos motivos de rechazo\Merge Join.Outputs[Merge Join Output]" />
+            <path
+              refId="Package\Nuevos motivos de rechazo.Paths[Nuevo Motivo]"
+              endId="Package\Nuevos motivos de rechazo\Derived Column.Inputs[Derived Column Input]"
+              name="Nuevo Motivo"
+              startId="Package\Nuevos motivos de rechazo\Conditional Split.Outputs[Nuevo Motivo]" />
+            <path
+              refId="Package\Nuevos motivos de rechazo.Paths[OLE DB Source Output]"
+              endId="Package\Nuevos motivos de rechazo\Merge Join.Inputs[Merge Join Left Input]"
+              name="OLE DB Source Output"
+              startId="Package\Nuevos motivos de rechazo\AUTORIZADOR_Respuestas.Outputs[OLE DB Source Output]" />
+            <path
+              refId="Package\Nuevos motivos de rechazo.Paths[OLE DB Source Output1]"
+              endId="Package\Nuevos motivos de rechazo\Merge Join.Inputs[Merge Join Right Input]"
+              name="OLE DB Source Output"
+              startId="Package\Nuevos motivos de rechazo\D_MOTIVO_RECHAZO_TRANSACCION.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{75C70626-6431-48ED-B32E-B251C834BD9A}"
+      DTS:From="Package\Actualiza id_motivo_rechazo_transaccion Desde CABECERA"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Actualiza id_motivo_rechazo_transaccion desde PRESTACIONES" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Restricción]"
+      DTS:CreationName=""
+      DTS:DTSID="{6828DE6A-8C27-4EEF-8347-4EAD7A7347A2}"
+      DTS:From="Package\Nuevos motivos de rechazo"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Restricción"
+      DTS:To="Package\Actualiza id_motivo_rechazo_transaccion Desde CABECERA" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--Esta sección CDATA contiene la información de diseño del paquete. Esta sección incluye información como, por ejemplo, las coordenadas (x,y), el ancho y el alto.-->
+<!--Si edita manualmente esta sección y comete un error, puede eliminarlo. -->
+<!--El paquete podrá cargarse normalmente, pero se perderá la información de diseño anterior y el diseñador reorganizará los elementos automáticamente en la superficie de diseño.-->
+<Objects
+  Version="8">
+  <!--Cada uno de los nodos siguientes contiene propiedades que no afectan al comportamiento en tiempo de ejecución.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="314,44"
+          Id="Package\Actualiza D_MOTIVOS_RECHAZOS_TRANSACCIONES"
+          TopLeft="31.7264150943396,5.5" />
+        <NodeLayout
+          Size="343,44"
+          Id="Package\Actualiza id_motivo_rechazo_transaccion Desde CABECERA"
+          TopLeft="103.707547169811,188.443396226415" />
+        <NodeLayout
+          Size="365,44"
+          Id="Package\Actualiza id_motivo_rechazo_transaccion desde PRESTACIONES"
+          TopLeft="90.5,290.38679245283" />
+        <NodeLayout
+          Size="214,42"
+          Id="Package\Nuevos motivos de rechazo"
+          TopLeft="168,98" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="274.103773584906,232.443396226415">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,57.9433962264149"
+              Start="0,0"
+              End="0,50.4433962264149">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,50.4433962264149" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Restricción]"
+          TopLeft="275.103773584906,140">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,48.4433962264151"
+              Start="0,0"
+              End="0,40.9433962264151">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,40.9433962264151" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Nuevos motivos de rechazo">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="282,42"
+          Id="Package\Nuevos motivos de rechazo\D_MOTIVO_RECHAZO_TRANSACCION"
+          TopLeft="368,17" />
+        <NodeLayout
+          Size="177,42"
+          Id="Package\Nuevos motivos de rechazo\OLE DB Destination"
+          TopLeft="258.625,519" />
+        <NodeLayout
+          Size="161,42"
+          Id="Package\Nuevos motivos de rechazo\Data Conversion"
+          TopLeft="266.625,438" />
+        <NodeLayout
+          Size="223,42"
+          Id="Package\Nuevos motivos de rechazo\AUTORIZADOR_Respuestas"
+          TopLeft="86,17" />
+        <EdgeLayout
+          Id="Package\Nuevos motivos de rechazo.Paths[Data Conversion Output]"
+          TopLeft="347.125,480">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,39"
+              Start="0,0"
+              End="0,31.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="133,42"
+          Id="Package\Nuevos motivos de rechazo\Merge Join"
+          TopLeft="279.625,159" />
+        <EdgeLayout
+          Id="Package\Nuevos motivos de rechazo.Paths[OLE DB Source Output]"
+          TopLeft="197.5,59">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="127.791666666667,100"
+              Start="0,0"
+              End="127.791666666667,92.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,55.2867756315007" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,55.2867756315007"
+                    Point2="0,59.2867756315007"
+                    Point3="4,59.2867756315007" />
+                  <mssgle:LineSegment
+                    End="123.791666666667,59.2867756315007" />
+                  <mssgle:CubicBezierSegment
+                    Point1="123.791666666667,59.2867756315007"
+                    Point2="127.791666666667,59.2867756315007"
+                    Point3="127.791666666667,63.2867756315007" />
+                  <mssgle:LineSegment
+                    End="127.791666666667,92.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Nuevos motivos de rechazo.Paths[OLE DB Source Output1]"
+          TopLeft="509,59">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-142.041666666667,100"
+              Start="0,0"
+              End="-142.041666666667,92.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,55.2867756315007" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,55.2867756315007"
+                    Point2="0,59.2867756315007"
+                    Point3="-4,59.2867756315007" />
+                  <mssgle:LineSegment
+                    End="-138.041666666667,59.2867756315007" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-138.041666666667,59.2867756315007"
+                    Point2="-142.041666666667,59.2867756315007"
+                    Point3="-142.041666666667,63.2867756315007" />
+                  <mssgle:LineSegment
+                    End="-142.041666666667,92.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="158,42"
+          Id="Package\Nuevos motivos de rechazo\Derived Column"
+          TopLeft="271.125,360" />
+        <EdgeLayout
+          Id="Package\Nuevos motivos de rechazo.Paths[Derived Column Output]"
+          TopLeft="348.625,402">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,36"
+              Start="0,0"
+              End="0,28.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,28.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="159,42"
+          Id="Package\Nuevos motivos de rechazo\Conditional Split"
+          TopLeft="272,255" />
+        <EdgeLayout
+          Id="Package\Nuevos motivos de rechazo.Paths[Merge Join Output]"
+          TopLeft="348.8125,201">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,54"
+              Start="0,0"
+              End="0,46.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,46.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Nuevos motivos de rechazo.Paths[Nuevo Motivo]"
+          TopLeft="350.8125,297">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,63"
+              Start="0,0"
+              End="0,55.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,55.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-30.60703125,23.0146484375,61.2140625,9.470703125"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Nuevos motivos de rechazo\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Nuevos motivos de rechazo\D_MOTIVO_RECHAZO_TRANSACCION">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Nuevos motivos de rechazo\AUTORIZADOR_Respuestas">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

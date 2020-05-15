@@ -1,0 +1,1832 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/15/2013 1:42:12 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AMS16"
+  DTS:CreatorName="AMS\adminb"
+  DTS:DTSID="{3C31300F-3642-4F23-86A5-3A674C5623AF}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Mayoría de edad Genera XLS Detalle Cons y Reca"
+  DTS:PackageType="5"
+  DTS:VersionBuild="48"
+  DTS:VersionGUID="{9259207B-4EED-4CFE-AC41-25169C12512B}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[File_XLS_Detalle Consumos y Recaudacion]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{0021F37F-E030-4980-B3C3-4E2E86DA9CF6}"
+      DTS:ObjectName="File_XLS_Detalle Consumos y Recaudacion">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=\\P-IS-01\SSIS2017$\03 - Archivos\Mayoría de edad\Detalle Consumos y Recaudacion Mayoria de Edad.xls;Extended Properties=&quot;EXCEL 8.0;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{51FAF779-CF32-4670-8A0C-A298C7D61F5D}"
+      DTS:ObjectName="SSIS log provider for SQL Server1">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">1,7,OnError</DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnError"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{51FAF779-CF32-4670-8A0C-A298C7D61F5D}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Borro Tablas Consumos detalle"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{acdf3b10-88c5-4a15-99a6-d61bc5c03576}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Borro Tablas Consumos detalle"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{7C08DAE5-B807-4EA9-ACD9-4566C1DAE3C5}"
+          SQLTask:SqlStatementSource="truncate table H_MAYORIA_EDAD_DETALLE_CONSUMOS&#xA;&#xA;&#xA;truncate table H_MAYORIA_EDAD_DETALLE_CONSUMOS_TOTALES&#xA;&#xA;--delete from H_MONOTRIBUTISTAS_RECAUDACION_Y_CONSUMOS&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Crea Hoja Detalle"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{bd667247-6e4d-412d-91bd-fbb0ee30c316}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Crea Hoja Detalle"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{0021F37F-E030-4980-B3C3-4E2E86DA9CF6}"
+          SQLTask:SqlStatementSource="CREATE TABLE `Excel Destination`(&#xA;    `Id_Persona` INTEGER,&#xA;    `Id_Periodo` INTEGER,&#xA;    `de_prestacion` CHAR(30),&#xA;    `cantidad_Total` INTEGER,&#xA;    `importe_Total` FLOAT&#xA;)&#xA;&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Crea Hoja Totales"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{3bc30c04-5832-4bf7-9df0-f9a75aa3e6ba}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Crea Hoja Totales"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{0021F37F-E030-4980-B3C3-4E2E86DA9CF6}"
+          SQLTask:SqlStatementSource="CREATE TABLE `Excel Destination1`(&#xA;    `id_persona` INTEGER,&#xA;    `Apellido` NVARCHAR(50),&#xA;    `Nombre` NVARCHAR(50),&#xA;    `Estado` CHAR(30),&#xA;    `id_plan_producto` CHAR(5),&#xA;    `cantidad` INTEGER,&#xA;    `Importe_Consumos` FLOAT,&#xA;    `Recaudacion` FLOAT,&#xA;    `Costo_Salud` CHAR(15)&#xA;)" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\detalle consumos costo3"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{DA9DD889-EDE8-42D2-A86E-CC49CB12AF4C}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="detalle consumos costo3"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{7C08DAE5-B807-4EA9-ACD9-4566C1DAE3C5}"
+          SQLTask:SqlStatementSource="/* Calculo la lista de prestaciones */&#xA;&#xA;insert into H_MAYORIA_EDAD_DETALLE_CONSUMOS&#xA;select a11.id_persona  id_persona,&#xA;  a11.id_periodo,&#xA;  a13.de_prestacion,&#xA;  sum(a11.cant_prest_amb_acep)  Cantidades,&#xA;  sum(a11.imp_pret_amb_pag)  Importes&#xA;from AUX_H_MAYORIA_EDAD M &#xA; join DW_SALUD.dbo.H_ORD_AMB_DET a11&#xA;   on  (a11.id_persona = M.id_persona)&#xA; join DW_SALUD.dbo.D_PRODUCTOS a12&#xA;   on  (a11.id_producto = a12.id_producto)&#xA; join DW_SALUD.dbo.D_PRESTACION a13&#xA;   on  (a11.id_prestacion = a13.id_prestacion)&#xA;where a12.id_segmento not in (3)&#xA; and a11.ccosto3 = 1&#xA; and M.estado = 'ANALIZAR CONSUMOS'&#xA; and a11.id_periodo in (select top 36 id_periodo from DW_SALUD.dbo.d_periodo where vigente_consumo = 1 order by id_periodo desc)&#xA;and not exists (select FPP.id_producto, FPP.id_plan_producto from DW_SALUD.dbo.FILTRO_PLAN_PRODUCTO FPP where FPP.id_producto = a11.id_producto and FPP.id_plan_producto = a11.id_plan_producto)&#xA;group by a11.id_persona,&#xA; a11.id_periodo,&#xA; a13.de_prestacion&#xA;order by a11.id_persona,&#xA; a11.id_periodo&#xA;&#xA;insert into H_MAYORIA_EDAD_DETALLE_CONSUMOS&#xA;select a11.id_persona  id_persona,&#xA;  a11.id_periodo,&#xA;  a13.de_prestacion,&#xA;  sum(a11.cant_prest_int_acep)  Cantidades,&#xA;  sum(a11.imp_prest_int_pag)  Importes&#xA;from AUX_H_MAYORIA_EDAD M &#xA; join DW_SALUD.dbo.H_ORD_INT_DET a11&#xA;   on  (a11.id_persona = M.id_persona)&#xA; join DW_SALUD.dbo.D_PRODUCTOS a12&#xA;   on  (a11.id_producto = a12.id_producto)&#xA; join DW_SALUD.dbo.D_PRESTACION a13&#xA;   on  (a11.id_prestacion = a13.id_prestacion)&#xA;where a11.ccosto3 = 1&#xA; and a12.id_segmento not in (3)&#xA; and M.estado = 'ANALIZAR CONSUMOS'&#xA; and a11.id_periodo in (select top 36 id_periodo from DW_SALUD.dbo.d_periodo where vigente_consumo = 1 order by id_periodo desc)&#xA;and not exists (select FPP.id_producto, FPP.id_plan_producto from DW_SALUD.dbo.FILTRO_PLAN_PRODUCTO FPP where FPP.id_producto = a11.id_producto and FPP.id_plan_producto = a11.id_plan_producto)&#xA;group by a11.id_persona,&#xA; a11.id_periodo,&#xA; a13.de_prestacion&#xA;order by a11.id_persona,&#xA; a11.id_periodo&#xA;&#xA;&#xA;/* Calculo los Totales por prestaciones */&#xA;&#xA;insert into H_MAYORIA_EDAD_DETALLE_CONSUMOS_TOTALES&#xA;(id_persona, Cantidad, Importe)&#xA;select id_persona, sum(Cantidades) as Cantidad, sum(Importes) as Importe  &#xA;from H_MAYORIA_EDAD_DETALLE_CONSUMOS&#xA;group by id_persona&#xA;order by id_persona&#xA;&#xA;Update H_MAYORIA_EDAD_DETALLE_CONSUMOS_TOTALES set&#xA;Apellido = MONO.Apellido,&#xA;Nombre = MONO.Nombre,&#xA;Costo_Salud = MONO.Costo_Salud_porcent,&#xA;Estado = MONO.Estado,&#xA;id_plan_producto = MONO.id_plan_producto&#xA;from H_MAYORIA_EDAD_DETALLE_CONSUMOS_TOTALES DET&#xA;inner join AUX_H_MAYORIA_EDAD MONO on MONO.id_persona = DET.id_persona&#xA;&#xA;Update H_MAYORIA_EDAD_DETALLE_CONSUMOS_TOTALES&#xA;set Recaudacion = REC.total_recaudacion&#xA;from H_MAYORIA_EDAD_DETALLE_CONSUMOS_TOTALES DET&#xA;inner join DW_SALUD.dbo.SumReca REC on REC.id_persona = DET.id_persona&#xA;&#xA;/* Calculo los Totales de Recaudaciones y Consumos */&#xA;&#xA;--insert into H_MONOTRIBUTISTAS_RECAUDACION_Y_CONSUMOS&#xA;--select M.id_persona, (A.total_consumo_AMB) as consumos_AMB, (I.total_consumo_INT)as consumos_AMB, (R.total_recaudacion) as recaudacion&#xA;--from AUX_H_MAYORIA_EDAD M&#xA;--left outer join DW_SALUD.dbo.SumReca R on R.id_persona = M.id_persona&#xA;--left outer join DW_SALUD.dbo.SumConsuAMB A on A.id_persona = M.id_persona&#xA;--left outer join DW_SALUD.dbo.SumConsuINT I on I.id_persona = M.id_persona" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Puente de Datos Detalle"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:DelayValidation="True"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{e34931a9-ebda-415e-ad83-78c738bf6685}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Puente de Datos Detalle"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v9; (C) 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <pipeline
+          BLOBTempStoragePath=""
+          bufferTempStoragePath=""
+          engineThreads="5"
+          version="1">
+          <components>
+            <component
+              refId="Package\Puente de Datos Detalle\Data Conversion"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Data Conversion;Microsoft Corporation;Microsoft SqlServer v9; (C) 2005 Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Data Conversion"
+              name="Data Conversion"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Puente de Datos Detalle\Data Conversion.Inputs[Data Conversion Input]"
+                  name="Data Conversion Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Puente de Datos Detalle\Data Conversion.Inputs[Data Conversion Input].Columns[id_periodo]"
+                      cachedDataType="i4"
+                      cachedName="id_periodo"
+                      lineageId="Package\Puente de Datos Detalle\OLE DB Source.Outputs[OLE DB Source Output].Columns[id_periodo]" />
+                    <inputColumn
+                      refId="Package\Puente de Datos Detalle\Data Conversion.Inputs[Data Conversion Input].Columns[id_persona]"
+                      cachedDataType="i4"
+                      cachedName="id_persona"
+                      lineageId="Package\Puente de Datos Detalle\OLE DB Source.Outputs[OLE DB Source Output].Columns[id_persona]" />
+                    <inputColumn
+                      refId="Package\Puente de Datos Detalle\Data Conversion.Inputs[Data Conversion Input].Columns[de_prestacion]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="de_prestacion"
+                      lineageId="Package\Puente de Datos Detalle\OLE DB Source.Outputs[OLE DB Source Output].Columns[de_prestacion]" />
+                    <inputColumn
+                      refId="Package\Puente de Datos Detalle\Data Conversion.Inputs[Data Conversion Input].Columns[Cantidades]"
+                      cachedDataType="i4"
+                      cachedName="Cantidades"
+                      lineageId="Package\Puente de Datos Detalle\OLE DB Source.Outputs[OLE DB Source Output].Columns[Cantidades]" />
+                    <inputColumn
+                      refId="Package\Puente de Datos Detalle\Data Conversion.Inputs[Data Conversion Input].Columns[Importes]"
+                      cachedDataType="r8"
+                      cachedName="Importes"
+                      lineageId="Package\Puente de Datos Detalle\OLE DB Source.Outputs[OLE DB Source Output].Columns[Importes]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Puente de Datos Detalle\Data Conversion.Outputs[Data Conversion Output]"
+                  exclusionGroup="1"
+                  name="Data Conversion Output"
+                  synchronousInputId="Package\Puente de Datos Detalle\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Puente de Datos Detalle\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_periodo]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Puente de Datos Detalle\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_periodo]"
+                      name="Copy of id_periodo"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Puente de Datos Detalle\OLE DB Source.Outputs[OLE DB Source Output].Columns[id_periodo]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Puente de Datos Detalle\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_persona]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Puente de Datos Detalle\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_persona]"
+                      name="Copy of id_persona"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Puente de Datos Detalle\OLE DB Source.Outputs[OLE DB Source Output].Columns[id_persona]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Puente de Datos Detalle\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of de_prestacion]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="30"
+                      lineageId="Package\Puente de Datos Detalle\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of de_prestacion]"
+                      name="Copy of de_prestacion"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Puente de Datos Detalle\OLE DB Source.Outputs[OLE DB Source Output].Columns[de_prestacion]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Puente de Datos Detalle\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Cantidades]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Puente de Datos Detalle\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Cantidades]"
+                      name="Copy of Cantidades"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Puente de Datos Detalle\OLE DB Source.Outputs[OLE DB Source Output].Columns[Cantidades]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Puente de Datos Detalle\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Importes]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Puente de Datos Detalle\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Importes]"
+                      name="Copy of Importes"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Puente de Datos Detalle\OLE DB Source.Outputs[OLE DB Source Output].Columns[Importes]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Puente de Datos Detalle\Data Conversion.Outputs[Data Conversion Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Data Conversion Error Output"
+                  synchronousInputId="Package\Puente de Datos Detalle\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Puente de Datos Detalle\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Puente de Datos Detalle\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Puente de Datos Detalle\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Puente de Datos Detalle\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Puente de Datos Detalle\Excel Destination"
+              componentClassID="Microsoft.ExcelDestination"
+              contactInfo="Excel Destination;Microsoft Corporation;Microsoft SqlServer v9; (C) 2005 Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Excel Destination"
+              name="Excel Destination"
+              usesDispositions="true">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">Excel_Destination$</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destinaton. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">0</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Puente de Datos Detalle\Excel Destination.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[File_XLS_Detalle Consumos y Recaudacion]"
+                  connectionManagerRefId="Package.ConnectionManagers[File_XLS_Detalle Consumos y Recaudacion]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Puente de Datos Detalle\Excel Destination.Inputs[Excel Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="Excel Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Puente de Datos Detalle\Excel Destination.Inputs[Excel Destination Input].Columns[Copy of de_prestacion]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Copy of de_prestacion"
+                      externalMetadataColumnId="Package\Puente de Datos Detalle\Excel Destination.Inputs[Excel Destination Input].ExternalColumns[de_prestacion]"
+                      lineageId="Package\Puente de Datos Detalle\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of de_prestacion]" />
+                    <inputColumn
+                      refId="Package\Puente de Datos Detalle\Excel Destination.Inputs[Excel Destination Input].Columns[Copy of id_periodo]"
+                      cachedDataType="i4"
+                      cachedName="Copy of id_periodo"
+                      externalMetadataColumnId="Package\Puente de Datos Detalle\Excel Destination.Inputs[Excel Destination Input].ExternalColumns[Id_Periodo]"
+                      lineageId="Package\Puente de Datos Detalle\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_periodo]" />
+                    <inputColumn
+                      refId="Package\Puente de Datos Detalle\Excel Destination.Inputs[Excel Destination Input].Columns[Copy of Importes]"
+                      cachedDataType="r8"
+                      cachedName="Copy of Importes"
+                      externalMetadataColumnId="Package\Puente de Datos Detalle\Excel Destination.Inputs[Excel Destination Input].ExternalColumns[importe_Total]"
+                      lineageId="Package\Puente de Datos Detalle\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Importes]" />
+                    <inputColumn
+                      refId="Package\Puente de Datos Detalle\Excel Destination.Inputs[Excel Destination Input].Columns[Copy of Cantidades]"
+                      cachedDataType="i4"
+                      cachedName="Copy of Cantidades"
+                      externalMetadataColumnId="Package\Puente de Datos Detalle\Excel Destination.Inputs[Excel Destination Input].ExternalColumns[cantidad_Total]"
+                      lineageId="Package\Puente de Datos Detalle\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Cantidades]" />
+                    <inputColumn
+                      refId="Package\Puente de Datos Detalle\Excel Destination.Inputs[Excel Destination Input].Columns[Copy of id_persona]"
+                      cachedDataType="i4"
+                      cachedName="Copy of id_persona"
+                      externalMetadataColumnId="Package\Puente de Datos Detalle\Excel Destination.Inputs[Excel Destination Input].ExternalColumns[Id_Persona]"
+                      lineageId="Package\Puente de Datos Detalle\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_persona]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos Detalle\Excel Destination.Inputs[Excel Destination Input].ExternalColumns[de_prestacion]"
+                      dataType="wstr"
+                      length="255"
+                      name="de_prestacion" />
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos Detalle\Excel Destination.Inputs[Excel Destination Input].ExternalColumns[Id_Periodo]"
+                      dataType="r8"
+                      name="Id_Periodo" />
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos Detalle\Excel Destination.Inputs[Excel Destination Input].ExternalColumns[cantidad_Total]"
+                      dataType="r8"
+                      name="cantidad_Total" />
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos Detalle\Excel Destination.Inputs[Excel Destination Input].ExternalColumns[importe_Total]"
+                      dataType="r8"
+                      name="importe_Total" />
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos Detalle\Excel Destination.Inputs[Excel Destination Input].ExternalColumns[Id_Persona]"
+                      dataType="r8"
+                      name="Id_Persona" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Puente de Datos Detalle\Excel Destination.Outputs[Excel Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Excel Destination Error Output"
+                  synchronousInputId="Package\Puente de Datos Detalle\Excel Destination.Inputs[Excel Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Puente de Datos Detalle\Excel Destination.Outputs[Excel Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Puente de Datos Detalle\Excel Destination.Outputs[Excel Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Puente de Datos Detalle\Excel Destination.Outputs[Excel Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Puente de Datos Detalle\Excel Destination.Outputs[Excel Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Puente de Datos Detalle\OLE DB Source"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation;Microsoft SqlServer v9; (C) 2005 Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE DB Source"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[H_MAYORIA_EDAD_DETALLE_CONSUMOS]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Puente de Datos Detalle\OLE DB Source.Connections[OleDbConnection]"
+                  connectionManagerID="{7C08DAE5-B807-4EA9-ACD9-4566C1DAE3C5}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DS_CONSULTAS_DW]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Puente de Datos Detalle\OLE DB Source.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Puente de Datos Detalle\OLE DB Source.Outputs[OLE DB Source Output].Columns[id_periodo]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Puente de Datos Detalle\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[id_periodo]"
+                      lineageId="Package\Puente de Datos Detalle\OLE DB Source.Outputs[OLE DB Source Output].Columns[id_periodo]"
+                      name="id_periodo"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Puente de Datos Detalle\OLE DB Source.Outputs[OLE DB Source Output].Columns[id_persona]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Puente de Datos Detalle\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[id_persona]"
+                      lineageId="Package\Puente de Datos Detalle\OLE DB Source.Outputs[OLE DB Source Output].Columns[id_persona]"
+                      name="id_persona"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Puente de Datos Detalle\OLE DB Source.Outputs[OLE DB Source Output].Columns[de_prestacion]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Puente de Datos Detalle\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[de_prestacion]"
+                      length="30"
+                      lineageId="Package\Puente de Datos Detalle\OLE DB Source.Outputs[OLE DB Source Output].Columns[de_prestacion]"
+                      name="de_prestacion"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Puente de Datos Detalle\OLE DB Source.Outputs[OLE DB Source Output].Columns[Cantidades]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Puente de Datos Detalle\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Cantidades]"
+                      lineageId="Package\Puente de Datos Detalle\OLE DB Source.Outputs[OLE DB Source Output].Columns[Cantidades]"
+                      name="Cantidades"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Puente de Datos Detalle\OLE DB Source.Outputs[OLE DB Source Output].Columns[Importes]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Puente de Datos Detalle\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Importes]"
+                      lineageId="Package\Puente de Datos Detalle\OLE DB Source.Outputs[OLE DB Source Output].Columns[Importes]"
+                      name="Importes"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos Detalle\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[id_periodo]"
+                      dataType="i4"
+                      name="id_periodo" />
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos Detalle\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[id_persona]"
+                      dataType="i4"
+                      name="id_persona" />
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos Detalle\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[de_prestacion]"
+                      dataType="wstr"
+                      length="30"
+                      name="de_prestacion" />
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos Detalle\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Cantidades]"
+                      dataType="i4"
+                      name="Cantidades" />
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos Detalle\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Importes]"
+                      dataType="r8"
+                      name="Importes" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Puente de Datos Detalle\OLE DB Source.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Puente de Datos Detalle\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[id_periodo]"
+                      dataType="i4"
+                      lineageId="Package\Puente de Datos Detalle\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[id_periodo]"
+                      name="id_periodo" />
+                    <outputColumn
+                      refId="Package\Puente de Datos Detalle\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[id_persona]"
+                      dataType="i4"
+                      lineageId="Package\Puente de Datos Detalle\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[id_persona]"
+                      name="id_persona" />
+                    <outputColumn
+                      refId="Package\Puente de Datos Detalle\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[de_prestacion]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\Puente de Datos Detalle\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[de_prestacion]"
+                      name="de_prestacion" />
+                    <outputColumn
+                      refId="Package\Puente de Datos Detalle\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Cantidades]"
+                      dataType="i4"
+                      lineageId="Package\Puente de Datos Detalle\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Cantidades]"
+                      name="Cantidades" />
+                    <outputColumn
+                      refId="Package\Puente de Datos Detalle\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Importes]"
+                      dataType="r8"
+                      lineageId="Package\Puente de Datos Detalle\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Importes]"
+                      name="Importes" />
+                    <outputColumn
+                      refId="Package\Puente de Datos Detalle\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Puente de Datos Detalle\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Puente de Datos Detalle\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Puente de Datos Detalle\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Puente de Datos Detalle.Paths[Data Conversion Output]"
+              endId="Package\Puente de Datos Detalle\Excel Destination.Inputs[Excel Destination Input]"
+              name="Data Conversion Output"
+              startId="Package\Puente de Datos Detalle\Data Conversion.Outputs[Data Conversion Output]" />
+            <path
+              refId="Package\Puente de Datos Detalle.Paths[OLE DB Source Output]"
+              endId="Package\Puente de Datos Detalle\Data Conversion.Inputs[Data Conversion Input]"
+              name="OLE DB Source Output"
+              startId="Package\Puente de Datos Detalle\OLE DB Source.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Puente de Datos Totales"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:DelayValidation="True"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{5a673478-dd0d-44ca-a0b1-f582fabfa029}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Puente de Datos Totales"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v9; (C) 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <pipeline
+          BLOBTempStoragePath=""
+          bufferTempStoragePath=""
+          engineThreads="5"
+          version="1">
+          <components>
+            <component
+              refId="Package\Puente de Datos Totales\Data Conversion"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Data Conversion;Microsoft Corporation;Microsoft SqlServer v9; (C) 2005 Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Data Conversion"
+              name="Data Conversion"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Puente de Datos Totales\Data Conversion.Inputs[Data Conversion Input]"
+                  name="Data Conversion Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Puente de Datos Totales\Data Conversion.Inputs[Data Conversion Input].Columns[id_persona]"
+                      cachedDataType="i4"
+                      cachedName="id_persona"
+                      lineageId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Output].Columns[id_persona]" />
+                    <inputColumn
+                      refId="Package\Puente de Datos Totales\Data Conversion.Inputs[Data Conversion Input].Columns[Cantidad]"
+                      cachedDataType="i4"
+                      cachedName="Cantidad"
+                      lineageId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Output].Columns[Cantidad]" />
+                    <inputColumn
+                      refId="Package\Puente de Datos Totales\Data Conversion.Inputs[Data Conversion Input].Columns[Importe]"
+                      cachedDataType="r8"
+                      cachedName="Importe"
+                      lineageId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Output].Columns[Importe]" />
+                    <inputColumn
+                      refId="Package\Puente de Datos Totales\Data Conversion.Inputs[Data Conversion Input].Columns[id_plan_producto]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="5"
+                      cachedName="id_plan_producto"
+                      lineageId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Output].Columns[id_plan_producto]" />
+                    <inputColumn
+                      refId="Package\Puente de Datos Totales\Data Conversion.Inputs[Data Conversion Input].Columns[Recaudacion]"
+                      cachedDataType="r8"
+                      cachedName="Recaudacion"
+                      lineageId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Output].Columns[Recaudacion]" />
+                    <inputColumn
+                      refId="Package\Puente de Datos Totales\Data Conversion.Inputs[Data Conversion Input].Columns[Costo_Salud]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="15"
+                      cachedName="Costo_Salud"
+                      lineageId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Output].Columns[Costo_Salud]" />
+                    <inputColumn
+                      refId="Package\Puente de Datos Totales\Data Conversion.Inputs[Data Conversion Input].Columns[Estado]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="Estado"
+                      lineageId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Output].Columns[Estado]" />
+                    <inputColumn
+                      refId="Package\Puente de Datos Totales\Data Conversion.Inputs[Data Conversion Input].Columns[Apellido]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="Apellido"
+                      lineageId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Output].Columns[Apellido]" />
+                    <inputColumn
+                      refId="Package\Puente de Datos Totales\Data Conversion.Inputs[Data Conversion Input].Columns[Nombre]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="Nombre"
+                      lineageId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Output].Columns[Nombre]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Puente de Datos Totales\Data Conversion.Outputs[Data Conversion Output]"
+                  exclusionGroup="1"
+                  name="Data Conversion Output"
+                  synchronousInputId="Package\Puente de Datos Totales\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Puente de Datos Totales\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_persona]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Puente de Datos Totales\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_persona]"
+                      name="Copy of id_persona"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Output].Columns[id_persona]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Puente de Datos Totales\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Cantidad]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Puente de Datos Totales\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Cantidad]"
+                      name="Copy of Cantidad"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Output].Columns[Cantidad]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Puente de Datos Totales\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Importe]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Puente de Datos Totales\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Importe]"
+                      name="Copy of Importe"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Output].Columns[Importe]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Puente de Datos Totales\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_plan_producto]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="5"
+                      lineageId="Package\Puente de Datos Totales\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_plan_producto]"
+                      name="Copy of id_plan_producto"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Output].Columns[id_plan_producto]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Puente de Datos Totales\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Recaudacion]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Puente de Datos Totales\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Recaudacion]"
+                      name="Copy of Recaudacion"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Output].Columns[Recaudacion]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Puente de Datos Totales\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Costo_Salud]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="15"
+                      lineageId="Package\Puente de Datos Totales\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Costo_Salud]"
+                      name="Copy of Costo_Salud"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Output].Columns[Costo_Salud]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Puente de Datos Totales\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Estado]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="30"
+                      lineageId="Package\Puente de Datos Totales\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Estado]"
+                      name="Copy of Estado"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Output].Columns[Estado]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Puente de Datos Totales\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Apellido]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\Puente de Datos Totales\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Apellido]"
+                      name="Copy of Apellido"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Output].Columns[Apellido]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Puente de Datos Totales\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Nombre]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\Puente de Datos Totales\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Nombre]"
+                      name="Copy of Nombre"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Output].Columns[Nombre]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Puente de Datos Totales\Data Conversion.Outputs[Data Conversion Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Data Conversion Error Output"
+                  synchronousInputId="Package\Puente de Datos Totales\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Puente de Datos Totales\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Puente de Datos Totales\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Puente de Datos Totales\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Puente de Datos Totales\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Puente de Datos Totales\Excel Destination"
+              componentClassID="Microsoft.ExcelDestination"
+              contactInfo="Excel Destination;Microsoft Corporation;Microsoft SqlServer v9; (C) 2005 Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Excel Destination"
+              name="Excel Destination"
+              usesDispositions="true">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">Excel_Destination1$</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destinaton. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">0</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Puente de Datos Totales\Excel Destination.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[File_XLS_Detalle Consumos y Recaudacion]"
+                  connectionManagerRefId="Package.ConnectionManagers[File_XLS_Detalle Consumos y Recaudacion]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Puente de Datos Totales\Excel Destination.Inputs[Excel Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="Excel Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Puente de Datos Totales\Excel Destination.Inputs[Excel Destination Input].Columns[Copy of Cantidad]"
+                      cachedDataType="i4"
+                      cachedName="Copy of Cantidad"
+                      externalMetadataColumnId="Package\Puente de Datos Totales\Excel Destination.Inputs[Excel Destination Input].ExternalColumns[cantidad]"
+                      lineageId="Package\Puente de Datos Totales\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Cantidad]" />
+                    <inputColumn
+                      refId="Package\Puente de Datos Totales\Excel Destination.Inputs[Excel Destination Input].Columns[Copy of id_plan_producto]"
+                      cachedDataType="wstr"
+                      cachedLength="5"
+                      cachedName="Copy of id_plan_producto"
+                      externalMetadataColumnId="Package\Puente de Datos Totales\Excel Destination.Inputs[Excel Destination Input].ExternalColumns[id_plan_producto]"
+                      lineageId="Package\Puente de Datos Totales\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_plan_producto]" />
+                    <inputColumn
+                      refId="Package\Puente de Datos Totales\Excel Destination.Inputs[Excel Destination Input].Columns[Copy of Costo_Salud]"
+                      cachedDataType="wstr"
+                      cachedLength="15"
+                      cachedName="Copy of Costo_Salud"
+                      externalMetadataColumnId="Package\Puente de Datos Totales\Excel Destination.Inputs[Excel Destination Input].ExternalColumns[Costo_Salud]"
+                      lineageId="Package\Puente de Datos Totales\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Costo_Salud]" />
+                    <inputColumn
+                      refId="Package\Puente de Datos Totales\Excel Destination.Inputs[Excel Destination Input].Columns[Copy of Recaudacion]"
+                      cachedDataType="r8"
+                      cachedName="Copy of Recaudacion"
+                      externalMetadataColumnId="Package\Puente de Datos Totales\Excel Destination.Inputs[Excel Destination Input].ExternalColumns[Recaudacion]"
+                      lineageId="Package\Puente de Datos Totales\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Recaudacion]" />
+                    <inputColumn
+                      refId="Package\Puente de Datos Totales\Excel Destination.Inputs[Excel Destination Input].Columns[Copy of Importe]"
+                      cachedDataType="r8"
+                      cachedName="Copy of Importe"
+                      externalMetadataColumnId="Package\Puente de Datos Totales\Excel Destination.Inputs[Excel Destination Input].ExternalColumns[Importe_Consumos]"
+                      lineageId="Package\Puente de Datos Totales\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Importe]" />
+                    <inputColumn
+                      refId="Package\Puente de Datos Totales\Excel Destination.Inputs[Excel Destination Input].Columns[Copy of Estado]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="Copy of Estado"
+                      externalMetadataColumnId="Package\Puente de Datos Totales\Excel Destination.Inputs[Excel Destination Input].ExternalColumns[Estado]"
+                      lineageId="Package\Puente de Datos Totales\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Estado]" />
+                    <inputColumn
+                      refId="Package\Puente de Datos Totales\Excel Destination.Inputs[Excel Destination Input].Columns[Copy of id_persona]"
+                      cachedDataType="i4"
+                      cachedName="Copy of id_persona"
+                      externalMetadataColumnId="Package\Puente de Datos Totales\Excel Destination.Inputs[Excel Destination Input].ExternalColumns[id_persona]"
+                      lineageId="Package\Puente de Datos Totales\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_persona]" />
+                    <inputColumn
+                      refId="Package\Puente de Datos Totales\Excel Destination.Inputs[Excel Destination Input].Columns[Copy of Apellido]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="Copy of Apellido"
+                      externalMetadataColumnId="Package\Puente de Datos Totales\Excel Destination.Inputs[Excel Destination Input].ExternalColumns[Apellido]"
+                      lineageId="Package\Puente de Datos Totales\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Apellido]" />
+                    <inputColumn
+                      refId="Package\Puente de Datos Totales\Excel Destination.Inputs[Excel Destination Input].Columns[Copy of Nombre]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="Copy of Nombre"
+                      externalMetadataColumnId="Package\Puente de Datos Totales\Excel Destination.Inputs[Excel Destination Input].ExternalColumns[Nombre]"
+                      lineageId="Package\Puente de Datos Totales\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Nombre]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos Totales\Excel Destination.Inputs[Excel Destination Input].ExternalColumns[id_persona]"
+                      dataType="r8"
+                      name="id_persona" />
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos Totales\Excel Destination.Inputs[Excel Destination Input].ExternalColumns[cantidad]"
+                      dataType="r8"
+                      name="cantidad" />
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos Totales\Excel Destination.Inputs[Excel Destination Input].ExternalColumns[id_plan_producto]"
+                      dataType="wstr"
+                      length="255"
+                      name="id_plan_producto" />
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos Totales\Excel Destination.Inputs[Excel Destination Input].ExternalColumns[Costo_Salud]"
+                      dataType="wstr"
+                      length="255"
+                      name="Costo_Salud" />
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos Totales\Excel Destination.Inputs[Excel Destination Input].ExternalColumns[Importe_Consumos]"
+                      dataType="r8"
+                      name="Importe_Consumos" />
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos Totales\Excel Destination.Inputs[Excel Destination Input].ExternalColumns[Recaudacion]"
+                      dataType="r8"
+                      name="Recaudacion" />
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos Totales\Excel Destination.Inputs[Excel Destination Input].ExternalColumns[Estado]"
+                      dataType="wstr"
+                      length="255"
+                      name="Estado" />
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos Totales\Excel Destination.Inputs[Excel Destination Input].ExternalColumns[Apellido]"
+                      dataType="wstr"
+                      length="255"
+                      name="Apellido" />
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos Totales\Excel Destination.Inputs[Excel Destination Input].ExternalColumns[Nombre]"
+                      dataType="wstr"
+                      length="255"
+                      name="Nombre" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Puente de Datos Totales\Excel Destination.Outputs[Excel Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Excel Destination Error Output"
+                  synchronousInputId="Package\Puente de Datos Totales\Excel Destination.Inputs[Excel Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Puente de Datos Totales\Excel Destination.Outputs[Excel Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Puente de Datos Totales\Excel Destination.Outputs[Excel Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Puente de Datos Totales\Excel Destination.Outputs[Excel Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Puente de Datos Totales\Excel Destination.Outputs[Excel Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Puente de Datos Totales\OLE DB Source"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation;Microsoft SqlServer v9; (C) 2005 Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE DB Source"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[H_MAYORIA_EDAD_DETALLE_CONSUMOS_TOTALES]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Puente de Datos Totales\OLE DB Source.Connections[OleDbConnection]"
+                  connectionManagerID="{7C08DAE5-B807-4EA9-ACD9-4566C1DAE3C5}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DS_CONSULTAS_DW]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Output].Columns[id_persona]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[id_persona]"
+                      lineageId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Output].Columns[id_persona]"
+                      name="id_persona"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Output].Columns[Cantidad]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Cantidad]"
+                      lineageId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Output].Columns[Cantidad]"
+                      name="Cantidad"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Output].Columns[Importe]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Importe]"
+                      lineageId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Output].Columns[Importe]"
+                      name="Importe"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Output].Columns[id_plan_producto]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[id_plan_producto]"
+                      length="5"
+                      lineageId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Output].Columns[id_plan_producto]"
+                      name="id_plan_producto"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Output].Columns[Recaudacion]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Recaudacion]"
+                      lineageId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Output].Columns[Recaudacion]"
+                      name="Recaudacion"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Output].Columns[Costo_Salud]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Costo_Salud]"
+                      length="15"
+                      lineageId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Output].Columns[Costo_Salud]"
+                      name="Costo_Salud"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Output].Columns[Estado]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Estado]"
+                      length="30"
+                      lineageId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Output].Columns[Estado]"
+                      name="Estado"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Output].Columns[Apellido]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Apellido]"
+                      length="50"
+                      lineageId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Output].Columns[Apellido]"
+                      name="Apellido"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Output].Columns[Nombre]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Nombre]"
+                      length="50"
+                      lineageId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Output].Columns[Nombre]"
+                      name="Nombre"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[id_persona]"
+                      dataType="i4"
+                      name="id_persona" />
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Cantidad]"
+                      dataType="i4"
+                      name="Cantidad" />
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Importe]"
+                      dataType="r8"
+                      name="Importe" />
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[id_plan_producto]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      name="id_plan_producto" />
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Recaudacion]"
+                      dataType="r8"
+                      name="Recaudacion" />
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Costo_Salud]"
+                      codePage="1252"
+                      dataType="str"
+                      length="15"
+                      name="Costo_Salud" />
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Estado]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="Estado" />
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Apellido]"
+                      dataType="wstr"
+                      length="50"
+                      name="Apellido" />
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Nombre]"
+                      dataType="wstr"
+                      length="50"
+                      name="Nombre" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[id_persona]"
+                      dataType="i4"
+                      lineageId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[id_persona]"
+                      name="id_persona" />
+                    <outputColumn
+                      refId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Apellido]"
+                      dataType="wstr"
+                      length="50"
+                      lineageId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Apellido]"
+                      name="Apellido" />
+                    <outputColumn
+                      refId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Nombre]"
+                      dataType="wstr"
+                      length="50"
+                      lineageId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Nombre]"
+                      name="Nombre" />
+                    <outputColumn
+                      refId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Estado]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Estado]"
+                      name="Estado" />
+                    <outputColumn
+                      refId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[id_plan_producto]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      lineageId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[id_plan_producto]"
+                      name="id_plan_producto" />
+                    <outputColumn
+                      refId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Cantidad]"
+                      dataType="i4"
+                      lineageId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Cantidad]"
+                      name="Cantidad" />
+                    <outputColumn
+                      refId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Importe]"
+                      dataType="r8"
+                      lineageId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Importe]"
+                      name="Importe" />
+                    <outputColumn
+                      refId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Recaudacion]"
+                      dataType="r8"
+                      lineageId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Recaudacion]"
+                      name="Recaudacion" />
+                    <outputColumn
+                      refId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Costo_Salud]"
+                      codePage="1252"
+                      dataType="str"
+                      length="15"
+                      lineageId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Costo_Salud]"
+                      name="Costo_Salud" />
+                    <outputColumn
+                      refId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Puente de Datos Totales.Paths[Data Conversion Output]"
+              endId="Package\Puente de Datos Totales\Excel Destination.Inputs[Excel Destination Input]"
+              name="Data Conversion Output"
+              startId="Package\Puente de Datos Totales\Data Conversion.Outputs[Data Conversion Output]" />
+            <path
+              refId="Package\Puente de Datos Totales.Paths[OLE DB Source Output]"
+              endId="Package\Puente de Datos Totales\Data Conversion.Inputs[Data Conversion Input]"
+              name="OLE DB Source Output"
+              startId="Package\Puente de Datos Totales\OLE DB Source.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{C19F5ECD-CCE5-4600-9C26-911D72AC3CFC}"
+      DTS:From="Package\Borro Tablas Consumos detalle"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\detalle consumos costo3" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{9D8F9CD2-584A-4310-B2DD-C1CF8786146C}"
+      DTS:From="Package\detalle consumos costo3"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Puente de Datos Detalle" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{F7B745FD-DF28-4B9B-A8F6-08D090AC841C}"
+      DTS:From="Package\Crea Hoja Totales"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Crea Hoja Detalle" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
+      DTS:CreationName=""
+      DTS:DTSID="{4C97B1F0-663B-4735-9C2D-3CE34D722B0E}"
+      DTS:From="Package\Crea Hoja Detalle"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 4"
+      DTS:To="Package\Borro Tablas Consumos detalle" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 5]"
+      DTS:CreationName=""
+      DTS:DTSID="{4ff6750e-c6cb-4223-b834-d375b183afdb}"
+      DTS:From="Package\Puente de Datos Detalle"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 5"
+      DTS:To="Package\Puente de Datos Totales" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="233,42"
+          Id="Package\Borro Tablas Consumos detalle"
+          TopLeft="15.0808625336928,169.632075471698" />
+        <NodeLayout
+          Size="166,42"
+          Id="Package\Crea Hoja Detalle"
+          TopLeft="48.5808625336928,88.254716981132" />
+        <NodeLayout
+          Size="168,42"
+          Id="Package\Crea Hoja Totales"
+          TopLeft="47.5808625336928,6.877358490566" />
+        <NodeLayout
+          Size="200,42"
+          Id="Package\detalle consumos costo3"
+          TopLeft="31.5808625336928,251.009433962264" />
+        <NodeLayout
+          Size="198,42"
+          Id="Package\Puente de Datos Detalle"
+          TopLeft="32.5808625336928,332.38679245283" />
+        <NodeLayout
+          Size="200,42"
+          Id="Package\Puente de Datos Totales"
+          TopLeft="31.5808625336928,413.764150943396" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="131.580862533693,211.632075471698">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,39.377358490566"
+              Start="0,0"
+              End="0,31.877358490566">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.877358490566" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="131.580862533693,293.009433962264">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,39.377358490566"
+              Start="0,0"
+              End="0,31.877358490566">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.877358490566" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="131.580862533693,48.877358490566">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,39.377358490566"
+              Start="0,0"
+              End="0,31.877358490566">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.877358490566" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="131.580862533693,130.254716981132">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,39.377358490566"
+              Start="0,0"
+              End="0,31.877358490566">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.877358490566" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 5]"
+          TopLeft="131.580862533693,374.38679245283">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,39.377358490566"
+              Start="0,0"
+              End="0,31.877358490566">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.877358490566" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Puente de Datos Detalle">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="157,42"
+          Id="Package\Puente de Datos Detalle\OLE DB Source"
+          TopLeft="9.00000000000001,5.5" />
+        <NodeLayout
+          Size="161,42"
+          Id="Package\Puente de Datos Detalle\Data Conversion"
+          TopLeft="7.00000000000003,107.5" />
+        <NodeLayout
+          Size="164,42"
+          Id="Package\Puente de Datos Detalle\Excel Destination"
+          TopLeft="5.50000000000003,209.5" />
+        <EdgeLayout
+          Id="Package\Puente de Datos Detalle.Paths[Data Conversion Output]"
+          TopLeft="87.5,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Puente de Datos Detalle.Paths[OLE DB Source Output]"
+          TopLeft="87.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Puente de Datos Detalle\OLE DB Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Puente de Datos Totales">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="157,42"
+          Id="Package\Puente de Datos Totales\OLE DB Source"
+          TopLeft="9.00000000000001,5.5" />
+        <NodeLayout
+          Size="164,42"
+          Id="Package\Puente de Datos Totales\Excel Destination"
+          TopLeft="5.50000000000003,209.5" />
+        <NodeLayout
+          Size="161,42"
+          Id="Package\Puente de Datos Totales\Data Conversion"
+          TopLeft="7.00000000000003,107.5" />
+        <EdgeLayout
+          Id="Package\Puente de Datos Totales.Paths[OLE DB Source Output]"
+          TopLeft="87.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Puente de Datos Totales.Paths[Data Conversion Output]"
+          TopLeft="87.5,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Puente de Datos Totales\OLE DB Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

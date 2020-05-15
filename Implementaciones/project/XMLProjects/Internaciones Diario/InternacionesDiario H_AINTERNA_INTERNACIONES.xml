@@ -1,0 +1,2711 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="4/3/2019 8:54:18 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AMS06X"
+  DTS:CreatorName="AMS\jtrinchier"
+  DTS:DTSID="{6848C0C9-5548-4F5B-A7CF-5701C19002F3}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="InternacionesDiario H_AINTERNA_INTERNACIONES"
+  DTS:PackageType="5"
+  DTS:VersionBuild="18"
+  DTS:VersionGUID="{452C5E5F-12DF-4E30-A8E3-2944C4999A4A}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{3BA81E6B-927C-481A-93B2-CADE3BD2A353}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">1,7,OnError</DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnError"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{3BA81E6B-927C-481A-93B2-CADE3BD2A353}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Borra H_AINTERNA_INTERNACIONES"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{28420087-aa6b-4daa-8d4c-eb4fac9a321a}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Borra H_AINTERNA_INTERNACIONES"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{87B3EF38-D424-4CA0-9B98-F49ED069F118}"
+          SQLTask:SqlStatementSource="Truncate Table H_AINTERNA_INTERNACIONES" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Carga H_AINTERNA_INTERNACIONES"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{9588b078-70ab-46e1-a3a7-0eece6679e30}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Carga H_AINTERNA_INTERNACIONES"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <pipeline
+          BLOBTempStoragePath=""
+          bufferTempStoragePath=""
+          version="1">
+          <components>
+            <component
+              refId="Package\Carga H_AINTERNA_INTERNACIONES\Data Conversion"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Data Conversion;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Data Conversion"
+              name="Data Conversion"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Carga H_AINTERNA_INTERNACIONES\Data Conversion.Inputs[Data Conversion Input]"
+                  name="Data Conversion Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\Data Conversion.Inputs[Data Conversion Input].Columns[OW1PLA]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="5"
+                      cachedName="OW1PLA"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1PLA]" />
+                    <inputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\Data Conversion.Inputs[Data Conversion Input].Columns[OW1UOA]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="10"
+                      cachedName="OW1UOA"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1UOA]" />
+                    <inputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\Data Conversion.Inputs[Data Conversion Input].Columns[W01RPL]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="W01RPL"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W01RPL]" />
+                    <inputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\Data Conversion.Inputs[Data Conversion Input].Columns[OW1ENF]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="8"
+                      cachedName="OW1ENF"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1ENF]" />
+                    <inputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\Data Conversion.Inputs[Data Conversion Input].Columns[W03TPP]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="W03TPP"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W03TPP]" />
+                    <inputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\Data Conversion.Inputs[Data Conversion Input].Columns[W10TIN]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="W10TIN"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W10TIN]" />
+                    <inputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\Data Conversion.Inputs[Data Conversion Input].Columns[W10MFA]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="W10MFA"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W10MFA]" />
+                    <inputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\Data Conversion.Inputs[Data Conversion Input].Columns[OW1UAU]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="10"
+                      cachedName="OW1UAU"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1UAU]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Carga H_AINTERNA_INTERNACIONES\Data Conversion.Outputs[Data Conversion Output]"
+                  exclusionGroup="1"
+                  name="Data Conversion Output"
+                  synchronousInputId="Package\Carga H_AINTERNA_INTERNACIONES\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of OW1PLA]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="5"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of OW1PLA]"
+                      name="Copy of OW1PLA"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1PLA]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of OW1UOA]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="10"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of OW1UOA]"
+                      name="Copy of OW1UOA"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1UOA]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of W01RPL]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="1"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of W01RPL]"
+                      name="Copy of W01RPL"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W01RPL]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of OW1ENF]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="8"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of OW1ENF]"
+                      name="Copy of OW1ENF"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1ENF]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of W03TPP]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="1"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of W03TPP]"
+                      name="Copy of W03TPP"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W03TPP]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of W10TIN]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="2"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of W10TIN]"
+                      name="Copy of W10TIN"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W10TIN]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of W10MFA]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="1"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of W10MFA]"
+                      name="Copy of W10MFA"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W10MFA]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of OW1UAU]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="10"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of OW1UAU]"
+                      name="Copy of OW1UAU"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1UAU]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Carga H_AINTERNA_INTERNACIONES\Data Conversion.Outputs[Data Conversion Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Data Conversion Error Output"
+                  synchronousInputId="Package\Carga H_AINTERNA_INTERNACIONES\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Carga H_AINTERNA_INTERNACIONES\Derived Column"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Updates column values using expressions"
+              name="Derived Column"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Carga H_AINTERNA_INTERNACIONES\Derived Column.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Carga H_AINTERNA_INTERNACIONES\Derived Column.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Carga H_AINTERNA_INTERNACIONES\Derived Column.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\Derived Column.Outputs[Derived Column Output].Columns[cant_internaciones]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\Derived Column.Outputs[Derived Column Output].Columns[cant_internaciones]"
+                      name="cant_internaciones"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">1</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">1</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Carga H_AINTERNA_INTERNACIONES\Derived Column.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Carga H_AINTERNA_INTERNACIONES\Derived Column.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[H_AINTERNA_INTERNACIONES]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="{87B3EF38-D424-4CA0-9B98-F49ED069F118}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DS_DW_SALUD]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[OW1POS]"
+                      cachedDataType="numeric"
+                      cachedName="OW1POS"
+                      cachedPrecision="3"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[posicion]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1POS]" />
+                    <inputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[OW1NRP]"
+                      cachedDataType="numeric"
+                      cachedName="OW1NRP"
+                      cachedPrecision="8"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[pedido]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1NRP]" />
+                    <inputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[OW1NAF]"
+                      cachedDataType="numeric"
+                      cachedName="OW1NAF"
+                      cachedPrecision="8"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[afiliado]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1NAF]" />
+                    <inputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[OW1SAF]"
+                      cachedDataType="numeric"
+                      cachedName="OW1SAF"
+                      cachedPrecision="3"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[subcuenta]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1SAF]" />
+                    <inputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[OW1SEC]"
+                      cachedDataType="numeric"
+                      cachedName="OW1SEC"
+                      cachedPrecision="2"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[secuencia]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1SEC]" />
+                    <inputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[OW1NPE]"
+                      cachedDataType="numeric"
+                      cachedName="OW1NPE"
+                      cachedPrecision="8"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[persona]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1NPE]" />
+                    <inputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[OW1PRO]"
+                      cachedDataType="numeric"
+                      cachedName="OW1PRO"
+                      cachedPrecision="4"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[producto]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1PRO]" />
+                    <inputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[OW1SPR]"
+                      cachedDataType="numeric"
+                      cachedName="OW1SPR"
+                      cachedPrecision="4"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[subproducto]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1SPR]" />
+                    <inputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[OW1TOR]"
+                      cachedDataType="numeric"
+                      cachedName="OW1TOR"
+                      cachedPrecision="3"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[tipo_orden]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1TOR]" />
+                    <inputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[OW1NOR]"
+                      cachedDataType="numeric"
+                      cachedName="OW1NOR"
+                      cachedPrecision="8"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[numero_orden_internacion]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1NOR]" />
+                    <inputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[OW1FAU]"
+                      cachedDataType="numeric"
+                      cachedName="OW1FAU"
+                      cachedPrecision="8"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_autorizacion]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1FAU]" />
+                    <inputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[OW1FPR]"
+                      cachedDataType="numeric"
+                      cachedName="OW1FPR"
+                      cachedPrecision="8"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_proceso]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1FPR]" />
+                    <inputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[OW1FEN]"
+                      cachedDataType="numeric"
+                      cachedName="OW1FEN"
+                      cachedPrecision="8"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_entrega]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1FEN]" />
+                    <inputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[OW1PAU]"
+                      cachedDataType="numeric"
+                      cachedName="OW1PAU"
+                      cachedPrecision="3"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[posicion_auditoria]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1PAU]" />
+                    <inputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[OW1ENT]"
+                      cachedDataType="numeric"
+                      cachedName="OW1ENT"
+                      cachedPrecision="6"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[entidad]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1ENT]" />
+                    <inputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[OW1CAN]"
+                      cachedDataType="numeric"
+                      cachedName="OW1CAN"
+                      cachedPrecision="1"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[canal]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1CAN]" />
+                    <inputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[OW1FAS]"
+                      cachedDataType="numeric"
+                      cachedName="OW1FAS"
+                      cachedPrecision="8"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_auditoria_sistema]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1FAS]" />
+                    <inputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[OW1FRP]"
+                      cachedDataType="numeric"
+                      cachedName="OW1FRP"
+                      cachedPrecision="8"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_recepcion_pedido_medico]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1FRP]" />
+                    <inputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[W01MAU]"
+                      cachedDataType="numeric"
+                      cachedName="W01MAU"
+                      cachedPrecision="4"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[codigo_motivo_auditoria]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W01MAU]" />
+                    <inputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[W03CEN]"
+                      cachedDataType="numeric"
+                      cachedName="W03CEN"
+                      cachedPrecision="8"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[preescribiente]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W03CEN]" />
+                    <inputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of OW1PLA]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="5"
+                      cachedName="Copy of OW1PLA"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[plan]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of OW1PLA]" />
+                    <inputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of OW1UOA]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="10"
+                      cachedName="Copy of OW1UOA"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[auditor]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of OW1UOA]" />
+                    <inputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of W01RPL]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="Copy of W01RPL"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[replica_orden]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of W01RPL]" />
+                    <inputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[W03FPR]"
+                      cachedDataType="numeric"
+                      cachedName="W03FPR"
+                      cachedPrecision="8"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_prescripcion]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W03FPR]" />
+                    <inputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[W03EPR]"
+                      cachedDataType="numeric"
+                      cachedName="W03EPR"
+                      cachedPrecision="8"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[establecimiento_asistencial]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W03EPR]" />
+                    <inputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of OW1ENF]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="8"
+                      cachedName="Copy of OW1ENF"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[cie10]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of OW1ENF]" />
+                    <inputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of W03TPP]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="Copy of W03TPP"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[tipo_prestador]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of W03TPP]" />
+                    <inputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[O03EMP]"
+                      cachedDataType="numeric"
+                      cachedName="O03EMP"
+                      cachedPrecision="8"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[empresa]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[O03EMP]" />
+                    <inputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[W10FRE]"
+                      cachedDataType="numeric"
+                      cachedName="W10FRE"
+                      cachedPrecision="8"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_recepcion]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W10FRE]" />
+                    <inputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[W10DIA]"
+                      cachedDataType="numeric"
+                      cachedName="W10DIA"
+                      cachedPrecision="3"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[cant_dias_internacion]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W10DIA]" />
+                    <inputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[W10FIN]"
+                      cachedDataType="numeric"
+                      cachedName="W10FIN"
+                      cachedPrecision="8"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_internacion]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W10FIN]" />
+                    <inputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[W10HIN]"
+                      cachedDataType="numeric"
+                      cachedName="W10HIN"
+                      cachedPrecision="6"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[hora_internacion]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W10HIN]" />
+                    <inputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[W10DIC]"
+                      cachedDataType="numeric"
+                      cachedName="W10DIC"
+                      cachedPrecision="3"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[cant_dias_calculados]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W10DIC]" />
+                    <inputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[W10DIE]"
+                      cachedDataType="numeric"
+                      cachedName="W10DIE"
+                      cachedPrecision="3"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[cant_dias_estimados]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W10DIE]" />
+                    <inputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[W10DAU]"
+                      cachedDataType="numeric"
+                      cachedName="W10DAU"
+                      cachedPrecision="3"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[cant_dias_autorizados]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W10DAU]" />
+                    <inputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[W10DTO]"
+                      cachedDataType="numeric"
+                      cachedName="W10DTO"
+                      cachedPrecision="3"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[cant_dias_aut_total]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W10DTO]" />
+                    <inputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[W10FAL]"
+                      cachedDataType="numeric"
+                      cachedName="W10FAL"
+                      cachedPrecision="8"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_alta]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W10FAL]" />
+                    <inputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[W10HAL]"
+                      cachedDataType="numeric"
+                      cachedName="W10HAL"
+                      cachedPrecision="6"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[hora_alta]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W10HAL]" />
+                    <inputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of W10TIN]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="Copy of W10TIN"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[tipo_internacion]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of W10TIN]" />
+                    <inputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of W10MFA]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="Copy of W10MFA"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fallecido]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of W10MFA]" />
+                    <inputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of OW1UAU]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="10"
+                      cachedName="Copy of OW1UAU"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[usuario_auditor]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of OW1UAU]" />
+                    <inputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[cant_internaciones]"
+                      cachedDataType="i4"
+                      cachedName="cant_internaciones"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[cant_internaciones]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\Derived Column.Outputs[Derived Column Output].Columns[cant_internaciones]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[posicion]"
+                      dataType="numeric"
+                      name="posicion"
+                      precision="3" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[pedido]"
+                      dataType="numeric"
+                      name="pedido"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[afiliado]"
+                      dataType="numeric"
+                      name="afiliado"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[subcuenta]"
+                      dataType="numeric"
+                      name="subcuenta"
+                      precision="3" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[secuencia]"
+                      dataType="numeric"
+                      name="secuencia"
+                      precision="2" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[persona]"
+                      dataType="numeric"
+                      name="persona"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[producto]"
+                      dataType="numeric"
+                      name="producto"
+                      precision="4" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[plan]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      name="plan" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[subproducto]"
+                      dataType="numeric"
+                      name="subproducto"
+                      precision="4" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[tipo_orden]"
+                      dataType="numeric"
+                      name="tipo_orden"
+                      precision="3" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[numero_orden_internacion]"
+                      dataType="numeric"
+                      name="numero_orden_internacion"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_autorizacion]"
+                      dataType="numeric"
+                      name="fecha_autorizacion"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_proceso]"
+                      dataType="numeric"
+                      name="fecha_proceso"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_entrega]"
+                      dataType="numeric"
+                      name="fecha_entrega"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[posicion_auditoria]"
+                      dataType="numeric"
+                      name="posicion_auditoria"
+                      precision="3" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[entidad]"
+                      dataType="numeric"
+                      name="entidad"
+                      precision="6" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[canal]"
+                      dataType="numeric"
+                      name="canal"
+                      precision="1" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[auditor]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      name="auditor" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_auditoria_sistema]"
+                      dataType="numeric"
+                      name="fecha_auditoria_sistema"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_recepcion_pedido_medico]"
+                      dataType="numeric"
+                      name="fecha_recepcion_pedido_medico"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[codigo_motivo_auditoria]"
+                      dataType="numeric"
+                      name="codigo_motivo_auditoria"
+                      precision="4" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[replica_orden]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="replica_orden" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[preescribiente]"
+                      dataType="numeric"
+                      name="preescribiente"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_prescripcion]"
+                      dataType="numeric"
+                      name="fecha_prescripcion"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[establecimiento_asistencial]"
+                      dataType="numeric"
+                      name="establecimiento_asistencial"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[cie10]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      name="cie10" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[tipo_prestador]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="tipo_prestador" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[empresa]"
+                      dataType="numeric"
+                      name="empresa"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_recepcion]"
+                      dataType="numeric"
+                      name="fecha_recepcion"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[tipo_internacion]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="tipo_internacion" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[cant_dias_internacion]"
+                      dataType="numeric"
+                      name="cant_dias_internacion"
+                      precision="3" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_internacion]"
+                      dataType="numeric"
+                      name="fecha_internacion"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[hora_internacion]"
+                      dataType="numeric"
+                      name="hora_internacion"
+                      precision="6" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[cant_dias_calculados]"
+                      dataType="numeric"
+                      name="cant_dias_calculados"
+                      precision="3" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[cant_dias_estimados]"
+                      dataType="numeric"
+                      name="cant_dias_estimados"
+                      precision="3" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[cant_dias_autorizados]"
+                      dataType="numeric"
+                      name="cant_dias_autorizados"
+                      precision="3" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[cant_dias_aut_total]"
+                      dataType="numeric"
+                      name="cant_dias_aut_total"
+                      precision="3" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_alta]"
+                      dataType="numeric"
+                      name="fecha_alta"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[hora_alta]"
+                      dataType="numeric"
+                      name="hora_alta"
+                      precision="6" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fallecido]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="fallecido" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[cant_internaciones]"
+                      dataType="i4"
+                      name="cant_internaciones" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[usuario_auditor]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      name="usuario_auditor" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE DB Source"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">Select *
+from  DWHSMPD.AINTERNA</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Connections[OleDbConnection]"
+                  connectionManagerID="{1FC24022-6F9E-43BE-BAD0-AA43BBFDD1AE}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DS_HOST03]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1POS]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1POS]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1POS]"
+                      name="OW1POS"
+                      precision="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1NRP]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1NRP]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1NRP]"
+                      name="OW1NRP"
+                      precision="8"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1NAF]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1NAF]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1NAF]"
+                      name="OW1NAF"
+                      precision="8"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1SAF]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1SAF]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1SAF]"
+                      name="OW1SAF"
+                      precision="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1SEC]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1SEC]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1SEC]"
+                      name="OW1SEC"
+                      precision="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1NPE]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1NPE]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1NPE]"
+                      name="OW1NPE"
+                      precision="8"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1PRO]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1PRO]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1PRO]"
+                      name="OW1PRO"
+                      precision="4"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1PLA]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1PLA]"
+                      length="5"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1PLA]"
+                      name="OW1PLA"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1SPR]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1SPR]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1SPR]"
+                      name="OW1SPR"
+                      precision="4"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W01NRO]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W01NRO]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W01NRO]"
+                      name="W01NRO"
+                      precision="11"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W01PAR]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W01PAR]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W01PAR]"
+                      name="W01PAR"
+                      precision="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W01SOR]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W01SOR]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W01SOR]"
+                      name="W01SOR"
+                      precision="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1TOR]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1TOR]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1TOR]"
+                      name="OW1TOR"
+                      precision="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1NOR]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1NOR]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1NOR]"
+                      name="OW1NOR"
+                      precision="8"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1FPA]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1FPA]"
+                      length="1"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1FPA]"
+                      name="OW1FPA"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1EAU]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1EAU]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1EAU]"
+                      name="OW1EAU"
+                      precision="1"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1FAU]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1FAU]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1FAU]"
+                      name="OW1FAU"
+                      precision="8"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1FPR]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1FPR]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1FPR]"
+                      name="OW1FPR"
+                      precision="8"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1USR]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1USR]"
+                      length="10"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1USR]"
+                      name="OW1USR"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1HOR]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1HOR]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1HOR]"
+                      name="OW1HOR"
+                      precision="6"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1FEN]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1FEN]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1FEN]"
+                      name="OW1FEN"
+                      precision="8"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1IMP]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1IMP]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1IMP]"
+                      name="OW1IMP"
+                      precision="11"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1PAU]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1PAU]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1PAU]"
+                      name="OW1PAU"
+                      precision="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1ENT]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1ENT]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1ENT]"
+                      name="OW1ENT"
+                      precision="6"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1CAN]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1CAN]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1CAN]"
+                      name="OW1CAN"
+                      precision="1"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1CUO]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1CUO]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1CUO]"
+                      name="OW1CUO"
+                      precision="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1UOA]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1UOA]"
+                      length="10"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1UOA]"
+                      name="OW1UOA"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1FAS]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1FAS]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1FAS]"
+                      name="OW1FAS"
+                      precision="8"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1HAU]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1HAU]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1HAU]"
+                      name="OW1HAU"
+                      precision="6"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1LPO]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1LPO]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1LPO]"
+                      name="OW1LPO"
+                      precision="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1FRP]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1FRP]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1FRP]"
+                      name="OW1FRP"
+                      precision="8"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W01MAU]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W01MAU]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W01MAU]"
+                      name="W01MAU"
+                      precision="4"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W01RPL]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W01RPL]"
+                      length="1"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W01RPL]"
+                      name="W01RPL"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W03POS]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W03POS]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W03POS]"
+                      name="W03POS"
+                      precision="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W03NRP]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W03NRP]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W03NRP]"
+                      name="W03NRP"
+                      precision="8"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W03CEN]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W03CEN]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W03CEN]"
+                      name="W03CEN"
+                      precision="8"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W03PSS]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W03PSS]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W03PSS]"
+                      name="W03PSS"
+                      precision="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W03FPR]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W03FPR]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W03FPR]"
+                      name="W03FPR"
+                      precision="8"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W03EPR]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W03EPR]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W03EPR]"
+                      name="W03EPR"
+                      precision="8"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W03EPS]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W03EPS]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W03EPS]"
+                      name="W03EPS"
+                      precision="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W03ASE]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W03ASE]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W03ASE]"
+                      name="W03ASE"
+                      precision="6"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W03IOA]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W03IOA]"
+                      length="1"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W03IOA]"
+                      name="W03IOA"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW0001]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW0001]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW0001]"
+                      name="OW0001"
+                      precision="8"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1ENF]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1ENF]"
+                      length="8"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1ENF]"
+                      name="OW1ENF"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W03TPP]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W03TPP]"
+                      length="1"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W03TPP]"
+                      name="W03TPP"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[O03EMP]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[O03EMP]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[O03EMP]"
+                      name="O03EMP"
+                      precision="8"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[O03FAU]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[O03FAU]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[O03FAU]"
+                      name="O03FAU"
+                      precision="8"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W10POS]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W10POS]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W10POS]"
+                      name="W10POS"
+                      precision="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W10PED]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W10PED]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W10PED]"
+                      name="W10PED"
+                      precision="8"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W10FRE]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W10FRE]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W10FRE]"
+                      name="W10FRE"
+                      precision="8"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W10TIN]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W10TIN]"
+                      length="2"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W10TIN]"
+                      name="W10TIN"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W10DIA]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W10DIA]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W10DIA]"
+                      name="W10DIA"
+                      precision="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W10NOI]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W10NOI]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W10NOI]"
+                      name="W10NOI"
+                      precision="8"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W10FIN]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W10FIN]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W10FIN]"
+                      name="W10FIN"
+                      precision="8"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W10HIN]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W10HIN]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W10HIN]"
+                      name="W10HIN"
+                      precision="6"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W10DIC]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W10DIC]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W10DIC]"
+                      name="W10DIC"
+                      precision="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W10DIE]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W10DIE]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W10DIE]"
+                      name="W10DIE"
+                      precision="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W10DAU]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W10DAU]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W10DAU]"
+                      name="W10DAU"
+                      precision="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W10DTO]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W10DTO]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W10DTO]"
+                      name="W10DTO"
+                      precision="3"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W10FAL]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W10FAL]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W10FAL]"
+                      name="W10FAL"
+                      precision="8"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W10HAL]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W10HAL]"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W10HAL]"
+                      name="W10HAL"
+                      precision="6"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W10MFA]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W10MFA]"
+                      length="1"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[W10MFA]"
+                      name="W10MFA"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1UAU]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1UAU]"
+                      length="10"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].Columns[OW1UAU]"
+                      name="OW1UAU"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1POS]"
+                      dataType="numeric"
+                      name="OW1POS"
+                      precision="3" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1NRP]"
+                      dataType="numeric"
+                      name="OW1NRP"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1NAF]"
+                      dataType="numeric"
+                      name="OW1NAF"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1SAF]"
+                      dataType="numeric"
+                      name="OW1SAF"
+                      precision="3" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1SEC]"
+                      dataType="numeric"
+                      name="OW1SEC"
+                      precision="2" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1NPE]"
+                      dataType="numeric"
+                      name="OW1NPE"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1PRO]"
+                      dataType="numeric"
+                      name="OW1PRO"
+                      precision="4" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1PLA]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      name="OW1PLA" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1SPR]"
+                      dataType="numeric"
+                      name="OW1SPR"
+                      precision="4" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W01NRO]"
+                      dataType="numeric"
+                      name="W01NRO"
+                      precision="11" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W01PAR]"
+                      dataType="numeric"
+                      name="W01PAR"
+                      precision="2" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W01SOR]"
+                      dataType="numeric"
+                      name="W01SOR"
+                      precision="2" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1TOR]"
+                      dataType="numeric"
+                      name="OW1TOR"
+                      precision="3" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1NOR]"
+                      dataType="numeric"
+                      name="OW1NOR"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1FPA]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="OW1FPA" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1EAU]"
+                      dataType="numeric"
+                      name="OW1EAU"
+                      precision="1" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1FAU]"
+                      dataType="numeric"
+                      name="OW1FAU"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1FPR]"
+                      dataType="numeric"
+                      name="OW1FPR"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1USR]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      name="OW1USR" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1HOR]"
+                      dataType="numeric"
+                      name="OW1HOR"
+                      precision="6" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1FEN]"
+                      dataType="numeric"
+                      name="OW1FEN"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1IMP]"
+                      dataType="numeric"
+                      name="OW1IMP"
+                      precision="11"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1PAU]"
+                      dataType="numeric"
+                      name="OW1PAU"
+                      precision="3" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1ENT]"
+                      dataType="numeric"
+                      name="OW1ENT"
+                      precision="6" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1CAN]"
+                      dataType="numeric"
+                      name="OW1CAN"
+                      precision="1" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1CUO]"
+                      dataType="numeric"
+                      name="OW1CUO"
+                      precision="2" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1UOA]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      name="OW1UOA" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1FAS]"
+                      dataType="numeric"
+                      name="OW1FAS"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1HAU]"
+                      dataType="numeric"
+                      name="OW1HAU"
+                      precision="6" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1LPO]"
+                      dataType="numeric"
+                      name="OW1LPO"
+                      precision="2" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1FRP]"
+                      dataType="numeric"
+                      name="OW1FRP"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W01MAU]"
+                      dataType="numeric"
+                      name="W01MAU"
+                      precision="4" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W01RPL]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="W01RPL" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W03POS]"
+                      dataType="numeric"
+                      name="W03POS"
+                      precision="3" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W03NRP]"
+                      dataType="numeric"
+                      name="W03NRP"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W03CEN]"
+                      dataType="numeric"
+                      name="W03CEN"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W03PSS]"
+                      dataType="numeric"
+                      name="W03PSS"
+                      precision="2" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W03FPR]"
+                      dataType="numeric"
+                      name="W03FPR"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W03EPR]"
+                      dataType="numeric"
+                      name="W03EPR"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W03EPS]"
+                      dataType="numeric"
+                      name="W03EPS"
+                      precision="2" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W03ASE]"
+                      dataType="numeric"
+                      name="W03ASE"
+                      precision="6" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W03IOA]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="W03IOA" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW0001]"
+                      dataType="numeric"
+                      name="OW0001"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1ENF]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      name="OW1ENF" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W03TPP]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="W03TPP" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[O03EMP]"
+                      dataType="numeric"
+                      name="O03EMP"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[O03FAU]"
+                      dataType="numeric"
+                      name="O03FAU"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W10POS]"
+                      dataType="numeric"
+                      name="W10POS"
+                      precision="3" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W10PED]"
+                      dataType="numeric"
+                      name="W10PED"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W10FRE]"
+                      dataType="numeric"
+                      name="W10FRE"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W10TIN]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="W10TIN" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W10DIA]"
+                      dataType="numeric"
+                      name="W10DIA"
+                      precision="3" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W10NOI]"
+                      dataType="numeric"
+                      name="W10NOI"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W10FIN]"
+                      dataType="numeric"
+                      name="W10FIN"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W10HIN]"
+                      dataType="numeric"
+                      name="W10HIN"
+                      precision="6" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W10DIC]"
+                      dataType="numeric"
+                      name="W10DIC"
+                      precision="3" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W10DIE]"
+                      dataType="numeric"
+                      name="W10DIE"
+                      precision="3" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W10DAU]"
+                      dataType="numeric"
+                      name="W10DAU"
+                      precision="3" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W10DTO]"
+                      dataType="numeric"
+                      name="W10DTO"
+                      precision="3" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W10FAL]"
+                      dataType="numeric"
+                      name="W10FAL"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W10HAL]"
+                      dataType="numeric"
+                      name="W10HAL"
+                      precision="6" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W10MFA]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="W10MFA" />
+                    <externalMetadataColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OW1UAU]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      name="OW1UAU" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1POS]"
+                      dataType="numeric"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1POS]"
+                      name="OW1POS"
+                      precision="3" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1NRP]"
+                      dataType="numeric"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1NRP]"
+                      name="OW1NRP"
+                      precision="8" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1NAF]"
+                      dataType="numeric"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1NAF]"
+                      name="OW1NAF"
+                      precision="8" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1SAF]"
+                      dataType="numeric"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1SAF]"
+                      name="OW1SAF"
+                      precision="3" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1SEC]"
+                      dataType="numeric"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1SEC]"
+                      name="OW1SEC"
+                      precision="2" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1NPE]"
+                      dataType="numeric"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1NPE]"
+                      name="OW1NPE"
+                      precision="8" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1PRO]"
+                      dataType="numeric"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1PRO]"
+                      name="OW1PRO"
+                      precision="4" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1PLA]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1PLA]"
+                      name="OW1PLA" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1SPR]"
+                      dataType="numeric"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1SPR]"
+                      name="OW1SPR"
+                      precision="4" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W01NRO]"
+                      dataType="numeric"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W01NRO]"
+                      name="W01NRO"
+                      precision="11" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W01PAR]"
+                      dataType="numeric"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W01PAR]"
+                      name="W01PAR"
+                      precision="2" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W01SOR]"
+                      dataType="numeric"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W01SOR]"
+                      name="W01SOR"
+                      precision="2" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1TOR]"
+                      dataType="numeric"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1TOR]"
+                      name="OW1TOR"
+                      precision="3" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1NOR]"
+                      dataType="numeric"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1NOR]"
+                      name="OW1NOR"
+                      precision="8" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1FPA]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1FPA]"
+                      name="OW1FPA" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1EAU]"
+                      dataType="numeric"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1EAU]"
+                      name="OW1EAU"
+                      precision="1" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1FAU]"
+                      dataType="numeric"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1FAU]"
+                      name="OW1FAU"
+                      precision="8" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1FPR]"
+                      dataType="numeric"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1FPR]"
+                      name="OW1FPR"
+                      precision="8" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1USR]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1USR]"
+                      name="OW1USR" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1HOR]"
+                      dataType="numeric"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1HOR]"
+                      name="OW1HOR"
+                      precision="6" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1FEN]"
+                      dataType="numeric"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1FEN]"
+                      name="OW1FEN"
+                      precision="8" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1IMP]"
+                      dataType="numeric"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1IMP]"
+                      name="OW1IMP"
+                      precision="11"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1PAU]"
+                      dataType="numeric"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1PAU]"
+                      name="OW1PAU"
+                      precision="3" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1ENT]"
+                      dataType="numeric"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1ENT]"
+                      name="OW1ENT"
+                      precision="6" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1CAN]"
+                      dataType="numeric"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1CAN]"
+                      name="OW1CAN"
+                      precision="1" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1CUO]"
+                      dataType="numeric"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1CUO]"
+                      name="OW1CUO"
+                      precision="2" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1UOA]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1UOA]"
+                      name="OW1UOA" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1FAS]"
+                      dataType="numeric"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1FAS]"
+                      name="OW1FAS"
+                      precision="8" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1HAU]"
+                      dataType="numeric"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1HAU]"
+                      name="OW1HAU"
+                      precision="6" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1LPO]"
+                      dataType="numeric"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1LPO]"
+                      name="OW1LPO"
+                      precision="2" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1FRP]"
+                      dataType="numeric"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1FRP]"
+                      name="OW1FRP"
+                      precision="8" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W01MAU]"
+                      dataType="numeric"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W01MAU]"
+                      name="W01MAU"
+                      precision="4" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W01RPL]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W01RPL]"
+                      name="W01RPL" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W03POS]"
+                      dataType="numeric"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W03POS]"
+                      name="W03POS"
+                      precision="3" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W03NRP]"
+                      dataType="numeric"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W03NRP]"
+                      name="W03NRP"
+                      precision="8" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W03CEN]"
+                      dataType="numeric"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W03CEN]"
+                      name="W03CEN"
+                      precision="8" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W03PSS]"
+                      dataType="numeric"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W03PSS]"
+                      name="W03PSS"
+                      precision="2" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W03FPR]"
+                      dataType="numeric"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W03FPR]"
+                      name="W03FPR"
+                      precision="8" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W03EPR]"
+                      dataType="numeric"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W03EPR]"
+                      name="W03EPR"
+                      precision="8" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W03EPS]"
+                      dataType="numeric"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W03EPS]"
+                      name="W03EPS"
+                      precision="2" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W03ASE]"
+                      dataType="numeric"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W03ASE]"
+                      name="W03ASE"
+                      precision="6" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W03IOA]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W03IOA]"
+                      name="W03IOA" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW0001]"
+                      dataType="numeric"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW0001]"
+                      name="OW0001"
+                      precision="8" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1ENF]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1ENF]"
+                      name="OW1ENF" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W03TPP]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W03TPP]"
+                      name="W03TPP" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[O03EMP]"
+                      dataType="numeric"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[O03EMP]"
+                      name="O03EMP"
+                      precision="8" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[O03FAU]"
+                      dataType="numeric"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[O03FAU]"
+                      name="O03FAU"
+                      precision="8" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W10POS]"
+                      dataType="numeric"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W10POS]"
+                      name="W10POS"
+                      precision="3" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W10PED]"
+                      dataType="numeric"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W10PED]"
+                      name="W10PED"
+                      precision="8" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W10FRE]"
+                      dataType="numeric"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W10FRE]"
+                      name="W10FRE"
+                      precision="8" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W10TIN]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W10TIN]"
+                      name="W10TIN" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W10DIA]"
+                      dataType="numeric"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W10DIA]"
+                      name="W10DIA"
+                      precision="3" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W10NOI]"
+                      dataType="numeric"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W10NOI]"
+                      name="W10NOI"
+                      precision="8" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W10FIN]"
+                      dataType="numeric"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W10FIN]"
+                      name="W10FIN"
+                      precision="8" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W10HIN]"
+                      dataType="numeric"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W10HIN]"
+                      name="W10HIN"
+                      precision="6" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W10DIC]"
+                      dataType="numeric"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W10DIC]"
+                      name="W10DIC"
+                      precision="3" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W10DIE]"
+                      dataType="numeric"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W10DIE]"
+                      name="W10DIE"
+                      precision="3" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W10DAU]"
+                      dataType="numeric"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W10DAU]"
+                      name="W10DAU"
+                      precision="3" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W10DTO]"
+                      dataType="numeric"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W10DTO]"
+                      name="W10DTO"
+                      precision="3" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W10FAL]"
+                      dataType="numeric"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W10FAL]"
+                      name="W10FAL"
+                      precision="8" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W10HAL]"
+                      dataType="numeric"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W10HAL]"
+                      name="W10HAL"
+                      precision="6" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W10MFA]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W10MFA]"
+                      name="W10MFA" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1UAU]"
+                      codePage="1252"
+                      dataType="str"
+                      length="10"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OW1UAU]"
+                      name="OW1UAU" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Carga H_AINTERNA_INTERNACIONES.Paths[Data Conversion Output]"
+              endId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="Data Conversion Output"
+              startId="Package\Carga H_AINTERNA_INTERNACIONES\Data Conversion.Outputs[Data Conversion Output]" />
+            <path
+              refId="Package\Carga H_AINTERNA_INTERNACIONES.Paths[Derived Column Output]"
+              endId="Package\Carga H_AINTERNA_INTERNACIONES\Data Conversion.Inputs[Data Conversion Input]"
+              name="Derived Column Output"
+              startId="Package\Carga H_AINTERNA_INTERNACIONES\Derived Column.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Carga H_AINTERNA_INTERNACIONES.Paths[OLE DB Source Output]"
+              endId="Package\Carga H_AINTERNA_INTERNACIONES\Derived Column.Inputs[Derived Column Input]"
+              name="OLE DB Source Output"
+              startId="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{E89EC5A3-6E1F-4F78-9B9C-CC11A4A3B271}"
+      DTS:From="Package\Borra H_AINTERNA_INTERNACIONES"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Carga H_AINTERNA_INTERNACIONES" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="275,42"
+          Id="Package\Borra H_AINTERNA_INTERNACIONES"
+          TopLeft="49.02358490566,39.5" />
+        <NodeLayout
+          Size="278,42"
+          Id="Package\Carga H_AINTERNA_INTERNACIONES"
+          TopLeft="47.52358490566,123.764150943396" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="186.52358490566,81.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,42.2641509433962"
+              Start="0,0"
+              End="0,34.7641509433962">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,34.7641509433962" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Carga H_AINTERNA_INTERNACIONES">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="177,42"
+          Id="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination"
+          TopLeft="179.054245283019,276.27358490566" />
+        <NodeLayout
+          Size="158,42"
+          Id="Package\Carga H_AINTERNA_INTERNACIONES\Derived Column"
+          TopLeft="188.554245283019,99.0911949685533" />
+        <NodeLayout
+          Size="161,42"
+          Id="Package\Carga H_AINTERNA_INTERNACIONES\Data Conversion"
+          TopLeft="187.054245283019,187.682389937107" />
+        <EdgeLayout
+          Id="Package\Carga H_AINTERNA_INTERNACIONES.Paths[Derived Column Output]"
+          TopLeft="267.554245283019,141.091194968553">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,46.5911949685533"
+              Start="0,0"
+              End="0,39.0911949685533">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,39.0911949685533" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Carga H_AINTERNA_INTERNACIONES.Paths[Data Conversion Output]"
+          TopLeft="267.554245283019,229.682389937107">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,46.5911949685533"
+              Start="0,0"
+              End="0,39.0911949685533">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,39.0911949685533" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="157,42"
+          Id="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source"
+          TopLeft="189.054245283019,10.5" />
+        <EdgeLayout
+          Id="Package\Carga H_AINTERNA_INTERNACIONES.Paths[OLE DB Source Output]"
+          TopLeft="267.554245283019,52.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,46.5911949685533"
+              Start="0,0"
+              End="0,39.0911949685533">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,39.0911949685533" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Carga H_AINTERNA_INTERNACIONES\OLE DB Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

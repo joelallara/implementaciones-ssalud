@@ -1,0 +1,156 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="8/10/2017 9:11:21 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AMS06X"
+  DTS:CreatorName="AMS\jtrinchier"
+  DTS:DTSID="{BD79D24A-EC19-473B-9CA4-D92ABE3EFA69}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="Recaudaciones PROYECTO_EMPRESAS"
+  DTS:PackageType="5"
+  DTS:VersionBuild="19"
+  DTS:VersionGUID="{799BDC6E-C1BF-4E59-B57E-CD1415ACAB78}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{8F7B7B5F-A5F5-42DB-AEC2-5CAAD9B87DA6}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">1,7,OnError</DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnError"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{8F7B7B5F-A5F5-42DB-AEC2-5CAAD9B87DA6}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza H_Recaudacion_Detalle"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{84522D50-0A0F-489F-8BD3-C27EA8CBA61A}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza H_Recaudacion_Detalle"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{E98BA7A5-A37B-425A-9974-434BB6F83FD9}"
+          SQLTask:SqlStatementSource="declare @Periodo int = (select MAX(id_periodo)  from AUX_PERIODO_MES_BORRA)&#xA;&#xA;UPDATE H_RECAUDACION_DETALLE&#xA;set id_factura_A_E_rec = null,&#xA;id_empresa_PE_rec = null,&#xA;id_tipo_entidad_PE_rec = null,&#xA;id_marca_PE_rec = null,&#xA;id_convenio_especial_rec = null&#xA;where id_periodo = @Periodo  and id_fuente_recaudacion &lt;&gt; 8  and id_fuente_recaudacion &lt;&gt; 8&#xA;&#xA;&#xA;-- PRIMER BARRIDO POR CLAVE CTA/SCTA/SECUENCIA Y PERIODO UNO A UNO&#xA;UPDATE H_RECAUDACION_DETALLE&#xA;set id_factura_A_E_rec = S.id_factura_A_E,&#xA;id_empresa_PE_rec = S.id_empresa_PE,&#xA;id_tipo_entidad_PE_rec = S.id_tipo_entidad_PE,&#xA;id_marca_PE_rec = S.id_marca_PE,&#xA;id_convenio_especial_rec = S.id_convenio_especial&#xA;FROM H_RECAUDACION_DETALLE R &#xA;INNER JOIN H_COMER_STOCK_AFILIA S ON (R.afiliado = S.afiliado and R.subnumero = S.subnumero and R.secuencia = S.secuencia AND R.id_periodo=S.id_periodo)&#xA;WHERE R.id_periodo = @Periodo  and id_fuente_recaudacion &lt;&gt; 8&#xA;&#xA;-- BUSCAMOS MAXIMO PERIODO DE STOCK CON TOPE AL QUE SE ESTA ACTUALIZANDO PARA LA CLAVE EN CUESTION&#xA;SELECT MAX(S.id_periodo) id_periodo, S.afiliado,S.subnumero,S.secuencia &#xA;INTO #TEMP &#xA;FROM H_COMER_STOCK_AFILIA S INNER JOIN H_RECAUDACION_DETALLE R ON (R.afiliado = S.afiliado and R.subnumero = S.subnumero and R.secuencia = S.secuencia)&#xA;WHERE R.id_marca_PE_rec is null and S.id_periodo &lt;= @Periodo&#xA;AND R.id_periodo = @Periodo  and id_fuente_recaudacion &lt;&gt; 8 and  S.id_periodo &gt; 201512&#xA;GROUP BY S.afiliado,S.subnumero,S.secuencia&#xA;&#xA;SELECT DISTINCT id_periodo, S.afiliado,S.subnumero,S.secuencia, id_tipo_entidad_PE, id_empresa_PE, id_marca_PE, id_factura_A_E, id_convenio_especial &#xA;into #STOCK &#xA;FROM H_COMER_STOCK_AFILIA S&#xA;WHERE EXISTS (SELECT * FROM #TEMP T WHERE T.afiliado = S.afiliado and T.subnumero = S.subnumero and T.secuencia = S.secuencia and S.id_periodo=T.id_periodo)&#xA;and id_periodo &gt;= 201512&#xA;&#xA;-- SEGUNDO BARRIDO CON CLAVE CTA/SCTA/SECUENCIA Y PERIODO MAXIMO DE STOCK&#xA;UPDATE H_RECAUDACION_DETALLE&#xA;set id_factura_A_E_rec = S.id_factura_A_E,&#xA;id_empresa_PE_rec = S.id_empresa_PE,&#xA;id_tipo_entidad_PE_rec = S.id_tipo_entidad_PE,&#xA;id_marca_PE_rec = S.id_marca_PE,&#xA;id_convenio_especial_rec = S.id_convenio_especial&#xA;FROM H_RECAUDACION_DETALLE R &#xA;INNER JOIN #STOCK S ON (R.afiliado = S.afiliado and R.subnumero = S.subnumero and R.secuencia = S.secuencia)&#xA;WHERE R.id_periodo = @Periodo  and id_fuente_recaudacion &lt;&gt; 8&#xA;AND R.id_marca_PE_rec IS NULL&#xA;AND  S.id_periodo &gt;= 201512&#xA;DROP TABLE #TEMP&#xA;DROP TABLE #STOCK&#xA;&#xA;&#xA;--PROCEDEMOS A HACER ACTUALIZACIONES AHORA SOLO POR LA CLAVE DE PERSONA.&#xA;&#xA;-- Actualiza empresa y tipo de entidad donde encuentre persona y periodo igual.&#xA;UPDATE H_RECAUDACION_DETALLE&#xA;set id_factura_A_E_rec = S.id_factura_A_E,&#xA;id_empresa_PE_rec = S.id_empresa_PE,&#xA;id_tipo_entidad_PE_rec = S.id_tipo_entidad_PE,&#xA;id_marca_PE_rec = S.id_marca_PE,&#xA;id_convenio_especial_rec = S.id_convenio_especial&#xA;FROM H_RECAUDACION_DETALLE R INNER JOIN H_COMER_STOCK_AFILIA S ON (R.id_persona=S.id_persona AND R.id_periodo=S.id_periodo)&#xA;WHERE R.id_periodo = @Periodo  and id_fuente_recaudacion &lt;&gt; 8 AND R.id_marca_PE_rec is null&#xA;and S.id_periodo &gt;= 201512&#xA;-- Se busca el maximo periodo donde estuvo una persona para obtener el tipo de entidad y la empresa.&#xA;SELECT MAX(S.id_periodo) id_periodo, S.id_persona &#xA;INTO #TEMP_PERS&#xA;FROM H_COMER_STOCK_AFILIA S INNER JOIN H_RECAUDACION_DETALLE R ON (R.id_persona=S.id_persona)&#xA;WHERE R.id_marca_PE_rec is null and S.id_periodo &lt;= @Periodo&#xA;AND R.id_periodo = @Periodo  and id_fuente_recaudacion &lt;&gt; 8&#xA;and S.id_periodo &gt;= 201512&#xA;GROUP BY S.id_persona&#xA;&#xA;SELECT DISTINCT id_periodo, id_persona, id_tipo_entidad_PE, id_empresa_PE, id_marca_PE, id_factura_A_E, id_convenio_especial &#xA;into #STOCK_PERS &#xA;FROM H_COMER_STOCK_AFILIA S&#xA;WHERE EXISTS (SELECT * FROM #TEMP_PERS T WHERE S.id_persona=T.id_persona and S.id_periodo=T.id_periodo)&#xA;&#xA;-- Se actualiza ambos datos con el ultimo periodo donde se encontro cada persona.&#xA;UPDATE H_RECAUDACION_DETALLE&#xA;set id_factura_A_E_rec = S.id_factura_A_E,&#xA;id_empresa_PE_rec = S.id_empresa_PE,&#xA;id_tipo_entidad_PE_rec = S.id_tipo_entidad_PE,&#xA;id_marca_PE_rec = S.id_marca_PE,&#xA;id_convenio_especial_rec = S.id_convenio_especial&#xA;FROM H_RECAUDACION_DETALLE R &#xA;INNER JOIN #STOCK_PERS S ON (R.id_persona=S.id_persona)&#xA;WHERE R.id_periodo = @Periodo  and id_fuente_recaudacion &lt;&gt; 8&#xA;AND R.id_marca_PE_rec IS NULL&#xA;&#xA;&#xA;&#xA;/*   EXCEPCIONES     */&#xA;-- si esta en ospaca, pero no es producto 78, lo paso a indivicual&#xA;update H_RECAUDACION_DETALLE &#xA;set id_factura_A_E_rec = 'A',&#xA;id_empresa_PE_rec = 0,&#xA;id_tipo_entidad_PE_rec = 'I',&#xA;id_marca_PE_rec = 7,&#xA;id_convenio_especial_rec = 0&#xA;where id_marca_PE_rec = 10 and id_periodo = @Periodo  and id_fuente_recaudacion &lt;&gt; 8 and id_producto &lt;&gt; 78&#xA;&#xA;&#xA;--si es AMPS, pero el producto no es el 18, lo paso a individual&#xA;update H_RECAUDACION_DETALLE &#xA;set id_factura_A_E_rec = 'A',&#xA;id_empresa_PE_rec = 0,&#xA;id_tipo_entidad_PE_rec = 'I',&#xA;id_marca_PE_rec = 7,&#xA;id_convenio_especial_rec = 0&#xA;where id_marca_PE_rec = 9 and id_periodo = @Periodo  and id_fuente_recaudacion &lt;&gt; 8 and id_producto &lt;&gt; 18&#xA;&#xA;-- Lo que quedo en nulo es porque nunca se encontraron, por lo tanto se le fuerzan estos datos.&#xA;UPDATE H_RECAUDACION_DETALLE &#xA;set id_factura_A_E_rec = 'A',&#xA;id_empresa_PE_rec = 0,&#xA;id_tipo_entidad_PE_rec = 'I',&#xA;id_marca_PE_rec = 7,&#xA;id_convenio_especial_rec = 0&#xA;WHERE id_marca_PE_rec is null&#xA;and id_periodo = @Periodo  and id_fuente_recaudacion &lt;&gt; 8&#xA;&#xA;DROP TABLE #TEMP_PERS&#xA;DROP TABLE #STOCK_PERS&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza linea empresa"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{2A2EBFCB-0D0C-45EA-847C-D953CB4E5D84}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza linea empresa"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{E98BA7A5-A37B-425A-9974-434BB6F83FD9}"
+          SQLTask:SqlStatementSource="DEclare @PEriodo int &#xA;SET @PEriodo  = (select MAX(id_periodo)  from AUX_PERIODO_MES_BORRA)&#xA;&#xA;&#xA;UPDATE H_RECAUDACION_DETALLE&#xA;set id_convenio = null,&#xA;&#x9;id_tipo_entidad_convenio = null&#xA;where id_periodo = @Periodo  and id_fuente_recaudacion &lt;&gt; 8&#xA;&#xA;&#xA;-- PRIMER BARRIDO POR CLAVE CTA/SCTA/SECUENCIA Y PERIODO UNO A UNO&#xA;UPDATE H_RECAUDACION_DETALLE&#xA;set id_convenio = S.id_convenio,&#xA;id_tipo_entidad_convenio = S.id_tipo_entidad_convenio&#xA;FROM H_RECAUDACION_DETALLE R &#xA;INNER JOIN H_COMER_STOCK_AFILIA S ON (R.afiliado = S.afiliado and R.subnumero = S.subnumero and R.secuencia = S.secuencia AND R.id_periodo=S.id_periodo)&#xA;WHERE R.id_periodo = @Periodo  and id_fuente_recaudacion &lt;&gt; 8&#xA;&#xA;-- BUSCAMOS MAXIMO PERIODO DE STOCK CON TOPE AL QUE SE ESTA ACTUALIZANDO PARA LA CLAVE EN CUESTION&#xA;SELECT MAX(S.id_periodo) id_periodo, S.afiliado,S.subnumero,S.secuencia &#xA;INTO #TEMP &#xA;FROM H_COMER_STOCK_AFILIA S INNER JOIN H_RECAUDACION_DETALLE R ON (R.afiliado = S.afiliado and R.subnumero = S.subnumero and R.secuencia = S.secuencia)&#xA;WHERE R.id_convenio is null and S.id_periodo &lt;= @Periodo&#xA;AND R.id_periodo = @Periodo  and id_fuente_recaudacion &lt;&gt; 8 and  S.id_periodo &gt; 201603&#xA;GROUP BY S.afiliado,S.subnumero,S.secuencia&#xA;&#xA;SELECT DISTINCT id_periodo, S.afiliado,S.subnumero,S.secuencia, id_convenio,id_tipo_entidad_convenio&#xA;into #STOCK &#xA;FROM H_COMER_STOCK_AFILIA S&#xA;WHERE EXISTS (SELECT * FROM #TEMP T WHERE T.afiliado = S.afiliado and T.subnumero = S.subnumero and T.secuencia = S.secuencia and S.id_periodo=T.id_periodo)&#xA;and id_periodo &gt;= 201603&#xA;&#xA;-- SEGUNDO BARRIDO CON CLAVE CTA/SCTA/SECUENCIA Y PERIODO MAXIMO DE STOCK&#xA;UPDATE H_RECAUDACION_DETALLE&#xA;set id_convenio = S.id_convenio,&#xA;id_tipo_entidad_convenio = S.id_tipo_entidad_convenio&#xA;FROM H_RECAUDACION_DETALLE R &#xA;INNER JOIN #STOCK S ON (R.afiliado = S.afiliado and R.subnumero = S.subnumero and R.secuencia = S.secuencia)&#xA;WHERE R.id_periodo = @Periodo  and id_fuente_recaudacion &lt;&gt; 8&#xA;AND R.id_convenio IS NULL&#xA;AND  S.id_periodo &gt;= 201603&#xA;&#xA;DROP TABLE #TEMP&#xA;DROP TABLE #STOCK&#xA;&#xA;&#xA;--PROCEDEMOS A HACER ACTUALIZACIONES AHORA SOLO POR LA CLAVE DE PERSONA.&#xA;&#xA;-- Actualiza empresa y tipo de entidad donde encuentre persona y periodo igual.&#xA;UPDATE H_RECAUDACION_DETALLE&#xA;set id_convenio = S.id_convenio,&#xA;id_tipo_entidad_convenio = S.id_tipo_entidad_convenio&#xA;FROM H_RECAUDACION_DETALLE R INNER JOIN H_COMER_STOCK_AFILIA S ON (R.id_persona=S.id_persona AND R.id_periodo=S.id_periodo)&#xA;WHERE R.id_periodo = @Periodo  and id_fuente_recaudacion &lt;&gt; 8 AND R.id_convenio is null&#xA;and S.id_periodo &gt;= 201603&#xA;&#xA;-- Se busca el maximo periodo donde estuvo una persona para obtener el tipo de entidad y la empresa.&#xA;SELECT MAX(S.id_periodo) id_periodo, S.id_persona &#xA;INTO #TEMP_PERS&#xA;FROM H_COMER_STOCK_AFILIA S INNER JOIN H_RECAUDACION_DETALLE R ON (R.id_persona=S.id_persona)&#xA;WHERE R.id_convenio is null and S.id_periodo &lt;= @Periodo&#xA;AND R.id_periodo = @Periodo  and id_fuente_recaudacion &lt;&gt; 8&#xA;and S.id_periodo &gt;= 201603&#xA;GROUP BY S.id_persona&#xA;&#xA;SELECT DISTINCT id_periodo, id_persona, id_convenio,id_tipo_entidad_convenio&#xA;into #STOCK_PERS &#xA;FROM H_COMER_STOCK_AFILIA S&#xA;WHERE EXISTS (SELECT * FROM #TEMP_PERS T WHERE S.id_persona=T.id_persona and S.id_periodo=T.id_periodo)&#xA;&#xA;-- Se actualiza ambos datos con el ultimo periodo donde se encontro cada persona.&#xA;UPDATE H_RECAUDACION_DETALLE&#xA;set id_convenio = S.id_convenio,&#xA;id_tipo_entidad_convenio = S.id_tipo_entidad_convenio&#xA;FROM H_RECAUDACION_DETALLE R &#xA;INNER JOIN #STOCK_PERS S ON (R.id_persona=S.id_persona)&#xA;WHERE R.id_periodo = @Periodo  and id_fuente_recaudacion &lt;&gt; 8&#xA;AND R.id_convenio IS NULL&#xA;&#xA;&#xA;&#xA;&#xA;-- Lo que quedo en nulo es porque nunca se encontraron, por lo tanto se le fuerzan estos datos.&#xA;UPDATE H_RECAUDACION_DETALLE &#xA;set id_convenio = 0,&#xA;id_tipo_entidad_convenio = 'I'&#xA;WHERE id_convenio is null and id_periodo = @Periodo  and id_fuente_recaudacion &lt;&gt; 8&#xA;&#xA;&#xA;DROP TABLE #TEMP_PERS&#xA;DROP TABLE #STOCK_PERS&#xA;&#xA;&#xA;&#xA;&#xA;select distinct id_convenio,id_tipo_entidad_convenio,0 as id_periodo_maximo into #convenios_nuevos &#xA;from H_RECAUDACION_DETALLE h&#xA;where  not exists  (select id_convenio ,id_tipo_entidad_convenio &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;from H_CONVENIOS_EMPRESAS C where id_periodo = @Periodo  &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;and h.id_periodo = &#x9;c.id_periodo and h.id_convenio = c.id_convenio and h.id_tipo_entidad_convenio = c.id_tipo_entidad_convenio) &#xA;&#x9;&#x9;and id_periodo = @Periodo  and id_fuente_recaudacion &lt;&gt; 8&#xA;&#xA;&#xA;update #convenios_nuevos&#xA;set id_periodo_maximo = maximo_periodo from&#xA;#convenios_nuevos c inner join (&#xA;select t.id_convenio, max(h.id_periodo) as maximo_periodo from #convenios_nuevos t inner join H_CONVENIOS_EMPRESAS h on t.id_convenio = h.id_convenio&#xA;&#x9;and t.id_tipo_entidad_convenio = h.id_tipo_entidad_convenio&#xA;group by t.id_convenio) A on c.id_convenio = a.id_convenio&#xA;&#xA;&#xA;insert into H_CONVENIOS_EMPRESAS&#xA;select @periodo,c.id_convenio,c.id_tipo_entidad_convenio,e.id_subtipo_venta,id_rango_stock,id_rango_costo,id_blindaje,interes_comercial,es_mutual&#xA;,id_holding,'Reca' from #convenios_nuevos c inner join H_CONVENIOS_EMPRESAS e&#xA;on  c.id_convenio = e.id_convenio and c.id_periodo_maximo = e.id_periodo and c.id_tipo_entidad_convenio = e.id_tipo_entidad_convenio&#xA;&#xA;&#xA;drop table #convenios_nuevos" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{A94305A0-D24E-48BE-B44D-8C9BE3005763}"
+      DTS:From="Package\Actualiza H_Recaudacion_Detalle"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Actualiza linea empresa" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="245,42"
+          Id="Package\Actualiza H_Recaudacion_Detalle"
+          TopLeft="4.87264150943396,5.5" />
+        <NodeLayout
+          Size="196,42"
+          Id="Package\Actualiza linea empresa"
+          TopLeft="29.372641509434,109.537735849057" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="127.372641509434,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,62.0377358490566"
+              Start="0,0"
+              End="0,54.5377358490566">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,54.5377358490566" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

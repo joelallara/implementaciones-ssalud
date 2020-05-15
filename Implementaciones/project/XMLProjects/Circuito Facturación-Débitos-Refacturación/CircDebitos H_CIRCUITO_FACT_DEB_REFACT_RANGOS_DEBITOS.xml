@@ -1,0 +1,101 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="4/4/2016 3:36:13 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AMS06X"
+  DTS:CreatorName="AMS\adminb"
+  DTS:DTSID="{5F39F9A5-9F28-4BFD-B01F-341D3C1DE514}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="CircDebitos H_CIRCUITO_FACT_DEB_REFACT_RANGOS_DEBITOS"
+  DTS:PackageType="5"
+  DTS:VersionBuild="15"
+  DTS:VersionGUID="{D77F997B-BCA5-4AAF-B459-2D2A28051B18}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{3A53464B-54DF-4454-9338-8ABEC8EC219E}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">1,7,OnError</DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnError"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{3A53464B-54DF-4454-9338-8ABEC8EC219E}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza H_CIRCUITO_FACT_DEB_REFACT_RANGOS_DEBITOS"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{58FFCE8B-99F3-4F79-9C05-30236498532D}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza H_CIRCUITO_FACT_DEB_REFACT_RANGOS_DEBITOS"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{6FDBBEF9-C4FF-4E83-BC5D-D6E8D72C6D9E}"
+          SQLTask:SqlStatementSource="&#xA;&#x9;/* Borra periodo ya cargado*/&#xA;&#x9;&#x9;DELETE FROM H_CIRCUITO_FACT_DEB_REFACT_RANGOS_DEBITOS &#xA;&#xA;&#x9;/* Inserta información del periodo a actualizar */&#xA;&#x9;&#x9;INSERT INTO H_CIRCUITO_FACT_DEB_REFACT_RANGOS_DEBITOS&#xA;&#x9;&#x9;(id_anio, id_periodo, id_acreedor, id_tipo_prestador, id_posicion_acreedor, id_compania, imp_deb_ref, imp_refacturacion, imp_fact_tot)&#xA;&#x9;&#x9;SELECT&#xA;&#x9;&#x9;&#x9;P.id_anio, &#xA;&#x9;&#x9;&#x9;R.id_periodo, &#xA;&#x9;&#x9;&#x9;R.id_acreedor, &#xA;&#x9;&#x9;&#x9;R.id_tipo_prestador, &#xA;&#x9;&#x9;&#x9;A.id_posicion_acreedor,&#xA;&#x9;&#x9;&#x9;R.id_compania,&#xA;&#x9;&#x9;&#x9;/* Total Debitos --&gt; */ (sum((Case when T.id_tipo_circuito_agrup in (3,4) then R.importe else 0 end)) - /*Refacturacion --&gt; */ sum((Case when T.id_tipo_circuito_agrup in (2) then R.importe else 0 end))) as imp_deb_ref, &#xA;&#x9;&#x9;&#x9;/* Refacturacion --&gt; */ sum((Case when T.id_tipo_circuito_agrup in (2) then R.importe else 0 end)) as imp_refacturacion, &#xA;&#x9;&#x9;&#x9;/* Facturacion Total --&gt; */ sum((Case when T.id_tipo_circuito_agrup in (1) then R.importe else 0 end)) as imp_fact_tot&#xA;&#x9;&#x9;FROM H_CIRCUITO_FACT_DEB_REFACT R&#xA;&#x9;&#x9;JOIN D_PERIODO P on R.id_periodo = P.id_periodo&#xA;&#x9;&#x9;JOIN D_ACREEDOR A on R.id_acreedor = A.id_acreedor and R.id_tipo_prestador = A.id_tipo_prestador&#xA;&#x9;&#x9;JOIN D_TIPO_CIRCUITO T on T.id_tipo_circuito = R.id_tipo_circuito&#xA;&#x9;&#x9;group by P.id_anio, R.id_periodo, R.id_acreedor, R.id_tipo_prestador, A.id_posicion_acreedor, R.id_compania&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="416,42"
+          Id="Package\Actualiza H_CIRCUITO_FACT_DEB_REFACT_RANGOS_DEBITOS"
+          TopLeft="5.5,5.5" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

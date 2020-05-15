@@ -1,0 +1,188 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="4/3/2019 11:06:49 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AMS06X"
+  DTS:CreatorName="AMS\jtrinchier"
+  DTS:DTSID="{1032E17C-5941-4846-BBEC-20C73A600C9B}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="InternacionesDiario H_VISITAS_INTERNACIONES"
+  DTS:PackageType="5"
+  DTS:VersionBuild="12"
+  DTS:VersionGUID="{5CB13C0F-50F5-42B5-9B1B-A6A01E779752}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{200F4B57-6CD7-45D5-B96E-5909DBC77BF5}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{200F4B57-6CD7-45D5-B96E-5909DBC77BF5}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza   H_VISITAS_INTERNACIONES"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{F3C9CE69-378F-4ECB-88DF-94249953DADE}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza   H_VISITAS_INTERNACIONES"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{87B3EF38-D424-4CA0-9B98-F49ED069F118}"
+          SQLTask:SqlStatementSource="-- Actualizar periodo en que realizó la visita en H_VISITAS_INTERNACIONES&#xA;update H_VISITAS_INTERNACIONES&#xA;set id_periodo_visita = dbo.DevuelvePeriodo(convert(datetime, Fecha_Realizacion))&#xA;&#xA;&#xA; /* Actualización D_USUARIO_AUDITOR */&#xA;&#xA;------ PAra H_VISITAS_INTERNACIONES &#xA;&#xA;--- Carga las id_usuario_auditor que no estan en d_usuario_auditor en una temporal&#xA;&#xA;select distinct id_usuario_auditor &#xA;into #temp_internaciones_auditor_visitas&#xA;from H_VISITAS_INTERNACIONES&#xA;where id_usuario_auditor not in (select id_usuario_auditor from D_USUARIO_AUDITOR&#xA;group by id_usuario_auditor)&#xA;&#xA;--- Insert los campos nuevos a la D_USUARIO_AUDITOR&#xA;&#xA;insert into D_USUARIO_AUDITOR  &#xA;select t.id_usuario_auditor as id_usuario_auditor , t.id_usuario_auditor as de_usuario_auditor,&#xA;' ' as id_categoria_usuario_auditor&#xA;from #temp_internaciones_auditor_visitas t&#xA;&#xA;--- Carga las id_usuario_auditor que no estan en D_USUARIO_CARGA en una temporal&#xA;&#xA;select distinct id_usuario_auditor &#xA;into #temp_internaciones_auditor_carga_visitas&#xA;from H_VISITAS_INTERNACIONES&#xA;where id_usuario_auditor not in (select id_usuario_carga from D_USUARIO_CARGA&#xA;group by id_usuario_carga)&#xA;&#xA;--- Insert los campos nuevos a la D_USUARIO_CARGA&#xA;&#xA;insert into D_USUARIO_carga &#xA;select  t.id_usuario_auditor as id_usuario_carga , t.id_usuario_auditor as de_usuario_carga,&#xA;' ' as id_categoria_usuario_carga&#xA;from #temp_internaciones_auditor_carga_visitas t" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Borra H_VISITAS_INTERNACIONES"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{4F62B8D9-9DAC-483F-B0C6-4405E34B75F0}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Borra H_VISITAS_INTERNACIONES"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{87B3EF38-D424-4CA0-9B98-F49ED069F118}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE [DW_SALUD].[dbo].[H_VISITAS_INTERNACIONES]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Insert  H_VISITAS_INTERNACIONES"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{1EEEFD5D-9506-45A5-B663-42179382C6EE}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Insert  H_VISITAS_INTERNACIONES"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{87B3EF38-D424-4CA0-9B98-F49ED069F118}"
+          SQLTask:SqlStatementSource="INSERT INTO [DW_SALUD].[dbo].[H_VISITAS_INTERNACIONES]&#xA;           ([id_posicion_no_facturador]&#xA;           ,[pedido]&#xA;           ,[secuencia]&#xA;           ,[cant_visitas]&#xA;           ,[id_tipo_visita]&#xA;           ,[Id_Usuario_Auditor]&#xA;           ,[posicion_auditor]&#xA;           ,[Fecha_Realizacion]&#xA;           ,[hora_realizacion]&#xA;           ,[observaciones_visita]&#xA;           ,[cant_practicas_autorizadas]&#xA;           ,[cant_practicas_rechazadas]&#xA;           ,[nro_orden]&#xA;           ,[fecha_proxima_visita]&#xA;&#x9;&#x9;   ,[id_tipo_auditoria_visita])&#xA;Select W14POS as id_posicion_no_facturador, W14PED as pedido, W14SEC as secuencia, 1 as cant_visitas , W14TIP as id_tipo_visita, W14COD as Id_Usuario_Auditor, W14POR as posicion_auditor , case isdate(W14FRA) WHEN 1 THEN convert(datetime, cast(W14FRA as char(8)),103) WHEN 0 THEN '1900-01-01' END as Fecha_Realizacion, W14HRA as hora_realizacion, W14OBS as observaciones_visita, W14PRA as cant_practicas_autorizadas, W14PRR as cant_practicas_rechazadas, OW1NOR as nro_orden, case isdate(W14FPV) WHEN 1 THEN convert(datetime, cast(W14FPV as char(8)),103) WHEN 0 THEN NULL END as fecha_proxima_visita, W14AUD as id_tipo_auditoria_visita &#xA;FROM [HOST03].[HOST03].[DWHSMPD].[AVISITA] " xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{E1B13F68-3D4A-44D6-B2A8-BB647AA2F4B1}"
+      DTS:From="Package\Borra H_VISITAS_INTERNACIONES"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Insert  H_VISITAS_INTERNACIONES" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{19EF281B-DE11-46BE-8CAC-82A7B2CA44CE}"
+      DTS:From="Package\Insert  H_VISITAS_INTERNACIONES"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Actualiza   H_VISITAS_INTERNACIONES" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="285,42"
+          Id="Package\Actualiza   H_VISITAS_INTERNACIONES"
+          TopLeft="5.5,156.707547169811" />
+        <NodeLayout
+          Size="262,42"
+          Id="Package\Borra H_VISITAS_INTERNACIONES"
+          TopLeft="16.4056603773585,5.5" />
+        <NodeLayout
+          Size="265,42"
+          Id="Package\Insert  H_VISITAS_INTERNACIONES"
+          TopLeft="13.9528301886792,81.1037735849055" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="146.929245283019,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,33.6037735849055"
+              Start="0,0"
+              End="0,26.1037735849055">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26.1037735849055" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="147.22641509434,123.103773584905">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,33.6037735849055"
+              Start="0,0"
+              End="0,26.1037735849055">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26.1037735849055" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

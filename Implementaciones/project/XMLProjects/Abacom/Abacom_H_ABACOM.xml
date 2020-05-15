@@ -1,0 +1,250 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="10/7/2019 10:48:15 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="DA13540-XXXXX-R"
+  DTS:CreatorName="AMS\mpaludi"
+  DTS:DTSID="{A5E30EDC-064C-43E3-BC05-22BF41931D09}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="Abacom_H_ABACOM"
+  DTS:PackageType="5"
+  DTS:VersionBuild="16"
+  DTS:VersionGUID="{79E9EDF8-6824-4633-AA32-D8F7473F9C10}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{C99FE2CC-596A-42E1-8D79-FBF0298B9203}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">1,7,OnError</DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnError"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{C99FE2CC-596A-42E1-8D79-FBF0298B9203}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Borra AUX_H_ABACOM"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tarea Ejecutar SQL"
+      DTS:DTSID="{3b1f4d6c-9bbb-430c-a168-afd6c5f11fe7}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Borra AUX_H_ABACOM"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{653D754F-117E-4727-B0A2-62F041E7F62F}"
+          SQLTask:SqlStatementSource="truncate table [AUX_H_ABACOM]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Carga AUX_H_ABACOM"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tarea Ejecutar SQL"
+      DTS:DTSID="{DC1DBC29-BEF4-430A-9738-D89D26369BA6}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Carga AUX_H_ABACOM"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{653D754F-117E-4727-B0A2-62F041E7F62F}"
+          SQLTask:SqlStatementSource="&#xA;DECLARE @fechadesde date,&#xA;&#x9;&#x9;&#xA;@fechahasta date,&#xA;&#x9;&#x9;&#xA;@fechadesdev varchar(20),&#xA;&#x9;&#x9;&#xA;@fechahastav varchar(20),&#xA;&#x9;&#x9;&#xA;@OPENQUERY nvarchar(4000),&#xA;&#x9;&#x9;&#xA;@TSQL nvarchar(4000), &#xA;&#x9;&#x9;&#xA;@Servidor nvarchar(4000),&#xA;&#x9;&#x9;&#xA;@Query nvarchar(4000)&#xA;&#x9;&#x9;&#xA;SET @fechadesde = (SELECT DATEADD(s,0,DATEADD(mm, DATEDIFF(m,0,DATEADD(mm,-13,getdate())),0)))&#xA;&#x9;&#x9;&#xA;SET @fechahasta = (SELECT DATEADD(s,-1,DATEADD(mm, DATEDIFF(m,0,GETDATE())+1,0)))&#xA;&#x9;&#x9;&#xA;SET @fechadesdev = cast(@fechadesde as varchar)&#xA;&#x9;&#x9;&#xA;SET @fechahastav = cast(@fechahasta as varchar)&#xA;&#xA;&#xA;&#x9;&#x9;&#xA;SET @Servidor = 'HOST03'  &#xA;&#x9;&#x9;&#xA;SET @OPENQUERY = '  INSERT INTO [AUX_H_ABACOM]&#xA;&#x9;&#x9; SELECT dbo.devuelveperiodo(FECHA_ESTADO) as id_periodo,&#xA;&#x9;&#x9;0 as id_periodo_produccion,&#xA;&#x9;&#x9;id as [id_orden_renglon],&#xA;&#x9;&#x9;FICHA_ESTADO_ID as [id_estado_fichas_abacom],&#xA;&#x9;&#x9;0 as id_estado_ficha_final,&#xA;&#x9;&#x9;ID_FICHA as id_ficha_abacom,&#xA;&#x9;&#x9;FECHA_ESTADO as fecha_inicio_estado,&#xA;&#x9;&#x9;cast(null as datetime)as fecha_fin_estado,&#xA;&#x9;&#x9;NRO_ENTIDAD as nro_entidad,&#xA;&#x9;&#x9;NRO_PROMOTOR as id_promotor,&#xA;&#x9;&#x9;NRO_SOLICITUD as id_ficha_trazabilidad,&#xA;&#x9;&#x9;cast(null as int) as id_persona,&#xA;&#x9;&#x9;0 as id_marca_ficha_finalizada,&#xA;&#x9;&#x9;0 as id_sector,&#xA;&#x9;&#x9;0 as tiempo_estado_dias,&#xA;&#x9;&#x9;0 as id_siguiente,&#xA;&#x9;&#x9;1 as cant_estados,&#xA;&#x9;&#x9;0 as contar_ind_abacom,&#xA;&#x9;&#x9;cast(null as int) as afiliado,&#xA;&#x9;&#x9;cast(null as int)  as marca_baja,&#xA;&#x9;&#x9;0 as marca_repetido,&#xA;&#x9;&#x9;USUARIO&#xA;&#x9;&#x9;from openquery('+ @Servidor + ',''' &#xA;&#x9;&#x9;SET @TSQL = 'SELECT DISTINCT fm.id AS &quot;ID&quot;,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;fm.FICHA_ESTADO_ID as FICHA_ESTADO_ID,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;fm.FICHA_ID AS &quot;ID_FICHA&quot;,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;fm.FECHA_ESTADO AS &quot;FECHA_ESTADO&quot;,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;f.ENTIDAD_NUMERO AS &quot;NRO_ENTIDAD&quot;,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;f.PROMOTOR_ID AS &quot;NRO_PROMOTOR&quot;,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;f.SOLICITUD_NUMERO AS &quot;NRO_SOLICITUD&quot;,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;fm.usuario_id as USUARIO&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;FROM ASOCIADO.FICHAS_MOVIMIENTOS fm&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;JOIN ASOCIADO.FICHAS f ON fm.FICHA_ID = f.ID&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;INNER JOIN asociados.POTENCIALES p ON fm.FICHA_ID = p.FICHA_ID&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHERE  fm.FECHA_ESTADO BETWEEN  '''''+@fechadesdev+''''' AND '''''+@fechahastav+''''' and  p.ELIMINADO = ''''N''''&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;group by fm.id,fm.FICHA_ESTADO_ID,fm.FICHA_ID ,fm.FECHA_ESTADO,f.ENTIDAD_NUMERO,f.PROMOTOR_ID,f.SOLICITUD_NUMERO,fm.usuario_id '')'&#xA;&#x9;&#x9;SET @Query = @OPENQUERY+@TSQL&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;&#xA;&#xA;&#xA;Exec (@Query)&#xA;&#xA;&#xA;-- Busca y pega el id que contenga el proximo estado&#xA;update [AUX_H_ABACOM]&#xA;set [id_siguiente] = a.proximo_id&#xA;from [AUX_H_ABACOM] c &#xA;&#x9;inner join (select ca.[id_orden_renglon], min(cd.[id_orden_renglon]) proximo_id  from [AUX_H_ABACOM] ca&#xA;&#x9;&#x9;&#x9;inner join [AUX_H_ABACOM]  cd&#xA;&#x9;&#x9;&#x9;&#x9;on ca.id_ficha_abacom = cd.id_ficha_abacom and ca.[id_orden_renglon] &lt; cd.[id_orden_renglon] and ca.[id_estado_fichas_abacom] &lt;&gt; cd.[id_estado_fichas_abacom] &#xA;&#x9;&#x9;&#x9;&#x9;group by ca.[id_orden_renglon]) A &#xA;&#x9;on A.[id_orden_renglon] = c.[id_orden_renglon]&#xA;&#x9;&#xA;-- A travez del proximo id setea la fecha fin y el estado al que cambion&#xA;update c&#xA;set [fecha_fin_estado] = c1.[fecha_inicio_estado],&#xA;&#x9;[id_estado_ficha_final] = c1.[id_estado_fichas_abacom]&#xA;from [AUX_H_ABACOM] c &#xA;inner join [AUX_H_ABACOM] c1 on c1.[id_orden_renglon] = c.[id_siguiente]&#xA;&#xA;-- Elimino aquellos casos en los que se repite el mismo estado sobre todos los 1&#xA;-- Compara que todos los renglones esten en el siguiente osea que algun renglon sea el previo o que sea el primer paso&#xA;delete from [AUX_H_ABACOM] where [id_orden_renglon] not in ((select distinct [id_siguiente] from [AUX_H_ABACOM]) union  (select min([id_orden_renglon]) from [AUX_H_ABACOM] group by id_ficha_abacom) union (select max([id_orden_renglon]) from [AUX_H_ABACOM] group by id_ficha_abacom) )&#xA;&#xA;-- Para los estado ultimos pone estado por defecto&#xA;update [AUX_H_ABACOM]&#xA;set [fecha_fin_estado] = [fecha_inicio_estado],&#xA;&#x9;[id_estado_ficha_final] = 999&#xA;from [AUX_H_ABACOM] c &#xA;where c.[id_estado_ficha_final]= 0&#xA;&#xA;&#xA;update [AUX_H_ABACOM]&#xA;set  [tiempo_estado_dias] = dbo.diashabiles([fecha_inicio_estado],[fecha_fin_estado]) &#xA;from [AUX_H_ABACOM]&#xA;&#xA;&#xA;-- Para los indicadores de abacom se desea contar cuando el estado actual es 5 y el proximo esta en (3,4)&#xA;update [AUX_H_ABACOM]&#xA;set contar_ind_abacom = 1&#xA;where  [id_estado_fichas_abacom] = 5 and [id_estado_ficha_final] in (3,4)&#xA;&#xA;--- Calcula el periodo produccion y replica luego para toda la ficha&#xA;&#xA;update [AUX_H_ABACOM]&#xA;set id_periodo_produccion = d.id_periodo_produccion&#xA;from [AUX_H_ABACOM] H inner join D_PERIODO_PRODUCCION_FECHAS D  on h.[fecha_inicio_estado] between fecha_inicio_produccion and fecha_fin_produccion&#xA;&#x9;&#xA;&#xA;update [AUX_H_ABACOM]&#xA;set id_periodo_produccion =  h.id_periodo_produccion&#xA;from [AUX_H_ABACOM] a&#xA; inner join h_trazabilidad_fichas h on a.id_ficha_trazabilidad = h.id_ficha&#xA; where a.id_periodo_produccion = 0 &#xA;&#xA; -- Guardo en una auxioliar las cuentas&#xA;select * into #cuentas from&#xA;openquery ( host03, 'select * from ASOCIADO.CUENTAS ')&#xA;&#xA;-- Le pego persona y afiliado a aquellas fichas que han sido creadas&#xA;update [AUX_H_ABACOM]&#xA;set afiliado = c.id,&#xA;&#x9;id_persona = c.PERSONA_TITULAR_NUMERO&#xA;from [AUX_H_ABACOM] A&#xA;inner join #cuentas c on c.ficha_id_alta = A.id_ficha_abacom &#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Carga H_ABACOM"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tarea Ejecutar SQL"
+      DTS:DTSID="{ced60674-0285-49ce-8973-ef8abbc24326}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Carga H_ABACOM"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{653D754F-117E-4727-B0A2-62F041E7F62F}"
+          SQLTask:SqlStatementSource="declare @periodo int = (select dbo.PeriodosAnteriores(max(id_periodo),14) from H_ABACOM)&#xA;&#xA;-- Borra 13 meses&#xA;delete from h_abacom where id_periodo_produccion &gt;= @periodo &#xA;&#xA;insert into H_ABACOM&#xA;select id_periodo,&#xA;&#x9;   id_periodo_produccion,&#xA;&#x9;   id_orden_renglon,&#xA;&#x9;   id_estado_fichas_abacom,&#xA;&#x9;   id_estado_ficha_final,&#xA;&#x9;   id_ficha_abacom,&#xA;&#x9;   fecha_inicio_estado,&#xA;&#x9;   fecha_fin_estado,&#xA;&#x9;   isnull(id_promotor,0),&#xA;&#x9;   isnull(id_ficha_trazabilidad,0),&#xA;&#x9;   isnull(afiliado,0),&#xA;&#x9;   isnull(id_persona,0),&#xA;&#x9;   tiempo_estado_dias,&#xA;&#x9;   0 as id_sector_interveniente_abacom,&#xA;&#x9;   1 as cant_intervenciones_ficha_abacom,&#xA;&#x9;   0 as id_marca_baja_cuenta,&#xA;&#x9;   0 as id_jefe_equipo,&#xA;&#x9;   0 as id_supervisor,&#xA;&#x9;   0 as id_zona_comercial_promotor,&#xA;&#x9;   null as id_asesor_superior_cascada_comercial,&#xA;&#x9;   null as id_tipo_puesto_superior_cascada_comercial,&#xA;&#x9;   99 as id_gerente_zonal,&#xA;&#x9;   99 as id_gerente_regional,&#xA;&#x9;   null as id_asesor_gerente_zonal,&#xA;&#x9;   null as id_tipo_puesto_gerente_zonal,&#xA;&#x9;   null as id_asesor_gerente_regional,&#xA;&#x9;   null as id_tipo_puesto_gerente_regional,&#xA;&#x9;   null as id_asesor_lider_cascada_comercial,&#xA;&#x9;   null as id_tipo_puesto_asesor_lider_cascada_comercial,&#xA;&#x9;   0 as id_rango,&#xA;&#x9;  0 as cant_intervenciones_ficha_abacom_productividad,&#xA;&#x9; id_usuario_abacom&#xA;&#x9;   from aux_H_ABACOM&#xA;&#x9;   where id_periodo_produccion &gt;= @periodo &#xA;&#xA;--- Actualizar campo de supervisor&#xA;&#xA;update H_ABACOM&#xA;set id_asesor_superior_cascada_comercial =  ca.id_asesor_superior_cascada_comercial, &#xA; id_tipo_puesto_superior_cascada_comercial = ca.id_tipo_puesto_superior_cascada_comercial&#xA;from H_ABACOM tr&#xA;inner join H_CASCADA_COMERCIAL ca on (tr.id_promotor = ca.id_asesor_cascada_comercial and &#xA;tr.id_periodo_produccion = ca.id_periodo)&#xA;where id_periodo_produccion &gt; = @Periodo&#xA;&#xA;--- inicializo el gerente zonal &#xA;&#xA;update H_ABACOM&#xA;set id_asesor_gerente_zonal =  0, &#xA; id_tipo_puesto_gerente_zonal = 0&#xA; where id_periodo_produccion &gt; = @Periodo&#xA; &#xA;--- Me fijo si ese supervisor es Gerente Zonal y lo asigno a su campo&#xA;&#xA;&#xA;&#xA;&#xA;update H_ABACOM&#xA;set id_asesor_gerente_zonal = id_asesor_superior_cascada_comercial,&#xA;&#x9;id_tipo_puesto_gerente_zonal = id_tipo_puesto_superior_cascada_comercial, &#xA;&#x9;id_tipo_puesto_superior_cascada_comercial = 0,&#xA;&#x9;id_asesor_superior_cascada_comercial = 0&#xA;where id_tipo_puesto_superior_cascada_comercial = 5 and id_periodo_produccion &gt; = @Periodo&#xA;&#xA;--- Me fijo si ese supervisor es Asesor Lider y lo asigno a su campo &#xA;&#xA;update H_ABACOM&#xA;set id_asesor_lider_cascada_comercial = id_asesor_superior_cascada_comercial,&#xA;&#x9;id_tipo_puesto_asesor_lider_cascada_comercial = id_tipo_puesto_superior_cascada_comercial, &#xA;&#x9;id_tipo_puesto_superior_cascada_comercial = 0,&#xA;&#x9;id_asesor_superior_cascada_comercial = 0&#xA;where id_tipo_puesto_superior_cascada_comercial = 2 and id_periodo_produccion &gt; = @Periodo&#xA;&#xA;--- Actualizar si es asesor lider su supervisor &#xA;&#xA;update H_ABACOM&#xA;set id_asesor_superior_cascada_comercial =  ca.id_asesor_superior_cascada_comercial, &#xA; id_tipo_puesto_superior_cascada_comercial = ca.id_tipo_puesto_superior_cascada_comercial&#xA;from H_ABACOM tr&#xA;inner join H_CASCADA_COMERCIAL ca on (tr.id_asesor_lider_cascada_comercial = ca.id_asesor_cascada_comercial&#xA;and tr.id_periodo_produccion = ca.id_periodo)&#xA;where id_periodo_produccion &gt; = @Periodo and id_tipo_puesto_asesor_lider_cascada_comercial = 2&#xA;&#xA;update H_ABACOM &#xA;set id_supervisor = id_asesor_superior_cascada_comercial&#xA;where id_periodo_produccion &gt; = @Periodo and id_asesor_superior_cascada_comercial is not null&#xA;&#xA;&#xA;--- Actualizar campo de gerente zonal &#xA;&#xA;update H_ABACOM&#xA;set id_asesor_gerente_zonal =  ca.id_asesor_superior_cascada_comercial, &#xA; id_tipo_puesto_gerente_zonal = ca.id_tipo_puesto_superior_cascada_comercial&#xA;from H_ABACOM tr&#xA;inner join H_CASCADA_COMERCIAL ca on (tr.id_supervisor = ca.id_asesor_cascada_comercial and tr.id_periodo_produccion = ca.id_periodo)&#xA;where id_periodo_produccion &gt; = @Periodo&#xA;&#xA;update H_ABACOM&#xA;set id_gerente_zonal = gz.id_gerente_zonal&#xA;from H_ABACOM tr &#xA;inner join D_GERENTE_ZONAL gz on (gz.id_asesor_cascada_comercial = tr.id_asesor_gerente_zonal)&#xA;where id_periodo_produccion &gt; = @Periodo&#xA;&#xA;update H_ABACOM&#xA;set id_gerente_zonal = 99&#xA;where id_gerente_zonal is null and id_periodo_produccion &gt; = @Periodo&#xA;&#xA;--- Actualizar campo de gerente regional&#xA;&#xA;update H_ABACOM&#xA;set id_asesor_gerente_regional =  ca.id_asesor_superior_cascada_comercial, &#xA; id_tipo_puesto_gerente_regional = ca.id_tipo_puesto_superior_cascada_comercial&#xA;from H_ABACOM tr&#xA;inner join H_CASCADA_COMERCIAL ca on (tr.id_asesor_gerente_zonal = ca.id_asesor_cascada_comercial and tr.id_periodo_produccion = ca.id_periodo)&#xA;where id_periodo_produccion &gt; = @Periodo&#xA;&#xA;update H_ABACOM&#xA;set id_gerente_regional = gz.id_gerente_regional&#xA;from H_ABACOM tr &#xA;inner join D_GERENTE_REGIONAL gz on (gz.id_asesor_cascada_comercial = tr.id_asesor_gerente_regional)&#xA;where id_periodo_produccion &gt; = @Periodo&#xA;&#xA;update H_ABACOM&#xA;set id_gerente_regional = 99&#xA;where id_gerente_regional is null and id_periodo_produccion &gt; = @Periodo&#xA;&#xA;--- Casos especiales&#xA;&#xA;update H_ABACOM&#xA;set id_supervisor = 510&#xA;where id_periodo_produccion &gt; = @Periodo &#xA;and id_asesor_superior_cascada_comercial = 0 and id_promotor = 513&#xA;&#xA;&#xA;update H_ABACOM &#xA;set id_supervisor = id_promotor,&#xA;id_asesor_superior_cascada_Comercial = id_promotor,&#xA;id_tipo_puesto_superior_cascada_comercial = 3&#xA;where id_promotor in (5004, 5042)&#xA;and id_periodo_produccion &gt; = @Periodo&#xA;&#xA;&#xA;&#xA;&#xA;--- Actualizar campo de supervisor &#xA;&#xA;update H_ABACOM&#xA;set id_zona_comercial_promotor = ca.id_zona_comercial_promotor&#xA;from H_ABACOM tr&#xA;inner join H_CASCADA_COMERCIAL ca on (tr.id_promotor = ca.id_asesor_cascada_comercial and &#xA;tr.id_periodo_produccion = ca.id_periodo)&#xA;where id_periodo_produccion &gt; = @Periodo&#xA;&#xA;&#xA;&#xA;update h_abacom&#xA;set [id_rango_dias_intevencion_abacom] = case when tiempo_estado_dias = 0 then 1&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; when tiempo_estado_dias = 1 then 2&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  when tiempo_estado_dias = 2 then 3&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;   when tiempo_estado_dias = 3 then 4&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;    when tiempo_estado_dias = 4 then 5&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; when tiempo_estado_dias = 5 then 6&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; when tiempo_estado_dias &gt;= 6 then 7 end&#xA;&#xA;where id_periodo_produccion &gt; = @Periodo&#xA;&#xA;&#xA;-- Toda la historia de alloco pasa a benzaquin definicion de afiliaciones &#xA;update H_ABACOM&#xA;set id_gerente_zonal = 14, -- benzaquin&#xA;&#x9;id_asesor_gerente_zonal = 2823&#xA;where id_gerente_zonal = 2 -- alloco&#xA;&#xA;&#xA;&#x9;update H_ABACOM&#xA;&#x9;set cant_intervenciones_ficha_abacom_productividad = 1&#xA;&#x9;from H_ABACOM h inner join D_PERIODO_PRODUCCION_FECHAS &#xA;&#x9;on h.fecha_inicio_estado_abacom between fecha_inicio_produccion and fecha_fin_produccion &#xA;&#x9;and h.fecha_fin_estado_abacom between fecha_inicio_produccion and fecha_fin_produccion&#xA;&#x9;&#xA;&#xA;&#x9;&#x9;&#xA;-- Se busca el maximo paso por cada ficha en los estados de estudio&#xA;select id_ficha_abacom , max(id_orden_renglon) orden_renglon, 0 as id_usuario&#xA;into #temp_usuarios&#xA;from H_ABACOM where  id_estado_fichas_abacom in (3,4,5)&#xA;group by id_ficha_abacom&#xA;-- Para estos maximos casos se busca el usuario correspondiente&#xA;update #temp_usuarios&#xA;set id_usuario = id_usuario_abacom&#xA;from #temp_usuarios t inner join&#xA;h_abacom h on t.id_ficha_abacom = h.id_ficha_abacom and t.orden_renglon = h.id_orden_renglon&#xA;-- Se actualiza para todas las fichas el usuario correspondiente al ultimo paso que intervino afiliaciones&#xA;&#xA;update H_ABACOM&#xA;set id_usuario_abacom = id_usuario&#xA;from #temp_usuarios t inner join&#xA;h_abacom h on t.id_ficha_abacom = h.id_ficha_abacom &#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Cargar periodo Produccion"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tarea Ejecutar SQL"
+      DTS:DTSID="{B0F912EE-35B9-4D3F-B5F1-968C23DA2C86}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Cargar periodo Produccion"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{653D754F-117E-4727-B0A2-62F041E7F62F}"
+          SQLTask:SqlStatementSource="Declare @periodo int = (select max (id_periodo_produccion) from D_PERIODO_PRODUCCION_FECHAS)&#xA;declare @periodoas int = (select perpro from  as400.host03.dwhsmpd.dfecpro)&#xA;declare @dia as datetime = dateadd(month,1,getdate())&#xA;declare @dia_final as datetime = (select cast(dateadd(dd,-(DAY(@dia )),DATEADD(mm,1,@dia ))as datetime) ) -- Setea el ultimo dia del mes siguiente ya que no se sabe la fecha que cierra produccion, cuando termina si se setea&#xA;&#xA;&#xA;insert into D_PERIODO_PRODUCCION_FECHAS&#xA;select perpro, cast(fecdpr as nvarchar),@dia_final from as400.host03.dwhsmpd.dfecpro&#xA;where @periodo &lt;&gt; @periodoas&#xA;&#xA;-- Se setea la fecha fin del periodo anterior qeu habiamos seteado por defecto en el ultimo mes&#xA;update D_PERIODO_PRODUCCION_FECHAS&#xA;set fecha_fin_produccion = cast(cast(fecdpr as varchar) as datetime) - 1&#xA;from as400.host03.dwhsmpd.dfecpro&#xA;where id_periodo_produccion = @periodo&#xA;and @periodo &lt;&gt; @periodoas&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Restricción]"
+      DTS:CreationName=""
+      DTS:DTSID="{4FCC1427-F3A9-48B7-BB0F-1207DB5B6FAD}"
+      DTS:From="Package\Cargar periodo Produccion"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Restricción"
+      DTS:To="Package\Borra AUX_H_ABACOM" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Restricción 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{A4CB9117-A533-4E3A-B9DB-12F4A47AC0F8}"
+      DTS:From="Package\Borra AUX_H_ABACOM"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Restricción 1"
+      DTS:To="Package\Carga AUX_H_ABACOM" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Restricción 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{A03F97E5-7D95-4386-A23A-0B62EB6EBE5D}"
+      DTS:From="Package\Carga AUX_H_ABACOM"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Restricción 2"
+      DTS:To="Package\Carga H_ABACOM" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--Esta sección CDATA contiene la información de diseño del paquete. Esta sección incluye información como, por ejemplo, las coordenadas (x,y), el ancho y el alto.-->
+<!--Si edita manualmente esta sección y comete un error, puede eliminarlo. -->
+<!--El paquete podrá cargarse normalmente, pero se perderá la información de diseño anterior y el diseñador reorganizará los elementos automáticamente en la superficie de diseño.-->
+<Objects
+  Version="8">
+  <!--Cada uno de los nodos siguientes contiene propiedades que no afectan al comportamiento en tiempo de ejecución.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="199,42"
+          Id="Package\Borra AUX_H_ABACOM"
+          TopLeft="217,120" />
+        <NodeLayout
+          Size="202,42"
+          Id="Package\Carga AUX_H_ABACOM"
+          TopLeft="210,209" />
+        <NodeLayout
+          Size="174,42"
+          Id="Package\Carga H_ABACOM"
+          TopLeft="228,295" />
+        <NodeLayout
+          Size="210,42"
+          Id="Package\Cargar periodo Produccion"
+          TopLeft="204,22" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Restricción]"
+          TopLeft="312.75,64">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,56"
+              Start="0,0"
+              End="0,48.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,48.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Restricción 1]"
+          TopLeft="313.75,162">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,47"
+              Start="0,0"
+              End="0,39.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,39.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Restricción 2]"
+          TopLeft="316,251">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,44"
+              Start="0,0"
+              End="0,36.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,36.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

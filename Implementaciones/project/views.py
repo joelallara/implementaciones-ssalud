@@ -1,3 +1,4 @@
+import json
 from django.views.generic import ListView, View
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
@@ -5,14 +6,13 @@ from django.forms.models import model_to_dict
 from django.urls import reverse_lazy
 
 from .buscadorSSIS import get_projects_data
-from project.models import Project, Package
+from project.models import Project, Package, Task
 
 
 class ProjectsPageView(ListView):
     template_name = "project/projects.html"
     queryset = Project.projects.all()
     context_object_name = 'projects'
-    paginate_by = 10
 
 
 class GetProjectsJsonList(View):
@@ -40,7 +40,6 @@ class PackageTasksView(View):
     def get(self, request, package_pk):
         package = get_object_or_404(Package, pk=package_pk)
         tasks = package.tasks.all()
-        print(tasks)
         data = dict()
         data['tasks'] = [model_to_dict(task) for task in tasks]
         if not data['tasks']:
@@ -49,6 +48,18 @@ class PackageTasksView(View):
 
 
 def update_projects_info(request):
-    projects = get_projects_data()
-    print(projects)
-    return redirect(reverse_lazy('project:list'))
+    try:
+        projects_json = get_projects_data()
+        projects_dict = json.loads(projects_json)
+        for project in projects_dict:
+            project_name = project["project_name"]
+            project_instance, created_project = Project.projects.get_or_create(project_name=project_name)
+            for package in project["packages"]:
+                package_name = package["package_name"]
+                package_instance, created_package = Package.objects.get_or_create(project=project_instance, package_name=package_name)
+                for task in package["tasks"]:
+                    task_name = task["task_name"]
+                    Task.objects.get_or_create(package=package_instance, task_name=task_name)
+        return redirect(reverse_lazy('project:list') + '?ok')
+    except TypeError as e:
+        return redirect(reverse_lazy('project:list') + '?error')

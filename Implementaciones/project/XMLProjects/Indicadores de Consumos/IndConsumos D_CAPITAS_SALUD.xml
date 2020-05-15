@@ -1,0 +1,156 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="7/6/2015 9:33:21 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="DES2921"
+  DTS:CreatorName="AMS\pgonzalez"
+  DTS:DTSID="{5C18D850-844C-49D5-ADF9-F33FCAC4C1DA}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="3082"
+  DTS:ObjectName="IndConsumos D_CAPITAS_SALUD"
+  DTS:PackageType="5"
+  DTS:VersionBuild="43"
+  DTS:VersionGUID="{8ACE57BC-15DC-48F5-B63D-C32AA05FB7B7}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{A412279B-7B48-4C4E-AC00-5B4813103C47}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">1,7,OnError</DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnError"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{A412279B-7B48-4C4E-AC00-5B4813103C47}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Actualizar D_CAPITAS_SALUD"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tarea Ejecutar SQL"
+      DTS:DTSID="{5FFAEB21-C3D8-4A01-9FB6-418FBA18A23D}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualizar D_CAPITAS_SALUD"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{A3223EA0-900E-4B20-A33F-FDC7A3B40426}"
+          SQLTask:SqlStatementSource="&#xA;&#xA;/* Actualiza Tabla D_CAPITAS_SALUD */&#xA;&#x9;INSERT INTO DW_SALUD.dbo.D_CAPITAS_SALUD &#xA;&#x9;(id_capita, de_capita, id_acreedor, id_tipo_prestador, capita_internacion, Fecha_Vigencia_Desde, Fecha_Vigencia_Hasta, id_entidad_capita, id_capita_salud, id_capita_os)&#xA;&#x9;select ID as id_capita, DESCRIPCION as de_capita, PRESTADORES_ID as id_acreedor, 'P' as id_tipo_prestador, 'XX' as capita_internacion, CONVERT(CHAR(8),VIG_DESDE,112) as Fecha_Vigencia_Desde, CONVERT(CHAR(8),VIG_HASTA,112) as Fecha_Vigencia_Hasta, 0 as id_entidad_capita, 0 as id_capita_salud , 0 as id_capita_os&#xA;&#x9;from HOST03.HOST03.PADRONES.GENERADORES &#xA;&#x9;where GENERADORES_TIPOS_ID = 1 /* Define que solo sean Capitas, no Padrones */ and&#xA;&#x9;ID not in (select id_capita from DW_SALUD.dbo.D_CAPITAS_SALUD) /* Deben ser Capitas que no esten ya cargadas */&#xA;&#xA;&#xA;&#x9;-- Actualiza Campo fecha_vigencia_hasta D_CAPITAS_SALUD.&#xA;&#xA;&#x9;&#x9;UPDATE DW_SALUD.dbo.D_CAPITAS_SALUD set fecha_vigencia_hasta = 0 where fecha_vigencia_hasta is null&#x9;&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;-- Actualiza la fecha de baja en D_CAPITAS_SALUD desde PADRONES.GENERADORES.&#xA;&#x9;&#x9;UPDATE DW_SALUD.dbo.D_CAPITAS_SALUD set fecha_vigencia_hasta =  IsNull(CAST(dbo.DevuelvePeriodo(VIG_HASTA) as CHAR(6))+'01',0)&#xA;&#x9;&#x9;FROM HOST03.HOST03.PADRONES.GENERADORES C&#xA;&#x9;&#x9;JOIN DW_SALUD.dbo.D_CAPITAS_SALUD CS on CS.id_capita = C.ID&#xA;&#xA;&#x9;&#x9;-- Actualiza la fecha de baja en D_CAPITAS_SALUD desde SMPLIBD.TC1FCAP. Se actualiza también desde aquí ya que manejan erroneamente las dos tablas para actualizar el campo.&#xA;&#x9;&#x9;UPDATE DW_SALUD.dbo.D_CAPITAS_SALUD set fecha_vigencia_hasta = IsNull(TC1FVH,0)&#xA;&#x9;&#x9;FROM HOST03.HOST03.SMPLIBD.TC1FCAP C&#xA;&#x9;&#x9;JOIN DW_SALUD.dbo.D_CAPITAS_SALUD CS on CS.id_capita = C.TC1CAP    &#xA;&#x9;&#x9;where CS.fecha_vigencia_hasta = 0 and TC1FVH &lt;&gt; 0&#xA;    &#xA;&#xA;&#x9;-- Mas allá que no se usa mas esta tabla se sigue actualizando y estos campos se pueden tomar.&#x9;&#xA;&#x9;UPDATE DW_SALUD.dbo.D_CAPITAS_SALUD set id_acreedor = TC1NPR, id_prestacion = TC1NOM+TC1PRE&#xA;&#x9;FROM HOST03.HOST03.SMPLIBD.TC1FCAP C&#xA;&#x9;JOIN DW_SALUD.dbo.D_CAPITAS_SALUD CS on CS.id_capita = C.TC1CAP&#x9;&#xA;&#x9;&#xA;&#x9;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Envio de NOTIFICACIONES"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{738692F4-9EA3-4C21-B143-601557C6FBE0}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Envio de NOTIFICACIONES"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{A3223EA0-900E-4B20-A33F-FDC7A3B40426}"
+          SQLTask:SqlStatementSource="&#xA;&#xA;IF (SELECT COUNT(distinct TC1CAP)&#xA;&#x9;FROM HOST03.HOST03.SMPLIBD.TC1FCAP where&#xA;&#x9;TC1FVH = 0  and&#xA;&#x9;TC1COP in ('C')  and&#xA;&#x9;TC1CAP not in (select id_capita from D_CAPITAS_SALUD)) &gt; 0&#xA;&#xA;BEGIN &#xA;&#xA;&#x9;EXEC msdb.dbo.sp_send_dbmail&#xA;&#x9;&#x9;&#x9;&#x9;@profile_name = 'Soporte MicroStrategy',&#xA;&#x9;&#x9;&#x9;&#x9;@recipients = 'nicolas.borio@sancorsalud.com.ar; nicolas.prida@sancorsalud.com.ar; juanfrancisco.trinchieri@sancorsalud.com.ar; liliana.alassia@sancorsalud.com.ar ',&#xA;&#x9;&#x9;&#x9;&#x9;@subject = 'Control Nuevas Capitas',&#xA;&#x9;&#x9;&#x9;&#x9;@body = 'Se encontraron Nuevas Capitas. En la siguiente lista podemos observar las nuevas capitas encontradas:&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;   ',&#xA;&#x9;&#x9;&#x9;&#x9;@file_attachments = '',&#xA;&#x9;&#x9;&#x9;&#x9;@query = 'SELECT *&#xA;&#x9;FROM HOST03.HOST03.SMPLIBD.TC1FCAP where&#xA;&#x9;TC1FVH = 0 and&#xA;&#x9;TC1COP in (''C'') and&#xA;&#x9;TC1CAP not in (select id_capita from D_CAPITAS_SALUD)',&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;@query_result_separator = '|',&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;@execute_query_database = 'DW_SALUD';&#xA;&#x9;&#x9;&#x9;&#x9;&#xA;&#x9;end&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{6087D592-04ED-4293-9F58-7D0EBD4D0C02}"
+      DTS:From="Package\Envio de NOTIFICACIONES"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Actualizar D_CAPITAS_SALUD" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="234,42"
+          Id="Package\Actualizar D_CAPITAS_SALUD"
+          TopLeft="4.87735849056604,77.3867924528302" />
+        <NodeLayout
+          Size="218,42"
+          Id="Package\Envio de NOTIFICACIONES"
+          TopLeft="12.877358490566,5.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="121.877358490566,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,29.8867924528302"
+              Start="0,0"
+              End="0,22.3867924528302">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,22.3867924528302" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

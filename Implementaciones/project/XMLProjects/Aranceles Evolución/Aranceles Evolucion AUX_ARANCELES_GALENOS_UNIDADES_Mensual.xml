@@ -1,0 +1,444 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="10/12/2016 12:44:11 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AMS06X"
+  DTS:CreatorName="AMS\pgonzalez"
+  DTS:DTSID="{FA51FA2E-44B3-44FC-9031-CB7A821276E3}"
+  DTS:EnableConfig="True"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="Aranceles Evolucion AUX_ARANCELES_GALENOS_UNIDADES_Mensual"
+  DTS:PackageType="5"
+  DTS:VersionBuild="429"
+  DTS:VersionGUID="{307C7354-D1D1-4641-855C-661555214A81}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{B929DF58-08C5-4592-B8CD-93B8ED1A9612}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">1,7,OnError</DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnError"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{B929DF58-08C5-4592-B8CD-93B8ED1A9612}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza AUX_H_ARANCELES_GALENOS_IMPORTE"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tarea Ejecutar SQL"
+      DTS:DTSID="{9697EF9E-8D33-46A6-8991-D5E15649B9DB}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza AUX_H_ARANCELES_GALENOS_IMPORTE"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{7705AE95-4A1E-4600-AF08-B019CC52882F}"
+          SQLTask:SqlStatementSource="DECLARE @Periodo VARCHAR(8),&#xA;&#x9;&#x9;@OPENQUERY nvarchar(4000),&#xA;&#x9;&#x9;@Servidor nvarchar(4000)&#xA;&#xA;SET @Periodo = (select CAST(dbo.PeriodosAnteriores(MAX(id_periodo), 48)AS VARCHAR(6))+'01' FROM D_PERIODO)&#xA;SET @Servidor = 'HOST03' &#xA;SET @OPENQUERY = 'INSERT INTO AUX_H_ARANCELES_GALENOS_IMPORTE &#xA;SELECT fecha_ultimo_convenio, id_producto, id_plan_producto, id_cod_arancel, id_origen_prestacion, id_categoria, id_tipo_galeno, A.id_nomenclador, id_nomenclador_int, id_capitulo, id_subcapitulo, imp_galeno_y_unidad, id_capitulo, id_subcapitulo, NULL, marca_prestacion, marca_categoria, fecha_fin_vigencia, fecha_carga_convenio, id_origen_prestacion_orden&#xA;&#x9;&#x9;FROM OPENQUERY('+ @Servidor +',''SELECT ARV_FVI as fecha_ultimo_convenio, SRV_COD as id_producto, PLA_COD as id_plan_producto, ARA_COD as id_cod_arancel, (CASE when AR1_ORI = '''''''' then ''''V'''' else AR1_ORI end)  as id_origen_prestacion, TGG_COD as id_tipo_galeno, AR1_TNO as id_nomenclador, (CASE when AR1_TNO = ''''NM'''' then 1 when AR1_TNO = ''''NB'''' then 2 when AR1_TNO = ''''NU'''' then 3 end) as id_nomenclador_int, AR1_CAP as id_capitulo, AR1_SCP as id_subcapitulo, CAST(AR1_IMP AS FLOAT) as imp_galeno_y_unidad, ''''G'''' as id_tipo_valorizacion, (CASE when AR1CAT = '''''''' then ''''V'''' else AR1CAT end) as id_categoria, 0 as marca_categoria, AR1FFV as fecha_fin_vigencia, AR1_FEC as fecha_carga_convenio, 0 as marca_prestacion, (CASE when (AR1_ORI = '''''''') then 3 when (AR1_ORI = ''''A'''') then 2 when (AR1_ORI = ''''I'''') then 1 else 0 end) as id_origen_prestacion_orden&#xA;FROM DESARROLLO.VAL002A1 A&#xA;WHERE SRV_COD = 16 &#xA;and PLA_COD in (''''C'''',''''S500'''',''''S1000'''',''''S1500'''',''''S2000'''',''''S3000'''',''''S4000'''',''''S4500'''',''''S5000'''', ''''G3000'''')&#xA;and ARV_FVI &gt;= '+ @Periodo +'&#xA;and AR1_TNO in (''''NM'''',''''NB'''',''''NU'''')&#xA;group by ARV_FVI, SRV_COD, PLA_COD, ARA_COD, AR1_ORI, TGG_COD, AR1_TNO, AR1_CAP, AR1_SCP, AR1_IMP, AR1CAT, AR1FFV, AR1_FEC'') A&#xA;WHERE  A.id_cod_arancel COLLATE SQL_Latin1_General_CP850_CI_AI IN (SELECT DISTINCT id_cod_arancel FROM D_ARANCELES_GALENOS_ACREEDOR)'&#xA;&#xA;&#xA;EXEC (@OPENQUERY)" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza Detalles AUX_ARANCELES_GALENOS_UNIDADES"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{B07DAA8A-9752-4173-A386-A64716CF640D}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza Detalles AUX_ARANCELES_GALENOS_UNIDADES"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{7705AE95-4A1E-4600-AF08-B019CC52882F}"
+          SQLTask:SqlStatementSource="&#xA;&#xA;&#x9;/* Actualiza DW_SALUD.dbo.AUX_ARANCELES_GALENOS_UNIDADES. */&#xA;&#x9;&#x9;TRUNCATE TABLE DW_SALUD.dbo.AUX_ARANCELES_GALENOS_UNIDADES&#xA;&#xA;&#x9;&#x9;-- Para Galenos.&#xA;&#x9;&#x9;INSERT INTO DW_SALUD.dbo.AUX_ARANCELES_GALENOS_UNIDADES&#xA;&#x9;&#x9;(fecha_ultimo_convenio, id_acreedor, id_cod_arancel, id_nomenclador, de_codigo_prestacion, U.id_tipo_galeno, U.tipo_unidad_sanatorial, id_capitulo, id_subcapitulo, id_subcapitulo_vacio, id_origen_prestacion, id_prestacion, cant_galeno_especialista, cant_galeno_ayudante, cant_ayudante, cant_unidad_sanatorial, marca_galeno_unidad, id_producto, id_plan_producto, importe_galeno, importe_unidad, marca_clave_galeno, marca_clave_unidad, id_categoria, marca_prestacion, marca_ultimo_modelo, fecha_fin_vigencia, id_tipo_prestador, fecha_carga_convenio, id_capitulo_char, id_subcapitulo_char)&#xA;&#x9;&#x9;SELECT P.fecha_convenio, P.id_acreedor, P.id_modelo_arancel_tarifa, U.id_nomenclador, U.de_codigo_prestacion, U.id_tipo_galeno, U.tipo_unidad_sanatorial, CAST(SUBSTRING(U.de_codigo_prestacion,1,2) as int) as id_capitulo, CAST(SUBSTRING(U.de_codigo_prestacion,3,2) as int) as id_subcapitulo, SUBSTRING(U.de_codigo_prestacion,3,2) as id_subcapitulo_vacio, P.id_origen_prestacion, U.id_nomenclador+U.de_codigo_prestacion as id_prestacion, MAX(U.cant_galeno_especialista) as cant_galeno_especialista, MAX(U.cant_galeno_ayudante) as cant_galeno_ayudante, MAX(U.cant_ayudante) as cant_ayudante, MAX(U.cant_unidad_sanatorial) as cant_unidad_sanatorial, 'G' as marca_galeno_unidad, P.id_producto, P.id_plan_producto, 0 as importe_galeno, 0 as importe_unidad, 0 as marca_clave_galeno, 0 as marca_clave_unidad, P.id_categoria, 0 as marca_prestacion, 0 as marca_ultimo_modelo, MAX(fecha_vigencia_hasta) as fecha_fin_vigencia, 'P' as id_tipo_prestador, fecha_carga_convenio,&#x9;&#x9;(CASE when CAST(SUBSTRING(U.de_codigo_prestacion,1,2) as int) &lt; 10 then '0'+CAST(CAST(SUBSTRING(U.de_codigo_prestacion,1,2) as int) as CHAR(2)) else CAST(CAST(SUBSTRING(U.de_codigo_prestacion,1,2) as int) as CHAR(2)) end) as id_capitulo_char,&#x9;(CASE WHEN CAST(SUBSTRING(U.de_codigo_prestacion,3,2) as int) &lt; 10 then '0'+CAST(CAST(SUBSTRING(U.de_codigo_prestacion,3,2) as int) as CHAR(2)) WHEN CAST(SUBSTRING(U.de_codigo_prestacion,3,2) as int) = '' then '' ELSE CAST(CAST(SUBSTRING(U.de_codigo_prestacion,3,2) as int) as CHAR(2)) end) as id_subcapitulo_char&#xA;&#x9;&#x9;FROM DW_SALUD.dbo.H_ARANCELES_GALENOS_IMPORTE P&#xA;&#x9;&#x9;JOIN DW_SALUD.dbo.D_ARANCELES_GALENOS_CANTIDAD_UNIDADES U on U.id_nomenclador_Int = P.id_nomenclador_Int and U.id_tipo_galeno = P.id_galeno_unidad&#xA;&#x9;&#x9;JOIN Consultas_DW.dbo.FILTRO_ACREEDOR_PREST_ARANCELES F ON (F.AcreedorID=P.id_acreedor AND F.PrestacionID COLLATE Modern_Spanish_CI_AS=U.id_nomenclador+U.de_codigo_prestacion)&#xA;&#x9;&#x9;WHERE P.imp_galeno &lt;&gt; 0&#xA;&#x9;&#x9;GROUP BY P.fecha_convenio, P.id_acreedor, P.id_modelo_arancel_tarifa, U.id_nomenclador, U.de_codigo_prestacion, U.id_tipo_galeno, U.tipo_unidad_sanatorial, P.id_origen_prestacion, P.id_producto, P.id_plan_producto, P.id_categoria, P.fecha_carga_convenio&#xA;&#xA;&#x9;&#x9;-- Para Unidades.&#xA;&#x9;&#x9;INSERT INTO DW_SALUD.dbo.AUX_ARANCELES_GALENOS_UNIDADES&#xA;&#x9;&#x9;(fecha_ultimo_convenio, id_acreedor, id_cod_arancel, id_nomenclador, de_codigo_prestacion, U.id_tipo_galeno, U.tipo_unidad_sanatorial, id_capitulo, id_subcapitulo, id_subcapitulo_vacio, id_origen_prestacion, id_prestacion, cant_galeno_especialista, cant_galeno_ayudante, cant_ayudante, cant_unidad_sanatorial, marca_galeno_unidad, id_producto, id_plan_producto, importe_galeno, importe_unidad, marca_clave_galeno, marca_clave_unidad, id_categoria, marca_prestacion, marca_ultimo_modelo, fecha_fin_vigencia, id_tipo_prestador, fecha_carga_convenio, id_capitulo_char, id_subcapitulo_char)&#xA;&#x9;&#x9;SELECT P.fecha_convenio, P.id_acreedor, P.id_modelo_arancel_tarifa, U.id_nomenclador, U.de_codigo_prestacion, U.id_tipo_galeno, U.tipo_unidad_sanatorial, CAST(SUBSTRING(U.de_codigo_prestacion,1,2) as int) as id_capitulo, CAST(SUBSTRING(U.de_codigo_prestacion,3,2) as int) as id_subcapitulo, SUBSTRING(U.de_codigo_prestacion,3,2) as id_subcapitulo_vacio, P.id_origen_prestacion, U.id_nomenclador+U.de_codigo_prestacion as id_prestacion, MAX(U.cant_galeno_especialista) as cant_galeno_especialista, MAX(U.cant_galeno_ayudante) as cant_galeno_ayudante, MAX(U.cant_ayudante) as cant_ayudante, MAX(U.cant_unidad_sanatorial) as cant_unidad_sanatorial, 'U' as marca_galeno_unidad, P.id_producto, P.id_plan_producto, 0 as importe_galeno, 0 as importe_unidad, 0 as marca_clave_galeno, 0 as marca_clave_unidad, P.id_categoria, 0 as marca_prestacion, 0 as marca_ultimo_modelo, MAX(fecha_vigencia_hasta) as fecha_fin_vigencia, 'P' as id_tipo_prestador, fecha_carga_convenio,&#x9;&#x9;(CASE when CAST(SUBSTRING(U.de_codigo_prestacion,1,2) as int) &lt; 10 then '0'+CAST(CAST(SUBSTRING(U.de_codigo_prestacion,1,2) as int) as CHAR(2)) else CAST(CAST(SUBSTRING(U.de_codigo_prestacion,1,2) as int) as CHAR(2)) end) as id_capitulo_char,&#x9;(CASE WHEN CAST(SUBSTRING(U.de_codigo_prestacion,3,2) as int) &lt; 10 then '0'+CAST(CAST(SUBSTRING(U.de_codigo_prestacion,3,2) as int) as CHAR(2)) WHEN CAST(SUBSTRING(U.de_codigo_prestacion,3,2) as int) = '' then '' ELSE CAST(CAST(SUBSTRING(U.de_codigo_prestacion,3,2) as int) as CHAR(2)) end) as id_subcapitulo_char&#xA;&#x9;&#x9;FROM DW_SALUD.dbo.H_ARANCELES_GALENOS_IMPORTE P&#xA;&#x9;&#x9;JOIN DW_SALUD.dbo.D_ARANCELES_GALENOS_CANTIDAD_UNIDADES U on U.id_nomenclador_Int = P.id_nomenclador_Int and U.tipo_unidad_sanatorial = P.id_galeno_unidad&#xA;&#x9;&#x9;JOIN Consultas_DW.dbo.FILTRO_ACREEDOR_PREST_ARANCELES F ON (F.AcreedorID=P.id_acreedor AND F.PrestacionID COLLATE Modern_Spanish_CI_AS=U.id_nomenclador+U.de_codigo_prestacion)&#xA;&#x9;&#x9;WHERE P.imp_unidad &lt;&gt; 0&#xA;&#x9;&#x9;GROUP BY P.fecha_convenio, P.id_acreedor, P.id_modelo_arancel_tarifa, U.id_nomenclador, U.de_codigo_prestacion, U.id_tipo_galeno, U.tipo_unidad_sanatorial, P.id_origen_prestacion, P.id_producto, P.id_plan_producto, P.id_categoria, P.fecha_carga_convenio&#xA;&#xA;&#xA;/* Para los NU actualiza Capitulos y Subcapitulos desde D_PRESTACION. */&#xA;&#xA;&#x9;UPDATE DW_SALUD.dbo.AUX_ARANCELES_GALENOS_UNIDADES&#xA;&#x9;&#x9;SET id_capitulo = P.id_capitulo,&#xA;&#x9;&#x9;&#x9;id_subcapitulo = P.id_subcapitulo,&#xA;&#x9;&#x9;&#x9;id_capitulo_char = (CASE WHEN P.id_subcapitulo &lt; 10 then '0'+CAST(P.id_capitulo as CHAR(2)) WHEN CAST(P.id_capitulo as CHAR(2)) = '' then '' ELSE CAST(CAST(P.id_capitulo as CHAR(2)) as CHAR(2)) end),&#xA;&#x9;&#x9;&#x9;id_subcapitulo_char = (CASE WHEN P.id_subcapitulo &lt; 10 then '0'+CAST(P.id_subcapitulo as CHAR(2)) WHEN CAST(P.id_subcapitulo as CHAR(2)) = '' then '' ELSE CAST(CAST(P.id_subcapitulo as CHAR(2)) as CHAR(2)) end)&#xA;&#x9;FROM DW_SALUD.dbo.AUX_ARANCELES_GALENOS_UNIDADES G&#xA;&#x9;JOIN D_PRESTACION P on G.id_nomenclador = P.id_nomenclador and G.de_codigo_prestacion = P.de_codigo_prestacion&#xA;&#x9;WHERE G.id_nomenclador  IN ('NU', 'NB')&#xA;&#xA;/* I M P O R T A N T E!!!!!!!!!! BORRA LAS PRESTACIONES QUE YA SE SABEN QUE VAN CON TARIFAS Y EXCEPCIONES. Esto se hace para achicar el proceso de galenos que continua debajo. */&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;DELETE DW_SALUD.dbo.AUX_ARANCELES_GALENOS_UNIDADES&#xA;&#x9;&#x9;FROM DW_SALUD.dbo.AUX_ARANCELES_GALENOS_UNIDADES A&#xA;&#x9;&#x9;JOIN AUX_ARANCELES_EVOLUCION E on A.fecha_ultimo_convenio = E.fecha_convenio and A.id_acreedor = E.id_acreedor and A.id_producto = E.id_producto and A.id_plan_producto = E.id_plan_producto and A.id_nomenclador = E.id_nomenclador and A.de_codigo_prestacion = E.de_codigo_prestacion and A.id_categoria = E.id_categoria and A.id_nomenclador = E.id_nomenclador&#xA;&#x9;&#x9;where E.de_codigo_prestacion_acreedor = '99999999' -- Descarta a las prestaciones homologadas ya que Galenos nunca va a cruzar con una prestacion del acreedor&#xA;&#xA;&#x9;-- Se queda con el ultimo modelo por cada acreedor. Podría utilizar el campo fecha_fin_vigencia_convenio pero no anda para todos los casos.&#xA;&#xA;&#x9;&#x9;UPDATE AUX_ARANCELES_GALENOS_UNIDADES&#xA;&#x9;&#x9;&#x9;set marca_ultimo_modelo = 1&#xA;&#x9;&#x9;FROM AUX_ARANCELES_GALENOS_UNIDADES A&#xA;&#x9;&#x9;JOIN (SELECT id_acreedor, MAX(fecha_ultimo_convenio) as fecha_ultimo_convenio from AUX_ARANCELES_GALENOS_UNIDADES group by id_acreedor) E on A.id_acreedor = E.id_acreedor and A.fecha_ultimo_convenio = E.fecha_ultimo_convenio&#xA;&#xA;&#x9;&#x9;UPDATE AUX_ARANCELES_GALENOS_UNIDADES&#xA;&#x9;&#x9;&#x9;set marca_ultimo_modelo = 1&#xA;&#x9;&#x9;FROM AUX_ARANCELES_GALENOS_UNIDADES A&#xA;&#x9;&#x9;JOIN (SELECT id_acreedor, id_cod_arancel from AUX_ARANCELES_GALENOS_UNIDADES where marca_ultimo_modelo = 1) E on A.id_acreedor = E.id_acreedor and A.id_cod_arancel = E.id_cod_arancel&#xA;&#xA;&#xA;&#x9;&#x9;UPDATE AUX_ARANCELES_GALENOS_UNIDADES set inconsistencia = 1 where marca_ultimo_modelo = 0&#xA;&#xA;&#xA;&#x9;/* Actualiza Claves para Galenos y Unidades segun la las definiciones. */&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;UPDATE DW_SALUD.dbo.AUX_ARANCELES_GALENOS_UNIDADES &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;SET /* Galenos.*/ Clave_A = REPLACE(id_cod_arancel+id_nomenclador /*COLLATE SQL_Latin1_General_CP850_CI_AI*/+CAST(id_tipo_galeno as CHAR(3))+id_capitulo_char+id_subcapitulo_char+id_origen_prestacion+id_categoria,' ',''),&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;/* Galenos.*/ Clave_B = REPLACE(id_cod_arancel+id_nomenclador /*COLLATE SQL_Latin1_General_CP850_CI_AI*/+CAST(id_tipo_galeno as CHAR(3))+'99'+'99'+id_origen_prestacion+id_categoria,' ',''),&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;/* Galenos.*/ Clave_E = REPLACE(id_cod_arancel+id_nomenclador /*COLLATE SQL_Latin1_General_CP850_CI_AI*/+CAST(id_tipo_galeno as CHAR(3))+id_capitulo_char+'99'+id_origen_prestacion+id_categoria,' ',''),&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;/* Unidades.*/ Clave_C = REPLACE(id_cod_arancel+id_nomenclador /*COLLATE SQL_Latin1_General_CP850_CI_AI*/+CAST(tipo_unidad_sanatorial as CHAR(3))+id_capitulo_char+id_subcapitulo_char+id_origen_prestacion+id_categoria,' ',''),&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;/* Unidades.*/ Clave_D = REPLACE(id_cod_arancel+id_nomenclador /*COLLATE SQL_Latin1_General_CP850_CI_AI*/+CAST(tipo_unidad_sanatorial as CHAR(3))+'99'+'99'+id_origen_prestacion+id_categoria,' ',''),&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;/* Unidades.*/ Clave_F = REPLACE(id_cod_arancel+id_nomenclador /*COLLATE SQL_Latin1_General_CP850_CI_AI*/+CAST(tipo_unidad_sanatorial as CHAR(3))+id_capitulo_char+'99'+id_origen_prestacion+id_categoria,' ','')&#xA;&#x9;&#x9;&#x9;&#x9;--WHERE id_nomenclador in ('NM')&#xA;&#xA;&#x9;-- Con estas claves luego se compara si el importe corresponde al que informa la tabla H_ARANCELES_GALENOS_IMPORTE como 99 para capitulo y subcapitulo o la D_ARANCELES_GALENOS_CANTIDAD_UNIDADES.&#xA;&#xA;&#x9;/* Compara Marcas Claves. */&#xA;&#xA;&#x9;&#x9;-- GALENOS.&#xA;&#x9;&#x9;&#x9;-- Actualiza por Clave A.&#xA;&#x9;&#x9;&#x9;UPDATE DW_SALUD.dbo.AUX_ARANCELES_GALENOS_UNIDADES &#xA;&#x9;&#x9;&#x9;SET marca_clave_galeno = 1,&#xA;&#x9;&#x9;&#x9;&#x9;importe_galeno = I.imp_galeno,&#xA;&#x9;&#x9;&#x9;&#x9;id_capitulo_imp_char = I.id_capitulo_imp_char,&#xA;&#x9;&#x9;&#x9;&#x9;id_subcapitulo_imp_char = I.id_subcapitulo_imp_char&#xA;&#x9;&#x9;&#x9;FROM DW_SALUD.dbo.AUX_ARANCELES_GALENOS_UNIDADES U&#xA;&#x9;&#x9;&#x9;JOIN DW_SALUD.dbo.H_ARANCELES_GALENOS_IMPORTE I on U.Clave_A = I.clave_imp_unidad_y_galeno and U.id_producto = I.id_producto and U.id_plan_producto = I.id_plan_producto and U.fecha_ultimo_convenio = I.fecha_convenio&#xA;&#x9;&#x9;&#x9;WHERE I.imp_galeno &lt;&gt; 0 and U.marca_galeno_unidad in ('G')&#xA;&#xA;&#x9;&#x9;&#x9;-- Actualiza por Clave E siempre y cuando no sea Clave A.&#xA;&#x9;&#x9;&#x9;UPDATE DW_SALUD.dbo.AUX_ARANCELES_GALENOS_UNIDADES&#xA;&#x9;&#x9;&#x9;SET marca_clave_galeno = 1,&#xA;&#x9;&#x9;&#x9;&#x9;importe_galeno = I.imp_galeno,&#xA;&#x9;&#x9;&#x9;&#x9;id_capitulo_imp_char = I.id_capitulo_imp_char,&#xA;&#x9;&#x9;&#x9;&#x9;id_subcapitulo_imp_char = I.id_subcapitulo_imp_char&#xA;&#x9;&#x9;&#x9;FROM DW_SALUD.dbo.AUX_ARANCELES_GALENOS_UNIDADES U&#xA;&#x9;&#x9;&#x9;JOIN DW_SALUD.dbo.H_ARANCELES_GALENOS_IMPORTE I on U.Clave_E = I.clave_imp_unidad_y_galeno and U.id_producto = I.id_producto and U.id_plan_producto = I.id_plan_producto and U.fecha_ultimo_convenio = I.fecha_convenio&#xA;&#x9;&#x9;&#x9;WHERE marca_clave_galeno &lt;&gt; 1 and I.imp_galeno &lt;&gt; 0 and U.marca_galeno_unidad in ('G')&#xA;&#x9;&#x9;&#x9;and not exists (select U.fecha_ultimo_convenio, U.id_cod_arancel, U.id_acreedor, U.id_plan_producto, U.id_prestacion, U.id_tipo_galeno, U.tipo_unidad_sanatorial, U.id_categoria from Consultas_DW.dbo.D_ARANCELES_GALENOS_CONTROL II where U.fecha_ultimo_convenio = II.fecha_ultimo_convenio and U.id_acreedor = II.id_acreedor and U.id_cod_arancel = II.id_cod_arancel and U.id_nomenclador = II.id_nomenclador and U.id_plan_producto = II.id_plan_producto and U.id_prestacion = II.id_prestacion and U.id_tipo_galeno = II.id_tipo_galeno and U.tipo_unidad_sanatorial = II.tipo_unidad_sanatorial and U.id_categoria = II.id_categoria)&#xA;&#xA;&#x9;&#x9;&#x9;-- Actualiza por Clave B siempre y cuando no sea Clave A ni E.&#xA;&#x9;&#x9;&#x9;UPDATE DW_SALUD.dbo.AUX_ARANCELES_GALENOS_UNIDADES &#xA;&#x9;&#x9;&#x9;SET marca_clave_galeno = 1,&#xA;&#x9;&#x9;&#x9;&#x9;importe_galeno = I.imp_galeno,&#xA;&#x9;&#x9;&#x9;&#x9;id_capitulo_imp_char = I.id_capitulo_imp_char,&#xA;&#x9;&#x9;&#x9;&#x9;id_subcapitulo_imp_char = I.id_subcapitulo_imp_char&#xA;&#x9;&#x9;&#x9;FROM DW_SALUD.dbo.AUX_ARANCELES_GALENOS_UNIDADES U&#xA;&#x9;&#x9;&#x9;JOIN DW_SALUD.dbo.H_ARANCELES_GALENOS_IMPORTE I on U.Clave_B = I.clave_imp_unidad_y_galeno and U.id_producto = I.id_producto and U.id_plan_producto = I.id_plan_producto and U.fecha_ultimo_convenio = I.fecha_convenio&#xA;&#x9;&#x9;&#x9;WHERE marca_clave_galeno &lt;&gt; 1 and I.imp_galeno &lt;&gt; 0 and U.marca_galeno_unidad in ('G')&#xA;&#x9;&#x9;&#x9;and not exists (select U.fecha_ultimo_convenio, U.id_cod_arancel, U.id_acreedor, U.id_plan_producto, U.id_prestacion, U.id_tipo_galeno, U.tipo_unidad_sanatorial, U.id_categoria from Consultas_DW.dbo.D_ARANCELES_GALENOS_CONTROL II where U.fecha_ultimo_convenio = II.fecha_ultimo_convenio and U.id_acreedor = II.id_acreedor and U.id_cod_arancel = II.id_cod_arancel and U.id_nomenclador = II.id_nomenclador and U.id_plan_producto = II.id_plan_producto and U.id_prestacion = II.id_prestacion and U.id_tipo_galeno = II.id_tipo_galeno and U.tipo_unidad_sanatorial = II.tipo_unidad_sanatorial and U.id_categoria = II.id_categoria)&#xA;&#xA;&#xA;&#xA;&#x9;&#x9;-- UNIDADES.&#xA;&#x9;&#x9;&#x9;-- Actualiza por Clave C.&#xA;&#x9;&#x9;&#x9;UPDATE DW_SALUD.dbo.AUX_ARANCELES_GALENOS_UNIDADES &#xA;&#x9;&#x9;&#x9;SET marca_clave_unidad = 1,&#xA;&#x9;&#x9;&#x9;&#x9;importe_unidad = I.imp_unidad,&#xA;&#x9;&#x9;&#x9;&#x9;id_capitulo_imp_char = I.id_capitulo_imp_char,&#xA;&#x9;&#x9;&#x9;&#x9;id_subcapitulo_imp_char = I.id_subcapitulo_imp_char&#xA;&#x9;&#x9;&#x9;FROM DW_SALUD.dbo.AUX_ARANCELES_GALENOS_UNIDADES U&#xA;&#x9;&#x9;&#x9;JOIN DW_SALUD.dbo.H_ARANCELES_GALENOS_IMPORTE I on U.Clave_C = I.clave_imp_unidad_y_galeno and U.id_producto = I.id_producto and U.id_plan_producto = I.id_plan_producto and U.fecha_ultimo_convenio = I.fecha_convenio&#xA;&#x9;&#x9;&#x9;WHERE I.imp_unidad &lt;&gt; 0 and U.marca_galeno_unidad in ('U')&#xA;&#xA;&#x9;&#x9;&#x9;-- Actualiza por Clave F siempre y cuando no sea Clave C.&#xA;&#x9;&#x9;&#x9;UPDATE DW_SALUD.dbo.AUX_ARANCELES_GALENOS_UNIDADES&#xA;&#x9;&#x9;&#x9;SET marca_clave_unidad = 1,&#xA;&#x9;&#x9;&#x9;&#x9;importe_unidad = I.imp_unidad,&#xA;&#x9;&#x9;&#x9;&#x9;id_capitulo_imp_char = I.id_capitulo_imp_char,&#xA;&#x9;&#x9;&#x9;&#x9;id_subcapitulo_imp_char = I.id_subcapitulo_imp_char&#xA;&#x9;&#x9;&#x9;FROM DW_SALUD.dbo.AUX_ARANCELES_GALENOS_UNIDADES U&#xA;&#x9;&#x9;&#x9;JOIN DW_SALUD.dbo.H_ARANCELES_GALENOS_IMPORTE I on U.Clave_F = I.clave_imp_unidad_y_galeno  and U.id_producto = I.id_producto and U.id_plan_producto = I.id_plan_producto and U.fecha_ultimo_convenio = I.fecha_convenio&#xA;&#x9;&#x9;&#x9;WHERE marca_clave_unidad &lt;&gt; 1 and I.imp_unidad &lt;&gt; 0 and U.marca_galeno_unidad in ('U')&#xA;&#x9;&#x9;&#x9;and not exists (select U.fecha_ultimo_convenio, U.id_cod_arancel, U.id_acreedor, U.id_plan_producto, U.id_prestacion, U.id_tipo_galeno, U.tipo_unidad_sanatorial, U.id_categoria from Consultas_DW.dbo.D_ARANCELES_GALENOS_CONTROL II where U.fecha_ultimo_convenio = II.fecha_ultimo_convenio and U.id_acreedor = II.id_acreedor and U.id_cod_arancel = II.id_cod_arancel and U.id_nomenclador = II.id_nomenclador and U.id_plan_producto = II.id_plan_producto and U.id_prestacion = II.id_prestacion and U.id_tipo_galeno = II.id_tipo_galeno and U.tipo_unidad_sanatorial = II.tipo_unidad_sanatorial and U.id_categoria = II.id_categoria)&#xA;&#xA;&#x9;&#x9;&#x9;-- Actualiza por Clave C siempre y cuando no sea Clave C ni F.&#xA;&#x9;&#x9;&#x9;UPDATE DW_SALUD.dbo.AUX_ARANCELES_GALENOS_UNIDADES &#xA;&#x9;&#x9;&#x9;SET marca_clave_unidad = 1,&#xA;&#x9;&#x9;&#x9;&#x9;importe_unidad = I.imp_unidad,&#xA;&#x9;&#x9;&#x9;&#x9;id_capitulo_imp_char = I.id_capitulo_imp_char,&#xA;&#x9;&#x9;&#x9;&#x9;id_subcapitulo_imp_char = I.id_subcapitulo_imp_char&#xA;&#x9;&#x9;&#x9;FROM DW_SALUD.dbo.AUX_ARANCELES_GALENOS_UNIDADES U&#xA;&#x9;&#x9;&#x9;JOIN DW_SALUD.dbo.H_ARANCELES_GALENOS_IMPORTE I on U.clave_d = I.clave_imp_unidad_y_galeno  and U.id_producto = I.id_producto and U.id_plan_producto = I.id_plan_producto and U.fecha_ultimo_convenio = I.fecha_convenio&#xA;&#x9;&#x9;&#x9;WHERE marca_clave_unidad &lt;&gt; 1 and I.imp_unidad &lt;&gt; 0 and U.marca_galeno_unidad in ('U')&#xA;&#x9;&#x9;&#x9;and not exists (select U.fecha_ultimo_convenio, U.id_cod_arancel, U.id_acreedor, U.id_plan_producto, U.id_prestacion, U.id_tipo_galeno, U.tipo_unidad_sanatorial, U.id_categoria from Consultas_DW.dbo.D_ARANCELES_GALENOS_CONTROL II where U.fecha_ultimo_convenio = II.fecha_ultimo_convenio and U.id_acreedor = II.id_acreedor and U.id_cod_arancel = II.id_cod_arancel and U.id_nomenclador = II.id_nomenclador and U.id_plan_producto = II.id_plan_producto and U.id_prestacion = II.id_prestacion and U.id_tipo_galeno = II.id_tipo_galeno and U.tipo_unidad_sanatorial = II.tipo_unidad_sanatorial and U.id_categoria = II.id_categoria)&#xA;&#xA;&#xA;&#x9;&#x9;-- Actualiza el Agrupado para Convenios.&#xA;&#x9;&#x9;&#x9; UPDATE DW_SALUD.dbo.AUX_ARANCELES_GALENOS_UNIDADES set id_plan_agrupado_convenio = J.id_plan_agrupado_convenio&#xA;&#x9;&#x9;&#x9; from DW_SALUD.dbo.AUX_ARANCELES_GALENOS_UNIDADES P&#xA;&#x9;&#x9;&#x9; join DW_SALUD.dbo.D_PLANES J on P.id_producto = J.id_producto and P.id_plan_producto = J.id_plan_producto&#xA;&#xA;&#xA;-- Elimina los casos donde pasan de Tarifa a Galeno.&#xA;-- Elimina los casos que pasan de tener tarifa a galenos con los datos de la auxiliar.&#xA;DELETE U&#xA;FROM AUX_ARANCELES_GALENOS_UNIDADES U &#xA;WHERE EXISTS (SELECT * FROM AUX_ARANCELES_EVOLUCION E &#xA;WHERE U.id_acreedor=E.id_acreedor &#xA;AND U.id_producto=E.id_producto &#xA;AND U.id_plan_producto=E.id_plan_producto &#xA;AND U.id_prestacion = E.id_nomenclador+E.de_codigo_prestacion &#xA;AND E.id_categoria=U.id_categoria &#xA;AND E.fecha_convenio &lt; U.fecha_ultimo_convenio &#xA;AND E.id_tipo_valorizacion = 'T')&#xA;&#xA;-- Elimina los casos que pasan de tener tarifa a galenos pero que por el periodo que carga la auxiliar no los encuentra ahí, entonces los tiene que buscar en la tabla de producción.&#xA;DELETE U&#xA;FROM AUX_ARANCELES_GALENOS_UNIDADES U &#xA;WHERE EXISTS (SELECT * FROM H_ARANCELES_EVOLUCION E &#xA;WHERE U.id_acreedor=E.id_acreedor &#xA;AND U.id_producto=E.id_producto &#xA;AND U.id_plan_producto=E.id_plan_producto &#xA;AND U.id_prestacion = E.id_prestacion &#xA;AND E.id_categoria=U.id_categoria &#xA;AND E.fecha_convenio &lt; U.fecha_ultimo_convenio &#xA;AND E.id_tipo_valorizacion = 'T')&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza D_ARANCELES_GALENOS_ACREEDOR"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{37ED7D76-D021-44C4-B38B-F120107DAF7E}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza D_ARANCELES_GALENOS_ACREEDOR"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{7705AE95-4A1E-4600-AF08-B019CC52882F}"
+          SQLTask:SqlStatementSource="&#xA;/* Nro Acreedor por Codigo de Arancel. */&#xA;&#x9;TRUNCATE TABLE DW_SALUD.dbo.D_ARANCELES_GALENOS_ACREEDOR&#xA;&#x9;&#xA;-- Actualiza tabla.&#xA;&#x9;INSERT INTO D_ARANCELES_GALENOS_ACREEDOR&#xA;&#x9;(id_acreedor, id_cod_arancel, Arancel_duplicado)&#xA;&#x9;select distinct PG1_COD as id_acreedor, ARA_COD as id_cod_arancel, 0 as Arancel_duplicado&#xA;&#x9;from HOST03.HOST03.DESARROLLO.VAL003&#xA;&#x9;where ARA_COD in ('ROENTG', 'BEVILL', 'ACLER', 'ASHIPO', 'FEMEBA', 'ASBELG', 'CEMECA', 'ROSARI', 'SANLOR', 'CASERO', 'SOCBEN', 'AMERI', 'FECLIB', 'CLSANJ', 'SSMART', 'ARROYO', 'CLVILL', 'INMED', 'LAAESA', 'HOBRIT', 'HOSALE', 'LAPAMP', 'SACLSJ', 'CLESTE', 'HOSITA', 'COLPAM', 'SARGEN', 'CEMIC', 'TRENQU', 'CEMAST', 'GRUPOR', 'SACAST', 'CEIMAG', 'DIAIMA', 'SAMATE', 'FLE-NI', 'ASCHAC', 'CLSANC', 'IADT', 'CONCAR', 'POLICI', 'SAMAYO', 'ZONACE', 'POLINE', 'CIRRIO', 'SANJOS', 'FAVALO', 'CLPRIV', 'OBLIGA', 'GRUPOR', 'CBENTR', 'CBSANF', 'BIOMIS', 'LABHID', 'ABIOSA', 'ONCATI', 'CBSANJ', 'ABCASE', 'CIRCBI', 'ASBSAL', 'ASBISL', 'VILME', 'COLCOB', 'GRALLO', 'BIOARR', 'BRIOIV', 'SOCBIO', 'ASBDSJ', 'BIBSAS', 'BIOSAN', 'PAMCO', 'BIOQRN', 'COLFOR', 'BIONOR', 'SAALLE', 'INSMOD', 'TOMOGR', 'CLISOL', 'PRIVCO', 'IOFTAL', 'SPLAZA', 'IGAMMA', 'CENTRO', 'SANIÑO', 'SABRIR', 'CIMORT', 'ARROYI', 'RIOCUA', 'SANCRI', 'LASCOL', 'LASVAR', 'RUFINO', 'INSPRI', 'MEDSAN', 'FEMER', 'GRALOP', 'SAMAPA', 'NORTE', 'CLCARR', 'DIAGTI', 'LABOUL', 'GUALEG', 'MARTIN', 'COLLAB', 'COMESE', 'SANRO', 'BIOCAS', 'BIOCOL', 'BIO9DE', 'COBISE', 'CTROBI', 'FEDBIO', 'BIOCOR', 'TURNER', 'BVILLA', 'BIOROS', 'COBITU', 'CHACO', 'LACESA', 'NEUQUE', 'BSANJU', 'ASOCBI', 'SANSAL', 'CL25MA', 'FEMCHA', 'ITOIZS', 'ACLSAN', 'INEOPE', 'SASALV', 'FUESME', 'JOFED', 'TCBABA', 'CMGCHA', 'PROVID', 'CLPMON', 'CORRAL', 'CMEDMJ', 'BUEY', 'HESPAÑ', 'SANACA', 'ASSANO', 'CUMBRE', 'MISION', 'COLTUC', 'ASCYST', 'AGMEDP', 'REFABI', 'GERE', 'AMDCON', 'ARGUSD', 'INTMED', 'APREPA', 'SCRIVA', 'SAGCOR', 'HOSPAR', 'CLISUN', 'ESPAÑO', 'DEMONT', 'MEDPER', 'LASLOM', 'COLBAR', 'COPROF', 'CACCIA', 'FEDRIO', 'MUJER', 'DMAIPU', 'SAGARA', 'CETILI', 'CDDROS', 'CASAHO', 'PRIVNI', 'CPARQE', 'SGSCP', 'TESLA', 'RUBENM', 'IPCAST', 'VILELL', 'RIOIV', 'CORRIE', 'G7SALU', 'ADVENT', 'CEPEM', 'SSANLU', 'CORPOR', 'DIRMSA', 'INMOGO', 'COLCOR', 'HUMAN', 'ASENTO', 'HOSTRE', 'OMINT', 'CLMORO', 'ASSOYT', 'HOPRVI', 'CRMORT', 'CIRMEC', 'MERCED', 'FECLIS', 'RIZZOL', 'VELEZS', 'ACLINO', 'CONVIV', 'RAFACE', 'GRUPOM', 'ASSARM', 'SOCOFT', 'MOSTAZ', 'ICBA', 'COSEME', 'CEDIRC', 'COMUNI', 'IMAGSA', 'HOSAUS', 'SANARG', 'SACAMI', 'OFTALM', 'CSANJU', 'CIMACO', 'DIAGSA', 'HOFINA', 'ARPAC', 'GODOYC', 'ASROSA', 'CLCUYO', 'ASCITO', 'MEDITE', 'ULTRAS', 'CENVIS', 'COLON', 'CLPUEY', 'CLNYMA', 'CMDEVO', 'IORL', 'APRESA', 'INTERV', 'AOTSJU', 'PALMAR', 'SANPAR', 'CAMEMP', 'CLPEDI', 'SANICO', 'CIRSAL', 'ASCLSA', 'JUNCAL', 'CIESTE', 'ACLIES', 'COJUJU', 'CERHUC', 'SANLUI', 'SANTY', 'SACO', 'COMELR', 'CLBESS', 'CEMP', 'SAJORG', 'CLFA3', 'FECLIR', 'COLNEU', 'AMRG', 'CLYSAN', 'CVALLE', 'ASESPA', 'CMCHUB', 'CAMJUJ', 'COLPUE', 'CIRAFA', 'POLATL', 'CIRBRI', 'ASFORM', 'FDFORM', 'ASSALU', 'CLMATE', 'MARDEL', 'MUJFIS', 'SANOTA', 'CLDSOL', 'MACAMX', 'LARSA', 'COLCRU', 'INCENT', 'HUNGRI', 'VITUS', 'CALLAO', 'ACLIBA', 'CIRCTA', 'BAZTE', 'GARIBA')&#xA;&#xA;&#x9;-- Calcula los codigos de aranceles que tienen mas de un acreedor.&#xA;&#x9;SELECT id_cod_arancel Into #TempCod&#xA;&#x9;FROM D_ARANCELES_GALENOS_ACREEDOR&#xA;&#x9;group by id_cod_arancel &#xA;&#x9;Having COUNT(id_cod_arancel) &gt; 1&#xA;&#xA;&#x9;&#x9;-- Marca dichos casos.&#xA;&#x9;&#x9;UPDATE D_ARANCELES_GALENOS_ACREEDOR set Arancel_duplicado = 1&#xA;&#x9;&#x9;FROM D_ARANCELES_GALENOS_ACREEDOR A JOIN #TempCod T on A.id_cod_arancel = T.id_cod_arancel&#xA;&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza D_ARANCELES_GALENOS_CANTIDAD_UNIDADES"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{949fbf17-1e08-43a9-aca6-a9766a33eb54}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza D_ARANCELES_GALENOS_CANTIDAD_UNIDADES"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{7705AE95-4A1E-4600-AF08-B019CC52882F}"
+          SQLTask:SqlStatementSource="&#xA;/* Actualiza Cantidades y Unidades de Galenos. */&#xA;&#xA;&#x9;TRUNCATE TABLE DW_SALUD.dbo.D_ARANCELES_GALENOS_CANTIDAD_UNIDADES&#xA;&#xA;&#x9;INSERT INTO DW_SALUD.dbo.D_ARANCELES_GALENOS_CANTIDAD_UNIDADES&#xA;&#x9;(id_nomenclador, id_nomenclador_int, de_codigo_prestacion, de_prestacion, id_catalogada_pmo, id_codificacion_interna, id_tipo_galeno, cant_galeno_especialista, cant_galeno_ayudante, cant_ayudante, tipo_galeno_anestesista, cant_galeno_anestesista, tipo_unidad_sanatorial, cant_unidad_sanatorial)&#xA;&#x9;SELECT C1.TNO_COD as id_nomenclador, (CASE when C1.TNO_COD = 'NM' then 1 else 2 end) as id_nomenclador_int, C1.NMP_CPR as de_codigo_prestacion, C1.NMP_DES as de_prestacion, C1.NMPNON as id_catalogada_pmo, C1.NMPCIN as id_codificacion_interna, C2.NMOTGA as id_tipo_galeno, C2.NMOCGE as cant_galeno_especialista, C2.NMOCGA  as cant_galeno_ayudante, C2.NMOCMA cant_ayudante, C2.NMOTGN as tipo_galeno_anestesista, C2.NMOCGN as cant_galeno_anestesista, C2.NMOTGO as tipo_unidad_sanatorial, C2.NMOCUG as cant_unidad_sanatorial&#xA;&#x9;FROM HOST03.HOST03.DESARROLLO.CUP001 C1&#xA;&#x9;JOIN HOST03.HOST03.DESARROLLO.CUP002A C2 on C1.TNO_COD = C2.TNO_COD and C1.NMP_CPR = C2.NMP_CPR&#xA;&#x9;JOIN DW_SALUD.dbo.D_PRESTACION P on C1.TNO_COD COLLATE SQL_Latin1_General_CP850_CI_AI = P.id_nomenclador and C1.NMP_CPR COLLATE SQL_Latin1_General_CP850_CI_AI = P.de_codigo_prestacion&#xA;&#x9;WHERE NMPFBA in ('00000000')  /* Prestacion Activa */&#xA;&#x9;and NMPCIN not in ('P') /* ?. */&#xA;&#x9;and C1.TNO_COD in ('NM','NB') /* Solo se trabaja con estos Nomencladores. */&#xA;&#x9;--and P.simulador_convenio = 1 /* A diferencia del trabajo de Convenios, aqui se trabaja con todas las Prestaciones. */&#xA;&#xA;&#x9;INSERT INTO DW_SALUD.dbo.D_ARANCELES_GALENOS_CANTIDAD_UNIDADES&#xA;&#x9;(id_nomenclador, id_nomenclador_int, de_codigo_prestacion, de_prestacion, id_catalogada_pmo, id_codificacion_interna, id_tipo_galeno, cant_galeno_especialista, cant_galeno_ayudante, cant_ayudante, tipo_galeno_anestesista, cant_galeno_anestesista, tipo_unidad_sanatorial, cant_unidad_sanatorial)&#xA;&#x9;SELECT C1.TNO_COD as id_nomenclador, 3 as id_nomenclador_int, CAST(C1.NMP_CPR as CHAR(8)) as de_codigo_prestacion, CAST(C1.NMP_DES as CHAR(100)) as de_prestacion, C1.NMPNON as id_catalogada_pmo, C1.NMPCIN as id_codificacion_interna, 0 as id_tipo_galeno, 0 as cant_galeno_especialista, 0  as cant_galeno_ayudante, 0 cant_ayudante, 0 as tipo_galeno_anestesista, 0 as cant_galeno_anestesista, 555 as tipo_unidad_sanatorial, C2.NMMCAN as cant_unidad_sanatorial&#xA;&#x9;FROM HOST03.HOST03.DESARROLLO.CUP001 C1&#xA;&#x9;JOIN HOST03.HOST03.DESARROLLO.CUP002C C2 on C1.TNO_COD = C2.TNO_COD and C1.NMP_CPR = C2.NMP_CPR&#xA;&#x9;JOIN DW_SALUD.dbo.D_PRESTACION P on C1.TNO_COD COLLATE SQL_Latin1_General_CP850_CI_AI = P.id_nomenclador and C1.NMP_CPR COLLATE SQL_Latin1_General_CP850_CI_AI = P.de_codigo_prestacion&#xA;&#x9;WHERE NMPFBA in ('00000000')  /* Prestacion Activa */&#xA;&#x9;and NMPCIN not in ('P') /* ?. */&#xA;&#x9;and C1.TNO_COD in ('NU') /* Solo se trabaja con este Nomenclador. */&#xA;&#x9;--and P.simulador_convenio = 1 /* A diferencia del trabajo de Convenios, aqui se trabaja con todas las Prestaciones. */" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza H_ARANCELES_GALENOS_IMPORTE"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{D2E39292-BA32-4C20-BCA7-DC11E7936E49}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza H_ARANCELES_GALENOS_IMPORTE"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{7705AE95-4A1E-4600-AF08-B019CC52882F}"
+          SQLTask:SqlStatementSource="&#xA;/* Actualiza Capitulo y Subcapitulo CHAR */&#xA;&#x9;--UPDATE DW_SALUD.dbo.AUX_H_ARANCELES_GALENOS_IMPORTE SET id_capitulo_char = '0'+id_capitulo_char WHERE id_capitulo &lt; 10&#xA;&#x9;--UPDATE DW_SALUD.dbo.AUX_H_ARANCELES_GALENOS_IMPORTE SET id_subcapitulo_char = '0'+id_subcapitulo_char WHERE id_subcapitulo &lt; 10&#xA;&#x9;-- Esto lo hace para poder trabajar con los campos char completos al momento de comparar con Claves.&#xA;&#xA;/* Borra los casos de Unidades que tienen categoria. Estos casos, por definición de Isabel, no pueden existir. */&#xA;&#x9;DELETE AUX_H_ARANCELES_GALENOS_IMPORTE&#xA;&#x9;FROM AUX_H_ARANCELES_GALENOS_IMPORTE I&#xA;&#x9;JOIN D_TIPOS_GALENOS_UNIDADES D on I.id_tipo_galeno = D.id_galeno_unidad&#xA;&#x9;WHERE D.id_tipo_galeno_unidad = 'U' and id_categoria &lt;&gt; 'V'&#xA;&#xA;/*Actualiza capitulo y subcapitulo char para después relacionar la clave y poder obtener ekl importe*/&#xA;&#x9;UPDATE AUX_H_ARANCELES_GALENOS_IMPORTE&#xA;&#x9;SET id_capitulo_char = (CASE when (id_capitulo &lt; 10) then '0'+id_capitulo_char else id_capitulo_char end), &#xA;&#x9;&#x9;id_subcapitulo_char = (CASE when (id_subcapitulo &lt; 10) then '0'+id_subcapitulo_char else id_subcapitulo_char end)&#xA;&#x9;FROM AUX_H_ARANCELES_GALENOS_IMPORTE&#xA;&#xA;/* Actualiza AUX_H_ARANCELES_GALENOS_IMPORTE. &#xA;&#x9;&#x9;Si una prestacion tiene Origen '' se marca, sino se consulta si tiene Origen 'A' y por ultimo 'I'. Lo que no queda marcado se borra. */&#xA;&#xA;&#x9;&#x9;UPDATE dbo.AUX_H_ARANCELES_GALENOS_IMPORTE &#xA;&#x9;&#x9;SET marca_prestacion = 1&#xA;&#x9;&#x9;FROM dbo.AUX_H_ARANCELES_GALENOS_IMPORTE P&#xA;&#x9;&#x9;JOIN D_TIPOS_GALENOS_UNIDADES T on P.id_tipo_galeno = T.id_galeno_unidad&#xA;&#x9;&#x9;JOIN (select P2.fecha_ultimo_convenio, P2.id_producto, P2.id_plan_producto, P2.id_cod_arancel, P2.id_categoria, P2.id_capitulo, P2.id_subcapitulo, P2.id_tipo_galeno, MAX(P2.id_origen_prestacion_orden) as id_origen_prestacion_orden&#xA;&#x9;&#x9;FROM dbo.AUX_H_ARANCELES_GALENOS_IMPORTE P2&#xA;&#x9;&#x9;group by P2.fecha_ultimo_convenio, P2.id_producto, P2.id_plan_producto, P2.id_cod_arancel, P2.id_categoria, P2.id_capitulo, P2.id_subcapitulo, P2.id_tipo_galeno) H2 on P.fecha_ultimo_convenio = H2.fecha_ultimo_convenio and P.id_producto = H2.id_producto and P.id_plan_producto = H2.id_plan_producto and P.id_cod_arancel = H2.id_cod_arancel and P.id_categoria = H2.id_categoria and P.id_capitulo = H2.id_capitulo and P.id_subcapitulo = H2.id_subcapitulo and P.id_tipo_galeno = H2.id_tipo_galeno and P.id_origen_prestacion_orden = H2.id_origen_prestacion_orden&#xA;&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;--DELETE FROM AUX_H_ARANCELES_GALENOS_IMPORTE where marca_prestacion = 0&#xA;&#xA;&#xA;/* Calcula el importe de la última Fecha de cada Convenio. */&#xA;&#xA;&#x9;-- Borra la tabla.&#xA;&#x9;&#x9;TRUNCATE TABLE DW_SALUD.dbo.H_ARANCELES_GALENOS_IMPORTE&#xA;&#x9;&#x9;&#x9;&#xA;&#x9;-- Para Galeno.&#xA;&#x9;&#x9;INSERT INTO DW_SALUD.dbo.H_ARANCELES_GALENOS_IMPORTE&#xA;&#x9;&#x9;(id_periodo, fecha_convenio, id_producto, id_plan_producto, id_modelo_arancel_tarifa, id_origen_prestacion, id_categoria, id_galeno_unidad, id_nomenclador, id_capitulo_imp, id_subcapitulo_imp, imp_galeno, imp_unidad, importe_galeno_unidad, id_capitulo_imp_char, id_subcapitulo_imp_char, clave_imp_unidad_y_galeno, fecha_vigencia_hasta, id_nomenclador_int, id_acreedor, id_tipo_prestador, fecha_carga_convenio)&#xA;&#x9;&#x9;SELECT SUBSTRING(GI.fecha_ultimo_convenio,1,6) as id_periodo, GI.fecha_ultimo_convenio as fecha_convenio, GI.id_producto, GI.id_plan_producto, GI.id_cod_arancel as id_modelo_arancel_tarifa, GI.id_origen_prestacion, GI.id_categoria, GI.id_tipo_galeno as id_galeno_unidad, GI.id_nomenclador, GI.id_capitulo as id_capitulo_imp, GI.id_subcapitulo as id_subcapitulo_imp, GI.importe as imp_galeno, 0 as imp_unidad, GI.importe as importe_galeno_unidad, id_capitulo_char, id_subcapitulo_char, REPLACE(GI.id_cod_arancel+GI.id_nomenclador+CAST(GI.id_tipo_galeno as CHAR(3))+GI.id_capitulo_char+GI.id_subcapitulo_char+GI.id_origen_prestacion+GI.id_categoria,' ','') as clave_imp_unidad_y_galeno, GI.fecha_fin_vigencia as fecha_vigencia_hasta, GI.id_nomenclador_int, A.id_acreedor, 'P' as id_tipo_prestador, MAX(GI.fecha_carga_convenio) as fecha_carga_convenio&#xA;&#x9;&#x9;FROM DW_SALUD.dbo.AUX_H_ARANCELES_GALENOS_IMPORTE GI &#xA;&#x9;&#x9;JOIN DW_SALUD.dbo.D_ARANCELES_GALENOS_CANTIDAD_UNIDADES U on GI.id_nomenclador_int = U.id_nomenclador_int and GI.id_tipo_galeno = U.id_tipo_galeno&#xA;&#x9;&#x9;JOIN DW_SALUD.dbo.D_ARANCELES_GALENOS_ACREEDOR A on A.id_cod_arancel = GI.id_cod_arancel&#xA;&#x9;&#x9;JOIN DW_SALUD.dbo.D_ACREEDOR AC on AC.id_acreedor = A.id_acreedor&#x9;&#xA;&#x9;&#x9;WHERE GI.marca_prestacion = 1 and AC.evolucion_pareto = 1 &#xA;&#x9;&#x9;GROUP BY GI.fecha_ultimo_convenio, GI.id_producto, GI.id_plan_producto, GI.id_cod_arancel, GI.id_origen_prestacion, GI.id_categoria, GI.id_tipo_galeno, GI.id_nomenclador, GI.id_capitulo, GI.id_subcapitulo, GI.importe, GI.id_capitulo_char, GI.id_subcapitulo_char, GI.fecha_fin_vigencia, GI.id_nomenclador_int, A.id_acreedor--, GI.fecha_carga_convenio&#xA;&#xA;&#x9;-- Para Unidades.&#xA;&#x9;&#x9;INSERT INTO DW_SALUD.dbo.H_ARANCELES_GALENOS_IMPORTE&#xA;&#x9;&#x9;(id_periodo, fecha_convenio, id_producto, id_plan_producto, id_modelo_arancel_tarifa, id_origen_prestacion, id_categoria, id_galeno_unidad, id_nomenclador, id_capitulo_imp, id_subcapitulo_imp, imp_galeno, imp_unidad, importe_galeno_unidad, id_capitulo_imp_char, id_subcapitulo_imp_char, clave_imp_unidad_y_galeno, fecha_vigencia_hasta, id_nomenclador_int, id_acreedor, id_tipo_prestador, fecha_carga_convenio)&#xA;&#x9;&#x9;SELECT SUBSTRING(GI.fecha_ultimo_convenio,1,6) as id_periodo, GI.fecha_ultimo_convenio as fecha_convenio, GI.id_producto, GI.id_plan_producto, GI.id_cod_arancel as id_modelo_arancel_tarifa, GI.id_origen_prestacion, GI.id_categoria, GI.id_tipo_galeno as id_galeno_unidad, GI.id_nomenclador, GI.id_capitulo as id_capitulo_imp, GI.id_subcapitulo as id_subcapitulo_imp, 0 as imp_galeno, GI.importe as imp_unidad, GI.importe as importe_galeno_unidad, id_capitulo_char, id_subcapitulo_char, REPLACE(GI.id_cod_arancel+GI.id_nomenclador+CAST(GI.id_tipo_galeno as CHAR(3))+GI.id_capitulo_char+GI.id_subcapitulo_char+GI.id_origen_prestacion+GI.id_categoria,' ','') as clave_imp_unidad_y_galeno, GI.fecha_fin_vigencia as fecha_vigencia_hasta, GI.id_nomenclador_int, A.id_acreedor, 'P' as id_tipo_prestador, MAX(GI.fecha_carga_convenio) as fecha_carga_convenio&#xA;&#x9;&#x9;FROM DW_SALUD.dbo.AUX_H_ARANCELES_GALENOS_IMPORTE GI &#xA;&#x9;&#x9;JOIN DW_SALUD.dbo.D_ARANCELES_GALENOS_CANTIDAD_UNIDADES U on GI.id_nomenclador_int = U.id_nomenclador_int and GI.id_tipo_galeno = U.tipo_unidad_sanatorial&#xA;&#x9;&#x9;JOIN DW_SALUD.dbo.D_ARANCELES_GALENOS_ACREEDOR A on A.id_cod_arancel = GI.id_cod_arancel&#xA;&#x9;&#x9;JOIN DW_SALUD.dbo.D_ACREEDOR AC on AC.id_acreedor = A.id_acreedor&#x9;&#xA;&#x9;&#x9;WHERE GI.marca_prestacion = 1 and AC.evolucion_pareto = 1 &#xA;&#x9;&#x9;GROUP BY GI.fecha_ultimo_convenio, GI.id_producto, GI.id_plan_producto, GI.id_cod_arancel, GI.id_origen_prestacion, GI.id_categoria, GI.id_tipo_galeno, GI.id_nomenclador, GI.id_capitulo, GI.id_subcapitulo, GI.importe, GI.id_capitulo_char, GI.id_subcapitulo_char, GI.fecha_fin_vigencia, GI.id_nomenclador_int, A.id_acreedor--, GI.fecha_carga_convenio&#xA;&#xA;/* Quitar valores duplicados con fechas distintas al 01 de cada mes (los convenios son siempre el primer día del mes). AQUI TENEMOS DOS CUESTIONES!!. */&#xA;&#x9;&#x9;&#xA;&#x9;--* La primera es que las fechas pueden ser 20170801, 20170802 y 20170803 con el mismo Origen de Prestación.&#xA;&#xA;&#x9;&#x9;-- Nos quedamos con las máximas fechas de estos casos. Es decir, nos quedaríamos con el 20170803. Aqui no interesa la prioridad del Origen Prestación.&#xA;&#x9;&#x9;&#x9;UPDATE H_ARANCELES_GALENOS_IMPORTE SET marca_repetido = 1&#xA;&#x9;&#x9;&#x9;FROM H_ARANCELES_GALENOS_IMPORTE T&#xA;&#x9;&#x9;&#x9;JOIN (&#x9;SELECT id_periodo, MAX(fecha_convenio) as fecha_convenio, id_modelo_arancel_tarifa, id_acreedor, id_tipo_prestador, id_capitulo_imp, id_subcapitulo_imp, id_producto, id_plan_producto, id_galeno_unidad, id_origen_prestacion, id_categoria, id_nomenclador_int&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;FROM H_ARANCELES_GALENOS_IMPORTE&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;GROUP BY id_periodo, id_modelo_arancel_tarifa, id_acreedor, id_tipo_prestador, id_capitulo_imp, id_subcapitulo_imp, id_producto, id_plan_producto, id_galeno_unidad, id_origen_prestacion, id_categoria, id_nomenclador_int&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;HAVING COUNT(id_periodo) &gt; 1) H on T.fecha_convenio = H.fecha_convenio and T.id_modelo_arancel_tarifa = H.id_modelo_arancel_tarifa and T.id_acreedor = H.id_acreedor and T.id_tipo_prestador = H.id_tipo_prestador and T.id_capitulo_imp = H.id_capitulo_imp and T.id_subcapitulo_imp = H.id_subcapitulo_imp and T.id_producto = H.id_producto and T.id_plan_producto = H.id_plan_producto and T.id_galeno_unidad = H.id_galeno_unidad and T.id_origen_prestacion = H.id_origen_prestacion and T.id_categoria = H.id_categoria and T.id_nomenclador_int = H.id_nomenclador_int&#xA;&#xA;&#x9;&#x9;-- Los demás casos los borramos.&#xA;&#x9;&#x9;&#x9;DELETE H_ARANCELES_GALENOS_IMPORTE&#xA;&#x9;&#x9;&#x9;FROM H_ARANCELES_GALENOS_IMPORTE T&#xA;&#x9;&#x9;&#x9;JOIN (&#x9;SELECT id_periodo, id_modelo_arancel_tarifa, id_acreedor, id_tipo_prestador, id_capitulo_imp, id_subcapitulo_imp, id_producto, id_plan_producto, id_galeno_unidad, id_origen_prestacion, id_categoria, id_nomenclador_int&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;FROM H_ARANCELES_GALENOS_IMPORTE &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;GROUP BY id_periodo, id_modelo_arancel_tarifa, id_acreedor, id_tipo_prestador, id_capitulo_imp, id_subcapitulo_imp, id_producto, id_plan_producto, id_galeno_unidad, id_origen_prestacion, id_categoria, id_nomenclador_int&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;HAVING COUNT(id_periodo) &gt; 1) H on T.id_periodo = H.id_periodo and T.id_modelo_arancel_tarifa = H.id_modelo_arancel_tarifa and T.id_acreedor = H.id_acreedor and T.id_tipo_prestador = H.id_tipo_prestador and T.id_capitulo_imp = H.id_capitulo_imp and T.id_subcapitulo_imp = H.id_subcapitulo_imp and T.id_producto = H.id_producto and T.id_plan_producto = H.id_plan_producto and T.id_galeno_unidad = H.id_galeno_unidad and T.id_origen_prestacion = H.id_origen_prestacion and T.id_categoria = H.id_categoria and T.id_nomenclador_int = H.id_nomenclador_int&#xA;&#x9;&#x9;&#x9;WHERE T.marca_repetido &lt;&gt; 1&#xA;&#xA;&#xA;&#x9;--* La segunda es que las fechas pueden ser 20170801, 20170802 y 20170803 y el Origen distinto. Entonces la diferencia con el anterior script es que no tiene en cuenta el Origen de la Prestación.&#xA;&#xA;&#x9;&#x9;&#x9;-- Nos quedamos con las máximas fechas de estos casos. Es decir, nos quedaríamos con el 20170803. Aqui no interesa la prioridad del Origen Prestación.&#xA;&#x9;&#x9;&#x9;UPDATE H_ARANCELES_GALENOS_IMPORTE SET marca_repetido = 1&#xA;&#x9;&#x9;&#x9;FROM H_ARANCELES_GALENOS_IMPORTE T&#xA;&#x9;&#x9;&#x9;JOIN (&#x9;SELECT id_periodo, MAX(fecha_convenio) as fecha_convenio, id_modelo_arancel_tarifa, id_acreedor, id_tipo_prestador, id_capitulo_imp, id_subcapitulo_imp, id_producto, id_plan_producto, id_galeno_unidad, id_categoria&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;FROM H_ARANCELES_GALENOS_IMPORTE&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;GROUP BY id_periodo, id_modelo_arancel_tarifa, id_acreedor, id_tipo_prestador, id_capitulo_imp, id_subcapitulo_imp, id_producto, id_plan_producto, id_galeno_unidad, id_categoria&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;HAVING COUNT(id_periodo) &gt; 1) H on T.fecha_convenio = H.fecha_convenio and T.id_modelo_arancel_tarifa = H.id_modelo_arancel_tarifa and T.id_acreedor = H.id_acreedor and T.id_tipo_prestador = H.id_tipo_prestador and T.id_capitulo_imp = H.id_capitulo_imp and T.id_subcapitulo_imp = H.id_subcapitulo_imp and T.id_producto = H.id_producto and T.id_plan_producto = H.id_plan_producto and T.id_galeno_unidad = H.id_galeno_unidad and T.id_categoria = H.id_categoria&#xA;&#xA;&#x9;&#x9;&#x9;-- Los demás casos los borramos.&#xA;&#x9;&#x9;&#x9;DELETE H_ARANCELES_GALENOS_IMPORTE&#xA;&#x9;&#x9;&#x9;FROM H_ARANCELES_GALENOS_IMPORTE T&#xA;&#x9;&#x9;&#x9;JOIN (&#x9;SELECT id_periodo, id_modelo_arancel_tarifa, id_acreedor, id_tipo_prestador, id_capitulo_imp, id_subcapitulo_imp, id_producto, id_plan_producto, id_galeno_unidad, id_categoria&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;FROM H_ARANCELES_GALENOS_IMPORTE &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;GROUP BY id_periodo, id_modelo_arancel_tarifa, id_acreedor, id_tipo_prestador, id_capitulo_imp, id_subcapitulo_imp, id_producto, id_plan_producto, id_galeno_unidad, id_categoria&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;HAVING COUNT(id_periodo) &gt; 1) H on T.id_periodo = H.id_periodo and T.id_modelo_arancel_tarifa = H.id_modelo_arancel_tarifa and T.id_acreedor = H.id_acreedor and T.id_tipo_prestador = H.id_tipo_prestador and T.id_capitulo_imp = H.id_capitulo_imp and T.id_subcapitulo_imp = H.id_subcapitulo_imp and T.id_producto = H.id_producto and T.id_plan_producto = H.id_plan_producto and T.id_galeno_unidad = H.id_galeno_unidad and T.id_categoria = H.id_categoria&#xA;&#x9;&#x9;&#x9;WHERE T.marca_repetido &lt;&gt; 1&#xA;&#xA;&#xA;&#xA;&#x9;&#x9;-- Tablas:&#xA;&#x9;&#x9;-- DW_SALUD.dbo.D_ARANCELES_GALENOS_CANTIDAD_UNIDADES: Almacena cantidades de Galenos y Unidades por cada prestacion.&#xA;&#x9;&#x9;-- DW_SALUD.dbo.H_ARANCELES_GALENOS_IMPORTE: Contiene los valores de importe respecto de Galenos y los que petenecen a Unidades por separado.&#xA;&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Actualizar tablas de dimensión"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Actualizar tablas de dimensión"
+      DTS:DTSID="{581e39af-5ca0-4fa1-a647-62f12ae28732}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualizar tablas de dimensión"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0">
+        <DTS:Property
+          DTS:DataType="8"
+          DTS:Name="EventFilter">1,7,OnError</DTS:Property>
+        <DTS:Property
+          DTS:EventName="OnError"
+          DTS:Name="ColumnFilter">
+          <DTS:Property
+            DTS:Name="Computer">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="Operator">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="SourceName">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="SourceID">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="ExecutionID">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="MessageText">-1</DTS:Property>
+          <DTS:Property
+            DTS:Name="DataBytes">-1</DTS:Property>
+        </DTS:Property>
+      </DTS:LoggingOptions>
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{7705AE95-4A1E-4600-AF08-B019CC52882F}"
+          SQLTask:SqlStatementSource="&#xA;&#xA;&#xA;/* Actualizo la tabla de PRESTACION */&#xA; INSERT INTO D_PRESTACION &#xA; (id_prestacion, id_nomenclador, de_codigo_prestacion ,de_prestacion, id_capitulo, id_subcapitulo, id_seccion, id_seguir_prestacion, id_grupo_prestacion, id_subgrupo_prestacion, id_accion_farmacologica, id_servicio_prest, id_catalogada, id_cod_resolucion, id_nivel_capitacion, id_complejidad, id_provision_prest, id_rubro_ind_consumo, id_prestacion_oncologia, id_marca_recupero_sur, simulador_convenio, evolucion_pareto, orden_pareto)&#xA; SELECT DISTINCT id_prestacion, SUBSTRING(id_prestacion,1,2) as id_nomenclador, SUBSTRING(id_prestacion,3,8) as de_codigo_prestacion, 'F/D' as de_prestacion, 99 as id_capitulo, 99 as id_subcapitulo, 99 as id_seccion, 'N' as id_seguir_prestacion, 99 as id_grupo_prestacion, 99 as id_subgrupo_prestacion, 9999 as id_accion_farmacologica, 99 as id_servicio_prest, 'S' as id_catalogada, 9 as id_cod_resolucion, 999 as id_nivel_capitacion, 999 as id_complejidad, 0 as id_provision_prest, ' ' as id_rubro_ind_consumo, 'N' as id_prestacion_oncologia, 0 as id_marca_recupero_sur, 0 as simulador_convenio, 0 as evolucion_pareto, 0 as orden_pareto&#xA; FROM AUX_ARANCELES_GALENOS_UNIDADES&#xA; WHERE id_prestacion not in (SELECT id_prestacion FROM d_prestacion)&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Borra AUX_H_ARANCELES_GALENOS_IMPORTE"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{28B91110-93E4-4DD9-82F4-A08090136FB7}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Borra AUX_H_ARANCELES_GALENOS_IMPORTE"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{7705AE95-4A1E-4600-AF08-B019CC52882F}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE AUX_H_ARANCELES_GALENOS_IMPORTE" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{6814BC99-5F0D-4448-A138-5FE1EA46300A}"
+      DTS:From="Package\Actualiza D_ARANCELES_GALENOS_CANTIDAD_UNIDADES"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Actualiza D_ARANCELES_GALENOS_ACREEDOR" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{A06B77D8-CB53-404D-9F6A-181A0261BB66}"
+      DTS:From="Package\Borra AUX_H_ARANCELES_GALENOS_IMPORTE"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Actualiza AUX_H_ARANCELES_GALENOS_IMPORTE" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{4827D5B0-90D3-493E-B132-34B62DD786B0}"
+      DTS:From="Package\Actualiza D_ARANCELES_GALENOS_ACREEDOR"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Borra AUX_H_ARANCELES_GALENOS_IMPORTE" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 5]"
+      DTS:CreationName=""
+      DTS:DTSID="{0B44E0BE-B916-4726-B42C-BBFDD25E1895}"
+      DTS:From="Package\Actualiza AUX_H_ARANCELES_GALENOS_IMPORTE"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 5"
+      DTS:To="Package\Actualiza H_ARANCELES_GALENOS_IMPORTE" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 6]"
+      DTS:CreationName=""
+      DTS:DTSID="{D9CD3E47-5686-4F3E-AB56-7B3E9DEA34BA}"
+      DTS:From="Package\Actualiza H_ARANCELES_GALENOS_IMPORTE"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 6"
+      DTS:To="Package\Actualiza Detalles AUX_ARANCELES_GALENOS_UNIDADES" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 7]"
+      DTS:CreationName=""
+      DTS:DTSID="{8135AB15-F1FF-448C-B7A4-DB1C5B097830}"
+      DTS:From="Package\Actualiza Detalles AUX_ARANCELES_GALENOS_UNIDADES"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 7"
+      DTS:To="Package\Actualizar tablas de dimensión" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="351,42"
+          Id="Package\Actualiza AUX_H_ARANCELES_GALENOS_IMPORTE"
+          TopLeft="23.1725067385445,221.594339622641" />
+        <NodeLayout
+          Size="335,42"
+          Id="Package\Actualiza D_ARANCELES_GALENOS_ACREEDOR"
+          TopLeft="31.1725067385445,77.5314465408805" />
+        <NodeLayout
+          Size="392,42"
+          Id="Package\Actualiza D_ARANCELES_GALENOS_CANTIDAD_UNIDADES"
+          TopLeft="2.67250673854446,5.5" />
+        <NodeLayout
+          Size="387,42"
+          Id="Package\Actualiza Detalles AUX_ARANCELES_GALENOS_UNIDADES"
+          TopLeft="5.17250673854446,365.657232704402" />
+        <NodeLayout
+          Size="323,42"
+          Id="Package\Actualiza H_ARANCELES_GALENOS_IMPORTE"
+          TopLeft="37.1725067385445,293.625786163522" />
+        <NodeLayout
+          Size="228,42"
+          Id="Package\Actualizar tablas de dimensión"
+          TopLeft="84.6725067385445,437.688679245283" />
+        <NodeLayout
+          Size="334,42"
+          Id="Package\Borra AUX_H_ARANCELES_GALENOS_IMPORTE"
+          TopLeft="31.6725067385445,149.562893081761" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="198.672506738544,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,30.0314465408805"
+              Start="0,0"
+              End="0,22.5314465408805">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,22.5314465408805" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="198.672506738544,191.562893081761">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,30.03144654088"
+              Start="0,0"
+              End="0,22.53144654088">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,22.53144654088" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="198.672506738544,119.53144654088">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,30.0314465408805"
+              Start="0,0"
+              End="0,22.5314465408805">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,22.5314465408805" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 5]"
+          TopLeft="198.672506738544,263.594339622641">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,30.031446540881"
+              Start="0,0"
+              End="0,22.531446540881">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,22.531446540881" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 6]"
+          TopLeft="198.672506738544,335.625786163522">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,30.03144654088"
+              Start="0,0"
+              End="0,22.53144654088">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,22.53144654088" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 7]"
+          TopLeft="198.672506738544,407.657232704402">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,30.031446540881"
+              Start="0,0"
+              End="0,22.531446540881">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,22.531446540881" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

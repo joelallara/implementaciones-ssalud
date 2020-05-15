@@ -9,71 +9,110 @@
 {% block title %}Proyectos{% endblock %}
 
 {% block content %}
+
+<!-- MODAL SPINNER -->
 <div class="container-fluid">
+  <div class="modal fade bd-example-modal-lg" data-backdrop="static" data-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content" style="width: 48px">
+        <span class="fa fa-spinner fa-spin fa-3x"></span>
+      </div>
+    </div>
+  </div>
+  <!-- MODAL SPINNER -->
 
   <div class="row mt-4 mb-2">
     <div class="col-12">
       <h2>Información de Proyectos
-        <a href="{% url 'project:update_projects_info' %}"><i class="material-icons" data-toggle="tooltip" data-placement="top" title="Actualizar info">
-          update
-        </i></a>
+        <a href="{% url 'project:update_projects_info' %}"><i class="material-icons" data-toggle="tooltip"
+            data-placement="top" title="Actualizar info" onclick="modal();">
+            update
+          </i></a>
       </h2>
-        
+    </div>
+    <div class="col-12">
+      {% if 'ok' in request.GET %}
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        Información actualizada con exito
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      {% elif 'error' in request.GET %}
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        El proceso de actualización de informacion falló. Verifique su conexion a la unidad compartida SSIS2017$
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      {% endif %}
     </div>
   </div>
 
-  <div class="row">
+  <div class="row h-25">
     {% if projects %}
-    <div class="col-4 mt-2 bg-light text-dark">
+    <div class="col-4 mt-2 bg-light text-dark h-50">
       <h3 class="mt-2">Proyectos</h3>
-      <div class="list-group mb-4" id="projects-list-group">
-        {% for project in projects %}
-        <a href="#" class="list-group-item list-group-item-action list-group-item-primary" data-url="{% url 'project:packages' project.id %}">
-          <div class="row">
-            <div class="col-8 mt-3">
-              {{project.project_name}}
-            </div>
-            <div class="col-2 ml-5">
-              <div class="row">
-                <div class="col-6">
-                  <i class="material-icons" data-toggle="tooltip" data-placement="top" title="Documentación">
-                    link
-                  </i>
+      <div class="col-12 lista">
+        <div class="list-group mb-4" id="projects-list-group">
+          {% for project in projects %}
+          <a href="#" class="list-group-item list-group-item-action list-group-item-primary"
+            data-url="{% url 'project:packages' project.id %}">
+            <div class="row">
+              <div class="col-8 mt-3">
+                {{project.project_name}}
+              </div>
+              <div class="col-2 ml-5">
+                <div class="row">
+                  <div class="col-6">
+                    <i class="material-icons" data-toggle="tooltip" data-placement="top" title="Documentación">
+                      link
+                    </i>
+                  </div>
+                  <div class="col-6">
+                    <i class="material-icons" data-toggle="tooltip" data-placement="top" title="Actualizar info">
+                      update
+                    </i>
+                  </div>
+                  <div class="col-12">
+                    <p class="text-right align-middle update-date" data-toggle="tooltip" data-placement="top"
+                      title="Ultima Actualización">
+                      {{project.modified|date:'d/m/y'}}
+                    </p>
+                  </div>
                 </div>
-                <div class="col-6">
-                  <i class="material-icons" data-toggle="tooltip" data-placement="top" title="Actualizar info">
-                    update
-                  </i>
-                </div>
-                <div class="col-12">
-                  <p class="text-right align-middle update-date" data-toggle="tooltip" data-placement="top"
-                    title="Ultima Actualización">
-                    {{project.modified|date:'d/m/y'}}
-                  </p>
-                </div>
+
               </div>
 
             </div>
-
-          </div>
-        </a>
-        {% endfor %}
+          </a>
+          {% endfor %}
+        </div>
       </div>
     </div>
     <div class="col-4 mt-2 border-left bg-light text-dark">
       <h3 class="mt-2">Paquetes</h3>
-      <div class="list-group mb-4" id="packages-list-group">
+      <div class="col-12 lista">
+        <div class="list-group mb-4" id="packages-list-group">
+        </div>
       </div>
     </div>
     <div class="col-4 mt-2 border-left bg-light text-dark">
       <h3 class="mt-2">Tareas</h3>
-      <div class="list-group mb-4" id="tasks-list-group">
+      <div class="col-12 lista">
+        <div class="list-group mb-4" id="tasks-list-group">
+        </div>
       </div>
     </div>
     {% else %}
 
 
     {% endif %}
+  </div>
+  <div class="row">
+    <div class="col-12 mt-2 border-left bg-light text-dark">
+      <h3 class="mt-2">Documentación</h3>
+    </div>
   </div>
 
 

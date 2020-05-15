@@ -1,0 +1,101 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="9/14/2017 12:29:31 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AMS06X"
+  DTS:CreatorName="AMS\jtrinchier"
+  DTS:DTSID="{08F581B8-8AC0-4395-A9E0-FFB31E0809B3}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="Cascada Comercial D_TIPOS_PUESTOS_CASCADA_COMERCIAL"
+  DTS:PackageType="5"
+  DTS:VersionBuild="5"
+  DTS:VersionGUID="{55119778-C20B-4943-9F08-5FE7C0BEF889}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{D44BD906-1BC5-43B8-B854-4BFD6DB516C9}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">1,7,OnError</DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnError"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{D44BD906-1BC5-43B8-B854-4BFD6DB516C9}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza la tabla D_TIPOS_PUESTOS_CASCADA_COMERCIAL"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{5384ED32-7F15-424C-BCFC-4A0CEB66DE47}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza la tabla D_TIPOS_PUESTOS_CASCADA_COMERCIAL"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{B6C8990D-748C-45F8-90C1-4EE0405A1677}"
+          SQLTask:SqlStatementSource="/* Actualizo la tabla de D_TIPOS_PUESTOS_CASCADA_COMERCIAL */&#xA;&#xA;INSERT INTO D_TIPOS_PUESTOS_CASCADA_COMERCIAL&#xA;&#x9;(id_tipo_puesto_cascada_comercial, de_tipo_puesto_cascada_comercial)&#xA;    SELECT DISTINCT IDTIPOPUESTO , TIPOPUESTO&#xA;    FROM [HOST03].[HOST03].[COMERCIAL].[TIPOS_PUESTOS]&#xA;    WHERE IDTIPOPUESTO not in (SELECT id_tipo_puesto_cascada_comercial FROM D_TIPOS_PUESTOS_CASCADA_COMERCIAL)&#xA;    &#xA;----- Actualiza la tabla D_TIPOS_PUESTOS_CASCADA_COMERCIAL tomando los datos de la as400&#xA;Update D_TIPOS_PUESTOS_CASCADA_COMERCIAL set id_tipo_puesto_cascada_comercial = as400.IDTIPOPUESTO, &#xA;de_tipo_puesto_cascada_comercial = as400.TIPOPUESTO&#xA; FROM D_TIPOS_PUESTOS_CASCADA_COMERCIAL D&#xA; inner join [HOST03].[HOST03].[COMERCIAL].[TIPOS_PUESTOS] as400 on as400.IDTIPOPUESTO = D.id_tipo_puesto_cascada_comercial&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="401,42"
+          Id="Package\Actualiza la tabla D_TIPOS_PUESTOS_CASCADA_COMERCIAL"
+          TopLeft="136.5,76.5" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

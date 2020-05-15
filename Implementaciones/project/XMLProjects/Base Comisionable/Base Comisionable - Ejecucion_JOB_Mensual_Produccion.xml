@@ -1,0 +1,485 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="2/7/2018 8:59:29 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AMS06X"
+  DTS:CreatorName="AMS\jtrinchier"
+  DTS:DTSID="{5C67F44D-F06B-4246-9C5B-5D05822C5A6A}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="Base Comisionable - Ejecucion_JOB_Mensual_Produccion"
+  DTS:PackageType="5"
+  DTS:VersionBuild="86"
+  DTS:VersionGUID="{65646DA5-2F39-42A6-8862-8F43F0C9D0DF}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="2" />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza Marca - vigente_produccion_fichas"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{67BB0B3F-3234-43E2-9719-866C544E2EA5}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza Marca - vigente_produccion_fichas"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{D1837BAC-C790-4C2E-BC0E-65F1DF3613D9}"
+          SQLTask:SqlStatementSource="---- Declara la Variable con el periodo producción que estamos agregando en  H_TRAZABILIDAD_FICHAS&#xA;&#xA;Declare @Periodo Int&#xA;SET @Periodo = (select MAX(id_periodo_produccion) from H_TRAZABILIDAD_FICHAS)&#xA;&#xA;---- Actualiza la marca vigente_produccion_fichas con un 1 para el periodo producción vigente&#xA;&#xA;UPDATE D_PERIODO SET vigente_produccion_fichas  = 1&#xA;FROM D_PERIODO D&#xA;where id_periodo = @Periodo&#xA;&#xA;&#xA;&#xA;&#xA;/* Actualiza id_periodo_anual_produccion en D_PERIODO  */&#xA;&#xA;UPDATE D_PERIODO set id_periodo_anual_produccion = 0&#xA;&#xA;&#x9;&#x9;UPDATE D_PERIODO set id_periodo_anual_produccion = 1&#xA;&#x9;&#x9;WHERE id_periodo in (select top 36 id_periodo from D_PERIODO where vigente_produccion_fichas = 1 order by id_periodo desc)&#xA;&#xA;&#x9;&#x9;UPDATE D_PERIODO set id_periodo_anual_produccion = 2&#xA;&#x9;&#x9;WHERE id_periodo in (select top 24 id_periodo from D_PERIODO where vigente_produccion_fichas = 1 order by id_periodo desc)&#xA;&#xA;&#x9;&#x9;UPDATE D_PERIODO set id_periodo_anual_produccion = 3&#xA;&#x9;&#x9;WHERE id_periodo in (select top 12 id_periodo from D_PERIODO where vigente_produccion_fichas = 1 order by id_periodo desc)&#xA;&#xA;&#xA;/* Actualiza el Orden de produccion en la D_MES. */&#xA;&#xA;&#x9;-- Inicializa todo en cero.&#xA;&#x9;&#x9;UPDATE D_MES SET id_orden_produccion = 0 &#xA;&#xA;&#x9;-- Fija el Maximo Orden de produccion teniendo en cuenta el periodo que se esta actualizando en el Trazabilidad de fichas mensual&#xA;&#x9;&#x9;UPDATE D_MES&#xA;&#x9;&#x9;&#x9;SET id_orden_produccion = 12 &#xA;&#x9;&#x9;WHERE id_mes = (SELECT MONTH(CAST(CAST(dbo.Devuelve_Fecha(MAX(id_periodo)) as CHAR(8)) as datetime)) from D_PERIODO where vigente_produccion_fichas = 1)&#xA;&#xA;&#xA;&#xA;&#x9;-- La variable @Mes_Actualizar lleva el control del mes al que debemos asignarle un Orden.&#xA;&#x9;Declare @Mes_Actualizar int&#xA;&#xA;&#x9;-- La variable @Valor_Orden indica que posición ocupa en el Orden a calcular por cada Mes.&#xA;&#x9;Declare @Valor_Orden Int Set @Valor_Orden = (select MAX(id_orden_produccion)-1 from D_MES where id_orden_produccion &lt;&gt; 0)&#xA;&#xA;&#xA;&#x9;WHILE @Valor_Orden &gt; 0 -- Cuando este valor es cero se termina el script.&#xA;&#xA;&#x9;begin&#xA;&#xA;&#x9;&#x9;-- Para este seteo relacionamos con la D_PERIODO para poder jugar con las funciones de fechas, cuestión que con la D_MES no pudimos.&#xA;&#x9;&#x9;&#x9;Set @Mes_Actualizar = (&#x9;select MONTH(CAST(CAST(dbo.Devuelve_Fecha(dbo.PeriodoAnterior((CAST(CAST(dbo.Devuelve_Fecha(MIN(id_periodo)) as CHAR(8)) as datetime)))) as CHAR(8)) as datetime)) &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;from D_MES D&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;join D_PERIODO P on D.id_mes = P.id_mes&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;where id_periodo in (select top 12 id_periodo from D_PERIODO where vigente_produccion_fichas = 1 order by id_periodo desc) -- Se asegura que solo trabaje con los meses de trazabilidad de fichas. Esta actualizacion del campo vigente_produccion_fichas es siempre anterior a este script.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;and D.id_orden_produccion &lt;&gt; 0) -- Como puso en cero todos los valores, va a ir eligiendo los valores antoriores al último actualizado.&#xA;&#xA;&#x9;&#x9;-- Actualiza el id_orden_consumo con el valor correspondiente segun el proceso mensual de trazabilidad de fichas.&#xA;&#x9;&#x9;&#x9;UPDATE D_MES&#xA;&#x9;&#x9;&#x9;&#x9;SET id_orden_produccion = @Valor_Orden&#xA;&#x9;&#x9;&#x9;WHERE id_mes = @Mes_Actualizar&#xA;&#xA;&#x9;&#x9;-- Resta un valor a la variable @Valor_Orden que parte en 12 y llega a cero, momento en el que sale de la sentencia.&#xA;&#x9;&#x9;&#x9;Set @Valor_Orden = (select MIN(id_orden_produccion)-1 from D_MES where id_orden_produccion &lt;&gt; 0)&#xA;&#xA;&#x9;end" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Base Comisionable Control_Consistencia"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Execute Package Task"
+      DTS:DTSID="{7EDF674A-E6B2-4362-BCFF-AA52A4A1B171}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Base Comisionable Control_Consistencia"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>Base Comisionable Control_Consistencia.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Base Comisionable Diario H_ABACOM_PENDIENTE"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Execute Package Task"
+      DTS:DTSID="{E644EE52-DEB2-4EE5-B21D-356968592A94}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Base Comisionable Diario H_ABACOM_PENDIENTE"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>Base Comisionable H_ABACOM_PENDIENTE.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Base Comisionable H_ASESORES_TRAZABILIDAD"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Execute Package Task"
+      DTS:DTSID="{7B4F2FEB-D6CC-4ACA-A692-16A46A95E792}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Base Comisionable H_ASESORES_TRAZABILIDAD"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>Base Comisionable H_ASESORES_TRAZABILIDAD.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Cascada Comercial"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Execute Package Task"
+      DTS:DTSID="{7B15252F-61A8-4771-86F7-3A2472663401}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Cascada Comercial"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>Base Comisionable Cascada_Comercial.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Copia Archivos TRAZABILIDAD"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Execute Package Task"
+      DTS:DTSID="{48A50B9E-64EA-4141-9846-0128890B69CA}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Copia Archivos TRAZABILIDAD"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>Base Comisionable - Copia archivos TRAZABILIDAD.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Ejecucion de paquetes TRAZABILIDAD"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Execute Package Task"
+      DTS:DTSID="{67912ED4-28DE-412D-82C3-57F7A59F4F5D}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Ejecucion de paquetes TRAZABILIDAD"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>Base Comisionable - Ejecucion de paquetes TRAZABILIDAD.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Envio Mail"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{FCB397A1-AC89-4948-A10C-0EB200E9F70C}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Envio Mail"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{D1837BAC-C790-4C2E-BC0E-65F1DF3613D9}"
+          SQLTask:SqlStatementSource="---- Declara la Variable con el periodo producción que estamos agregando en  H_TRAZABILIDAD_FICHAS&#xA;&#xA;Declare @Periodo Int&#xA;SET @Periodo = (select MAX(id_periodo_produccion) from H_TRAZABILIDAD_FICHAS)&#xA;&#xA;&#xA;---- Comprueba si se informo ese periodo, si el mismo no se informo se envia un mail y se actualiza este periodo con un 1 para avisar que se informo este periodo.&#xA;if (select MAX(id_periodo) from D_PERIODO where vigente_produccion_fichas = 1) = @Periodo&#xA;begin &#xA;EXEC msdb.dbo.sp_send_dbmail&#xA;&#x9;&#x9;&#x9;@profile_name = 'Soporte MicroStrategy',&#xA;&#x9;&#x9;&#x9;@recipients = 'juanfrancisco.trinchieri@sancorsalud.com.ar',&#xA;&#x9;&#x9;&#x9;@subject = 'TRAZABILIDAD FICHAS CIERRE MENSUAL - Finalizo el JOB Correctamente',&#xA;&#x9;&#x9;&#x9;@body = 'Se informa en este correo que finalizo el siguiente periodo producción correspondiente a TRAZABILIDAD FICHAS.&#xA;&#x9;&#x9;&#x9;                       ',&#xA;&#x9;&#x9;&#x9;@file_attachments = '',&#xA;&#x9;&#x9;&#x9;@query = '&#xA;&#xA;&#x9;&#x9;select max(id_periodo) as id_periodo_vigente ,''Este es el Periodo Vigente de Producción'' as Comentario&#xA;&#x9;&#x9;from D_PERIODO&#xA;&#x9;&#x9;where vigente_produccion_fichas = 1&#xA;&#xA;&#x9;&#x9;&#xA; ',&#xA;&#x9;&#x9;&#x9;&#x9;@query_result_separator = '|',&#xA;&#x9;&#x9;&#x9;&#x9;@execute_query_database = 'DW_SALUD';&#xA;&#x9;&#x9;&#x9;&#x9;&#xA;&#xA;&#xA;end&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Motivo de Error"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Execute Package Task"
+      DTS:DTSID="{AB38C9AB-6B8A-4DC8-990F-B817202CA5A1}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Motivo de Error"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>Base Comisionable Motivo_Error.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{4A69DB15-8CDF-4815-ABEB-F60F5ADC9458}"
+      DTS:From="Package\Ejecucion de paquetes TRAZABILIDAD"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Actualiza Marca - vigente_produccion_fichas" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{86CF81D0-0FF7-4810-A529-AB967868339E}"
+      DTS:From="Package\Cascada Comercial"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Base Comisionable Diario H_ABACOM_PENDIENTE" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 8]"
+      DTS:CreationName=""
+      DTS:DTSID="{41C308DF-5F6E-479C-8770-942CE22B66B1}"
+      DTS:From="Package\Actualiza Marca - vigente_produccion_fichas"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 8"
+      DTS:To="Package\Cascada Comercial" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Restricción]"
+      DTS:CreationName=""
+      DTS:DTSID="{405FEC08-B826-4249-9740-EDC2B264CC95}"
+      DTS:From="Package\Base Comisionable Diario H_ABACOM_PENDIENTE"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Restricción"
+      DTS:To="Package\Base Comisionable Control_Consistencia" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Restricción 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{BE869818-A5A8-42F4-B24E-20D5C6D45F7F}"
+      DTS:From="Package\Base Comisionable Control_Consistencia"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Restricción 1"
+      DTS:To="Package\Motivo de Error" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Restricción 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{F6423300-BB96-4D3E-BC37-3901E8766C42}"
+      DTS:From="Package\Motivo de Error"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Restricción 2"
+      DTS:To="Package\Base Comisionable H_ASESORES_TRAZABILIDAD" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Restricción 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{F891B800-F16B-4F10-AFEA-95DE7F06065D}"
+      DTS:From="Package\Base Comisionable H_ASESORES_TRAZABILIDAD"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Restricción 3"
+      DTS:To="Package\Envio Mail" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Restricción 4]"
+      DTS:CreationName=""
+      DTS:DTSID="{B832E4CB-D799-4D27-B2C2-EC9B40C06C95}"
+      DTS:From="Package\Copia Archivos TRAZABILIDAD"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Restricción 4"
+      DTS:To="Package\Ejecucion de paquetes TRAZABILIDAD" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--Esta sección CDATA contiene la información de diseño del paquete. Esta sección incluye información como, por ejemplo, las coordenadas (x,y), el ancho y el alto.-->
+<!--Si edita manualmente esta sección y comete un error, puede eliminarlo. -->
+<!--El paquete podrá cargarse normalmente, pero se perderá la información de diseño anterior y el diseñador reorganizará los elementos automáticamente en la superficie de diseño.-->
+<Objects
+  Version="8">
+  <!--Cada uno de los nodos siguientes contiene propiedades que no afectan al comportamiento en tiempo de ejecución.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="284.8,41.6"
+          Id="Package\Actualiza Marca - vigente_produccion_fichas"
+          TopLeft="65.0661076170511,234.834905660377" />
+        <NodeLayout
+          Size="168.8,41.6"
+          Id="Package\Cascada Comercial"
+          TopLeft="123.066107617051,316.502358490566" />
+        <NodeLayout
+          Size="225.6,41.6"
+          Id="Package\Copia Archivos TRAZABILIDAD"
+          TopLeft="94.6661076170511,71.5" />
+        <NodeLayout
+          Size="260.8,41.6"
+          Id="Package\Ejecucion de paquetes TRAZABILIDAD"
+          TopLeft="77.0661076170511,153.167452830189" />
+        <NodeLayout
+          Size="126.4,41.6"
+          Id="Package\Envio Mail"
+          TopLeft="144.266107617051,724.83962264151" />
+        <NodeLayout
+          Size="149.6,41.6"
+          Id="Package\Motivo de Error"
+          TopLeft="132.666107617051,561.504716981132" />
+        <NodeLayout
+          Size="324.8,41.6"
+          Id="Package\Base Comisionable Diario H_ABACOM_PENDIENTE"
+          TopLeft="45.0661076170511,398.169811320755" />
+        <NodeLayout
+          Size="269.6,41.6"
+          Id="Package\Base Comisionable Control_Consistencia"
+          TopLeft="72.6661076170511,479.837264150944" />
+        <NodeLayout
+          Size="321.6,41.6"
+          Id="Package\Base Comisionable H_ASESORES_TRAZABILIDAD"
+          TopLeft="46.6661076170511,643.172169811321" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="207.466107617051,194.767452830189">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,40.0674528301887"
+              Start="0,0"
+              End="0,32.5674528301887">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,32.5674528301887" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="207.466107617051,358.102358490566">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,40.0674528301888"
+              Start="0,0"
+              End="0,32.5674528301888">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,32.5674528301888" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 8]"
+          TopLeft="207.466107617051,276.434905660377">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,40.0674528301888"
+              Start="0,0"
+              End="0,32.5674528301888">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,32.5674528301888" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Restricción]"
+          TopLeft="207.466107617051,439.769811320755">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,40.0674528301888"
+              Start="0,0"
+              End="0,32.5674528301888">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,32.5674528301888" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Restricción 2]"
+          TopLeft="207.466107617051,603.104716981132">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,40.0674528301887"
+              Start="0,0"
+              End="0,32.5674528301887">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,32.5674528301887" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Restricción 3]"
+          TopLeft="207.466107617051,684.772169811321">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,40.0674528301887"
+              Start="0,0"
+              End="0,32.5674528301887">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,32.5674528301887" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Restricción 4]"
+          TopLeft="207.466107617051,113.1">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,40.0674528301887"
+              Start="0,0"
+              End="0,32.5674528301887">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,32.5674528301887" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Restricción 1]"
+          TopLeft="207.466107617051,521.437264150944">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,40.0674528301887"
+              Start="0,0"
+              End="0,32.5674528301887">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,32.5674528301887" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

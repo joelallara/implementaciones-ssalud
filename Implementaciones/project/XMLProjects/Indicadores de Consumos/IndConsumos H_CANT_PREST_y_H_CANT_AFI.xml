@@ -1,0 +1,262 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="7/10/2015 12:01:41 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AMS06X"
+  DTS:CreatorName="AMS\pgonzalez"
+  DTS:DTSID="{41EB665F-82D2-46FE-A2D9-0EC9B8B56821}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="IndConsumos H_CANT_PREST_y_H_CANT_AFI"
+  DTS:PackageType="5"
+  DTS:VersionBuild="60"
+  DTS:VersionGUID="{DD244976-37C0-47B1-BB38-E6D51A754021}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{40B49CB8-A4B4-454B-A49A-6FCFEAF15BD3}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">1,7,OnError</DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnError"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{40B49CB8-A4B4-454B-A49A-6FCFEAF15BD3}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza AUX_H_INDICADORES_CONS_CANT_PREST y AUX_H_INDICADORES_CONS_CANT_AFI"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{bccb1de1-de7b-412e-bc4a-ce582142a261}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza AUX_H_INDICADORES_CONS_CANT_PREST y AUX_H_INDICADORES_CONS_CANT_AFI"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{A3223EA0-900E-4B20-A33F-FDC7A3B40426}"
+          SQLTask:SqlStatementSource="&#xA;&#xA;/* Corrige Edad Orden cuando no está cargada en Consumos. Le coloca la Edad Periodo para que los pocos casos de este tipo entren en su correcto rango de edad. */&#xA;&#xA;&#x9;UPDATE DW_SALUD.dbo.AUX_H_INDICADORES_CONS_CANT_PREST&#xA;&#x9;&#x9;SET edad_orden = edad_periodo&#xA;&#x9;where edad_orden = 999&#xA;&#xA;&#xA;&#xA;------ Rango Edad  (se actualiza el campo en ambas auxiliares antes de impactar en las tablas h de indicadores de consumos)&#xA;&#xA;&#xA;/* Actualiza el rango de edad en AUX_H_INDICADORES_CONS_CANT_AFI. */&#xA;&#xA;UPDATE DW_SALUD.dbo.AUX_H_INDICADORES_CONS_CANT_AFI&#xA;    set id_rango_edad = case&#xA;      WHEN edad_periodo &lt;= 1 THEN 1&#xA;      WHEN edad_periodo between 2 and 18 THEN 2&#xA;      WHEN edad_periodo between 19 and 45 THEN 3&#xA;      WHEN edad_periodo between 46 and 65 THEN 4&#xA;      WHEN edad_periodo between 66 and 75 THEN 5&#xA;      WHEN edad_periodo &gt;= 76 THEN 6&#xA;      END&#xA;   FROM DW_SALUD.dbo.AUX_H_INDICADORES_CONS_CANT_AFI&#xA;   &#xA;   /* Actualiza el rango de edad en AUX_H_INDICADORES_CONS_CANT_PREST. */&#xA;   &#xA;      UPDATE DW_SALUD.dbo.AUX_H_INDICADORES_CONS_CANT_PREST&#xA;    set id_rango_edad = case&#xA;      WHEN edad_orden &lt;= 1 THEN 1&#xA;      WHEN edad_orden between 2 and 18 THEN 2&#xA;      WHEN edad_orden between 19 and 45 THEN 3&#xA;      WHEN edad_orden between 46 and 65 THEN 4&#xA;      WHEN edad_orden between 66 and 75 THEN 5&#xA;      WHEN edad_orden &gt;= 76 THEN 6&#xA;      END&#xA;   FROM DW_SALUD.dbo.AUX_H_INDICADORES_CONS_CANT_PREST" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza H_INDICADORES_CONS_CANT_PREST y H_INDICADORES_CONS_CANT_AFI"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{F4D87B64-7B2A-4619-B1D7-7CB4D64B71D5}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza H_INDICADORES_CONS_CANT_PREST y H_INDICADORES_CONS_CANT_AFI"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{A3223EA0-900E-4B20-A33F-FDC7A3B40426}"
+          SQLTask:SqlStatementSource="DECLARE @Periodo_Hasta_Ejecucion Int Set @Periodo_Hasta_Ejecucion = (select MAX(id_periodo) from AUX_PERIODO_MES_BORRA_IND_CONSUMOS)&#xA;DECLARE @Periodo_Desde_Ejecucion Int Set @Periodo_Desde_Ejecucion = dbo.PeriodosAnteriores(@Periodo_Hasta_Ejecucion,12) &#xA;&#xA;INSERT INTO DW_SALUD.dbo.H_INDICADORES_CONS_CANT_AFI&#xA;(id_periodo, id_ind_consumo, id_producto, id_subproducto, id_plan_producto, id_provincia, id_posicion, id_sexo, id_rango_edad, cant_afiliados_indicador, id_empresa_PE_ind, id_tipo_entidad_PE_ind, id_marca_PE_ind,  id_localidad_indicador_consumo, edad_indicador_consumo, id_convenio, id_tipo_entidad_convenio)&#xA;SELECT id_periodo, id_ind_consumo, id_producto, id_subproducto, id_plan_producto, id_provincia, id_posicion, id_sexo, id_rango_edad, IsNull(SUM(cant_afiliados_indicador),0) as cant_afiliados_indicador, id_empresa_PE_ind, id_tipo_entidad_PE_ind, id_marca_PE_ind, id_localidad_indicador_consumo, edad_periodo as edad_indicador_consumo, id_convenio, id_tipo_entidad_convenio&#xA;FROM DW_SALUD.dbo.AUX_H_INDICADORES_CONS_CANT_AFI&#xA;where id_periodo between @Periodo_Desde_Ejecucion and  @Periodo_Hasta_Ejecucion &#xA;GROUP BY id_periodo, id_ind_consumo, id_producto, id_subproducto, id_plan_producto, id_provincia, id_posicion, id_sexo, id_rango_edad, id_empresa_PE_ind, id_tipo_entidad_PE_ind, id_marca_PE_ind, id_localidad_indicador_consumo, edad_periodo, id_convenio, id_tipo_entidad_convenio&#xA;&#xA;INSERT INTO DW_SALUD.dbo.H_INDICADORES_CONS_CANT_PREST&#xA;( id_periodo, id_ind_consumo, id_producto, id_subproducto, id_plan_producto, id_provincia, id_posicion, id_reintegro, id_sexo, id_rango_edad, id_acreedor ,id_tipo_prestador, cant_practicas_indicador, cant_dias_indicador, id_empresa_PE_ind, id_tipo_entidad_PE_ind, id_marca_PE_ind, id_localidad_indicador_consumo, edad_indicador_consumo, id_convenio, id_tipo_entidad_convenio)&#xA;SELECT id_periodo, id_ind_consumo, id_producto, id_subproducto, id_plan_producto, id_provincia, id_posicion, id_reintegro, id_sexo, id_rango_edad, id_acreedor  , 'P' as id_tipo_prestador,   IsNull(SUM(cant_practicas_indicador),0) as cant_practicas_indicador,  IsNull(SUM(cant_dias_indicador),0) as cant_dias_indicador, id_empresa_PE_ind, id_tipo_entidad_PE_ind, id_marca_PE_ind, id_localidad_indicador_consumo, edad_orden as edad_indicador_consumo , id_convenio, id_tipo_entidad_convenio&#xA;FROM DW_SALUD.dbo.AUX_H_INDICADORES_CONS_CANT_PREST&#xA;where id_periodo between @Periodo_Desde_Ejecucion and  @Periodo_Hasta_Ejecucion &#xA;GROUP BY id_periodo, id_ind_consumo, id_producto, id_subproducto, id_plan_producto, id_provincia, id_posicion, id_reintegro, id_sexo, id_rango_edad, id_acreedor, id_empresa_PE_ind, id_tipo_entidad_PE_ind, id_marca_PE_ind, id_localidad_indicador_consumo, edad_orden, id_convenio, id_tipo_entidad_convenio&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Actualizar tablas de dimensión"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{20D47546-BF66-4F03-B90F-B4BB9D78237C}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualizar tablas de dimensión"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{A3223EA0-900E-4B20-A33F-FDC7A3B40426}"
+          SQLTask:SqlStatementSource="&#xA;&#xA;/* Actualiza D_EDAD_INDICADORES_CONSUMOS. */&#xA;&#xA;&#x9;-- Desde Afiliados.&#xA;&#x9;INSERT INTO D_EDAD_INDICADORES_CONSUMOS&#xA;&#x9;select distinct edad_periodo&#xA;&#x9;from AUX_H_INDICADORES_CONS_CANT_AFI&#xA;&#x9;where edad_periodo not in ( select edad_indicador_consumo&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;from D_EDAD_INDICADORES_CONSUMOS)&#xA;&#xA;&#x9;-- Desde Prestaciones.&#xA;&#x9;INSERT INTO D_EDAD_INDICADORES_CONSUMOS&#xA;&#x9;select distinct edad_orden&#xA;&#x9;from AUX_H_INDICADORES_CONS_CANT_PREST&#xA;&#x9;where edad_periodo not in ( select edad_indicador_consumo&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;from D_EDAD_INDICADORES_CONSUMOS)" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Borra Periodo Ya Cargado"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{DB2A44CF-7364-4095-9E7A-BF9E65BA36E2}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Borra Periodo Ya Cargado"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{A3223EA0-900E-4B20-A33F-FDC7A3B40426}"
+          SQLTask:SqlStatementSource="/* Controla contra las dos tablas auxiliares. Si son distintos los periodos a nivel auxiliares de por si&#xA;el proceso esta mal y sale por error. Si se habla de los mismos periodos entre auxiliares luego borra la&#xA;información de ese periodo en la H */&#xA;&#xA;DECLARE @Periodo_Hasta_Ejecucion Int Set @Periodo_Hasta_Ejecucion = (select MAX(id_periodo) from AUX_PERIODO_MES_BORRA_IND_CONSUMOS)&#xA;DECLARE @Periodo_Desde_Ejecucion Int Set @Periodo_Desde_Ejecucion = dbo.PeriodosAnteriores(@Periodo_Hasta_Ejecucion,12) &#xA;&#xA;&#xA;/* Borra Tabla de Afiliados Ind. Consumos por los Indicadores a insertar. */&#xA;&#x9;DELETE H_INDICADORES_CONS_CANT_AFI&#xA;&#x9;FROM H_INDICADORES_CONS_CANT_AFI I&#xA;&#x9;JOIN AUX_H_INDICADORES_CONS_CANT_AFI AUX ON AUX.id_periodo =  I.id_periodo and AUX.id_ind_consumo =  I.id_ind_consumo&#xA;    WHERE I.id_periodo between @Periodo_Desde_Ejecucion and @Periodo_Hasta_Ejecucion &#xA;    &#xA;/* Borra Tabla de Prestaciones Ind. Consumos por los Indicadores a insertar.  */&#xA;&#x9;DELETE H_INDICADORES_CONS_CANT_PREST&#xA;&#x9;FROM H_INDICADORES_CONS_CANT_PREST I&#xA;&#x9;JOIN AUX_H_INDICADORES_CONS_CANT_PREST AUX ON AUX.id_periodo = I.id_periodo and AUX.id_ind_consumo = I.id_ind_consumo&#xA;&#x9;WHERE I.id_periodo between @Periodo_Desde_Ejecucion and @Periodo_Hasta_Ejecucion &#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{AC0AB2FB-F2A6-4676-B632-DD2B81099398}"
+      DTS:From="Package\Borra Periodo Ya Cargado"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Actualiza H_INDICADORES_CONS_CANT_PREST y H_INDICADORES_CONS_CANT_AFI" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{1A955895-CA8B-48C1-AEA6-FCE270057CA1}"
+      DTS:From="Package\Actualizar tablas de dimensión"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Borra Periodo Ya Cargado" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{84DE955E-3133-40D6-8F74-9628130AE6A5}"
+      DTS:From="Package\Actualiza AUX_H_INDICADORES_CONS_CANT_PREST y AUX_H_INDICADORES_CONS_CANT_AFI"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Actualizar tablas de dimensión" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="590,42"
+          Id="Package\Actualiza AUX_H_INDICADORES_CONS_CANT_PREST y AUX_H_INDICADORES_CONS_CANT_AFI"
+          TopLeft="5.5,5.5" />
+        <NodeLayout
+          Size="533,42"
+          Id="Package\Actualiza H_INDICADORES_CONS_CANT_PREST y H_INDICADORES_CONS_CANT_AFI"
+          TopLeft="34,227.424528301887" />
+        <NodeLayout
+          Size="228,42"
+          Id="Package\Actualizar tablas de dimensión"
+          TopLeft="186.5,79.4748427672956" />
+        <NodeLayout
+          Size="208,42"
+          Id="Package\Borra Periodo Ya Cargado"
+          TopLeft="196.5,153.449685534591" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="300.5,195.449685534591">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,31.974842767296"
+              Start="0,0"
+              End="0,24.474842767296">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,24.474842767296" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="300.5,121.474842767296">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,31.9748427672956"
+              Start="0,0"
+              End="0,24.4748427672956">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,24.4748427672956" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="300.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,31.9748427672956"
+              Start="0,0"
+              End="0,24.4748427672956">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,24.4748427672956" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

@@ -1,0 +1,1709 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="10/30/2012 11:01:11 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AMS06"
+  DTS:CreatorName="AMS\adminb"
+  DTS:DTSID="{29509DD2-AEEB-4A78-BBB3-BB5F26821126}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Afiliaciones_H_CAMBIO_PLAN_DET"
+  DTS:VersionBuild="38"
+  DTS:VersionGUID="{BA3B1A35-2663-4107-8F22-F06B6701F775}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[TXT HCPLDE]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{5063357E-F8C2-4C7E-AE28-8DA0ADBE0103}"
+      DTS:ObjectName="TXT HCPLDE">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="RaggedRight"
+          DTS:LocaleID="1033"
+          DTS:HeaderRowDelimiter="_x000D__x000A_"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x0022_"
+          DTS:CodePage="1252"
+          DTS:ConnectionString="\\P-is-01\e$\03 - Archivos\Data Afiliaciones\hcplde.txt">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnDelimiter=""
+              DTS:ColumnWidth="6"
+              DTS:MaximumWidth="6"
+              DTS:DataType="129"
+              DTS:ObjectName="Column 0"
+              DTS:DTSID="{7C933C07-4489-44E8-AF7D-62CEEB82272A}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnDelimiter=""
+              DTS:ColumnWidth="8"
+              DTS:MaximumWidth="8"
+              DTS:DataType="129"
+              DTS:ObjectName="Column 1"
+              DTS:DTSID="{FA263BCB-CE36-4DC9-B713-8601A8894260}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnDelimiter=""
+              DTS:ColumnWidth="3"
+              DTS:MaximumWidth="3"
+              DTS:DataType="129"
+              DTS:ObjectName="Column 2"
+              DTS:DTSID="{97E4CCFC-FDB6-4AEC-8B02-89853284CC90}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnDelimiter=""
+              DTS:ColumnWidth="2"
+              DTS:MaximumWidth="2"
+              DTS:DataType="129"
+              DTS:ObjectName="Column 3"
+              DTS:DTSID="{566EA37E-14D2-4529-A543-AFD20AD2BEA2}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnDelimiter=""
+              DTS:ColumnWidth="8"
+              DTS:MaximumWidth="8"
+              DTS:DataType="129"
+              DTS:ObjectName="Column 4"
+              DTS:DTSID="{0099F61A-A3F3-4747-99BC-24F586B9D1BA}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnDelimiter=""
+              DTS:ColumnWidth="4"
+              DTS:MaximumWidth="4"
+              DTS:DataType="129"
+              DTS:ObjectName="Column 5"
+              DTS:DTSID="{79553656-4B61-47DA-B7E1-C21270D92F46}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnDelimiter=""
+              DTS:ColumnWidth="4"
+              DTS:MaximumWidth="4"
+              DTS:DataType="129"
+              DTS:ObjectName="Column 6"
+              DTS:DTSID="{A454CD33-91EE-4E88-AB0A-6D457416AB6A}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnDelimiter=""
+              DTS:ColumnWidth="5"
+              DTS:MaximumWidth="5"
+              DTS:DataType="129"
+              DTS:ObjectName="Column 7"
+              DTS:DTSID="{4E21CEEC-26BE-49D4-A189-07E76F08FA24}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnDelimiter=""
+              DTS:ColumnWidth="4"
+              DTS:MaximumWidth="4"
+              DTS:DataType="129"
+              DTS:ObjectName="Column 8"
+              DTS:DTSID="{4712A1C8-3B2C-4FBE-BE1E-DF3FFBAEEA8B}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnDelimiter=""
+              DTS:ColumnWidth="4"
+              DTS:MaximumWidth="4"
+              DTS:DataType="129"
+              DTS:ObjectName="Column 9"
+              DTS:DTSID="{0317F317-1800-46FB-A5EA-094685F9814A}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnDelimiter=""
+              DTS:ColumnWidth="5"
+              DTS:MaximumWidth="5"
+              DTS:DataType="129"
+              DTS:ObjectName="Column 10"
+              DTS:DTSID="{49338F80-C54B-4B61-B774-89CDD4200CF9}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000D__x000A_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Column 11"
+              DTS:DTSID="{5A2DBF97-B39F-479B-9D22-D711C000D8FA}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{FF8A4A51-3C0C-4783-BC30-5CCCB56D5F92}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">1,7,OnError</DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnError"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{FF8A4A51-3C0C-4783-BC30-5CCCB56D5F92}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza H_CAMBIO_PLAN_DET"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Actualiza H_CAMBIO_PLAN_DET"
+      DTS:DTSID="{5F728358-B191-4BED-901F-D78C269D66DC}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza H_CAMBIO_PLAN_DET"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{11D08769-CF45-4059-8409-A9E55D05AA1A}"
+          SQLTask:SqlStatementSource="&#xA;&#xA;/* Actualiza H_CAMBIO_PLAN_DET. */&#xA;&#xA;&#x9;INSERT INTO H_CAMBIO_PLAN_DET&#xA;&#x9;(id_periodo, afiliado, subnumero, secuencia, id_persona, id_producto_origen, id_plan_origen, id_producto_destino, id_plan_destino, cant_camb_plan_det, id_subproducto_origen, id_subproducto_destino, fecha_inicio_serv, periodo_inicio_serv, periodo_ingreso_salud, fecha_ingreso_sancor_salud, fecha_periodo_actual, fecha_ingreso_segmento_afiliado)&#xA;&#x9;SELECT id_periodo, afiliado, subnumero, secuencia, id_persona, id_producto_origen, id_plan_origen, id_producto_destino, id_plan_destino, cant_camb_plan_det, id_subproducto_origen, id_subproducto_destino, isnull(fecha_inicio_serv,'1900-01-01 00:00:00.000') as fecha_inicio_serv, isnull(periodo_inicio_serv, 190001) as periodo_inicio_serv, isnull(periodo_ingreso_salud, 190001) as periodo_ingreso_salud , isnull(fecha_ingreso_sancor_salud,'1900-01-01 00:00:00.000') as fecha_ingreso_sancor_salud, fecha_periodo_actual, fecha_ingreso_segmento_afiliado&#xA;&#x9;FROM AUX_H_CAMBIO_PLAN_DET" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Actualizar AUX_H_CAMBIO_PLAN_DET"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Actualizar AUX_H_CAMBIO_PLAN_DET"
+      DTS:DTSID="{E524B6DF-FF5A-4576-A3DE-CE544C241159}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualizar AUX_H_CAMBIO_PLAN_DET"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{11D08769-CF45-4059-8409-A9E55D05AA1A}"
+          SQLTask:SqlStatementSource="&#xA;Declare @Periodo Int Set @Periodo = (select max(id_periodo) FROM AUX_PERIODO_MES_BORRA) &#xA;&#xA;/* Corrige Fechas */&#xA;&#xA;select * &#xA;into #TEMPORAL&#xA;from H_COMP_GRUPO_ACTIVO where id_periodo = @Periodo &#xA;&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;&#x9;UPDATE AUX_H_CAMBIO_PLAN_DET&#xA;&#x9;&#x9;set&#x9;fecha_inicio_serv = a12.fecha_inicio_serv, &#xA;&#x9;&#x9;fecha_ingreso_sancor_salud = a12.fecha_ingreso_sancor_salud,&#xA;&#x9;&#x9;periodo_inicio_serv = a12.periodo_inicio_serv, &#xA;&#x9;&#x9;periodo_ingreso_salud = a12.periodo_ingreso_salud&#xA;&#x9;FROM AUX_H_CAMBIO_PLAN_DET a11 &#xA;&#x9;JOIN  #TEMPORAL   a12 on a11.id_periodo = a12.id_periodo and a11.afiliado = a12.afiliado and a11.subnumero = a12.subnumero and a11.secuencia = a12.secuencia&#xA;&#xA;&#xA;&#x9;UPDATE AUX_H_CAMBIO_PLAN_DET &#xA;&#x9;&#x9;set fecha_ingreso_segmento_afiliado = Hc.fecha_ingreso_segmento&#xA;&#x9;FROM AUX_H_CAMBIO_PLAN_DET HD&#xA;&#x9;JOIN (select id_persona, max(fecha_ingreso_segmento_comercial) as fecha_ingreso_segmento &#xA;&#x9;&#x9;  FROM h_comer_stock_afilia (nolock) group by id_persona) HC on HD.id_persona = HC.id_persona&#xA;&#x9;Where HD.id_periodo = @Periodo&#xA;&#xA;&#x9;UPDATE AUX_H_CAMBIO_PLAN_DET SET fecha_periodo_actual = cast(left(id_periodo, 4)+'-'+ right(id_periodo, 2) +'-'+'01 ' as datetime) &#xA;&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Actualizar tablas de dimensión"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Actualizar tablas de dimensión"
+      DTS:DTSID="{7B114A4A-2A33-426E-BD5A-28926BC20E58}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualizar tablas de dimensión"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{11D08769-CF45-4059-8409-A9E55D05AA1A}"
+          SQLTask:SqlStatementSource="/* Actualizo la tabla de PERSONAS */&#xA;&#xA;&#x9;INSERT INTO D_PERSONAS&#xA;&#x9;(id_persona, tipo_documento,  Nro_documento, Apellido, Nombre, id_estado_civil, id_sexo, Fecha_Nacimiento, Edad_actual,  Calle_persona,  Nro_puerta_persona,   Piso_persona,  Dpto_persona,  id_localidad_afiliado, Caracteristica_te, Nro_telefono, fecha_fallecimiento, Discapacitado,  cuil, id_fallecido , mail_persona,  Caracteristica_Celular,   Nro_Celular,  id_condicion_iva )&#xA;&#x9;SELECT DISTINCT id_persona, ' ' as tipo_documento, 0 as Nro_documento, 'F/D' as Apellido, 'F/D' as Nombre, ' ' as id_estado_civil, ' ' as id_sexo,  0 as Fecha_Nacimiento, 0 as Edad_actual, 'F/D' as Calle_persona, 0 as Nro_puerta_persona, 0 as Piso_persona, ' ' as Dpto_persona, 9999999 as id_localidad_afiliado, ' ' as Caracteristica_te, ' ' as Nro_telefono, 00000000 as fecha_fallecimiento, 'N' as Discapacitado, 0 as cuil, 'N' as id_fallecido , ' ' as mail_persona, ' ' as Caracteristica_Celular,  ' ' as Nro_Celular,  99 as id_condicion_iva &#xA;&#x9;FROM aux_h_cambio_plan_det         &#xA;&#x9;WHERE id_persona not in (SELECT id_persona FROM d_personas)&#xA;&#xA;&#xA;/* Actualizo la tabla de PRODUCTOS ORIGEN */&#xA;INSERT INTO d_productos_origen&#xA;&#x9;SELECT DISTINCT id_producto_origen, 'X', 99999, 'X', 'F/D'  FROM aux_h_cambio_plan_det&#xA;&#x9;WHERE id_producto_origen not in (SELECT id_producto_origen FROM d_productos_origen)&#xA;&#xA;&#xA;/* Actualizo la tabla de PRODUCTOS DESTINO */&#xA;INSERT INTO d_productos_destino&#xA;&#x9;SELECT DISTINCT id_producto_destino, 'X', 99999, 'X', 'F/D'  FROM aux_h_cambio_plan_det&#xA;&#x9;WHERE id_producto_destino not in (SELECT id_producto_destino FROM d_productos_destino)&#xA;&#xA;&#xA;/* Actualizo la tabla de SUBPRODUCTO ORIGEN */&#xA;INSERT INTO d_subproducto_origen&#xA;SELECT DISTINCT id_producto_origen, id_subproducto_origen, 'No Definido'&#xA;FROM aux_h_cambio_plan_det a11&#xA;WHERE not EXISTS&#xA;   &#x9;(SELECT * FROM d_subproducto_origen a12&#xA;&#x9; WHERE a11.id_producto_origen = a12.id_producto_origen and a11.id_subproducto_origen = a12.id_subproducto_origen)&#xA;&#xA;&#xA;/* Actualizo la tabla de SUBPRODUCTO DESTINO */&#xA;INSERT INTO d_subproducto_destino&#xA;SELECT DISTINCT id_producto_destino, id_subproducto_destino, 'No Definido'&#xA;FROM aux_h_cambio_plan_det a11&#xA;WHERE not EXISTS&#xA;   &#x9;(SELECT * FROM d_subproducto_destino a12&#xA;&#x9; WHERE a11.id_producto_destino = a12.id_producto_destino and a11.id_subproducto_destino = a12.id_subproducto_destino)&#xA;&#xA;&#xA;/* Actualizo la tabla de AFILIADOS */&#xA;INSERT INTO d_comp_grupo_afiliacion&#xA;SELECT DISTINCT afiliado, subnumero, secuencia, 999999&#xA;FROM aux_h_cambio_plan_det a11&#xA;WHERE not EXISTS&#xA;   &#x9;(SELECT * FROM d_comp_grupo_afiliacion a12&#xA;&#x9; WHERE a11.afiliado = a12.afiliado and a11.subnumero = a12.subnumero and a11.secuencia = a12.secuencia)&#xA;&#xA;&#xA;/* Actualizo la tabla de GRUPOS DE AFILIADOS */&#xA;INSERT INTO d_grupo_afiliacion&#xA;SELECT DISTINCT afiliado, subnumero, 999&#xA;FROM aux_h_cambio_plan_det a11&#xA;WHERE not EXISTS&#xA;   &#x9;(SELECT * FROM d_grupo_afiliacion a12&#xA;&#x9; WHERE a11.afiliado = a12.afiliado and a11.subnumero = a12.subnumero)" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Borra AUX_H_CAMBIO_PLAN_DET"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Borra la tabla AUX_H_CAMBIO_PLAN_DET"
+      DTS:DTSID="{F373E1D9-B63D-4D1E-B80D-F75592FE2AF9}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Borra AUX_H_CAMBIO_PLAN_DET"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{11D08769-CF45-4059-8409-A9E55D05AA1A}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE AUX_H_CAMBIO_PLAN_DET" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Borrar AUX_H_CAMBIO_PLAN_DET"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Borra la tabla AUX_H_CAMBIO_PLAN_DET"
+      DTS:DTSID="{D4DC1351-D48B-4E28-BE42-F5323E462EC3}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Borrar AUX_H_CAMBIO_PLAN_DET"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{11D08769-CF45-4059-8409-A9E55D05AA1A}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE AUX_H_CAMBIO_PLAN_DET" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Puente de Datos"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Pump Task: undefined"
+      DTS:DTSID="{847BFB2D-EEA4-44A8-87F3-0B5306A2B4AA}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Puente de Datos"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v9; (C) 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <pipeline
+          BLOBTempStoragePath=""
+          bufferTempStoragePath=""
+          engineThreads="5"
+          version="1">
+          <components>
+            <component
+              refId="Package\Puente de Datos\Data Conversion"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Data Conversion;Microsoft Corporation;Microsoft SqlServer v9; (C) 2005 Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Data Conversion"
+              name="Data Conversion"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Puente de Datos\Data Conversion.Inputs[Data Conversion Input]"
+                  name="Data Conversion Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Puente de Datos\Data Conversion.Inputs[Data Conversion Input].Columns[Column 0]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="6"
+                      cachedName="Column 0"
+                      lineageId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].Columns[Column 0]" />
+                    <inputColumn
+                      refId="Package\Puente de Datos\Data Conversion.Inputs[Data Conversion Input].Columns[Column 1]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="8"
+                      cachedName="Column 1"
+                      lineageId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].Columns[Column 1]" />
+                    <inputColumn
+                      refId="Package\Puente de Datos\Data Conversion.Inputs[Data Conversion Input].Columns[Column 2]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="3"
+                      cachedName="Column 2"
+                      lineageId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].Columns[Column 2]" />
+                    <inputColumn
+                      refId="Package\Puente de Datos\Data Conversion.Inputs[Data Conversion Input].Columns[Column 3]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="Column 3"
+                      lineageId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].Columns[Column 3]" />
+                    <inputColumn
+                      refId="Package\Puente de Datos\Data Conversion.Inputs[Data Conversion Input].Columns[Column 4]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="8"
+                      cachedName="Column 4"
+                      lineageId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].Columns[Column 4]" />
+                    <inputColumn
+                      refId="Package\Puente de Datos\Data Conversion.Inputs[Data Conversion Input].Columns[Column 5]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="4"
+                      cachedName="Column 5"
+                      lineageId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].Columns[Column 5]" />
+                    <inputColumn
+                      refId="Package\Puente de Datos\Data Conversion.Inputs[Data Conversion Input].Columns[Column 6]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="4"
+                      cachedName="Column 6"
+                      lineageId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].Columns[Column 6]" />
+                    <inputColumn
+                      refId="Package\Puente de Datos\Data Conversion.Inputs[Data Conversion Input].Columns[Column 7]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="5"
+                      cachedName="Column 7"
+                      lineageId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].Columns[Column 7]" />
+                    <inputColumn
+                      refId="Package\Puente de Datos\Data Conversion.Inputs[Data Conversion Input].Columns[Column 8]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="4"
+                      cachedName="Column 8"
+                      lineageId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].Columns[Column 8]" />
+                    <inputColumn
+                      refId="Package\Puente de Datos\Data Conversion.Inputs[Data Conversion Input].Columns[Column 9]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="4"
+                      cachedName="Column 9"
+                      lineageId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].Columns[Column 9]" />
+                    <inputColumn
+                      refId="Package\Puente de Datos\Data Conversion.Inputs[Data Conversion Input].Columns[Column 10]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="5"
+                      cachedName="Column 10"
+                      lineageId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].Columns[Column 10]" />
+                    <inputColumn
+                      refId="Package\Puente de Datos\Data Conversion.Inputs[Data Conversion Input].Columns[Column 11]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="Column 11"
+                      lineageId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].Columns[Column 11]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Puente de Datos\Data Conversion.Outputs[Data Conversion Output]"
+                  exclusionGroup="1"
+                  name="Data Conversion Output"
+                  synchronousInputId="Package\Puente de Datos\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Puente de Datos\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Column 0]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="6"
+                      lineageId="Package\Puente de Datos\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Column 0]"
+                      name="Copy of Column 0"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].Columns[Column 0]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Puente de Datos\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Column 1]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="8"
+                      lineageId="Package\Puente de Datos\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Column 1]"
+                      name="Copy of Column 1"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].Columns[Column 1]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Puente de Datos\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Column 2]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="3"
+                      lineageId="Package\Puente de Datos\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Column 2]"
+                      name="Copy of Column 2"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].Columns[Column 2]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Puente de Datos\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Column 3]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="2"
+                      lineageId="Package\Puente de Datos\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Column 3]"
+                      name="Copy of Column 3"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].Columns[Column 3]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Puente de Datos\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Column 4]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="8"
+                      lineageId="Package\Puente de Datos\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Column 4]"
+                      name="Copy of Column 4"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].Columns[Column 4]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Puente de Datos\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Column 5]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="4"
+                      lineageId="Package\Puente de Datos\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Column 5]"
+                      name="Copy of Column 5"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].Columns[Column 5]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Puente de Datos\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Column 6]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="4"
+                      lineageId="Package\Puente de Datos\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Column 6]"
+                      name="Copy of Column 6"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].Columns[Column 6]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Puente de Datos\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Column 7]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="5"
+                      lineageId="Package\Puente de Datos\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Column 7]"
+                      name="Copy of Column 7"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].Columns[Column 7]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Puente de Datos\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Column 8]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="4"
+                      lineageId="Package\Puente de Datos\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Column 8]"
+                      name="Copy of Column 8"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].Columns[Column 8]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Puente de Datos\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Column 9]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="4"
+                      lineageId="Package\Puente de Datos\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Column 9]"
+                      name="Copy of Column 9"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].Columns[Column 9]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Puente de Datos\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Column 10]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="5"
+                      lineageId="Package\Puente de Datos\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Column 10]"
+                      name="Copy of Column 10"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].Columns[Column 10]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Puente de Datos\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Column 11]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\Puente de Datos\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Column 11]"
+                      name="Copy of Column 11"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].Columns[Column 11]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Puente de Datos\Data Conversion.Outputs[Data Conversion Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Data Conversion Error Output"
+                  synchronousInputId="Package\Puente de Datos\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Puente de Datos\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Puente de Datos\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Puente de Datos\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Puente de Datos\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Puente de Datos\Flat File Source"
+              componentClassID="Microsoft.FlatFileSource"
+              contactInfo="Flat File Source;Microsoft Corporation;Microsoft SqlServer v9; (C) 2005 Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Flat File Source"
+              localeId="1033"
+              name="Flat File Source"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Specifies whether zero-length columns are treated as null."
+                  name="RetainNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of an output column containing the file name. If no name is specified, no output column containing the file name will be generated."
+                  name="FileNameColumnName"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Puente de Datos\Flat File Source.Connections[FlatFileConnection]"
+                  connectionManagerID="Package.ConnectionManagers[TXT HCPLDE]"
+                  connectionManagerRefId="Package.ConnectionManagers[TXT HCPLDE]"
+                  name="FlatFileConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output]"
+                  name="Flat File Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].Columns[Column 0]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 0]"
+                      length="6"
+                      lineageId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].Columns[Column 0]"
+                      name="Column 0"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].Columns[Column 1]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 1]"
+                      length="8"
+                      lineageId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].Columns[Column 1]"
+                      name="Column 1"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].Columns[Column 2]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 2]"
+                      length="3"
+                      lineageId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].Columns[Column 2]"
+                      name="Column 2"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].Columns[Column 3]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 3]"
+                      length="2"
+                      lineageId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].Columns[Column 3]"
+                      name="Column 3"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].Columns[Column 4]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 4]"
+                      length="8"
+                      lineageId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].Columns[Column 4]"
+                      name="Column 4"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].Columns[Column 5]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 5]"
+                      length="4"
+                      lineageId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].Columns[Column 5]"
+                      name="Column 5"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].Columns[Column 6]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 6]"
+                      length="4"
+                      lineageId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].Columns[Column 6]"
+                      name="Column 6"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].Columns[Column 7]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 7]"
+                      length="5"
+                      lineageId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].Columns[Column 7]"
+                      name="Column 7"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].Columns[Column 8]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 8]"
+                      length="4"
+                      lineageId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].Columns[Column 8]"
+                      name="Column 8"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].Columns[Column 9]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 9]"
+                      length="4"
+                      lineageId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].Columns[Column 9]"
+                      name="Column 9"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].Columns[Column 10]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 10]"
+                      length="5"
+                      lineageId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].Columns[Column 10]"
+                      name="Column 10"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].Columns[Column 11]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 11]"
+                      length="50"
+                      lineageId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].Columns[Column 11]"
+                      name="Column 11"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 0]"
+                      codePage="1252"
+                      dataType="str"
+                      length="6"
+                      name="Column 0" />
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 1]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      name="Column 1" />
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 2]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      name="Column 2" />
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 3]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="Column 3" />
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 4]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      name="Column 4" />
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 5]"
+                      codePage="1252"
+                      dataType="str"
+                      length="4"
+                      name="Column 5" />
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 6]"
+                      codePage="1252"
+                      dataType="str"
+                      length="4"
+                      name="Column 6" />
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 7]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      name="Column 7" />
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 8]"
+                      codePage="1252"
+                      dataType="str"
+                      length="4"
+                      name="Column 8" />
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 9]"
+                      codePage="1252"
+                      dataType="str"
+                      length="4"
+                      name="Column 9" />
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 10]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      name="Column 10" />
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 11]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="Column 11" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Error Output]"
+                  isErrorOut="true"
+                  name="Flat File Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      codePage="1252"
+                      dataType="text"
+                      description="Flat File Source Error Output Column"
+                      lineageId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      name="Flat File Source Error Output Column" />
+                    <outputColumn
+                      refId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Puente de Datos\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation;Microsoft SqlServer v9; (C) 2005 Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[AUX_H_CAMBIO_PLAN_DET]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destinaton. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">CHECK_CONSTRAINTS,ROWS_PER_BATCH = 1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Puente de Datos\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="{11D08769-CF45-4059-8409-A9E55D05AA1A}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DS_DW_SALUD]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Puente de Datos\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Puente de Datos\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of Column 0]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="6"
+                      cachedName="Copy of Column 0"
+                      externalMetadataColumnId="Package\Puente de Datos\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_periodo]"
+                      lineageId="Package\Puente de Datos\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Column 0]" />
+                    <inputColumn
+                      refId="Package\Puente de Datos\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of Column 1]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="8"
+                      cachedName="Copy of Column 1"
+                      externalMetadataColumnId="Package\Puente de Datos\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[afiliado]"
+                      lineageId="Package\Puente de Datos\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Column 1]" />
+                    <inputColumn
+                      refId="Package\Puente de Datos\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of Column 5]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="4"
+                      cachedName="Copy of Column 5"
+                      externalMetadataColumnId="Package\Puente de Datos\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_producto_origen]"
+                      lineageId="Package\Puente de Datos\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Column 5]" />
+                    <inputColumn
+                      refId="Package\Puente de Datos\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of Column 4]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="8"
+                      cachedName="Copy of Column 4"
+                      externalMetadataColumnId="Package\Puente de Datos\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_persona]"
+                      lineageId="Package\Puente de Datos\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Column 4]" />
+                    <inputColumn
+                      refId="Package\Puente de Datos\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of Column 3]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="Copy of Column 3"
+                      externalMetadataColumnId="Package\Puente de Datos\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[secuencia]"
+                      lineageId="Package\Puente de Datos\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Column 3]" />
+                    <inputColumn
+                      refId="Package\Puente de Datos\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of Column 2]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="3"
+                      cachedName="Copy of Column 2"
+                      externalMetadataColumnId="Package\Puente de Datos\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[subnumero]"
+                      lineageId="Package\Puente de Datos\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Column 2]" />
+                    <inputColumn
+                      refId="Package\Puente de Datos\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of Column 9]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="4"
+                      cachedName="Copy of Column 9"
+                      externalMetadataColumnId="Package\Puente de Datos\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_subproducto_destino]"
+                      lineageId="Package\Puente de Datos\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Column 9]" />
+                    <inputColumn
+                      refId="Package\Puente de Datos\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of Column 6]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="4"
+                      cachedName="Copy of Column 6"
+                      externalMetadataColumnId="Package\Puente de Datos\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_subproducto_origen]"
+                      lineageId="Package\Puente de Datos\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Column 6]" />
+                    <inputColumn
+                      refId="Package\Puente de Datos\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of Column 7]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="5"
+                      cachedName="Copy of Column 7"
+                      externalMetadataColumnId="Package\Puente de Datos\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_plan_origen]"
+                      lineageId="Package\Puente de Datos\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Column 7]" />
+                    <inputColumn
+                      refId="Package\Puente de Datos\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of Column 8]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="4"
+                      cachedName="Copy of Column 8"
+                      externalMetadataColumnId="Package\Puente de Datos\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_producto_destino]"
+                      lineageId="Package\Puente de Datos\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Column 8]" />
+                    <inputColumn
+                      refId="Package\Puente de Datos\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of Column 10]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="5"
+                      cachedName="Copy of Column 10"
+                      externalMetadataColumnId="Package\Puente de Datos\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_plan_destino]"
+                      lineageId="Package\Puente de Datos\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Column 10]" />
+                    <inputColumn
+                      refId="Package\Puente de Datos\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of Column 11]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="Copy of Column 11"
+                      externalMetadataColumnId="Package\Puente de Datos\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[cant_camb_plan_det]"
+                      lineageId="Package\Puente de Datos\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Column 11]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_periodo]"
+                      dataType="i4"
+                      name="id_periodo" />
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[afiliado]"
+                      dataType="i4"
+                      name="afiliado" />
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[subnumero]"
+                      dataType="i4"
+                      name="subnumero" />
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[secuencia]"
+                      dataType="i4"
+                      name="secuencia" />
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_persona]"
+                      dataType="i4"
+                      name="id_persona" />
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_producto_origen]"
+                      dataType="i4"
+                      name="id_producto_origen" />
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_plan_origen]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      name="id_plan_origen" />
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_producto_destino]"
+                      dataType="i4"
+                      name="id_producto_destino" />
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_plan_destino]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      name="id_plan_destino" />
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[cant_camb_plan_det]"
+                      dataType="i4"
+                      name="cant_camb_plan_det" />
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_subproducto_origen]"
+                      dataType="i4"
+                      name="id_subproducto_origen" />
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_subproducto_destino]"
+                      dataType="i4"
+                      name="id_subproducto_destino" />
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_inicio_serv]"
+                      dataType="dbTimeStamp"
+                      name="fecha_inicio_serv" />
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[periodo_inicio_serv]"
+                      dataType="i4"
+                      name="periodo_inicio_serv" />
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[periodo_ingreso_salud]"
+                      dataType="i4"
+                      name="periodo_ingreso_salud" />
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_ingreso_sancor_salud]"
+                      dataType="dbTimeStamp"
+                      name="fecha_ingreso_sancor_salud" />
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_patologia_preexistente]"
+                      dataType="dbTimeStamp"
+                      name="fecha_patologia_preexistente" />
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_periodo_actual]"
+                      dataType="dbTimeStamp"
+                      name="fecha_periodo_actual" />
+                    <externalMetadataColumn
+                      refId="Package\Puente de Datos\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_ingreso_segmento_afiliado]"
+                      dataType="dbTimeStamp"
+                      name="fecha_ingreso_segmento_afiliado" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Puente de Datos\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Puente de Datos\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Puente de Datos\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Puente de Datos\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Puente de Datos\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Puente de Datos\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Puente de Datos.Paths[Data Conversion Output]"
+              endId="Package\Puente de Datos\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="Data Conversion Output"
+              startId="Package\Puente de Datos\Data Conversion.Outputs[Data Conversion Output]" />
+            <path
+              refId="Package\Puente de Datos.Paths[Flat File Source Output]"
+              endId="Package\Puente de Datos\Data Conversion.Inputs[Data Conversion Input]"
+              name="Flat File Source Output"
+              startId="Package\Puente de Datos\Flat File Source.Outputs[Flat File Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Verificar Periodo a actualizar"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Verificar Periodo h_cambio_plan_det"
+      DTS:DTSID="{022C9B04-D277-4C9F-A0AF-C47D4BCA5CAC}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Verificar Periodo a actualizar"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{11D08769-CF45-4059-8409-A9E55D05AA1A}"
+          SQLTask:SqlStatementSource="&#xA;&#xA;/* Declara Periodos a comparar. */&#xA;&#xA;&#x9;Declare @Periodo_H Int SET @Periodo_H = (select max(id_periodo) from AUX_H_CAMBIO_PLAN_DET)&#xA;&#x9;Declare @Periodo_MesBorra int SET @Periodo_MesBorra = (Select max(id_periodo) from AUX_PERIODO_MES_BORRA)&#xA;&#xA;&#xA;/* Si la tabla H es IGUAL a la AUX borra lo que exista. Sino, es DISTINTA entonces informa el error ya que no puede continuar así (Recordar que el RAISERROR continua la ejecución si se coloca un script debajo). */&#xA;&#xA;&#x9;IF (@Periodo_MesBorra) = (@Periodo_H)&#xA;&#x9;&#x9;begin&#xA;&#x9;&#x9;&#x9;DELETE FROM H_CAMBIO_PLAN_DET WHERE id_periodo = @Periodo_MesBorra&#xA;&#x9;&#x9;end&#xA;&#x9;&#x9;&#x9;else&#xA;&#x9;&#x9;&#x9;&#x9;RAISERROR ('Periodo Proceso Actualización H_CAMBIO_PLAN_DET Incorrecto.', 16, 1)&#xA;&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{FCC9BD60-38D4-4A02-9C10-D4B0BC3AE3FE}"
+      DTS:From="Package\Verificar Periodo a actualizar"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Actualizar tablas de dimensión" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{BB043A7D-7165-4436-BA5D-81A69B3482DD}"
+      DTS:From="Package\Actualizar tablas de dimensión"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Actualizar AUX_H_CAMBIO_PLAN_DET" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[{2461AE20-0C36-4209-999D-665662F8E7D2\}]"
+      DTS:CreationName=""
+      DTS:DTSID="{2461AE20-0C36-4209-999D-665662F8E7D2}"
+      DTS:From="Package\Puente de Datos"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="{2461AE20-0C36-4209-999D-665662F8E7D2}"
+      DTS:To="Package\Verificar Periodo a actualizar" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[{93A5F5AF-D1AB-435E-8829-8195720275BF\}]"
+      DTS:CreationName=""
+      DTS:DTSID="{93A5F5AF-D1AB-435E-8829-8195720275BF}"
+      DTS:From="Package\Actualizar AUX_H_CAMBIO_PLAN_DET"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="{93A5F5AF-D1AB-435E-8829-8195720275BF}"
+      DTS:To="Package\Actualiza H_CAMBIO_PLAN_DET" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[{CB6EDAEE-1741-4278-8214-DF811289036A\}]"
+      DTS:CreationName=""
+      DTS:DTSID="{CB6EDAEE-1741-4278-8214-DF811289036A}"
+      DTS:From="Package\Actualiza H_CAMBIO_PLAN_DET"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="{CB6EDAEE-1741-4278-8214-DF811289036A}"
+      DTS:To="Package\Borra AUX_H_CAMBIO_PLAN_DET" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[{ED11FBA0-2FAF-41E3-8FCD-DB07E5CCE2C2\}]"
+      DTS:CreationName=""
+      DTS:DTSID="{ED11FBA0-2FAF-41E3-8FCD-DB07E5CCE2C2}"
+      DTS:From="Package\Borrar AUX_H_CAMBIO_PLAN_DET"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="{ED11FBA0-2FAF-41E3-8FCD-DB07E5CCE2C2}"
+      DTS:To="Package\Puente de Datos" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--Esta sección CDATA contiene la información de diseño del paquete. Esta sección incluye información como, por ejemplo, las coordenadas (x,y), el ancho y el alto.-->
+<!--Si edita manualmente esta sección y comete un error, puede eliminarlo. -->
+<!--El paquete podrá cargarse normalmente, pero se perderá la información de diseño anterior y el diseñador reorganizará los elementos automáticamente en la superficie de diseño.-->
+<Objects
+  Version="8">
+  <!--Cada uno de los nodos siguientes contiene propiedades que no afectan al comportamiento en tiempo de ejecución.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="247,42"
+          Id="Package\Actualiza H_CAMBIO_PLAN_DET"
+          TopLeft="278.654986522911,390.61320754717" />
+        <NodeLayout
+          Size="279,42"
+          Id="Package\Actualizar AUX_H_CAMBIO_PLAN_DET"
+          TopLeft="262.654986522911,320.72641509434" />
+        <NodeLayout
+          Size="228,42"
+          Id="Package\Actualizar tablas de dimensión"
+          TopLeft="288.154986522911,248.764150943396" />
+        <NodeLayout
+          Size="258,42"
+          Id="Package\Borra AUX_H_CAMBIO_PLAN_DET"
+          TopLeft="273.154986522911,462.5" />
+        <NodeLayout
+          Size="261,42"
+          Id="Package\Borrar AUX_H_CAMBIO_PLAN_DET"
+          TopLeft="271.654986522911,44.5" />
+        <NodeLayout
+          Size="161,42"
+          Id="Package\Puente de Datos"
+          TopLeft="321.654986522911,112.38679245283" />
+        <NodeLayout
+          Size="220,42"
+          Id="Package\Verificar Periodo a actualizar"
+          TopLeft="292.154986522911,180.349056603774" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="402.154986522911,222.349056603774">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,26.4150943396226"
+              Start="0,0"
+              End="0,18.9150943396226">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18.9150943396226" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="402.154986522911,290.764150943396">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,29.9622641509434"
+              Start="0,0"
+              End="0,22.4622641509434">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,22.4622641509434" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[{2461AE20-0C36-4209-999D-665662F8E7D2\}]"
+          TopLeft="402.154986522911,154.38679245283">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,25.9622641509434"
+              Start="0,0"
+              End="0,18.4622641509434">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18.4622641509434" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[{93A5F5AF-D1AB-435E-8829-8195720275BF\}]"
+          TopLeft="402.154986522911,362.72641509434">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,27.8867924528302"
+              Start="0,0"
+              End="0,20.3867924528302">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.3867924528302" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[{CB6EDAEE-1741-4278-8214-DF811289036A\}]"
+          TopLeft="402.154986522911,432.61320754717">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,29.8867924528302"
+              Start="0,0"
+              End="0,22.3867924528302">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,22.3867924528302" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[{ED11FBA0-2FAF-41E3-8FCD-DB07E5CCE2C2\}]"
+          TopLeft="402.154986522911,86.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,25.8867924528302"
+              Start="0,0"
+              End="0,18.3867924528302">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18.3867924528302" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Puente de Datos">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="161,42"
+          Id="Package\Puente de Datos\Data Conversion"
+          TopLeft="367.654088050314,158.292452830189" />
+        <NodeLayout
+          Size="177,42"
+          Id="Package\Puente de Datos\OLE DB Destination"
+          TopLeft="359.654088050314,231.047169811321" />
+        <NodeLayout
+          Size="156,42"
+          Id="Package\Puente de Datos\Flat File Source"
+          TopLeft="370.154088050314,83.5" />
+        <EdgeLayout
+          Id="Package\Puente de Datos.Paths[Flat File Source Output]"
+          TopLeft="448.154088050314,125.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,32.7924528301887"
+              Start="0,0"
+              End="0,25.2924528301887">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,25.2924528301887" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Puente de Datos.Paths[Data Conversion Output]"
+          TopLeft="448.154088050314,200.292452830189">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,30.7547169811321"
+              Start="0,0"
+              End="0,23.2547169811321">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,23.2547169811321" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Puente de Datos\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

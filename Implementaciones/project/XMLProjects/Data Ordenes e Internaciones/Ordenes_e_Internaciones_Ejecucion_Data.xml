@@ -1,0 +1,1014 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="8/22/2017 2:25:30 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AMS06X"
+  DTS:CreatorName="AMS\adminb"
+  DTS:DTSID="{3502FD26-D60E-4675-B23B-F0038E8D7D22}"
+  DTS:EnableConfig="True"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="Ordenes_e_Internaciones_Ejecucion_Data"
+  DTS:PackageType="5"
+  DTS:VersionBuild="195"
+  DTS:VersionGUID="{CF65CB5F-13CF-4540-B924-0E7637D0F48E}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{C8475070-56A9-42FC-90FF-6EBF058DCB0C}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="CantidadArchivo">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{912E0CE7-ABE2-4F43-B92E-C8AFBD1C0A3B}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="Periodo">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{56C26D9A-90B0-42FF-9240-E9E6E90CC1BE}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;E:\\DW_Salud\\Archivos_txt\\Internaciones\\&quot; + (DT_WSTR, 8) @[User::Periodo] "
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="vNombreCarpetaInternaciones"
+      DTS:RaiseChangedEvent="True">
+      <DTS:VariableValue
+        DTS:DataType="8">E:\DW_Salud\Archivos_txt\Internaciones\0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{3CF7533E-5B2C-4939-A076-563529B21A20}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;E:\\DW_Salud\\Archivos_txt\\Ordenes\\&quot; + (DT_WSTR, 8) @[User::Periodo] "
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="vNombreCarpetaOrdenes">
+      <DTS:VariableValue
+        DTS:DataType="8">E:\DW_Salud\Archivos_txt\Ordenes\0</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="2">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">1,7,OnError</DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnError"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Audired"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Execute Package Task"
+      DTS:DTSID="{E37C68B9-4390-4B92-A461-BB92DABE4612}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Audired"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>Ordenes_e_Internaciones_H_AUDIRED.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Envio Mail --- D_POSICION"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Borra Tablas Auxiliares"
+      DTS:DTSID="{9b5ba854-6217-4f61-8065-9b7b257fff83}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Envio Mail --- D_POSICION"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{CB31783E-132D-4F49-8D86-4C2C49219488}"
+          SQLTask:SqlStatementSource="Declare @Periodo INT &#xA;SET @Periodo = (Select max(id_periodo) from AUX_PERIODO_MES_BORRA)&#xA;&#xA;---- borra la tabla &#xA;drop table Consultas_dw.dbo.Notificacion_posiciones_Data_ORdENES_E_INTERNACIONES&#xA;&#xA;select id_posicion_int, 0 as notificacion&#xA;into Consultas_dw.dbo.Notificacion_posiciones_Data_ORdENES_E_INTERNACIONES&#xA;from H_INTERNACIONES &#xA;where id_posicion_int not in (Select distinct id_posicion FROM D_POSICION)&#xA;and id_periodo = @Periodo&#xA;&#xA;insert into Consultas_dw.dbo.Notificacion_posiciones_Data_ORdENES_E_INTERNACIONES&#xA;select  id_posicion_estab_asist , 0&#xA;from H_INTERNACIONES &#xA;where id_posicion_estab_asist not in (Select distinct id_posicion FROM D_POSICION)&#xA;and id_periodo = @Periodo&#xA;&#xA;insert into Consultas_dw.dbo.Notificacion_posiciones_Data_ORdENES_E_INTERNACIONES&#xA;select id_posicion_prestacion, 0 from H_ORDENES_PROCESADAS&#xA;where id_posicion_prestacion not in (Select distinct id_posicion FROM D_POSICION)&#xA;and id_periodo = @Periodo&#xA;&#xA;insert into Consultas_dw.dbo.Notificacion_posiciones_Data_ORdENES_E_INTERNACIONES&#xA;select id_posicion_prestacion, 0 from H_ORDENES_PROCESADAS_det&#xA;where id_posicion_prestacion not in (Select distinct id_posicion FROM D_POSICION)&#xA;and id_periodo = @Periodo&#xA;&#xA;insert into Consultas_dw.dbo.Notificacion_posiciones_Data_ORdENES_E_INTERNACIONES&#xA;select Id_Posicion_Int, 0 from H_AUDIRED&#xA;where Id_Posicion_Int not in (Select distinct id_posicion FROM D_POSICION)&#xA;and id_periodo = @Periodo&#xA;&#xA;insert into Consultas_dw.dbo.Notificacion_posiciones_Data_ORdENES_E_INTERNACIONES&#xA;select id_posicion_orden, 0 from H_MONTOS_AHORRO_ORDENES&#xA;where id_posicion_orden not in (Select distinct id_posicion FROM D_POSICION)&#xA;and id_periodo = @Periodo&#xA;&#xA;&#xA;&#xA;&#xA;---- Se creo este envio de mail, para avisar las nuevas posicion en Data Ordenes e Internaciones.&#xA;&#xA;---- Variable con el día de la fecha de hoy ( quitando hora)&#xA;&#xA;&#xA;&#xA;IF (select COUNT(id_posicion_int) from Consultas_dw.dbo.Notificacion_posiciones_Data_ORdENES_E_INTERNACIONES where notificacion = 0 ) &gt; 1&#xA;&#xA;&#xA;Begin&#xA;&#xA;EXEC msdb.dbo.sp_send_dbmail&#xA;   @profile_name = 'Soporte MicroStrategy',&#xA;   @recipients = 'juanfrancisco.trinchieri@sancorsalud.com.ar;  nicolas.prida@sancorsalud.com.ar',&#xA;   @subject = 'Data Ordenes e Internaciones - Alta Nueva Posición',&#xA;   @body = 'Buenas,&#xA;   &#xA;   Enviamos este correo para comunicarles que en el proceso Data Ordenes e Internaciones se dieron de Alta las Siguientes Posiciones: &#xA; para darlas de alta es necesario correr el paquete d_posicion del proyecto de consumos&#xA;   ',&#xA;@query = 'select id_posicion_int from Consultas_dw.dbo.Notificacion_posiciones_Data_ORdENES_E_INTERNACIONES;',&#xA;    @query_result_separator = '|',&#xA;    @execute_query_database = 'DW_SALUD';&#xA;&#xA;&#xA;UPDATE Consultas_dw.dbo.Notificacion_posiciones_Data_ORdENES_E_INTERNACIONES SET notificacion = 1&#xA;&#xA;END" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Ordenes_e_Internaciones_AUX_PERIODO_MES_BORRA"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Execute Package Task"
+      DTS:DTSID="{16110025-80F2-4DCE-A10F-7E96FE2473D9}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Ordenes_e_Internaciones_AUX_PERIODO_MES_BORRA"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>Ordenes_e_Internaciones_AUX_PERIODO_MES_BORRA.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Ordenes_e_Internaciones_Backup_Archivos"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Execute Package Task"
+      DTS:DTSID="{72a29d06-859b-4573-8f8a-47305ffa5831}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Ordenes_e_Internaciones_Backup_Archivos"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>Ordenes_e_Internaciones_Backup_Archivos_Procesados.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Ordenes_e_Internaciones_Copia_Archivos"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Execute Package Task"
+      DTS:DTSID="{603c3c20-2aea-4ac4-9203-5a3f59d755d8}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Ordenes_e_Internaciones_Copia_Archivos"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>Ordenes_e_Internaciones_Copia_Archivos.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Ordenes_e_Internaciones_H_INTERNACIONES"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Execute Package Task"
+      DTS:DTSID="{a7179e8a-3eb1-4323-a55a-91080d2adea5}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Ordenes_e_Internaciones_H_INTERNACIONES"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>Ordenes_e_Internaciones_H_INTERNACIONES.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Ordenes_e_Internaciones_H_MONTOS_AHORRO_ORDENES"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Execute Package Task"
+      DTS:DTSID="{01dfa5e7-c496-469e-a0ea-6d2b2c561859}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Ordenes_e_Internaciones_H_MONTOS_AHORRO_ORDENES"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>Ordenes_e_Internaciones_H_MONTOS_AHORRO_ORDENES.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Ordenes_e_Internaciones_H_ORDENES_PROCESADAS"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Execute Package Task"
+      DTS:DTSID="{b13e6f7e-1bf7-4489-b5d2-2d749cf86895}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Ordenes_e_Internaciones_H_ORDENES_PROCESADAS"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>Ordenes_e_Internaciones_H_ORDENES_PROCESADAS.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Ordenes_e_Internaciones_H_ORDENES_PROCESADAS_DET"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Execute Package Task"
+      DTS:DTSID="{a230aede-2c92-48ba-b0a8-bcb75d99e42a}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Ordenes_e_Internaciones_H_ORDENES_PROCESADAS_DET"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>Ordenes_e_Internaciones_H_ORDENES_PROCESADAS_DET.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Tablas de Dimension"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{2C1448EA-2C8B-40A4-B495-6E61F85E65B1}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Tablas de Dimension">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Tablas de Dimension\Ordenes_e_Internaciones_D_ACCIDENTE"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:Disabled="True"
+          DTS:DTSID="{0441d663-eeb9-4981-9c18-24e289a6fd18}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Ordenes_e_Internaciones_D_ACCIDENTE"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>Ordenes_e_Internaciones_D_ACCIDENTE.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Tablas de Dimension\Ordenes_e_Internaciones_D_ART"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:Disabled="True"
+          DTS:DTSID="{7bf5c86d-984a-4e5f-abc7-c2bce4cacc27}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Ordenes_e_Internaciones_D_ART"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>Ordenes_e_Internaciones_D_ART.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Tablas de Dimension\Ordenes_e_Internaciones_D_ATRIBUTO_ORDEN"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:Disabled="True"
+          DTS:DTSID="{72c89ecb-65ba-4cc3-b330-c40dc52c9464}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Ordenes_e_Internaciones_D_ATRIBUTO_ORDEN"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>Ordenes_e_Internaciones_D_ATRIBUTO_ORDEN.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Tablas de Dimension\Ordenes_e_Internaciones_D_AUTORIZACION_PREVIA"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:Disabled="True"
+          DTS:DTSID="{f1387096-a723-437b-a79a-f9ef04746444}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Ordenes_e_Internaciones_D_AUTORIZACION_PREVIA"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>Ordenes_e_Internaciones_D_AUTORIZACION_PREVIA.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Tablas de Dimension\Ordenes_e_Internaciones_D_COMPLEJIDAD"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:Disabled="True"
+          DTS:DTSID="{a7df7c5c-1521-417e-aa4d-3689452b6300}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Ordenes_e_Internaciones_D_COMPLEJIDAD"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>Ordenes_e_Internaciones_D_COMPLEJIDAD.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Tablas de Dimension\Ordenes_e_Internaciones_D_DIAGNOSTICO"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{c1bf422e-6315-40a8-9208-3ee955c57110}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Ordenes_e_Internaciones_D_DIAGNOSTICO"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>Ordenes_e_Internaciones_D_DIAGNOSTICO.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Tablas de Dimension\Ordenes_e_Internaciones_D_ESTADO_ORDEN"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{e919b3ec-0f0d-4994-a757-06182e3a505e}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Ordenes_e_Internaciones_D_ESTADO_ORDEN"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>Ordenes_e_Internaciones_D_ESTADO_ORDEN.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Tablas de Dimension\Ordenes_e_Internaciones_D_FORMA_PAGO_ORDEN"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{84c0e0b0-536a-49e7-873f-91f07762c0e5}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Ordenes_e_Internaciones_D_FORMA_PAGO_ORDEN"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>Ordenes_e_Internaciones_D_FORMA_PAGO_ORDEN.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Tablas de Dimension\Ordenes_e_Internaciones_D_MOTIVOS_AUDITORIA"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{e12d08f8-c71a-4a48-b8c8-f3029e7518e1}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Ordenes_e_Internaciones_D_MOTIVOS_AUDITORIA"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>Ordenes_e_Internaciones_D_MOTIVOS_AUDITORIA.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Tablas de Dimension\Ordenes_e_Internaciones_D_NIVEL_CAPITACION"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{3564190e-28c0-4eda-a779-cea4fb36796e}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Ordenes_e_Internaciones_D_NIVEL_CAPITACION"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>Ordenes_e_Internaciones_D_NIVEL_CAPITACION.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Tablas de Dimension\Ordenes_e_Internaciones_D_NRO_ORDEN"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{0079a995-6ad7-4476-9e8d-b996c1527f1d}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Ordenes_e_Internaciones_D_NRO_ORDEN"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>Ordenes_e_Internaciones_D_NRO_ORDEN.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Tablas de Dimension\Ordenes_e_Internaciones_D_ORIGEN_ENVIO_ORDEN"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{5535aaaa-933c-4ff3-8118-937a6b053538}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Ordenes_e_Internaciones_D_ORIGEN_ENVIO_ORDEN"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>Ordenes_e_Internaciones_D_ORIGEN_ENVIO_ORDEN.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Tablas de Dimension\Ordenes_e_Internaciones_D_TIPO_AFILIACION"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:Disabled="True"
+          DTS:DTSID="{2fa8ddaf-a17d-4532-ad8b-55a85098b0f7}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Ordenes_e_Internaciones_D_TIPO_AFILIACION"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>Ordenes_e_Internaciones_D_TIPO_AFILIACION.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Tablas de Dimension\Ordenes_e_Internaciones_D_TIPO_INTERNACION"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{5d4248f5-fcce-4eed-b10d-923c7be867e1}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Ordenes_e_Internaciones_D_TIPO_INTERNACION"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>Ordenes_e_Internaciones_D_TIPO_INTERNACION.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Tablas de Dimension\Ordenes_e_Internaciones_D_TIPO_ORDEN"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{e8e14813-d302-4334-82a3-0d29a69d7b2b}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Ordenes_e_Internaciones_D_TIPO_ORDEN"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>Ordenes_e_Internaciones_D_TIPO_ORDEN.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Tablas de Dimension\Ordenes_e_Internaciones_D_USUARIO_AUDITOR"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{88f92363-d68d-4d41-8027-b6eb4b957e38}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Ordenes_e_Internaciones_D_USUARIO_AUDITOR"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>Ordenes_e_Internaciones_D_USUARIO_AUDITOR.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Tablas de Dimension\Ordenes_e_Internaciones_D_USUARIO_CARGA"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{ee478e15-ad14-4355-8b8c-fb480a2cfed4}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Ordenes_e_Internaciones_D_USUARIO_CARGA"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>Ordenes_e_Internaciones_D_USUARIO_CARGA.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{ABC16FB9-7E79-434A-8B3B-40D30B864ED2}"
+      DTS:From="Package\Ordenes_e_Internaciones_H_ORDENES_PROCESADAS_DET"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Ordenes_e_Internaciones_H_MONTOS_AHORRO_ORDENES" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{7D7F4FE1-9B43-4C68-BCF1-27B6747391B8}"
+      DTS:From="Package\Ordenes_e_Internaciones_H_MONTOS_AHORRO_ORDENES"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Ordenes_e_Internaciones_H_INTERNACIONES" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{216A34F8-0E70-4727-9802-5D7F34CD6AE6}"
+      DTS:From="Package\Ordenes_e_Internaciones_AUX_PERIODO_MES_BORRA"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Tablas de Dimension" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{5B3B9DA5-69A2-4F41-ADFB-71126022AC56}"
+      DTS:From="Package\Tablas de Dimension"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Ordenes_e_Internaciones_H_ORDENES_PROCESADAS" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 38]"
+      DTS:CreationName=""
+      DTS:DTSID="{B4F24EDF-7222-40EC-B10D-ECAD7988E1B8}"
+      DTS:From="Package\Ordenes_e_Internaciones_H_ORDENES_PROCESADAS"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 38"
+      DTS:To="Package\Ordenes_e_Internaciones_H_ORDENES_PROCESADAS_DET" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
+      DTS:CreationName=""
+      DTS:DTSID="{B670F7A2-95E6-4199-8C53-B37999C87C76}"
+      DTS:From="Package\Ordenes_e_Internaciones_H_INTERNACIONES"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 4"
+      DTS:To="Package\Audired" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 5]"
+      DTS:CreationName=""
+      DTS:DTSID="{5C879AC0-DD5C-4438-8D56-8E12AD7712B2}"
+      DTS:From="Package\Ordenes_e_Internaciones_Copia_Archivos"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 5"
+      DTS:To="Package\Ordenes_e_Internaciones_AUX_PERIODO_MES_BORRA" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 6]"
+      DTS:CreationName=""
+      DTS:DTSID="{0B745E61-5EC0-41F4-94BE-62ABE4E45DC8}"
+      DTS:From="Package\Audired"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 6"
+      DTS:To="Package\Ordenes_e_Internaciones_Backup_Archivos" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Restricción]"
+      DTS:CreationName=""
+      DTS:DTSID="{0C394D4B-C5CE-4A38-BF1F-4BE0B4AC7C2D}"
+      DTS:From="Package\Ordenes_e_Internaciones_Backup_Archivos"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Restricción"
+      DTS:To="Package\Envio Mail --- D_POSICION" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="64" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="117,42"
+          Id="Package\Audired"
+          TopLeft="381,1299" />
+        <NodeLayout
+          Size="214,42"
+          Id="Package\Envio Mail --- D_POSICION"
+          TopLeft="342,1452" />
+        <NodeLayout
+          Size="366,46"
+          Id="Package\Ordenes_e_Internaciones_AUX_PERIODO_MES_BORRA"
+          TopLeft="260.928459119497,80.4716981132075" />
+        <NodeLayout
+          Size="297,42"
+          Id="Package\Ordenes_e_Internaciones_Backup_Archivos"
+          TopLeft="294,1372" />
+        <NodeLayout
+          Size="341,44"
+          Id="Package\Ordenes_e_Internaciones_Copia_Archivos"
+          TopLeft="268,0" />
+        <NodeLayout
+          Size="316,42"
+          Id="Package\Ordenes_e_Internaciones_H_INTERNACIONES"
+          TopLeft="286.928459119497,1216.7358490566" />
+        <NodeLayout
+          Size="389,42"
+          Id="Package\Ordenes_e_Internaciones_H_MONTOS_AHORRO_ORDENES"
+          TopLeft="253.428459119497,1134.16981132075" />
+        <NodeLayout
+          Size="363,42"
+          Id="Package\Ordenes_e_Internaciones_H_ORDENES_PROCESADAS"
+          TopLeft="269.428459119497,974.77358490566" />
+        <NodeLayout
+          Size="391,42"
+          Id="Package\Ordenes_e_Internaciones_H_ORDENES_PROCESADAS_DET"
+          TopLeft="255.428459119497,1050.32075471698" />
+        <NodeLayout
+          Size="289,42"
+          Id="Package\Tablas de Dimension\Ordenes_e_Internaciones_D_ACCIDENTE"
+          TopLeft="417.428459119497,491.264150943396" />
+        <NodeLayout
+          Size="248,42"
+          Id="Package\Tablas de Dimension\Ordenes_e_Internaciones_D_ART"
+          TopLeft="18.9284591194969,547.88679245283" />
+        <NodeLayout
+          Size="327,42"
+          Id="Package\Tablas de Dimension\Ordenes_e_Internaciones_D_ATRIBUTO_ORDEN"
+          TopLeft="402.428459119497,606.962264150943" />
+        <NodeLayout
+          Size="355,42"
+          Id="Package\Tablas de Dimension\Ordenes_e_Internaciones_D_AUTORIZACION_PREVIA"
+          TopLeft="25.4284591194969,83.5660377358491" />
+        <NodeLayout
+          Size="304,42"
+          Id="Package\Tablas de Dimension\Ordenes_e_Internaciones_D_COMPLEJIDAD"
+          TopLeft="15.9284591194969,485.094339622641" />
+        <NodeLayout
+          Size="303,42"
+          Id="Package\Tablas de Dimension\Ordenes_e_Internaciones_D_DIAGNOSTICO"
+          TopLeft="405.428459119497,550.679245283019" />
+        <NodeLayout
+          Size="317,42"
+          Id="Package\Tablas de Dimension\Ordenes_e_Internaciones_D_ESTADO_ORDEN"
+          TopLeft="26.4284591194969,150.867924528302" />
+        <NodeLayout
+          Size="349,42"
+          Id="Package\Tablas de Dimension\Ordenes_e_Internaciones_D_FORMA_PAGO_ORDEN"
+          TopLeft="429.428459119497,148.603773584906" />
+        <NodeLayout
+          Size="342,42"
+          Id="Package\Tablas de Dimension\Ordenes_e_Internaciones_D_MOTIVOS_AUDITORIA"
+          TopLeft="24.9284591194969,19.5094339622642" />
+        <NodeLayout
+          Size="331,42"
+          Id="Package\Tablas de Dimension\Ordenes_e_Internaciones_D_NIVEL_CAPITACION"
+          TopLeft="417.428459119497,425.339622641509" />
+        <NodeLayout
+          Size="296,42"
+          Id="Package\Tablas de Dimension\Ordenes_e_Internaciones_D_NRO_ORDEN"
+          TopLeft="441.928459119497,18.6226415094339" />
+        <NodeLayout
+          Size="355,42"
+          Id="Package\Tablas de Dimension\Ordenes_e_Internaciones_D_ORIGEN_ENVIO_ORDEN"
+          TopLeft="438.428459119497,82.2075471698113" />
+        <NodeLayout
+          Size="318,42"
+          Id="Package\Tablas de Dimension\Ordenes_e_Internaciones_D_TIPO_AFILIACION"
+          TopLeft="23.9284591194969,219.018867924528" />
+        <NodeLayout
+          Size="333,42"
+          Id="Package\Tablas de Dimension\Ordenes_e_Internaciones_D_TIPO_INTERNACION"
+          TopLeft="18.4284591194969,615.77358490566" />
+        <NodeLayout
+          Size="297,52"
+          Id="Package\Tablas de Dimension\Ordenes_e_Internaciones_D_TIPO_ORDEN"
+          TopLeft="427.428459119497,215.22641509434" />
+        <NodeLayout
+          Size="331,42"
+          Id="Package\Tablas de Dimension\Ordenes_e_Internaciones_D_USUARIO_AUDITOR"
+          TopLeft="404.428459119497,285.094339622642" />
+        <NodeLayout
+          Size="321,42"
+          Id="Package\Tablas de Dimension\Ordenes_e_Internaciones_D_USUARIO_CARGA"
+          TopLeft="18.4284591194969,287.075471698113" />
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="854,713"
+          Size="854,756"
+          Id="Package\Tablas de Dimension"
+          TopLeft="27,174" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="449.428459119497,1092.32075471698">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,41.8490566037735"
+              Start="0,0"
+              End="0,34.3490566037735">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,34.3490566037735" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="446.428459119497,1176.16981132075">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,40.566037735849"
+              Start="0,0"
+              End="0,33.066037735849">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,33.066037735849" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="443.928459119497,126.471698113207">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="10.071540880503,47.5283018867925"
+              Start="0,0"
+              End="10.071540880503,40.0283018867925">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,19.7641509433963" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,19.7641509433963"
+                    Point2="0,23.7641509433963"
+                    Point3="4,23.7641509433963" />
+                  <mssgle:LineSegment
+                    End="6.07154088050299,23.7641509433963" />
+                  <mssgle:CubicBezierSegment
+                    Point1="6.07154088050299,23.7641509433963"
+                    Point2="10.071540880503,23.7641509433963"
+                    Point3="10.071540880503,27.7641509433963" />
+                  <mssgle:LineSegment
+                    End="10.071540880503,40.0283018867925" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="452.464229559749,930">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,44.77358490566"
+              Start="0,0"
+              End="0,37.27358490566">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,37.27358490566" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 38]"
+          TopLeft="450.928459119497,1016.77358490566">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,33.5471698113206"
+              Start="0,0"
+              End="0,26.0471698113206">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26.0471698113206" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="442.214229559748,1258.7358490566">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,40.2641509433963"
+              Start="0,0"
+              End="0,32.7641509433963">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,32.7641509433963" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 5]"
+          TopLeft="441.214229559749,44">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,36.4716981132075"
+              Start="0,0"
+              End="0,28.9716981132075">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,28.9716981132075" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 6]"
+          TopLeft="441,1341">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,31"
+              Start="0,0"
+              End="0,23.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,23.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Restricción]"
+          TopLeft="445.75,1414">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,38"
+              Start="0,0"
+              End="0,30.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,30.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

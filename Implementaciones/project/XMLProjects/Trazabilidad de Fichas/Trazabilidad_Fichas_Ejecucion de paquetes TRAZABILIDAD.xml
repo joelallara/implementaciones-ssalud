@@ -1,0 +1,299 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="9/5/2016 7:18:27 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AMS06X"
+  DTS:CreatorName="AMS\nborio"
+  DTS:DTSID="{C6B15F97-CC8D-4129-AB30-3DE94E914134}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="Trazabilidad_Fichas_Ejecucion de paquetes TRAZABILIDAD"
+  DTS:PackageType="5"
+  DTS:VersionBuild="87"
+  DTS:VersionGUID="{906C1B6B-3406-4422-B995-AC74C31B9385}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="2">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">1,7,OnError</DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnError"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\TRAZABILIDAD_FICHAS_DIARIO_D_EMPRESAS"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Actualizar D_EMPRESAS"
+      DTS:DTSID="{7C1A2A55-EC4A-422D-ABB5-893ED41F1B91}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="TRAZABILIDAD_FICHAS_DIARIO_D_EMPRESAS"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>Trazabilidad_Fichas_D_EMPRESAS.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\TRAZABILIDAD_FICHAS_DIARIO_D_PERSONAS_TRAZABILIDAD"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Actualiza D_PERSONAS_TRAZABILIDAD"
+      DTS:DTSID="{6DEFE15B-AE87-43B9-BFD6-16D2699C5B91}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="TRAZABILIDAD_FICHAS_DIARIO_D_PERSONAS_TRAZABILIDAD"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>Trazabilidad_Fichas_D_PERSONAS_TRAZABILIDAD.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\TRAZABILIDAD_FICHAS_DIARIO_D_PROMOTOR"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Actualiza D_PROMOTOR"
+      DTS:DTSID="{8E07E05A-0B15-49EE-A0EE-B64E39255132}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="TRAZABILIDAD_FICHAS_DIARIO_D_PROMOTOR"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>Trazabilidad_Fichas_D_PROMOTOR.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\TRAZABILIDAD_FICHAS_DIARIO_H_TRAZABILIDAD_FICHAS"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Actualiza H_TRAZABILIDAD_FICHAS"
+      DTS:DTSID="{C7685DDA-17A1-40AA-9EC4-3270E5536CBB}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="TRAZABILIDAD_FICHAS_DIARIO_H_TRAZABILIDAD_FICHAS"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>Trazabilidad_Fichas_H_TRAZABILIDAD_FICHAS.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\TRAZABILIDAD_FICHAS_DIARIO_H_TRAZABILIDAD_FICHAS_PADRON"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Execute Package Task"
+      DTS:DTSID="{5469ED95-870F-4DAA-B01B-24AAE34CF4FF}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="TRAZABILIDAD_FICHAS_DIARIO_H_TRAZABILIDAD_FICHAS_PADRON"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>Trazabilidad_Fichas_H_TRAZABILIDAD_FICHAS_PADRON.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{31D05ED2-2448-4323-B1B7-7CFA3248B64E}"
+      DTS:From="Package\TRAZABILIDAD_FICHAS_DIARIO_D_PERSONAS_TRAZABILIDAD"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\TRAZABILIDAD_FICHAS_DIARIO_H_TRAZABILIDAD_FICHAS" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{532D32A5-AF7C-48B0-B2DF-6D8FA75B267D}"
+      DTS:From="Package\TRAZABILIDAD_FICHAS_DIARIO_D_EMPRESAS"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\TRAZABILIDAD_FICHAS_DIARIO_D_PERSONAS_TRAZABILIDAD" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{A6DAA83B-E257-4014-8C2D-18390260AA69}"
+      DTS:From="Package\TRAZABILIDAD_FICHAS_DIARIO_D_PROMOTOR"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\TRAZABILIDAD_FICHAS_DIARIO_D_EMPRESAS" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{BB1741D1-8D64-4069-84E8-C64F9A1FD5E6}"
+      DTS:From="Package\TRAZABILIDAD_FICHAS_DIARIO_H_TRAZABILIDAD_FICHAS"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\TRAZABILIDAD_FICHAS_DIARIO_H_TRAZABILIDAD_FICHAS_PADRON" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--Esta sección CDATA contiene la información de diseño del paquete. Esta sección incluye información como, por ejemplo, las coordenadas (x,y), el ancho y el alto.-->
+<!--Si edita manualmente esta sección y comete un error, puede eliminarlo. -->
+<!--El paquete podrá cargarse normalmente, pero se perderá la información de diseño anterior y el diseñador reorganizará los elementos automáticamente en la superficie de diseño.-->
+<Objects
+  Version="8">
+  <!--Cada uno de los nodos siguientes contiene propiedades que no afectan al comportamiento en tiempo de ejecución.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="329,42"
+          Id="Package\TRAZABILIDAD_FICHAS_DIARIO_D_EMPRESAS"
+          TopLeft="77.7845911949686,83.9528301886792" />
+        <NodeLayout
+          Size="414,42"
+          Id="Package\TRAZABILIDAD_FICHAS_DIARIO_D_PERSONAS_TRAZABILIDAD"
+          TopLeft="34.2845911949686,149.462264150943" />
+        <NodeLayout
+          Size="333,42"
+          Id="Package\TRAZABILIDAD_FICHAS_DIARIO_D_PROMOTOR"
+          TopLeft="74.7845911949686,4.5" />
+        <NodeLayout
+          Size="394,42"
+          Id="Package\TRAZABILIDAD_FICHAS_DIARIO_H_TRAZABILIDAD_FICHAS"
+          TopLeft="44.2845911949686,216.933962264151" />
+        <NodeLayout
+          Size="447,42"
+          Id="Package\TRAZABILIDAD_FICHAS_DIARIO_H_TRAZABILIDAD_FICHAS_PADRON"
+          TopLeft="17.7845911949686,292.971698113208" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="241.284591194969,191.462264150943">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,25.471698113208"
+              Start="0,0"
+              End="0,17.971698113208">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,17.971698113208" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="241.784591194969,125.952830188679">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,23.5094339622638"
+              Start="0,0"
+              End="0,16.0094339622638">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,16.0094339622638" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="241.784591194969,46.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,37.4528301886792"
+              Start="0,0"
+              End="0,29.9528301886792">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,29.9528301886792" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="241.284591194969,258.933962264151">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,34.037735849057"
+              Start="0,0"
+              End="0,26.537735849057">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26.537735849057" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

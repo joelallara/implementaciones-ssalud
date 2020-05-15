@@ -1,0 +1,1478 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="9/2/2016 8:42:04 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AMS06X"
+  DTS:CreatorName="AMS\nprida"
+  DTS:DelayValidation="True"
+  DTS:DTSID="{1FD8FA67-65E9-4CCE-9384-468BC8EFA433}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="Consumos PRESTACIONES_HOMOLOGADAS"
+  DTS:PackageType="5"
+  DTS:VersionBuild="124"
+  DTS:VersionGUID="{2860523D-40DA-4793-98D3-92C39769FAF7}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{2B16D999-F2ED-4C22-91EB-45FE8FAF1897}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{F6E5FEB0-4BD7-473B-B984-294EAFE00535}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="V_Periodo_Desde">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{32212583-3CD5-4865-9156-650CA060E0FF}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="V_Periodo_Hasta">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">1,7,OnError</DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnError"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{2B16D999-F2ED-4C22-91EB-45FE8FAF1897}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza AUX_PERIODO_MES_BORRA y TMP_D_CODIGOSPRO"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{D184AC6F-E2E8-4A05-80C2-1479414659C6}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza AUX_PERIODO_MES_BORRA y TMP_D_CODIGOSPRO"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{6601EFDC-B0A3-4B05-9A3F-EFAAD98885BF}"
+          SQLTask:SqlStatementSource="&#xA;/* Borra TMP_D_CODIGOSPRO */&#xA;TRUNCATE TABLE Consultas_DW.dbo.TMP_D_CODIGOSPRO&#xA;&#xA;/* Borra todo periodo ya cargado en AUX_PERIODO_MES_BORRA */&#xA;DELETE FROM DW_SALUD.dbo.AUX_PERIODO_MES_BORRA&#xA;&#xA;/* Inserta en AUX_PERIODO_MES_BORRA el último ya cargado en D_PERIODO */&#xA;INSERT INTO DW_SALUD.dbo.AUX_PERIODO_MES_BORRA&#xA;(id_periodo)&#xA;select MAX(id_periodo) from DW_SALUD.dbo.D_PERIODO where vigente_consumo = 1" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza D_PRESTACIONES_ACREEDOR"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{f39624b2-a82c-4c5f-a50f-d1dfc39cc14e}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza D_PRESTACIONES_ACREEDOR"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{6601EFDC-B0A3-4B05-9A3F-EFAAD98885BF}"
+          SQLTask:SqlStatementSource="&#xA;/* Inserta nuevas prestaciones homologadas de Acreedores ya existentes. */&#xA; INSERT INTO D_PRESTACIONES_ACREEDOR&#xA; (id_acreedor, id_tipo_prestador, id_prestacion_acreedor, id_nomenclador_acreedor, de_codigo_prestacion_acreedor, de_prestacion_acreedor, simulador_convenio)&#xA; SELECT C.id_acreedor, C.id_tipo_prestador, C.id_prestacion_acreedor, C.id_nomenclador_acreedor, C.de_codigo_prestacion_acreedor, C.de_prestacion_acreedor, 0 &#xA; FROM D_PRESTACION_HOMOLOGADA_ACREEDOR C&#xA; WHERE not exists (select A.id_prestacion_acreedor, A.id_acreedor from D_PRESTACIONES_ACREEDOR A where C.id_prestacion_acreedor = A.id_prestacion_acreedor and C.id_acreedor = A.id_acreedor) /* Busca si un acreedor tiene nuevas prestaciones homologadas. */&#xA; GROUP BY C.id_acreedor, C.id_tipo_prestador, C.id_prestacion_acreedor, C.id_nomenclador_acreedor, C.de_codigo_prestacion_acreedor, C.de_prestacion_acreedor /* Agrupa para quitar los duplicados que nos genera el campo &quot;id_codigo_agrupador_acreedor&quot; que se usa para otra cosa. */&#xA;&#xA;/* Inserta un registro 9999999999 para cada Acreedor NUEVO. */&#xA; --INSERT INTO D_PRESTACIONES_ACREEDOR&#xA; --(id_acreedor, id_tipo_prestador, id_prestacion_acreedor, id_nomenclador_acreedor, de_codigo_prestacion_acreedor, de_prestacion_acreedor, simulador_convenio)&#xA; --SELECT distinct id_acreedor, id_tipo_prestador, '9999999999' as id_prestacion_acreedor, '99' as id_nomenclador_acreedor, '99999999' as de_codigo_prestacion_acreedor, 'Sin Prestacion Homologada' as de_prestacion_acreedor , 0&#xA; --FROM D_PRESTACIONES_ACREEDOR C&#xA; --WHERE id_acreedor not in (select id_acreedor from D_PRESTACIONES_ACREEDOR where id_prestacion_acreedor in ('9999999999'))&#xA;&#xA; INSERT INTO D_PRESTACIONES_ACREEDOR&#xA; (id_acreedor, id_tipo_prestador, id_prestacion_acreedor, id_nomenclador_acreedor, de_codigo_prestacion_acreedor, de_prestacion_acreedor, simulador_convenio)&#xA; SELECT distinct id_acreedor, id_tipo_prestador, '9999999999' as id_prestacion_acreedor, '99' as id_nomenclador_acreedor, '99999999' as de_codigo_prestacion_acreedor, 'Sin Prestacion Homologada' as de_prestacion_acreedor , 0&#xA; FROM D_ACREEDOR C&#xA; WHERE id_acreedor not in (select id_acreedor from D_PRESTACIONES_ACREEDOR where id_prestacion_acreedor in ('9999999999'))&#xA; and C.id_tipo_prestador = 'P'&#xA;&#xA;&#xA;/* Incorpora las prestaciones (combinaciones) que aun no estan parametrizadas en D_PRESTACIONES_ACREEDOR pero si vienen en Consumos. */&#xA; INSERT INTO D_PRESTACIONES_ACREEDOR&#xA; (id_acreedor, id_Tipo_Prestador, id_prestacion_acreedor, id_nomenclador_acreedor, de_codigo_prestacion_acreedor, de_prestacion_acreedor, simulador_convenio)&#xA; SELECT id_acreedor, id_Tipo_Prestador, id_prestacion_acreedor, SUBSTRING(id_prestacion_acreedor,1,2) as id_nomenclador_acreedor, SUBSTRING(id_prestacion_acreedor,3,10) as de_codigo_prestacion_acreedor, 'Prestacion AS no parametrizada' as de_prestacion_acreedor, 0&#xA; FROM H_ORD_AMB_DET C where not exists (select A.id_prestacion_acreedor, A.id_acreedor from D_PRESTACIONES_ACREEDOR A where C.id_prestacion_acreedor = A.id_prestacion_acreedor and C.id_acreedor = A.id_acreedor)&#xA; and id_periodo in (select MAX(id_periodo) from AUX_PERIODO_MES_BORRA) and id_prestacion_acreedor not in ('9999999999')&#xA; group by id_acreedor, id_Tipo_Prestador, id_prestacion_acreedor&#xA;&#xA; INSERT INTO D_PRESTACIONES_ACREEDOR&#xA; (id_acreedor, id_Tipo_Prestador, id_prestacion_acreedor, id_nomenclador_acreedor, de_codigo_prestacion_acreedor, de_prestacion_acreedor, simulador_convenio)&#xA; SELECT id_acreedor, id_Tipo_Prestador, id_prestacion_acreedor, SUBSTRING(id_prestacion_acreedor,1,2) as id_nomenclador_acreedor, SUBSTRING(id_prestacion_acreedor,3,10) as de_codigo_prestacion_acreedor, 'Prestacion AS no parametrizada' as de_prestacion_acreedor, 0&#xA; FROM H_ORD_INT_DET C where not exists (select A.id_prestacion_acreedor, A.id_acreedor from D_PRESTACIONES_ACREEDOR A where C.id_prestacion_acreedor = A.id_prestacion_acreedor and C.id_acreedor = A.id_acreedor)&#xA; and id_periodo in (select MAX(id_periodo) from AUX_PERIODO_MES_BORRA) and id_prestacion_acreedor not in ('9999999999')&#xA; group by id_acreedor, id_Tipo_Prestador, id_prestacion_acreedor&#xA; &#xA; &#xA; " xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza D_PRESTACION_HOMOLOGADA_ACREEDOR"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{b21b22bc-13ef-4c75-9a8c-879872492362}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza D_PRESTACION_HOMOLOGADA_ACREEDOR"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{6601EFDC-B0A3-4B05-9A3F-EFAAD98885BF}"
+          SQLTask:SqlStatementSource="&#xA;/* Actualiza Tabla D_PRESTACION_HOMOLOGADA_ACREEDOR desde las bases principales. */&#xA;&#xA; -- Inserta casos nuevos.&#xA; INSERT INTO D_PRESTACION_HOMOLOGADA_ACREEDOR&#xA; (id_prestacion, id_nomenclador, de_codigo_prestacion, id_acreedor, id_tipo_prestador, id_prestacion_acreedor, id_nomenclador_acreedor, de_codigo_prestacion_acreedor, id_codigo_agrupador_acreedor, de_prestacion_acreedor, fecha_baja)&#xA; select SS.S48NOM+SS.W_M23PRE as id_prestacion, SS.S48NOM as id_nomenclador, SS.W_M23PRE as de_codigo_prestacion, AC.T48NPR as id_acreedor, 'P' as id_tipo_prestador, AC.T48NOM+AC.W_M23PRE as id_prestacion_acreedor, AC.T48NOM as id_nomenclador_acreedor, AC.W_M23PRE as de_codigo_prestacion_acreedor, AC.T48GPO as id_codigo_agrupador_acreedor, '' as de_prestacion_acreedor, AC.T48FBA as fecha_baja&#xA; FROM HOST03.HOST03.SMPORDD.T148FPRP AC&#xA; JOIN HOST03.HOST03.SMPORDD.T148FPRS SS on SS.S48GPO = AC.T48GPO and SS.S48NPR = AC.T48NPR&#xA; WHERE not exists (select id_prestacion, id_nomenclador, de_codigo_prestacion, id_acreedor, id_tipo_prestador, id_prestacion_acreedor, id_nomenclador_acreedor, de_codigo_prestacion_acreedor, id_codigo_agrupador_acreedor&#xA;      from D_PRESTACION_HOMOLOGADA_ACREEDOR H where &#xA;      SS.S48NOM COLLATE SQL_Latin1_General_CP850_CI_AI + SS.W_M23PRE COLLATE SQL_Latin1_General_CP850_CI_AI = H.id_prestacion &#xA;      and AC.T48NPR = H.id_acreedor &#xA;      and AC.T48NOM COLLATE SQL_Latin1_General_CP850_CI_AI + AC.W_M23PRE COLLATE SQL_Latin1_General_CP850_CI_AI = H.id_prestacion_acreedor &#xA;      and AC.T48GPO = H.id_codigo_agrupador_acreedor)&#xA;&#xA;/* Toma de Consumos las claves Prestacion - Acreedor - PrestacionHomologada que pueden llegar a venir en Consumos y no están en la D_PRESTACION_HOMOLOGADA_ACREEDOR */&#xA;&#xA;&#x9;-- Ambulatorio.&#xA;&#x9;INSERT INTO D_PRESTACION_HOMOLOGADA_ACREEDOR&#xA;&#x9;(id_prestacion, id_nomenclador, de_codigo_prestacion, id_acreedor, id_tipo_prestador, id_prestacion_acreedor, id_nomenclador_acreedor, de_codigo_prestacion_acreedor, id_codigo_agrupador_acreedor, de_prestacion_acreedor, fecha_baja)&#xA;&#x9;SELECT id_prestacion, SUBSTRING(id_prestacion,1,2) as id_nomenclador, SUBSTRING(id_prestacion,3,10) as de_codigo_prestacion, id_acreedor, 'P' as id_tipo_prestador, id_prestacion_acreedor, SUBSTRING(id_prestacion_acreedor,1,2) as id_nomenclador_acreedor, SUBSTRING(id_prestacion_acreedor,3,10) as de_codigo_prestacion_acreedor, 0 as id_codigo_agrupador_acreedor, '' as de_prestacion_acreedor, 9999 as fecha_baja&#xA;&#x9;FROM H_ORD_AMB_DET C&#xA;&#x9;WHERE not exists (select id_acreedor, id_prestacion, id_prestacion_acreedor from D_PRESTACION_HOMOLOGADA_ACREEDOR P where C.id_acreedor = P.id_acreedor and C.id_prestacion = P.id_prestacion and C.id_prestacion_acreedor = P.id_prestacion_acreedor)&#xA;&#x9;and id_prestacion_acreedor not in ('9999999999') and id_periodo in  (SELECT MAX(id_periodo) from D_PERIODO where vigente_consumo = 1)&#xA;&#x9;group by id_prestacion, SUBSTRING(id_prestacion,1,2), SUBSTRING(id_prestacion,3,10), id_acreedor, id_prestacion_acreedor, SUBSTRING(id_prestacion_acreedor,1,2), SUBSTRING(id_prestacion_acreedor,3,10)&#xA;&#xA;&#x9;-- Internacion.&#xA;&#x9;INSERT INTO D_PRESTACION_HOMOLOGADA_ACREEDOR&#xA;&#x9;(id_prestacion, id_nomenclador, de_codigo_prestacion, id_acreedor, id_tipo_prestador, id_prestacion_acreedor, id_nomenclador_acreedor, de_codigo_prestacion_acreedor, id_codigo_agrupador_acreedor, de_prestacion_acreedor, fecha_baja)&#xA;&#x9;SELECT id_prestacion, SUBSTRING(id_prestacion,1,2) as id_nomenclador, SUBSTRING(id_prestacion,3,10) as de_codigo_prestacion, id_acreedor, 'P' as id_tipo_prestador, id_prestacion_acreedor, SUBSTRING(id_prestacion_acreedor,1,2) as id_nomenclador_acreedor, SUBSTRING(id_prestacion_acreedor,3,10) as de_codigo_prestacion_acreedor, 0 as id_codigo_agrupador_acreedor, '' as de_prestacion_acreedor, 9999 as fecha_baja&#xA;&#x9;FROM H_ORD_INT_DET C&#xA;&#x9;WHERE not exists (select id_acreedor, id_prestacion, id_prestacion_acreedor from D_PRESTACION_HOMOLOGADA_ACREEDOR P where C.id_acreedor = P.id_acreedor and C.id_prestacion = P.id_prestacion and C.id_prestacion_acreedor = P.id_prestacion_acreedor)&#xA;&#x9;and id_prestacion_acreedor not in ('9999999999') and id_periodo in  (SELECT MAX(id_periodo) from D_PERIODO where vigente_consumo = 1)&#xA;&#x9;group by id_prestacion, SUBSTRING(id_prestacion,1,2), SUBSTRING(id_prestacion,3,10), id_acreedor, id_prestacion_acreedor, SUBSTRING(id_prestacion_acreedor,1,2), SUBSTRING(id_prestacion_acreedor,3,10)&#xA;&#xA;&#xA;/* Actualiza la fecha de baja de la Prestacion Homologada. */&#xA;&#xA;&#x9;UPDATE D_PRESTACION_HOMOLOGADA_ACREEDOR SET fecha_baja = T48FBA&#xA;&#x9;FROM HOST03.HOST03.SMPORDD.T148FPRP AC&#xA;&#x9;JOIN D_PRESTACION_HOMOLOGADA_ACREEDOR SS on SS.id_codigo_agrupador_acreedor = AC.T48GPO and SS.id_acreedor = AC.T48NPR and SS.id_nomenclador_acreedor = AC.T48NOM  COLLATE Modern_Spanish_CI_AS and SS.de_codigo_prestacion_acreedor = AC.W_M23PRE COLLATE Modern_Spanish_CI_AS&#xA;&#x9;WHERE T48FBA &lt;&gt; 0&#xA;&#xA;/* Actualiza con fecha de baja 9999 las Prestaciones Homologadas que se eliminan desde Contrataciones en las tablas, por ende no se encuentran en las tablas del AS. */&#xA;&#xA;&#x9;UPDATE D_PRESTACION_HOMOLOGADA_ACREEDOR SET fecha_baja = 9999&#xA;&#x9;from D_PRESTACION_HOMOLOGADA_ACREEDOR A&#xA;&#x9;where not exists (&#x9;select SS.S48NOM+SS.W_M23PRE as id_prestacion, AC.T48NPR as id_acreedor, AC.T48NOM+AC.W_M23PRE as id_prestacion_acreedor, AC.T48GPO as id_codigo_agrupador_acreedor&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;FROM HOST03.HOST03.SMPORDD.T148FPRP AC&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;JOIN HOST03.HOST03.SMPORDD.T148FPRS SS on SS.S48GPO = AC.T48GPO and SS.S48NPR = AC.T48NPR&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;where SS.S48NOM+SS.W_M23PRE COLLATE SQL_Latin1_General_CP850_CI_AI = A.id_prestacion and AC.T48NPR = A.id_acreedor and AC.T48NOM+AC.W_M23PRE COLLATE SQL_Latin1_General_CP850_CI_AI = A.id_prestacion_acreedor and AC.T48GPO = A.id_codigo_agrupador_acreedor)&#xA;&#xA;&#x9;&#xA;/* Actualiza campo de_prestacion_acreedor en D_PRESTACION_HOMOLOGADA_ACREEDOR. */&#xA;&#x9;UPDATE D_PRESTACION_HOMOLOGADA_ACREEDOR&#xA;&#x9;SET de_prestacion_acreedor = CAST(SA.T49DES as CHAR(30))&#xA;&#x9;FROM D_PRESTACION_HOMOLOGADA_ACREEDOR AC&#xA;&#x9;JOIN HOST03.HOST03.SMPORDD.T149FPRE SA on SA.T49NOM COLLATE SQL_Latin1_General_CP850_CI_AI = AC.id_nomenclador_acreedor and SA.T49PRE COLLATE SQL_Latin1_General_CP850_CI_AI = AC.de_codigo_prestacion_acreedor and SA.T49NPR = AC.id_acreedor&#xA;&#x9; &#xA;&#x9;UPDATE D_PRESTACION_HOMOLOGADA_ACREEDOR&#xA;&#x9;SET de_prestacion_acreedor = 'S/D'&#xA;&#x9;WHERE de_prestacion_acreedor is null&#xA;&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza TMP_D_CODIGOSPRO"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{e6f3cd7b-4ecf-4c05-a70f-4ab2469c3539}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza TMP_D_CODIGOSPRO"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{65965BA3-EE16-452F-AF9B-33066561630A}"
+          SQLTask:SqlStatementSource="&#xA;&#xA;&#x9;UPDATE Consultas_DW.dbo.TMP_D_CODIGOSPRO set id_prestacion_acreedor = id_nomenclador_acreedor+de_codigo_prestacion_acreedor&#xA;&#x9;UPDATE Consultas_DW.dbo.TMP_D_CODIGOSPRO set id_prestacion = id_nomenclador+de_codigo_prestacion&#xA;&#xA;&#x9;UPDATE Consultas_DW.dbo.TMP_D_CODIGOSPRO set id_tipo_prestador = 'P'&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Actualizar Prestacion Acreedor en Detalle Consumos"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{AA4844F6-6C50-40BB-A9DE-84CB11FA4BF8}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualizar Prestacion Acreedor en Detalle Consumos"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{6601EFDC-B0A3-4B05-9A3F-EFAAD98885BF}"
+          SQLTask:SqlStatementSource="/* Data Consumos */&#xA; &#xA;  -- Actualiza en 9999999999 las prestaciones del Acreedor para limpiar la actualizacion que viene mal de Sistemas.&#xA; UPDATE H_ORD_AMB_DET set id_prestacion_acreedor = '9999999999' where id_periodo in (select MAX(id_periodo) from DW_SALUD.dbo.AUX_PERIODO_MES_BORRA)&#xA; UPDATE H_ORD_INT_DET set id_prestacion_acreedor = '9999999999' where id_periodo in (select MAX(id_periodo) from DW_SALUD.dbo.AUX_PERIODO_MES_BORRA)&#xA; &#xA;  &#xA;/* Actualiza H_ORD_AMB_DET */&#xA;&#x9;UPDATE H_ORD_AMB_DET&#xA;&#x9;SET id_prestacion_acreedor = AC.id_prestacion_acreedor&#xA;&#x9;FROM Consultas_DW.dbo.TMP_D_CODIGOSPRO AC&#xA;&#x9;JOIN H_ORD_AMB_DET H on AC.id_prestacion = H.id_prestacion and AC.id_acreedor = H.id_acreedor and AC.nro_cursograma = H.nro_cursograma and AC.tipo_orden = H.id_tipo_orden and AC.nro_orden = H.nro_orden and AC.nro_lote = H.nro_lote and AC.id_persona = H.id_persona and AC.nro_secuencia = H.nro_secuencia  &#xA;&#x9;where H.id_periodo in (select MAX(id_periodo) from DW_SALUD.dbo.AUX_PERIODO_MES_BORRA)&#xA;&#xA;/* Actualiza H_ORD_INT_DET */&#xA;&#x9;UPDATE H_ORD_INT_DET&#xA;&#x9;SET id_prestacion_acreedor = AC.id_prestacion_acreedor&#xA;&#x9;FROM Consultas_DW.dbo.TMP_D_CODIGOSPRO AC&#xA;&#x9;JOIN H_ORD_INT_DET H on AC.id_prestacion = H.id_prestacion and AC.id_acreedor = H.id_acreedor and AC.nro_cursograma = H.nro_cursograma and AC.tipo_orden = H.id_tipo_orden and AC.nro_orden = H.id_orden_int and AC.nro_lote = H.nro_lote and AC.id_persona = H.id_persona and AC.nro_secuencia = H.nro_secuencia &#xA;&#x9;where H.id_periodo in (select MAX(id_periodo) from DW_SALUD.dbo.AUX_PERIODO_MES_BORRA)&#xA;&#xA;&#xA; -- Actualiza en 9999999999 las prestaciones del Acreedor que son iguales a las de Sancor.&#xA; UPDATE H_ORD_AMB_DET set id_prestacion_acreedor = '9999999999' where id_prestacion = id_prestacion_acreedor and id_periodo in (select MAX(id_periodo) from DW_SALUD.dbo.AUX_PERIODO_MES_BORRA)&#xA; UPDATE H_ORD_INT_DET set id_prestacion_acreedor = '9999999999' where id_prestacion = id_prestacion_acreedor and id_periodo in (select MAX(id_periodo) from DW_SALUD.dbo.AUX_PERIODO_MES_BORRA)&#xA; &#xA; &#xA; " xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Data Flow Cod Propios"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:DelayValidation="True"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{43C54D84-DE75-4774-BE79-FE21E569FDA1}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Data Flow Cod Propios"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <pipeline
+          BLOBTempStoragePath=""
+          bufferTempStoragePath=""
+          version="1">
+          <components>
+            <component
+              refId="Package\Data Flow Cod Propios\Data Conversion"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Data Conversion;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Data Conversion"
+              name="Data Conversion"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Data Flow Cod Propios\Data Conversion.Inputs[Data Conversion Input]"
+                  name="Data Conversion Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Cod Propios\Data Conversion.Inputs[Data Conversion Input].Columns[CPPTNO]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="CPPTNO"
+                      lineageId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].Columns[CPPTNO]" />
+                    <inputColumn
+                      refId="Package\Data Flow Cod Propios\Data Conversion.Inputs[Data Conversion Input].Columns[CPPCPR]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="8"
+                      cachedName="CPPCPR"
+                      lineageId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].Columns[CPPCPR]" />
+                    <inputColumn
+                      refId="Package\Data Flow Cod Propios\Data Conversion.Inputs[Data Conversion Input].Columns[CUP_TNO]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="CUP_TNO"
+                      lineageId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].Columns[CUP_TNO]" />
+                    <inputColumn
+                      refId="Package\Data Flow Cod Propios\Data Conversion.Inputs[Data Conversion Input].Columns[CUP_CPR]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="8"
+                      cachedName="CUP_CPR"
+                      lineageId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].Columns[CUP_CPR]" />
+                    <inputColumn
+                      refId="Package\Data Flow Cod Propios\Data Conversion.Inputs[Data Conversion Input].Columns[CUC_FRE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="8"
+                      cachedName="CUC_FRE"
+                      lineageId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].Columns[CUC_FRE]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Cod Propios\Data Conversion.Outputs[Data Conversion Output]"
+                  exclusionGroup="1"
+                  name="Data Conversion Output"
+                  synchronousInputId="Package\Data Flow Cod Propios\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Cod Propios\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of CPPTNO]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="2"
+                      lineageId="Package\Data Flow Cod Propios\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of CPPTNO]"
+                      name="Copy of CPPTNO"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].Columns[CPPTNO]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Cod Propios\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of CPPCPR]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="8"
+                      lineageId="Package\Data Flow Cod Propios\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of CPPCPR]"
+                      name="Copy of CPPCPR"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].Columns[CPPCPR]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Cod Propios\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of CUP_TNO]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="2"
+                      lineageId="Package\Data Flow Cod Propios\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of CUP_TNO]"
+                      name="Copy of CUP_TNO"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].Columns[CUP_TNO]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Cod Propios\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of CUP_CPR]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="8"
+                      lineageId="Package\Data Flow Cod Propios\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of CUP_CPR]"
+                      name="Copy of CUP_CPR"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].Columns[CUP_CPR]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Data Flow Cod Propios\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of CUC_FRE]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="8"
+                      lineageId="Package\Data Flow Cod Propios\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of CUC_FRE]"
+                      name="Copy of CUC_FRE"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].Columns[CUC_FRE]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Data Flow Cod Propios\Data Conversion.Outputs[Data Conversion Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Data Conversion Error Output"
+                  synchronousInputId="Package\Data Flow Cod Propios\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Cod Propios\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Cod Propios\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Cod Propios\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Cod Propios\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Cod Propios\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[TMP_D_CODIGOSPRO]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Cod Propios\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="{65965BA3-EE16-452F-AF9B-33066561630A}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DS_CONSULTAS_DW]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Data Flow Cod Propios\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[CPPNUM]"
+                      cachedDataType="decimal"
+                      cachedName="CPPNUM"
+                      externalMetadataColumnId="Package\Data Flow Cod Propios\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[nro_cursograma]"
+                      lineageId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].Columns[CPPNUM]" />
+                    <inputColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[CPPLOT]"
+                      cachedDataType="decimal"
+                      cachedName="CPPLOT"
+                      externalMetadataColumnId="Package\Data Flow Cod Propios\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[nro_lote]"
+                      lineageId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].Columns[CPPLOT]" />
+                    <inputColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[CPPAGR]"
+                      cachedDataType="numeric"
+                      cachedName="CPPAGR"
+                      cachedPrecision="6"
+                      externalMetadataColumnId="Package\Data Flow Cod Propios\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_codigo_agrupador_acreedor]"
+                      lineageId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].Columns[CPPAGR]" />
+                    <inputColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[CUP_ACR]"
+                      cachedDataType="numeric"
+                      cachedName="CUP_ACR"
+                      cachedPrecision="8"
+                      externalMetadataColumnId="Package\Data Flow Cod Propios\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_acreedor]"
+                      lineageId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].Columns[CUP_ACR]" />
+                    <inputColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[CUP_SEC]"
+                      cachedDataType="decimal"
+                      cachedName="CUP_SEC"
+                      externalMetadataColumnId="Package\Data Flow Cod Propios\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[nro_secuencia]"
+                      lineageId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].Columns[CUP_SEC]" />
+                    <inputColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[CUP_TOR]"
+                      cachedDataType="decimal"
+                      cachedName="CUP_TOR"
+                      externalMetadataColumnId="Package\Data Flow Cod Propios\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[tipo_orden]"
+                      lineageId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].Columns[CUP_TOR]" />
+                    <inputColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[CUP_NOR]"
+                      cachedDataType="decimal"
+                      cachedName="CUP_NOR"
+                      externalMetadataColumnId="Package\Data Flow Cod Propios\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[nro_orden]"
+                      lineageId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].Columns[CUP_NOR]" />
+                    <inputColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[CLI_COD]"
+                      cachedDataType="decimal"
+                      cachedName="CLI_COD"
+                      externalMetadataColumnId="Package\Data Flow Cod Propios\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_persona]"
+                      lineageId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].Columns[CLI_COD]" />
+                    <inputColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of CPPTNO]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="Copy of CPPTNO"
+                      externalMetadataColumnId="Package\Data Flow Cod Propios\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_nomenclador_acreedor]"
+                      lineageId="Package\Data Flow Cod Propios\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of CPPTNO]" />
+                    <inputColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of CPPCPR]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="8"
+                      cachedName="Copy of CPPCPR"
+                      externalMetadataColumnId="Package\Data Flow Cod Propios\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[de_codigo_prestacion_acreedor]"
+                      lineageId="Package\Data Flow Cod Propios\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of CPPCPR]" />
+                    <inputColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of CUP_TNO]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="Copy of CUP_TNO"
+                      externalMetadataColumnId="Package\Data Flow Cod Propios\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_nomenclador]"
+                      lineageId="Package\Data Flow Cod Propios\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of CUP_TNO]" />
+                    <inputColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of CUP_CPR]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="8"
+                      cachedName="Copy of CUP_CPR"
+                      externalMetadataColumnId="Package\Data Flow Cod Propios\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[de_codigo_prestacion]"
+                      lineageId="Package\Data Flow Cod Propios\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of CUP_CPR]" />
+                    <inputColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of CUC_FRE]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="8"
+                      cachedName="Copy of CUC_FRE"
+                      externalMetadataColumnId="Package\Data Flow Cod Propios\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_recepcion]"
+                      lineageId="Package\Data Flow Cod Propios\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of CUC_FRE]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[nro_cursograma]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="nro_cursograma" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[nro_lote]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="nro_lote" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_codigo_agrupador_acreedor]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="id_codigo_agrupador_acreedor" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_prestacion_acreedor]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="id_prestacion_acreedor" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_nomenclador_acreedor]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="id_nomenclador_acreedor" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[de_codigo_prestacion_acreedor]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="de_codigo_prestacion_acreedor" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_acreedor]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="id_acreedor" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_tipo_prestador]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="id_tipo_prestador" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_prestacion]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="id_prestacion" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_nomenclador]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="id_nomenclador" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[de_codigo_prestacion]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="de_codigo_prestacion" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[nro_secuencia]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="nro_secuencia" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[tipo_orden]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="tipo_orden" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[nro_orden]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="nro_orden" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_persona]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="id_persona" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_recepcion]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="fecha_recepcion" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Cod Propios\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Data Flow Cod Propios\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Cod Propios\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Cod Propios\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Cod Propios\OLE DB Source"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE DB Source"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT CP.CPPNUM, CP.CPPLOT, CP.CPPAGR, CP.CPPTNO, CP.CPPCPR, C8.CUP_ACR, C8.CUP_TNO, C8.CUP_CPR, C8.CUP_SEC, C8.CUP_TOR, C8.CUP_NOR, C8.CLI_COD, C4.CUC_FRE
+FROM DESARROLLO.CUP008P CP
+JOIN DESARROLLO.CUP008 C8 ON CP.CPPNUM = C8.CUC_NUM AND CP.CPPLOT = C8.LOT_NUM AND CP.CPPAGR = C8.CUPAGR
+JOIN DESARROLLO.CUP004 C4 ON C8.CUC_NUM = C4.CUC_NUM
+WHERE C4.CUC_FRE between ? and ?
+and C8.CUC_NUM &lt;&gt; 0</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping">"""00001"":Input",{F6E5FEB0-4BD7-473B-B984-294EAFE00535};"""00002"":Input",{32212583-3CD5-4865-9156-650CA060E0FF};</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Cod Propios\OLE DB Source.Connections[OleDbConnection]"
+                  connectionManagerID="{35F84AFA-39B3-4DE2-B208-28F090C93A89}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DS_HOST03]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].Columns[CPPNUM]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CPPNUM]"
+                      lineageId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].Columns[CPPNUM]"
+                      name="CPPNUM"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].Columns[CPPLOT]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CPPLOT]"
+                      lineageId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].Columns[CPPLOT]"
+                      name="CPPLOT"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].Columns[CPPAGR]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CPPAGR]"
+                      lineageId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].Columns[CPPAGR]"
+                      name="CPPAGR"
+                      precision="6"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].Columns[CPPTNO]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CPPTNO]"
+                      length="2"
+                      lineageId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].Columns[CPPTNO]"
+                      name="CPPTNO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].Columns[CPPCPR]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CPPCPR]"
+                      length="8"
+                      lineageId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].Columns[CPPCPR]"
+                      name="CPPCPR"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].Columns[CUP_ACR]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CUP_ACR]"
+                      lineageId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].Columns[CUP_ACR]"
+                      name="CUP_ACR"
+                      precision="8"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].Columns[CUP_TNO]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CUP_TNO]"
+                      length="2"
+                      lineageId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].Columns[CUP_TNO]"
+                      name="CUP_TNO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].Columns[CUP_CPR]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CUP_CPR]"
+                      length="8"
+                      lineageId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].Columns[CUP_CPR]"
+                      name="CUP_CPR"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].Columns[CUP_SEC]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CUP_SEC]"
+                      lineageId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].Columns[CUP_SEC]"
+                      name="CUP_SEC"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].Columns[CUP_TOR]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CUP_TOR]"
+                      lineageId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].Columns[CUP_TOR]"
+                      name="CUP_TOR"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].Columns[CUP_NOR]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CUP_NOR]"
+                      lineageId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].Columns[CUP_NOR]"
+                      name="CUP_NOR"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].Columns[CLI_COD]"
+                      dataType="decimal"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CLI_COD]"
+                      lineageId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].Columns[CLI_COD]"
+                      name="CLI_COD"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].Columns[CUC_FRE]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CUC_FRE]"
+                      length="8"
+                      lineageId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].Columns[CUC_FRE]"
+                      name="CUC_FRE"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CPPNUM]"
+                      dataType="decimal"
+                      name="CPPNUM" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CPPLOT]"
+                      dataType="decimal"
+                      name="CPPLOT" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CPPAGR]"
+                      dataType="numeric"
+                      name="CPPAGR"
+                      precision="6" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CPPTNO]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="CPPTNO" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CPPCPR]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      name="CPPCPR" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CUP_ACR]"
+                      dataType="numeric"
+                      name="CUP_ACR"
+                      precision="8" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CUP_TNO]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="CUP_TNO" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CUP_CPR]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      name="CUP_CPR" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CUP_SEC]"
+                      dataType="decimal"
+                      name="CUP_SEC" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CUP_TOR]"
+                      dataType="decimal"
+                      name="CUP_TOR" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CUP_NOR]"
+                      dataType="decimal"
+                      name="CUP_NOR" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CLI_COD]"
+                      dataType="decimal"
+                      name="CLI_COD" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CUC_FRE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      name="CUC_FRE" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CPPNUM]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CPPNUM]"
+                      name="CPPNUM" />
+                    <outputColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CPPLOT]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CPPLOT]"
+                      name="CPPLOT" />
+                    <outputColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CPPAGR]"
+                      dataType="numeric"
+                      lineageId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CPPAGR]"
+                      name="CPPAGR"
+                      precision="6" />
+                    <outputColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CPPTNO]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      lineageId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CPPTNO]"
+                      name="CPPTNO" />
+                    <outputColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CPPCPR]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      lineageId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CPPCPR]"
+                      name="CPPCPR" />
+                    <outputColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CUP_ACR]"
+                      dataType="numeric"
+                      lineageId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CUP_ACR]"
+                      name="CUP_ACR"
+                      precision="8" />
+                    <outputColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CUP_TNO]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      lineageId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CUP_TNO]"
+                      name="CUP_TNO" />
+                    <outputColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CUP_CPR]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      lineageId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CUP_CPR]"
+                      name="CUP_CPR" />
+                    <outputColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CUP_SEC]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CUP_SEC]"
+                      name="CUP_SEC" />
+                    <outputColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CUP_TOR]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CUP_TOR]"
+                      name="CUP_TOR" />
+                    <outputColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CUP_NOR]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CUP_NOR]"
+                      name="CUP_NOR" />
+                    <outputColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CLI_COD]"
+                      dataType="decimal"
+                      lineageId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CLI_COD]"
+                      name="CLI_COD" />
+                    <outputColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CUC_FRE]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      lineageId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CUC_FRE]"
+                      name="CUC_FRE" />
+                    <outputColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Data Flow Cod Propios.Paths[Data Conversion Output]"
+              endId="Package\Data Flow Cod Propios\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="Data Conversion Output"
+              startId="Package\Data Flow Cod Propios\Data Conversion.Outputs[Data Conversion Output]" />
+            <path
+              refId="Package\Data Flow Cod Propios.Paths[OLE DB Source Output]"
+              endId="Package\Data Flow Cod Propios\Data Conversion.Inputs[Data Conversion Input]"
+              name="OLE DB Source Output"
+              startId="Package\Data Flow Cod Propios\OLE DB Source.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Variable Periodo Desde"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{12975a6f-c855-494f-af14-f5f88afb8662}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Variable Periodo Desde"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{6601EFDC-B0A3-4B05-9A3F-EFAAD98885BF}"
+          SQLTask:SqlStatementSource="--select max(id_periodo) from D_PERIODO where vigente_consumo = 1&#xA;&#xA;select top 1 CAST((dbo.DevuelvePeriodo(id_fecha))as CHAR(6))+'01' as Periodo_Desde&#xA;from D_FECHA F&#xA;JOIN D_PERIODO P on dbo.DevuelvePeriodo(F.id_fecha) = P.id_periodo&#xA;where vigente_consumo = 1&#xA;order by id_fecha desc&#xA;&#xA;"
+          SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="Periodo_Desde"
+            SQLTask:DtsVariableName="User::V_Periodo_Desde" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Variable Periodo Hasta"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{b7bd773f-8e9d-4651-89e4-0ded2d61268d}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Variable Periodo Hasta"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{6601EFDC-B0A3-4B05-9A3F-EFAAD98885BF}"
+          SQLTask:SqlStatementSource="select top 1 CAST(dbo.DevuelvePeriodo(DATEADD(month,1,id_fecha)) as CHAR(6))+'01' as Periodo_Hasta&#xA;from D_FECHA F&#xA;JOIN D_PERIODO P on dbo.DevuelvePeriodo(F.id_fecha) = P.id_periodo&#xA;where vigente_consumo = 1&#xA;order by id_fecha desc"
+          SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="Periodo_Hasta"
+            SQLTask:DtsVariableName="User::V_Periodo_Hasta" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{A5770A46-7BEA-4167-A9DC-1FB84BAE302F}"
+      DTS:From="Package\Actualiza D_PRESTACIONES_ACREEDOR"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Data Flow Cod Propios" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{DE99399D-1FC8-4C82-8A8C-D5F3358ADF12}"
+      DTS:From="Package\Variable Periodo Desde"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Actualiza AUX_PERIODO_MES_BORRA y TMP_D_CODIGOSPRO" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{7FE9061D-950C-42FE-86F3-F0856B51F0D0}"
+      DTS:From="Package\Actualiza D_PRESTACION_HOMOLOGADA_ACREEDOR"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Actualiza D_PRESTACIONES_ACREEDOR" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{0F7DA01B-C492-420E-8394-4FE431ED2002}"
+      DTS:From="Package\Variable Periodo Hasta"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Actualiza AUX_PERIODO_MES_BORRA y TMP_D_CODIGOSPRO" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 5]"
+      DTS:CreationName=""
+      DTS:DTSID="{ADB31532-9652-4B7A-A929-3E5F2A7B1C2D}"
+      DTS:From="Package\Data Flow Cod Propios"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 5"
+      DTS:To="Package\Actualiza TMP_D_CODIGOSPRO" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 6]"
+      DTS:CreationName=""
+      DTS:DTSID="{0F8544D7-6435-49E9-9CCC-D5064F5BA75F}"
+      DTS:From="Package\Actualiza AUX_PERIODO_MES_BORRA y TMP_D_CODIGOSPRO"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 6"
+      DTS:To="Package\Actualiza D_PRESTACION_HOMOLOGADA_ACREEDOR" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 7]"
+      DTS:CreationName=""
+      DTS:DTSID="{FFD181AD-7863-46F4-8673-607CFFE4D0B7}"
+      DTS:From="Package\Actualiza TMP_D_CODIGOSPRO"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 7"
+      DTS:To="Package\Actualizar Prestacion Acreedor en Detalle Consumos" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="412,42"
+          Id="Package\Actualiza AUX_PERIODO_MES_BORRA y TMP_D_CODIGOSPRO"
+          TopLeft="28,78.5943396226415" />
+        <NodeLayout
+          Size="367,42"
+          Id="Package\Actualiza D_PRESTACION_HOMOLOGADA_ACREEDOR"
+          TopLeft="50.5,146.315094339623" />
+        <NodeLayout
+          Size="295,42"
+          Id="Package\Actualiza D_PRESTACIONES_ACREEDOR"
+          TopLeft="86.5,214.035849056604" />
+        <NodeLayout
+          Size="246,42"
+          Id="Package\Actualiza TMP_D_CODIGOSPRO"
+          TopLeft="111,349.477358490566" />
+        <NodeLayout
+          Size="338,42"
+          Id="Package\Actualizar Prestacion Acreedor en Detalle Consumos"
+          TopLeft="65,417.198113207547" />
+        <NodeLayout
+          Size="192,42"
+          Id="Package\Data Flow Cod Propios"
+          TopLeft="138,281.756603773585" />
+        <NodeLayout
+          Size="195,42"
+          Id="Package\Variable Periodo Desde"
+          TopLeft="32.5062893081762,5.50000000000001" />
+        <NodeLayout
+          Size="192,42"
+          Id="Package\Variable Periodo Hasta"
+          TopLeft="236.581761006289,6.14150943396228" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="234,256.035849056604">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,25.7207547169811"
+              Start="0,0"
+              End="0,18.2207547169811">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18.2207547169811" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="130.006289308176,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="36.6603773584905,31.0943396226415"
+              Start="0,0"
+              End="36.6603773584905,23.5943396226415">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,14.5844312251378" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,14.5844312251378"
+                    Point2="0,18.5844312251378"
+                    Point3="4,18.5844312251378" />
+                  <mssgle:LineSegment
+                    End="32.6603773584905,18.5844312251378" />
+                  <mssgle:CubicBezierSegment
+                    Point1="32.6603773584905,18.5844312251378"
+                    Point2="36.6603773584905,18.5844312251378"
+                    Point3="36.6603773584905,22.5844312251378" />
+                  <mssgle:LineSegment
+                    End="36.6603773584905,23.5943396226415" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="234,188.315094339623">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,25.7207547169811"
+              Start="0,0"
+              End="0,18.2207547169811">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18.2207547169811" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="332.581761006289,48.1415094339623">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-31.2484276729561,30.4528301886792"
+              Start="0,0"
+              End="-31.2484276729561,22.9528301886792">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,14.2010145615123" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,14.2010145615123"
+                    Point2="0,18.2010145615123"
+                    Point3="-4,18.2010145615123" />
+                  <mssgle:LineSegment
+                    End="-27.2484276729561,18.2010145615123" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-27.2484276729561,18.2010145615123"
+                    Point2="-31.2484276729561,18.2010145615123"
+                    Point3="-31.2484276729561,22.2010145615123" />
+                  <mssgle:LineSegment
+                    End="-31.2484276729561,22.9528301886792" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 5]"
+          TopLeft="234,323.756603773585">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,25.7207547169811"
+              Start="0,0"
+              End="0,18.2207547169811">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18.2207547169811" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 6]"
+          TopLeft="234,120.594339622642">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,25.7207547169811"
+              Start="0,0"
+              End="0,18.2207547169811">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18.2207547169811" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 7]"
+          TopLeft="234,391.477358490566">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,25.7207547169811"
+              Start="0,0"
+              End="0,18.2207547169811">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18.2207547169811" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Data Flow Cod Propios">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="161,42"
+          Id="Package\Data Flow Cod Propios\Data Conversion"
+          TopLeft="11.8333333333333,77.3490566037736" />
+        <NodeLayout
+          Size="177,42"
+          Id="Package\Data Flow Cod Propios\OLE DB Destination"
+          TopLeft="3.83333333333333,149.235849056604" />
+        <EdgeLayout
+          Id="Package\Data Flow Cod Propios.Paths[Data Conversion Output]"
+          TopLeft="92.3333333333333,119.349056603774">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,29.8867924528302"
+              Start="0,0"
+              End="0,22.3867924528302">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,22.3867924528302" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="157,42"
+          Id="Package\Data Flow Cod Propios\OLE DB Source"
+          TopLeft="13.8333333333333,4.5" />
+        <EdgeLayout
+          Id="Package\Data Flow Cod Propios.Paths[OLE DB Source Output]"
+          TopLeft="92.3333333333333,46.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,30.8490566037736"
+              Start="0,0"
+              End="0,23.3490566037736">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,23.3490566037736" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Cod Propios\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Cod Propios\OLE DB Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

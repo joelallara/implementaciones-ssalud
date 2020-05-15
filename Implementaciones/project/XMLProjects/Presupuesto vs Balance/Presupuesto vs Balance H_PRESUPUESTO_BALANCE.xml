@@ -1,0 +1,1152 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="6/25/2019 8:23:56 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="DES6103"
+  DTS:CreatorName="AMS\jallara"
+  DTS:DelayValidation="True"
+  DTS:DTSID="{6F3D253E-1CEB-4615-8AB0-D1BEF3C7AF3F}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="Presupuesto vs Balance H_PRESUPUESTO_BALANCE"
+  DTS:PackageType="5"
+  DTS:VersionBuild="81"
+  DTS:VersionGUID="{D6B52199-E2E2-4BD2-9CE2-51B8FD51A7E7}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[File_Completa REF._Destination_Path]"
+      DTS:CreationName="FILE"
+      DTS:DTSID="{8A4E065E-9CBD-4BEA-AB02-B08E77CBB2A1}"
+      DTS:ObjectName="File_Completa REF._Destination_Path">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:FileUsageType="1"
+          DTS:ConnectionString="\\P-IS-01\SSIS2017$\03 - Archivos\Presupuesto vs Balance\Completa REF..xlsx" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[File_Completa REF._Historico]"
+      DTS:CreationName="FILE"
+      DTS:DTSID="{EDFD1973-D13F-4524-8073-CA6C7BDE42C6}"
+      DTS:ObjectName="File_Completa REF._Historico">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:FileUsageType="2"
+          DTS:ConnectionString="\\p-is-01\ssis2017$\03 - Archivos\Presupuesto vs Balance\Historico" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[File_Completa REF._Source_Path]"
+      DTS:CreationName="FILE"
+      DTS:DTSID="{0647F670-C726-49B3-9392-A9795CB010E5}"
+      DTS:ObjectName="File_Completa REF._Source_Path">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="\\ams12\procesoplanillasestadisticas$\Archivos_DAF\Planillas para Dossier\Completa REF..xlsx" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[File_XLS_Completa REF.]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{1F952B89-E1BB-49AA-8AC9-62207C434706}"
+      DTS:ObjectName="File_XLS_Completa REF.">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=\\P-IS-01\SSIS2017$\03 - Archivos\Presupuesto vs Balance\Completa REF..xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{0792BACA-90C0-4C15-B7C9-18F9C2ECE8B7}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{0792BACA-90C0-4C15-B7C9-18F9C2ECE8B7}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza tablas de Dimensión"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{A6509C0A-38CB-49EF-9E49-BA445CB8FBBA}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza tablas de Dimensión"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{477281BB-666E-45C1-9DCD-9210B256133D}"
+          SQLTask:SqlStatementSource="--SE REALIZAN LAS ACTUALIZACIONES CORRESPONDIENTES A LAS TABLAS DE DIMENSION&#xA;-- Valida si se debe agregar nuevo regisro que exista en Aux y no en D_DIRECCIONES_PRESUPUESTO&#xA;insert into D_DIRECCIONES_PRESUPUESTO &#xA; select &#xA;&#x9;(select max(id_direccion_presupuesto) &#xA;&#x9; from D_DIRECCIONES_PRESUPUESTO) + ROW_NUMBER() over (order by direccion) as id, direccion&#xA; from AUX_H_PRESUPUESTO_BALANCE&#xA; where direccion not in(select de_direccion_presupuesto from D_DIRECCIONES_PRESUPUESTO)&#xA; group by direccion&#xA; &#xA; &#xA;-- Valida si se debe agregar nuevo regisro que exista en Aux y no en D_GERENCIAS_PRESUPUESTO&#xA;insert into D_GERENCIAS_PRESUPUESTO &#xA; select &#xA;&#x9;(select max(id_gerencia_presupuesto) &#xA;&#x9; from D_GERENCIAS_PRESUPUESTO) + ROW_NUMBER() over (order by gerencia) as id, gerencia&#xA; from AUX_H_PRESUPUESTO_BALANCE&#xA; where gerencia not in(select de_gerencia_presupuesto from D_GERENCIAS_PRESUPUESTO)&#xA; group by gerencia &#xA; &#xA; &#xA; -- Valida si se debe agregar nuevo regisro que exista en Aux y no en D_SUBSECTORES_PRESUPUESTO&#xA;insert into D_SUBSECTORES_PRESUPUESTO &#xA; select &#xA;&#x9;(select max(id_subsector_presupuesto) &#xA;&#x9; from D_SUBSECTORES_PRESUPUESTO) + ROW_NUMBER() over (order by subsector) as id, subsector&#xA; from AUX_H_PRESUPUESTO_BALANCE&#xA; where subsector not in(select de_subsector_presupuesto from D_SUBSECTORES_PRESUPUESTO)&#xA; group by subsector &#xA;  &#xA; &#xA; -- Valida si se debe agregar nuevo regisro que exista en Aux y no en D_EGRESOS_PRESUPUESTO&#xA;insert into D_EGRESOS_PRESUPUESTO &#xA; select &#xA;&#x9;(select max(id_egreso_presupuesto) &#xA;&#x9; from D_EGRESOS_PRESUPUESTO) + ROW_NUMBER() over (order by egreso) as id, egreso&#xA; from AUX_H_PRESUPUESTO_BALANCE&#xA; where egreso not in(select de_egreso_presupuesto from D_EGRESOS_PRESUPUESTO)&#xA; group by egreso&#xA;   &#xA; &#xA; -- Valida si se debe agregar nuevo regisro que exista en Aux y no en D_CLASIFICACION_1_PRESUPUESTO&#xA;insert into D_CLASIFICACION_1_PRESUPUESTO &#xA; select &#xA;&#x9;(select max(id_clasificacion_1_presupuesto) &#xA;&#x9; from D_CLASIFICACION_1_PRESUPUESTO) + ROW_NUMBER() over (order by clasificacion_1) as id, clasificacion_1&#xA; from AUX_H_PRESUPUESTO_BALANCE&#xA; where clasificacion_1 not in(select de_clasificacion_1_presupuesto from D_CLASIFICACION_1_PRESUPUESTO)&#xA; group by clasificacion_1&#xA;    &#xA; &#xA; -- Valida si se debe agregar nuevo regisro que exista en Aux y no en D_CLASIFICACION_2_PRESUPUESTO&#xA;insert into D_CLASIFICACION_2_PRESUPUESTO &#xA; select &#xA;&#x9;(select max(id_clasificacion_2_presupuesto) &#xA;&#x9; from D_CLASIFICACION_2_PRESUPUESTO) + ROW_NUMBER() over (order by clasificacion_2) as id, clasificacion_2&#xA; from AUX_H_PRESUPUESTO_BALANCE&#xA; where clasificacion_2 not in(select de_clasificacion_2_presupuesto from D_CLASIFICACION_2_PRESUPUESTO)&#xA; group by clasificacion_2&#xA; &#xA; &#xA; -- Valida si se debe agregar nuevo regisro que exista en Aux y no en D_CLASIFICACION_3_PRESUPUESTO&#xA;insert into D_CLASIFICACION_3_PRESUPUESTO &#xA; select &#xA;&#x9;(select max(id_clasificacion_3_presupuesto) &#xA;&#x9; from D_CLASIFICACION_3_PRESUPUESTO) + ROW_NUMBER() over (order by clasificacion_3) as id, clasificacion_3&#xA; from AUX_H_PRESUPUESTO_BALANCE&#xA; where clasificacion_3 not in(select de_clasificacion_3_presupuesto from D_CLASIFICACION_3_PRESUPUESTO)&#xA; group by clasificacion_3&#xA; &#xA;  &#xA; -- Valida si se debe agregar nuevo regisro que exista en Aux y no en D_CLASIFICACION_4_PRESUPUESTO&#xA;insert into D_CLASIFICACION_4_PRESUPUESTO &#xA; select &#xA;&#x9;(select max(id_clasificacion_4_presupuesto) &#xA;&#x9; from D_CLASIFICACION_4_PRESUPUESTO) + ROW_NUMBER() over (order by clasificacion_4) as id, clasificacion_4&#xA; from AUX_H_PRESUPUESTO_BALANCE&#xA; where clasificacion_4 not in(select de_clasificacion_4_presupuesto from D_CLASIFICACION_4_PRESUPUESTO)&#xA; group by clasificacion_4" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\AUX_H_PRESUPUESTO_BALANCE"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:DelayValidation="True"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{F86A6E65-549A-47D8-9C3E-31CA119F7B02}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="AUX_H_PRESUPUESTO_BALANCE"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <pipeline
+          BLOBTempStoragePath=""
+          bufferTempStoragePath=""
+          version="1">
+          <components>
+            <component
+              refId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source"
+              componentClassID="Microsoft.ExcelSource"
+              contactInfo="Excel Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Excel Source"
+              name="Excel Source"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">COMPLETA$</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mapping from parameters in the SQL command to variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[File_XLS_Completa REF.]"
+                  connectionManagerRefId="Package.ConnectionManagers[File_XLS_Completa REF.]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output]"
+                  name="Excel Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].Columns[DIRECCION]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].ExternalColumns[DIRECCION]"
+                      length="255"
+                      lineageId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].Columns[DIRECCION]"
+                      name="DIRECCION"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].Columns[GERENCIA]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].ExternalColumns[GERENCIA]"
+                      length="255"
+                      lineageId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].Columns[GERENCIA]"
+                      name="GERENCIA"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].Columns[SUB SECTOR]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].ExternalColumns[SUB SECTOR]"
+                      length="255"
+                      lineageId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].Columns[SUB SECTOR]"
+                      name="SUB SECTOR"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].Columns[EGRESO]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].ExternalColumns[EGRESO]"
+                      length="255"
+                      lineageId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].Columns[EGRESO]"
+                      name="EGRESO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].Columns[Clasificación 1]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].ExternalColumns[Clasificación 1]"
+                      length="255"
+                      lineageId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].Columns[Clasificación 1]"
+                      name="Clasificación 1"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].Columns[Clasificación 2]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].ExternalColumns[Clasificación 2]"
+                      length="255"
+                      lineageId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].Columns[Clasificación 2]"
+                      name="Clasificación 2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].Columns[Clasificación 3 ]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].ExternalColumns[Clasificación 3 ]"
+                      length="255"
+                      lineageId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].Columns[Clasificación 3 ]"
+                      name="Clasificación 3 "
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].Columns[Clasificación 4]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].ExternalColumns[Clasificación 4]"
+                      length="255"
+                      lineageId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].Columns[Clasificación 4]"
+                      name="Clasificación 4"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].Columns[PERIODO]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].ExternalColumns[PERIODO]"
+                      lineageId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].Columns[PERIODO]"
+                      name="PERIODO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].Columns[PRESUPUESTO Aprobado]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].ExternalColumns[PRESUPUESTO Aprobado]"
+                      lineageId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].Columns[PRESUPUESTO Aprobado]"
+                      name="PRESUPUESTO Aprobado"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].Columns[PRESUPUESTO Original]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].ExternalColumns[PRESUPUESTO Original]"
+                      lineageId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].Columns[PRESUPUESTO Original]"
+                      name="PRESUPUESTO Original"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].Columns[BALANCE]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].ExternalColumns[BALANCE]"
+                      lineageId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].Columns[BALANCE]"
+                      name="BALANCE"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].ExternalColumns[DIRECCION]"
+                      dataType="wstr"
+                      length="255"
+                      name="DIRECCION" />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].ExternalColumns[GERENCIA]"
+                      dataType="wstr"
+                      length="255"
+                      name="GERENCIA" />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].ExternalColumns[SUB SECTOR]"
+                      dataType="wstr"
+                      length="255"
+                      name="SUB SECTOR" />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].ExternalColumns[EGRESO]"
+                      dataType="wstr"
+                      length="255"
+                      name="EGRESO" />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].ExternalColumns[Clasificación 1]"
+                      dataType="wstr"
+                      length="255"
+                      name="Clasificación 1" />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].ExternalColumns[Clasificación 2]"
+                      dataType="wstr"
+                      length="255"
+                      name="Clasificación 2" />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].ExternalColumns[Clasificación 3 ]"
+                      dataType="wstr"
+                      length="255"
+                      name="Clasificación 3 " />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].ExternalColumns[Clasificación 4]"
+                      dataType="wstr"
+                      length="255"
+                      name="Clasificación 4" />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].ExternalColumns[MARCA]"
+                      dataType="wstr"
+                      length="255"
+                      name="MARCA" />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].ExternalColumns[PERIODO]"
+                      dataType="r8"
+                      name="PERIODO" />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].ExternalColumns[PRESUPUESTO Aprobado]"
+                      dataType="r8"
+                      name="PRESUPUESTO Aprobado" />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].ExternalColumns[PRESUPUESTO Original]"
+                      dataType="r8"
+                      name="PRESUPUESTO Original" />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].ExternalColumns[BALANCE]"
+                      dataType="r8"
+                      name="BALANCE" />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].ExternalColumns[F14]"
+                      dataType="wstr"
+                      length="255"
+                      name="F14" />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].ExternalColumns[F15]"
+                      dataType="wstr"
+                      length="255"
+                      name="F15" />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].ExternalColumns[F16]"
+                      dataType="wstr"
+                      length="255"
+                      name="F16" />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].ExternalColumns[F17]"
+                      dataType="wstr"
+                      length="255"
+                      name="F17" />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].ExternalColumns[F18]"
+                      dataType="wstr"
+                      length="255"
+                      name="F18" />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].ExternalColumns[F19]"
+                      dataType="wstr"
+                      length="255"
+                      name="F19" />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].ExternalColumns[F20]"
+                      dataType="wstr"
+                      length="255"
+                      name="F20" />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].ExternalColumns[F21]"
+                      dataType="wstr"
+                      length="255"
+                      name="F21" />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].ExternalColumns[F22]"
+                      dataType="wstr"
+                      length="255"
+                      name="F22" />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].ExternalColumns[F23]"
+                      dataType="wstr"
+                      length="255"
+                      name="F23" />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].ExternalColumns[F24]"
+                      dataType="wstr"
+                      length="255"
+                      name="F24" />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].ExternalColumns[F25]"
+                      dataType="wstr"
+                      length="255"
+                      name="F25" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Error Output]"
+                  isErrorOut="true"
+                  name="Excel Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Error Output].Columns[DIRECCION]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Error Output].Columns[DIRECCION]"
+                      name="DIRECCION" />
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Error Output].Columns[GERENCIA]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Error Output].Columns[GERENCIA]"
+                      name="GERENCIA" />
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Error Output].Columns[SUB SECTOR]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Error Output].Columns[SUB SECTOR]"
+                      name="SUB SECTOR" />
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Error Output].Columns[EGRESO]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Error Output].Columns[EGRESO]"
+                      name="EGRESO" />
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Error Output].Columns[Clasificación 1]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Error Output].Columns[Clasificación 1]"
+                      name="Clasificación 1" />
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Error Output].Columns[Clasificación 2]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Error Output].Columns[Clasificación 2]"
+                      name="Clasificación 2" />
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Error Output].Columns[Clasificación 3 ]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Error Output].Columns[Clasificación 3 ]"
+                      name="Clasificación 3 " />
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Error Output].Columns[Clasificación 4]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Error Output].Columns[Clasificación 4]"
+                      name="Clasificación 4" />
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Error Output].Columns[PERIODO]"
+                      dataType="r8"
+                      lineageId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Error Output].Columns[PERIODO]"
+                      name="PERIODO" />
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Error Output].Columns[PRESUPUESTO Aprobado]"
+                      dataType="r8"
+                      lineageId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Error Output].Columns[PRESUPUESTO Aprobado]"
+                      name="PRESUPUESTO Aprobado" />
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Error Output].Columns[PRESUPUESTO Original]"
+                      dataType="r8"
+                      lineageId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Error Output].Columns[PRESUPUESTO Original]"
+                      name="PRESUPUESTO Original" />
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Error Output].Columns[BALANCE]"
+                      dataType="r8"
+                      lineageId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Error Output].Columns[BALANCE]"
+                      name="BALANCE" />
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\AUX_H_PRESUPUESTO_BALANCE\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[AUX_H_PRESUPUESTO_BALANCE]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\AUX_H_PRESUPUESTO_BALANCE\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="{477281BB-666E-45C1-9DCD-9210B256133D}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DS_DW_SALUD]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\AUX_H_PRESUPUESTO_BALANCE\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[DIRECCION]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="DIRECCION"
+                      externalMetadataColumnId="Package\AUX_H_PRESUPUESTO_BALANCE\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[direccion]"
+                      lineageId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].Columns[DIRECCION]" />
+                    <inputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[GERENCIA]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="GERENCIA"
+                      externalMetadataColumnId="Package\AUX_H_PRESUPUESTO_BALANCE\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[gerencia]"
+                      lineageId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].Columns[GERENCIA]" />
+                    <inputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[EGRESO]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="EGRESO"
+                      externalMetadataColumnId="Package\AUX_H_PRESUPUESTO_BALANCE\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[egreso]"
+                      lineageId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].Columns[EGRESO]" />
+                    <inputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[PERIODO]"
+                      cachedDataType="r8"
+                      cachedName="PERIODO"
+                      externalMetadataColumnId="Package\AUX_H_PRESUPUESTO_BALANCE\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_periodo]"
+                      lineageId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].Columns[PERIODO]" />
+                    <inputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[SUB SECTOR]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="SUB SECTOR"
+                      externalMetadataColumnId="Package\AUX_H_PRESUPUESTO_BALANCE\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[subsector]"
+                      lineageId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].Columns[SUB SECTOR]" />
+                    <inputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Clasificación 1]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Clasificación 1"
+                      externalMetadataColumnId="Package\AUX_H_PRESUPUESTO_BALANCE\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[clasificacion_1]"
+                      lineageId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].Columns[Clasificación 1]" />
+                    <inputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Clasificación 2]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Clasificación 2"
+                      externalMetadataColumnId="Package\AUX_H_PRESUPUESTO_BALANCE\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[clasificacion_2]"
+                      lineageId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].Columns[Clasificación 2]" />
+                    <inputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Clasificación 3 ]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Clasificación 3 "
+                      externalMetadataColumnId="Package\AUX_H_PRESUPUESTO_BALANCE\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[clasificacion_3]"
+                      lineageId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].Columns[Clasificación 3 ]" />
+                    <inputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Clasificación 4]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Clasificación 4"
+                      externalMetadataColumnId="Package\AUX_H_PRESUPUESTO_BALANCE\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[clasificacion_4]"
+                      lineageId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].Columns[Clasificación 4]" />
+                    <inputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[PRESUPUESTO Aprobado]"
+                      cachedDataType="r8"
+                      cachedName="PRESUPUESTO Aprobado"
+                      externalMetadataColumnId="Package\AUX_H_PRESUPUESTO_BALANCE\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[imp_presupuesto]"
+                      lineageId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].Columns[PRESUPUESTO Aprobado]" />
+                    <inputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[BALANCE]"
+                      cachedDataType="r8"
+                      cachedName="BALANCE"
+                      externalMetadataColumnId="Package\AUX_H_PRESUPUESTO_BALANCE\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[imp_balance]"
+                      lineageId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].Columns[BALANCE]" />
+                    <inputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[PRESUPUESTO Original]"
+                      cachedDataType="r8"
+                      cachedName="PRESUPUESTO Original"
+                      externalMetadataColumnId="Package\AUX_H_PRESUPUESTO_BALANCE\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[imp_presupuesto_original]"
+                      lineageId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output].Columns[PRESUPUESTO Original]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_periodo]"
+                      dataType="i4"
+                      name="id_periodo" />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[direccion]"
+                      dataType="wstr"
+                      length="50"
+                      name="direccion" />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[gerencia]"
+                      dataType="wstr"
+                      length="50"
+                      name="gerencia" />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[subsector]"
+                      dataType="wstr"
+                      length="50"
+                      name="subsector" />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[egreso]"
+                      dataType="wstr"
+                      length="50"
+                      name="egreso" />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[clasificacion_1]"
+                      dataType="wstr"
+                      length="50"
+                      name="clasificacion_1" />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[clasificacion_2]"
+                      dataType="wstr"
+                      length="50"
+                      name="clasificacion_2" />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[clasificacion_3]"
+                      dataType="wstr"
+                      length="50"
+                      name="clasificacion_3" />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[clasificacion_4]"
+                      dataType="wstr"
+                      length="50"
+                      name="clasificacion_4" />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[imp_presupuesto]"
+                      dataType="numeric"
+                      name="imp_presupuesto"
+                      precision="18"
+                      scale="6" />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[imp_balance]"
+                      dataType="numeric"
+                      name="imp_balance"
+                      precision="18"
+                      scale="6" />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[imp_presupuesto_original]"
+                      dataType="numeric"
+                      name="imp_presupuesto_original"
+                      precision="18"
+                      scale="6" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\AUX_H_PRESUPUESTO_BALANCE\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\AUX_H_PRESUPUESTO_BALANCE\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\AUX_H_PRESUPUESTO_BALANCE\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_BALANCE\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\AUX_H_PRESUPUESTO_BALANCE\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\AUX_H_PRESUPUESTO_BALANCE.Paths[Excel Source Output]"
+              endId="Package\AUX_H_PRESUPUESTO_BALANCE\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="Excel Source Output"
+              startId="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source.Outputs[Excel Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Borra Auxiliar"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{6078BD22-460A-412F-99E1-22B548C4FD18}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Borra Auxiliar"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{477281BB-666E-45C1-9DCD-9210B256133D}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE  AUX_H_PRESUPUESTO_BALANCE " xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Borra H_PRESUPUESTO_BALANCE"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{1C873A0F-9D91-4A8D-84FA-375B44D9ED1C}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Borra H_PRESUPUESTO_BALANCE"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{477281BB-666E-45C1-9DCD-9210B256133D}"
+          SQLTask:SqlStatementSource="--Borra registros del ejercicio actual del excel&#xA;DELETE&#xA;FROM H_PRESUPUESTO_BALANCE&#xA;WHERE id_periodo in (SELECT distinct id_periodo FROM AUX_H_PRESUPUESTO_BALANCE where id_periodo is not null)&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Copia Excel a Local"
+      DTS:CreationName="Microsoft.FileSystemTask"
+      DTS:Description="File System Task"
+      DTS:DTSID="{DA119753-96D4-4D3D-B357-4C8DD0F823E4}"
+      DTS:ExecutableType="Microsoft.FileSystemTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Copia Excel a Local"
+      DTS:TaskContact="File System Task;Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <FileSystemData
+          TaskOverwriteDestFile="True"
+          TaskSourcePath="{0647F670-C726-49B3-9392-A9795CB010E5}"
+          TaskDestinationPath="{8A4E065E-9CBD-4BEA-AB02-B08E77CBB2A1}" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Inserta en la H_PRESUPUESTO_BALANCE"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{F22E9E5A-A12B-4E86-92DF-F944B8E9556E}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Inserta en la H_PRESUPUESTO_BALANCE"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{477281BB-666E-45C1-9DCD-9210B256133D}"
+          SQLTask:SqlStatementSource="--Limpia registros NULL de AUX_H_PRESUPUESTO_BALANCE&#xA;DELETE&#xA;FROM AUX_H_PRESUPUESTO_BALANCE&#xA;WHERE id_periodo is null&#xA;&#xA;--ACTUALIZA H_PRESUPUESTO_BALANCE&#xA;insert into H_PRESUPUESTO_BALANCE&#xA;select id_periodo,&#xA;&#x9;   d.id_direccion_presupuesto,&#xA;&#x9;   g.id_gerencia_presupuesto,&#xA;&#x9;   s.id_subsector_presupuesto,&#xA;&#x9;   e.id_egreso_presupuesto,&#xA;&#x9;   c1.id_clasificacion_1_presupuesto,&#xA;&#x9;   c2.id_clasificacion_2_presupuesto,&#xA;&#x9;   c3.id_clasificacion_3_presupuesto,&#xA;&#x9;   c4.id_clasificacion_4_presupuesto,&#xA;&#x9;   isnull(imp_presupuesto,0),&#xA;&#x9;   isnull(imp_balance,0),&#xA;&#x9;   isnull(imp_presupuesto_original,0)&#xA;from AUX_H_PRESUPUESTO_BALANCE A&#xA;inner join D_DIRECCIONES_PRESUPUESTO D on a.direccion = d.de_direccion_presupuesto&#xA;inner join D_GERENCIAS_PRESUPUESTO G on a.gerencia = g.de_gerencia_presupuesto&#xA;inner join D_SUBSECTORES_PRESUPUESTO S ON a.subsector = s.de_subsector_presupuesto&#xA;inner join D_EGRESOS_PRESUPUESTO E ON a.egreso = e.de_egreso_presupuesto&#xA;inner join D_CLASIFICACION_1_PRESUPUESTO C1 on a.clasificacion_1 = c1.de_clasificacion_1_presupuesto&#xA;inner join D_CLASIFICACION_2_PRESUPUESTO C2 on a.clasificacion_2 = c2.de_clasificacion_2_presupuesto&#xA;inner join D_CLASIFICACION_3_PRESUPUESTO C3 on a.clasificacion_3 = c3.de_clasificacion_3_presupuesto&#xA;inner join D_CLASIFICACION_4_PRESUPUESTO C4 on a.clasificacion_4 = c4.de_clasificacion_4_presupuesto" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Mueve Excel a Historico"
+      DTS:CreationName="Microsoft.FileSystemTask"
+      DTS:Description="Tarea Sistema de archivos"
+      DTS:DTSID="{70DD291A-BB9F-4133-BCEB-B20BB245A16B}"
+      DTS:ExecutableType="Microsoft.FileSystemTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Mueve Excel a Historico"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <FileSystemData
+          TaskOperationType="MoveFile"
+          TaskOverwriteDestFile="True"
+          TaskSourcePath="{8A4E065E-9CBD-4BEA-AB02-B08E77CBB2A1}"
+          TaskDestinationPath="{EDFD1973-D13F-4524-8073-CA6C7BDE42C6}" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{569289D5-2518-4250-BB94-18EC4E9C6111}"
+      DTS:From="Package\Borra Auxiliar"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\AUX_H_PRESUPUESTO_BALANCE" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{D7B517D4-A507-4B4F-B41A-9753C52C7B56}"
+      DTS:From="Package\AUX_H_PRESUPUESTO_BALANCE"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Actualiza tablas de Dimensión" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{C24B03D6-A413-4976-A072-061D33A62E8F}"
+      DTS:From="Package\Copia Excel a Local"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Borra Auxiliar" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{BEF9427F-DC33-4184-8C1C-7DB26F279001}"
+      DTS:From="Package\Actualiza tablas de Dimensión"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Borra H_PRESUPUESTO_BALANCE" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
+      DTS:CreationName=""
+      DTS:DTSID="{40E539E5-376E-47CA-875D-CB04ED74D4A5}"
+      DTS:From="Package\Borra H_PRESUPUESTO_BALANCE"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 4"
+      DTS:To="Package\Inserta en la H_PRESUPUESTO_BALANCE" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 5]"
+      DTS:CreationName=""
+      DTS:DTSID="{B0027560-0681-485B-8F99-FB11923995F4}"
+      DTS:From="Package\Inserta en la H_PRESUPUESTO_BALANCE"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 5"
+      DTS:To="Package\Mueve Excel a Historico" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="226,42"
+          Id="Package\Actualiza tablas de Dimensión"
+          TopLeft="41,244" />
+        <NodeLayout
+          Size="262,42"
+          Id="Package\AUX_H_PRESUPUESTO_BALANCE"
+          TopLeft="23,164.5" />
+        <NodeLayout
+          Size="145,42"
+          Id="Package\Borra Auxiliar"
+          TopLeft="81.5,85" />
+        <NodeLayout
+          Size="263,42"
+          Id="Package\Borra H_PRESUPUESTO_BALANCE"
+          TopLeft="22.5,323.5" />
+        <NodeLayout
+          Size="176,42"
+          Id="Package\Copia Excel a Local"
+          TopLeft="66,5.5" />
+        <NodeLayout
+          Size="297,42"
+          Id="Package\Inserta en la H_PRESUPUESTO_BALANCE"
+          TopLeft="5.5,403" />
+        <NodeLayout
+          Size="197,42"
+          Id="Package\Mueve Excel a Historico"
+          TopLeft="55.5,482.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="154,127">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,37.5"
+              Start="0,0"
+              End="0,30">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,30" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="154,206.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,37.5"
+              Start="0,0"
+              End="0,30">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,30" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="154,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,37.5"
+              Start="0,0"
+              End="0,30">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,30" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="154,286">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,37.5"
+              Start="0,0"
+              End="0,30">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,30" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="154,365.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,37.5"
+              Start="0,0"
+              End="0,30">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,30" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 5]"
+          TopLeft="154,445">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,37.5"
+              Start="0,0"
+              End="0,30">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,30" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\AUX_H_PRESUPUESTO_BALANCE">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="177,42"
+          Id="Package\AUX_H_PRESUPUESTO_BALANCE\OLE DB Destination"
+          TopLeft="38.25,98.5" />
+        <NodeLayout
+          Size="144,42"
+          Id="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source"
+          TopLeft="54.75,8.5" />
+        <EdgeLayout
+          Id="Package\AUX_H_PRESUPUESTO_BALANCE.Paths[Excel Source Output]"
+          TopLeft="126.75,50.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,48"
+              Start="0,0"
+              End="0,40.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,40.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\AUX_H_PRESUPUESTO_BALANCE\Excel Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\AUX_H_PRESUPUESTO_BALANCE\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

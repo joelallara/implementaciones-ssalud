@@ -1,0 +1,185 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="12/11/2019 1:26:35 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="LA22676-08835"
+  DTS:CreatorName="AMS\nprida"
+  DTS:DTSID="{29A32842-FB7D-4934-9818-FD3EA6B1E7EB}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="Documentacion_Tablas de dimension"
+  DTS:PackageType="5"
+  DTS:VersionBuild="26"
+  DTS:VersionGUID="{C83AC535-F4F9-404A-8083-F51DD72DD98B}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{E70A287D-3F22-4E99-8DCF-D71A93A3BEBF}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{E70A287D-3F22-4E99-8DCF-D71A93A3BEBF}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\D_DOCUMENTACION_ATRIBUTOS"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tarea Ejecutar SQL"
+      DTS:DTSID="{1E9EA4A1-6FFB-4B0F-9347-2752149486BE}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="D_DOCUMENTACION_ATRIBUTOS"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{E20254E8-DDAD-4568-A849-26264A0565CA}"
+          SQLTask:SqlStatementSource="------------------ATRIBUTOS------------------&#xA;  &#x9;&#xA;&#x9;TRUNCATE TABLE DW_SALUD.DBO.H_DOCUMENTACION_ATRIBUTOS&#xA;&#xA;&#x9;INSERT INTO DW_Salud.dbo.H_DOCUMENTACION_ATRIBUTOS&#xA;&#x9;(id_tabla_schema, id_atributo_schema, nombre_Atributo, descripcion_atributo)&#xA;&#x9;select DEPN.object_id as id_tabla_schema, OBJ.object_id as id_atributo_schema, OBJ.OBJECT_NAME as nombre_Atributo, OBJ.DESCRIPTION as descripcion_atributo&#xA;&#x9;FROM DSSMDOBJINFO OBJ &#xA;&#x9;INNER JOIN DSSMDOBJDEPN DEPN ON (OBJ.OBJECT_ID=DEPN.DEPN_OBJID)&#xA;&#x9;WHERE OBJ.OBJECT_TYPE = 12&#xA;&#x9;AND OBJ.OBJECT_STATE = 0&#xA;&#x9;AND OBJ.SUBTYPE = 3072&#xA;&#x9;AND DEPN.OBJECT_TYPE = 15&#xA;&#x9;and OBJ.PROJECT_ID = 'DAE6DF98-7BD9-11D6-A510-0050DA2A1D1D'&#xA;&#x9;and OBJ.HIDDEN = 0 --no tomamos los objetos ocultos&#xA;&#x9;and OBJ.object_id not in (select distinct id_atributo_schema from DW_Salud.dbo.H_DOCUMENTACION_ATRIBUTOS)&#xA;&#x9;order by OBJ.object_id&#x9;&#xA;&#xA;&#x9;--ANTES DE TRUNCAR LA TABLA, NOS HACEMOS BKP PARA NO PERDER EL CAMPO visible_documentacion QUE SE USA SOLO EN TABLERO PARA MOSTRAR O NO EL ATT EN LOS INFORMES&#xA;&#x9;SELECT * INTO #TMP_ATT &#xA;&#x9;FROM DW_SALUD.DBO.D_DOCUMENTACION_ATRIBUTOS&#xA;&#x9;&#xA;&#x9;TRUNCATE TABLE DW_SALUD.DBO.D_DOCUMENTACION_ATRIBUTOS&#xA;&#xA;&#x9;--INSERTA NUEVAMENTE TODOS LOS ATRIBUTOS ENCONTRADOS&#xA;&#x9;INSERT INTO DW_Salud.dbo.D_DOCUMENTACION_ATRIBUTOS&#xA;&#x9;SELECT DISTINCT id_atributo_schema, nombre_atributo, descripcion_atributo, 0 as visible_documentacion, '' as ubicacion_carpeta &#xA;&#x9;FROM DW_Salud.dbo.H_DOCUMENTACION_ATRIBUTOS&#xA;&#xA;&#x9;/* ESTO LO COMENTAMOS PORQUE AHORA HAY UN CICLO QUE TOMA EL PATH DESDE METADATAY ES MEJOR 23/01/20&#x9;&#xA;&#x9;--ACTUALIZA EL PATH DEL ATRIBUTO TOMANDO INFO DESDE LA BASE DE ENTERPRISE MANAGER&#xA;&#x9;UPDATE DW_SALUD.DBO.D_DOCUMENTACION_ATRIBUTOS&#xA;&#x9;SET ubicacion_carpeta = RIGHT(IS_ATT_LOC, LEN(IS_ATT_LOC)-25) &#xA;&#x9;FROM DW_SALUD.dbo.D_DOCUMENTACION_ATRIBUTOS D INNER JOIN MSTR_EM.DBO.IS_ATT A ON (A.IS_ATT_GUID=dbo.fn_UniqueidentifierToCharMSTR(D.id_atributo_schema))&#xA;&#x9;*/&#xA;&#xA;&#x9;--ACTUALIZA visible_documentacion TOMANDO DEL BKP HECHO ANTES DE COMENZAR CON EL PASAJE DE ATRIBUTOS&#xA;&#x9;UPDATE DW_SALUD.DBO.D_DOCUMENTACION_ATRIBUTOS&#xA;&#x9;SET visible_documentacion = T.visible_documentacion&#xA;&#x9;FROM DW_SALUD.DBO.D_DOCUMENTACION_ATRIBUTOS A join #TMP_ATT T on A.id_atributo_schema = T.id_atributo_schema&#xA;&#xA;&#x9;DROP TABLE #TMP_ATT&#xA;&#xA;&#x9;------------- ACTUALIZAMOS EL PATH--------------&#xA;&#xA;&#x9;declare @id_atributo_schema varchar(100) = ''&#xA;&#x9;declare cursor_atributos cursor for select id_atributo_schema from DW_SALUD.DBO.D_DOCUMENTACION_ATRIBUTOS order by id_atributo_schema desc;&#xA;&#x9;open cursor_atributos;&#xA;&#x9;fetch cursor_atributos into @id_atributo_schema;&#xA;&#xA;&#x9;while (@@FETCH_STATUS = 0)&#xA;&#x9;begin&#xA;&#x9;&#x9;declare&#x9;@path varchar(150) = '' --ruta completa o path&#xA;&#x9;&#x9;declare&#x9;@carpeta varchar(150) = '' --nombre de cada carpeta&#xA;&#x9;&#x9;declare&#x9;@id_carpeta varchar(150) = (select parent_id from DSSMDOBJINFO where OBJECT_ID = @id_atributo_schema)&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;set @carpeta = (select object_name from DSSMDOBJINFO where object_id = @id_carpeta )&#xA;&#x9;&#x9;while @carpeta not in ('Schema Objects')--carpeta Schema Objects tiene 2 id distintos, no se porque....&#xA;&#x9;&#x9;&#x9;begin&#xA;&#x9;&#x9;&#x9;&#x9;set @path = concat(@carpeta,'\',@path)&#xA;&#x9;&#x9;&#x9;&#x9;set @id_carpeta = (select parent_id from DSSMDOBJINFO where object_id = @id_carpeta and object_type = 8)&#xA;&#x9;&#x9;&#x9;&#x9;set @carpeta = (select object_name from DSSMDOBJINFO where object_id = @id_carpeta )&#x9;&#x9;&#xA;&#x9;&#x9;&#x9;end&#xA;&#x9;&#xA;&#x9;&#x9;update DW_SALUD.DBO.D_DOCUMENTACION_ATRIBUTOS set ubicacion_carpeta = @path where id_atributo_schema = @id_atributo_schema&#xA;&#xA;&#x9;&#x9;fetch cursor_atributos into @id_atributo_schema;&#xA;&#xA;&#x9;end&#xA;&#xA;&#x9;close cursor_atributos;&#xA;&#x9;deallocate cursor_atributos;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\D_DOCUMENTACION_METRICAS"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tarea Ejecutar SQL"
+      DTS:DTSID="{9C922E44-2AC2-4C66-9949-DB8F236F8A0F}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="D_DOCUMENTACION_METRICAS"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{E20254E8-DDAD-4568-A849-26264A0565CA}"
+          SQLTask:SqlStatementSource="---------------------METRICAS----------------------------&#xA;&#x9;&#xA;/* Tabla - Hecho. */&#xA;&#xA;&#x9;SELECT OBJ.object_id as ID_Tabla_Schema, DEPN.object_id as ID_Hecho, OBJ2.OBJECT_NAME as Hecho_Nombre, OBJ2.DESCRIPTION as Hecho_Descripcion&#xA;&#x9;INTO #TABLA_HECHO&#xA;&#x9;FROM DSSMDOBJINFO OBJ &#xA;&#x9;INNER JOIN DSSMDOBJDEPN DEPN ON (OBJ.OBJECT_ID=DEPN.DEPN_OBJID)&#xA;&#x9;INNER JOIN DSSMDOBJINFO OBJ2 ON (OBJ2.OBJECT_ID=DEPN.OBJECT_ID)&#xA;&#x9;WHERE OBJ.OBJECT_TYPE = 15&#xA;&#x9;AND DEPN.OBJECT_TYPE = 13&#xA;&#x9;AND OBJ.PROJECT_ID = 'DAE6DF98-7BD9-11D6-A510-0050DA2A1D1D'&#xA;&#x9;and OBJ.HIDDEN = 0 --no tomamos los objetos ocultos&#xA;&#x9;AND OBJ.OBJECT_NAME like 'H_%'&#xA;&#x9;AND OBJ.EXTENDED_TYPE = 1&#xA;&#xA;&#xA;/* Tabla - Metrica (en base a Tabla - Hecho). */&#xA;&#x9;&#xA;&#x9;TRUNCATE TABLE DW_SALUD.DBO.H_DOCUMENTACION_METRICAS&#xA;&#xA;&#x9;--INSERTA METRICAS BASE&#xA;&#xA;&#x9;INSERT INTO DW_Salud.dbo.H_DOCUMENTACION_METRICAS&#xA;&#x9;(id_tabla_schema, id_metrica_schema, nombre_metrica, descripcion_metrica)&#xA;&#x9;select T.ID_Tabla_Schema, DEPN.OBJECT_ID as id_metrica_schema, OBJ2.OBJECT_NAME as nombre_metrica, OBJ2.DESCRIPTION as Metrica_Descripcion&#xA;&#x9;FROM DSSMDOBJINFO OBJ &#xA;&#x9;INNER JOIN DSSMDOBJDEPN DEPN ON (OBJ.OBJECT_ID=DEPN.DEPN_OBJID)&#xA;&#x9;INNER JOIN DSSMDOBJINFO OBJ2 ON (OBJ2.OBJECT_ID=DEPN.OBJECT_ID)&#xA;&#x9;INNER JOIN #TABLA_HECHO T ON T.ID_Hecho = DEPN.DEPN_OBJID&#xA;&#x9;WHERE OBJ.OBJECT_TYPE = 13&#xA;&#x9;and DEPN.OBJECT_TYPE = 4&#xA;&#x9;and OBJ.PROJECT_ID = 'DAE6DF98-7BD9-11D6-A510-0050DA2A1D1D'&#xA;&#x9;and OBJ.HIDDEN = 0 --no tomamos los objetos ocultos&#xA;&#x9;&#xA;&#xA;&#xA;-- DEPN_OBJID: CONTIENE LA METRICA HIJA O EL COMPONENTE SI RASTREAMOS DESDE EL DEVELOPER.&#xA;-- DEPN.OBJECT_ID: CONTIENE LA METRICA PADRE DE LA DEPN_OBJID O LA DEPENDENCIA SI RASTREAMOS DESDE EL DEVELOPER.&#xA;-- OBJ2 SE UTILIZA PARA OBTENER EL NOMBRE DEL OBJETO QUE VAMOS A INSERTAR EN LA TABLA DE METRICAS.&#xA;&#xA;DECLARE @ContadorDeAtomicas INT -- Cuenta si existen Métricas - Métricas para entrar al CICLO.&#xA;SET @ContadorDeAtomicas = (SELECT COUNT(distinct OBJ.OBJECT_ID)&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;FROM DSSMDOBJINFO OBJ &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;INNER JOIN DSSMDOBJDEPN DEPN ON (OBJ.OBJECT_ID=DEPN.DEPN_OBJID)&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;INNER JOIN DW_SALUD.DBO.H_DOCUMENTACION_METRICAS M ON (M.id_metrica_schema=DEPN.DEPN_OBJID)&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;INNER JOIN DSSMDOBJINFO OBJ2 ON (OBJ2.OBJECT_ID=DEPN.OBJECT_ID)&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHERE DEPN.OBJECT_TYPE = 4&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;AND OBJ.PROJECT_ID = 'DAE6DF98-7BD9-11D6-A510-0050DA2A1D1D'&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;AND NOT EXISTS (SELECT id_tabla_schema FROM DW_SALUD.DBO.H_DOCUMENTACION_METRICAS D WHERE D.id_tabla_schema=M.id_tabla_schema AND DEPN.OBJECT_ID=D.id_metrica_schema))&#xA;&#xA;&#xA;--ESTE CICLO INSERTA METRICAS DERIVADAS O COMPUESTAS&#xA;&#xA;WHILE @ContadorDeAtomicas &gt; 0&#xA;BEGIN&#xA;&#xA;/* Inserta las métricas encontradas. Por las dudas tiene un control que no inserte ningún objeto ya repetido. */&#xA;&#x9;&#xA;INSERT INTO DW_SALUD.DBO.H_DOCUMENTACION_METRICAS&#xA;(id_tabla_schema, id_metrica_schema, nombre_metrica, descripcion_metrica)&#xA;SELECT M.id_tabla_schema, DEPN.OBJECT_ID, OBJ2.OBJECT_NAME, OBJ2.DESCRIPTION&#xA;FROM DSSMDOBJINFO OBJ &#xA;INNER JOIN DSSMDOBJDEPN DEPN ON (OBJ.OBJECT_ID=DEPN.DEPN_OBJID)&#xA;INNER JOIN DW_SALUD.DBO.H_DOCUMENTACION_METRICAS M ON (M.id_metrica_schema=DEPN.DEPN_OBJID)&#xA;INNER JOIN DSSMDOBJINFO OBJ2 ON (OBJ2.OBJECT_ID=DEPN.OBJECT_ID)&#xA;WHERE DEPN.OBJECT_TYPE = 4&#xA;and OBJ.HIDDEN = 0 --no tomamos los objetos ocultos&#xA;AND OBJ.PROJECT_ID = 'DAE6DF98-7BD9-11D6-A510-0050DA2A1D1D'&#xA;AND NOT EXISTS (SELECT id_tabla_schema FROM DW_SALUD.DBO.H_DOCUMENTACION_METRICAS D WHERE D.id_tabla_schema=M.id_tabla_schema AND DEPN.OBJECT_ID=D.id_metrica_schema)&#xA;&#xA;&#x9;-- Para continuar en el While del CICLO, actualiza la variable que cuenta Metricas - Metricas hasta que sea cero y salga.&#xA;&#x9;SET @ContadorDeAtomicas = (SELECT COUNT(distinct OBJ.OBJECT_ID)&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;FROM DSSMDOBJINFO OBJ &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;INNER JOIN DSSMDOBJDEPN DEPN ON (OBJ.OBJECT_ID=DEPN.DEPN_OBJID)&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;INNER JOIN DW_SALUD.DBO.H_DOCUMENTACION_METRICAS M ON (M.id_metrica_schema=DEPN.DEPN_OBJID)&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;INNER JOIN DSSMDOBJINFO OBJ2 ON (OBJ2.OBJECT_ID=DEPN.OBJECT_ID)&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHERE DEPN.OBJECT_TYPE = 4&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;AND OBJ.PROJECT_ID = 'DAE6DF98-7BD9-11D6-A510-0050DA2A1D1D'&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;AND NOT EXISTS (SELECT id_tabla_schema FROM DW_SALUD.DBO.H_DOCUMENTACION_METRICAS D WHERE D.id_tabla_schema=M.id_tabla_schema AND DEPN.OBJECT_ID=D.id_metrica_schema))&#xA;&#xA;&#xA;END&#xA;&#xA;&#xA;&#x9;--ANTES DE TRUNCAR LA TABLA, NOS HACEMOS BKP PARA NO PERDER EL CAMPO visible_documentacion QUE SE USA SOLO EN TABLERO PARA MOSTRAR O NO EL ATT EN LOS INFORMES&#xA;&#x9;SELECT * INTO #TMP_MET&#xA;&#x9;FROM DW_SALUD.DBO.D_DOCUMENTACION_METRICAS&#xA;&#xA;&#x9;TRUNCATE TABLE DW_SALUD.DBO.D_DOCUMENTACION_METRICAS&#xA;&#xA;&#x9;INSERT INTO DW_Salud.dbo.D_DOCUMENTACION_METRICAS&#xA;&#x9;SELECT DISTINCT id_metrica_schema, nombre_metrica, descripcion_metrica, 0 AS visible_documentacion, '' as ubicacion_carpeta, null as tipo_metrica,null as tematica, null as proyecto &#xA;&#x9;FROM DW_Salud.dbo.H_DOCUMENTACION_METRICAS&#xA;&#x9;&#xA;&#x9;/* ESTO QUEDA EN DESUSO PORQUE AHORA TOMAMOS LA INFO DIRECTAMENTE DESDE METADATA CON UN CICLO 23/01/20&#xA;&#x9;--ACTUALIZA EL PATH TOMANDO DESDE LA BASE DE ENTERPRISE MANAGER&#xA;&#x9;UPDATE DW_SALUD.DBO.D_DOCUMENTACION_METRICAS&#xA;&#x9;SET ubicacion_carpeta = RIGHT(IS_MET_LOC, LEN(IS_MET_LOC)-25) &#xA;&#x9;FROM DW_SALUD.dbo.D_DOCUMENTACION_METRICAS D INNER JOIN MSTR_EM.DBO.IS_MET A ON (A.IS_MET_GUID=dbo.fn_UniqueidentifierToCharMSTR(D.id_metrica_schema))&#xA;&#x9;*/&#xA;&#xA;&#xA;&#x9;--ACTUALIZA visible_documentacion TOMANDO DEL BKP HECHO ANTES DE COMENZAR CON EL PASAJE DE ATRIBUTOS&#xA;&#x9;UPDATE DW_SALUD.DBO.D_DOCUMENTACION_METRICAS&#xA;&#x9;SET visible_documentacion = T.visible_documentacion&#xA;&#x9;FROM DW_SALUD.DBO.D_DOCUMENTACION_METRICAS A join #TMP_MET T on A.id_metrica_schema = T.id_metrica_schema&#xA;&#xA;&#x9;DROP TABLE #TABLA_HECHO&#xA;&#x9;DROP TABLE #TMP_MET&#xA;&#xA;&#xA;---------------   ACTUALIZAMOS EL PATH --------------&#xA;&#xA;&#x9;declare @id_metrica_schema varchar(100) = ''&#xA;&#x9;declare cursor_metricas cursor for select id_metrica_schema from dw_salud.dbo.D_DOCUMENTACION_METRICAS  where descripcion_metrica like 'DESCR%' order by id_metrica_schema desc &#xA;&#x9;open cursor_metricas;&#xA;&#x9;fetch cursor_metricas into @id_metrica_schema;&#xA;&#xA;&#x9;while (@@FETCH_STATUS = 0)&#xA;&#x9;begin&#xA;&#x9;&#x9;declare&#x9;@nombre_carpeta varchar(150) = '' --ruta completa o path&#xA;&#x9;&#x9;declare&#x9;@aux varchar(150) = '' --nombre de cada carpeta&#xA;&#x9;&#x9;declare&#x9;@id_carpeta varchar(150) = (select max(parent_id) from DSSMDOBJINFO where OBJECT_ID = @id_metrica_schema and PROJECT_ID = 'DAE6DF98-7BD9-11D6-A510-0050DA2A1D1D')&#xA;&#x9;&#x9;declare @profundidad int = 0&#xA;&#xA;&#x9;&#x9;while @id_carpeta &lt;&gt; 'DAE6DF80-7BD9-11D6-A510-0050DA2A1D1D' and @profundidad &lt; 4&#xA;&#x9;&#x9;begin&#xA;&#x9;&#x9;&#x9;set @profundidad = @profundidad + 1&#xA;&#x9;&#x9;&#x9;set @aux = (select max(object_name) from DSSMDOBJINFO where object_id = @id_carpeta )&#xA;&#x9;&#x9;&#x9;set @nombre_carpeta = concat(@aux,'\',@nombre_carpeta)&#xA;&#x9;&#x9;&#x9;set @id_carpeta = (select max(parent_id) from DSSMDOBJINFO where object_id = @id_carpeta and object_type = 8 and PROJECT_ID = 'DAE6DF98-7BD9-11D6-A510-0050DA2A1D1D')&#xA;&#x9;&#x9;&#x9;declare @max_id int = 0 &#xA;&#xA;&#x9;&#x9;&#x9;/* ACTUALIZAMOS TIPO DE METRICA */&#xA;&#x9;&#x9;&#x9;if @profundidad = 1 &#xA;&#x9;&#x9;&#x9;begin&#x9;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#xA;&#x9;&#x9;&#x9;&#x9;if exists (select * from DW_SALUD.DBO.D_DOCUMENTACION_TIPOS_METRICAS where de_tipo_metrica = left(@aux ,case when charindex('\',@aux)-1 = -1 then len(@aux) else charindex('\',@aux)-1 end))&#xA;&#x9;&#x9;&#x9;&#x9;begin&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;set @max_id = (select max(id_tipo_metrica) from DW_SALUD.DBO.D_DOCUMENTACION_TIPOS_METRICAS where de_tipo_metrica = left(@aux ,case when charindex('\',@aux)-1 = -1 then len(@aux) else charindex('\',@aux)-1 end))&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;update DW_SALUD.DBO.D_DOCUMENTACION_METRICAS &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;set id_tipo_metrica = @max_id&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;where id_metrica_schema = @id_metrica_schema&#xA;&#x9;&#x9;&#x9;&#x9;end&#xA;&#x9;&#x9;&#x9;&#x9;else&#xA;&#x9;&#x9;&#x9;&#x9;begin&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;set @max_id = (select isnull(max(id_tipo_metrica),0)+1 from DW_SALUD.DBO.D_DOCUMENTACION_TIPOS_METRICAS)&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;insert into DW_SALUD.DBO.D_DOCUMENTACION_TIPOS_METRICAS values (@max_id,@aux)&#xA;&#x9;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;update DW_SALUD.DBO.D_DOCUMENTACION_METRICAS &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;set id_tipo_metrica = @max_id&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;where id_metrica_schema = @id_metrica_schema&#xA;&#x9;&#x9;&#x9;&#x9;end &#xA;&#xA;&#x9;&#x9;&#x9;end&#xA;&#xA;&#x9;&#x9;&#x9;/* ACTUALIZAMOS TEMATICA */&#xA;&#x9;&#x9;&#x9;if @profundidad = 2&#xA;&#x9;&#x9;&#x9;begin&#x9;&#xA;&#x9;&#x9;&#x9;&#x9;if exists (select * from DW_SALUD.DBO.D_DOCUMENTACION_TEMATICA where de_tematica = left(@aux ,case when charindex('\',@aux)-1 = -1 then len(@aux) else charindex('\',@aux)-1 end))&#xA;&#x9;&#x9;&#x9;&#x9;begin&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;set @max_id = (select max(id_tematica) from DW_SALUD.DBO.D_DOCUMENTACION_TEMATICA where de_tematica = left(@aux ,case when charindex('\',@aux)-1 = -1 then len(@aux) else charindex('\',@aux)-1 end))&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;update DW_SALUD.DBO.D_DOCUMENTACION_METRICAS &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;set id_tematica = @max_id&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;where id_metrica_schema = @id_metrica_schema&#xA;&#x9;&#x9;&#x9;&#x9;end&#xA;&#x9;&#x9;&#x9;&#x9;else&#xA;&#x9;&#x9;&#x9;&#x9;begin&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;set @max_id = (select isnull(max(id_tematica),0)+1 from DW_SALUD.DBO.D_DOCUMENTACION_TEMATICA)&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;insert into DW_SALUD.DBO.D_DOCUMENTACION_TEMATICA values (@max_id,@aux)&#xA;&#x9;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;update DW_SALUD.DBO.D_DOCUMENTACION_METRICAS &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;set id_tematica = @max_id&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;where id_metrica_schema = @id_metrica_schema&#xA;&#x9;&#x9;&#x9;&#x9;end&#xA;&#xA;&#x9;&#x9;&#x9;end&#xA;&#xA;&#x9;&#x9;&#x9;/* ACTUALIZAMOS PROYECTO  */&#xA;&#x9;&#x9;&#x9;if @profundidad = 3&#xA;&#x9;&#x9;&#x9;begin&#x9;&#xA;&#x9;&#x9;&#x9;&#x9;if exists (select * from DW_SALUD.DBO.D_DOCUMENTACION_PROYECTOS where nombre_proyecto = left(@aux ,case when charindex('\',@aux)-1 = -1 then len(@aux) else charindex('\',@aux)-1 end))&#xA;&#x9;&#x9;&#x9;&#x9;begin&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;set @max_id = (select max(id_proyecto) from DW_SALUD.DBO.D_DOCUMENTACION_PROYECTOS where nombre_proyecto = left(@aux ,case when charindex('\',@aux)-1 = -1 then len(@aux) else charindex('\',@aux)-1 end))&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;update DW_SALUD.DBO.D_DOCUMENTACION_METRICAS &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;set id_proyecto = @max_id&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;where id_metrica_schema = @id_metrica_schema&#xA;&#x9;&#x9;&#x9;&#x9;end&#xA;&#x9;&#x9;&#x9;&#x9;else&#xA;&#x9;&#x9;&#x9;&#x9;begin&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;set @max_id = (select isnull(max(id_proyecto),0)+1 from DW_SALUD.DBO.D_DOCUMENTACION_PROYECTOS)&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;insert into DW_SALUD.DBO.D_DOCUMENTACION_PROYECTOS values (@max_id,@aux)&#xA;&#x9;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;update DW_SALUD.DBO.D_DOCUMENTACION_METRICAS &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;set id_proyecto = @max_id&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;where id_metrica_schema = @id_metrica_schema&#xA;&#x9;&#x9;&#x9;&#x9;end&#xA;&#x9;&#x9;&#x9;end&#xA;&#x9;&#x9;&#x9;&#x9;&#xA;&#x9;&#x9;end&#xA;&#x9;&#xA;&#x9;&#x9;update DW_SALUD.DBO.D_DOCUMENTACION_METRICAS set ubicacion_carpeta = @nombre_carpeta where id_metrica_schema = @id_metrica_schema&#xA;&#xA;&#x9;&#x9;fetch cursor_metricas into @id_metrica_schema;&#xA;&#xA;&#x9;end&#xA;&#xA;&#x9;close cursor_metricas;&#xA;&#x9;deallocate cursor_metricas;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\D_DOCUMENTACION_TABLAS"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tarea Ejecutar SQL"
+      DTS:DTSID="{CF27E012-FBD3-4A19-8FD5-4F4A3A4306A6}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="D_DOCUMENTACION_TABLAS"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{E20254E8-DDAD-4568-A849-26264A0565CA}"
+          SQLTask:SqlStatementSource="--------------------TABLAS-------------------&#xA;&#x9;--ANTES DE TRUNCAR LA TABLA, NOS HACEMOS BKP PARA NO PERDER LA INFO DE SUBPROYECTO&#xA;&#x9;/*  ESTO SE COMENTO PORQUE CAMBIO LA FORMA DE MODELAR, LOS SUBPROYECTOS DESAPARECEN 23/01/20&#xA;&#x9;SELECT * INTO #TMP_TAB &#xA;&#x9;FROM DW_SALUD.DBO.D_DOCUMENTACION_TABLAS&#xA;&#xA;&#x9;DROP TABLE #TMP_TAB&#xA;&#x9;*/&#xA;&#xA;&#x9;TRUNCATE TABLE DW_SALUD.DBO.D_DOCUMENTACION_TABLAS&#xA;&#x9;&#xA;&#x9;INSERT INTO DW_SALUD.DBO.D_DOCUMENTACION_TABLAS&#xA;&#x9;(id_tabla_schema, nombre_tabla, id_subproyecto)&#xA;&#x9;SELECT OBJECT_ID, OBJECT_NAME, 999 FROM DSSMDOBJINFO&#xA;&#x9;WHERE EXTENDED_TYPE = 1 AND OBJECT_TYPE = 15&#xA;&#xA;&#x9;/*&#xA;&#x9;--ACTUALIZA SUBPROYECTO TOMANDO DEL BKP HECHO ANTES DE COMENZAR CON EL PASAJE&#xA;&#x9;UPDATE DW_SALUD.DBO.D_DOCUMENTACION_TABLAS&#xA;&#x9;SET id_subproyecto = T.id_subproyecto&#xA;&#x9;from DW_SALUD.DBO.D_DOCUMENTACION_TABLAS D join #TMP_TAB T on D.id_tabla_schema = T.id_tabla_schema&#xA;&#x9;*/&#xA;&#xA;&#x9;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{99665BFE-86AE-432D-AB8A-7E97EE07DA1D}"
+      DTS:From="Package\D_DOCUMENTACION_TABLAS"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\D_DOCUMENTACION_ATRIBUTOS" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{9ED5C358-6984-4EBA-AC32-484524470847}"
+      DTS:From="Package\D_DOCUMENTACION_ATRIBUTOS"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\D_DOCUMENTACION_METRICAS" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="260,42"
+          Id="Package\D_DOCUMENTACION_ATRIBUTOS"
+          TopLeft="263.125,135" />
+        <NodeLayout
+          Size="254,42"
+          Id="Package\D_DOCUMENTACION_METRICAS"
+          TopLeft="267.125,219" />
+        <NodeLayout
+          Size="240,42"
+          Id="Package\D_DOCUMENTACION_TABLAS"
+          TopLeft="274.125,44" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="393.625,86">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,49"
+              Start="0,0"
+              End="0,41.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,41.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="393.625,177">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,42"
+              Start="0,0"
+              End="0,34.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,34.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

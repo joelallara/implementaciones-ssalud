@@ -1,0 +1,80 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="8/4/2017 11:45:36 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AMS06X"
+  DTS:CreatorName="AMS\jtrinchier"
+  DTS:DTSID="{A2E0C347-7F63-42FB-87B3-A6CD0C5EC132}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="Ordenes_e_Internaciones_D_MOTIVOS_AUDITORIA"
+  DTS:PackageType="5"
+  DTS:VersionBuild="7"
+  DTS:VersionGUID="{D76AAD9F-DD06-4502-9A6F-79A43B8EF8F7}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{02E78628-4E8F-4C7B-9E43-6CCD87E4B2C2}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{02E78628-4E8F-4C7B-9E43-6CCD87E4B2C2}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza la tabla D_MOTIVOS_AUDITORIA"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{D267BC52-24E1-4E44-8A6B-9345A1EAF6F6}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza la tabla D_MOTIVOS_AUDITORIA"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{CB31783E-132D-4F49-8D86-4C2C49219488}"
+          SQLTask:SqlStatementSource="----  inserta nuevas auditoria en la D_MOTIVOS_AUDITORIA&#xA;insert into D_MOTIVOS_AUDITORIA&#xA;(Id_Motivo_Auditoria, De_Motivo_Auditoria)&#xA;select W26COD as Id_Motivo_Auditoria, W26TXT as De_Motivo_Auditoria&#xA; from  HOST03.HOST03.SMPORDD.T126FMOT &#xA;where w26cod&#xA;not in (select Id_Motivo_Auditoria from D_MOTIVOS_AUDITORIA)&#xA;order by W26COD&#xA;&#xA;--- Actualiza la de_Motivo_Auditoria tomando la descripción de la as400&#xA;Update D_MOTIVOS_AUDITORIA set De_Motivo_Auditoria = W26TXT&#xA; from  HOST03.HOST03.SMPORDD.T126FMOT as400&#xA;inner join D_MOTIVOS_AUDITORIA d on d.Id_Motivo_Auditoria = as400.W26COD&#xA;where W26TXT&#xA;not in (select  De_Motivo_Auditoria Collate SQL_Latin1_General_CP850_CI_AI from D_MOTIVOS_AUDITORIA)" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="296,42"
+          Id="Package\Actualiza la tabla D_MOTIVOS_AUDITORIA"
+          TopLeft="5.5,5.5" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

@@ -1,0 +1,931 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="9/26/2019 10:44:34 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AMS06X"
+  DTS:CreatorName="AMS\jtrinchier"
+  DTS:DTSID="{83C5DB89-D742-4DFA-A1D3-66B3A7E7D2C1}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="InternacionesDiario - Ejecución de paquetes"
+  DTS:PackageType="5"
+  DTS:VersionBuild="86"
+  DTS:VersionGUID="{B282AB9E-B999-450A-A2AF-098EF04AA070}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[File_TXT_DESPPRE_Source]"
+      DTS:CreationName="FILE"
+      DTS:DTSID="{d1bd560c-4612-4602-b9bf-f0f86ad93abb}"
+      DTS:ObjectName="File_TXT_DESPPRE_Source">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="\\host03\qdls\DWCONS\Consumo\DESPPRE.txt" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[File_TXT_Destination]"
+      DTS:CreationName="FILE"
+      DTS:DTSID="{5b8528d4-c909-4acd-9617-7e4fe919ad21}"
+      DTS:ObjectName="File_TXT_Destination">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:FileUsageType="2"
+          DTS:ConnectionString="\\P-IS-01\SSIS2017$\03 - Archivos\Internaciones Diario" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[File_TXT_PROVE_Source]"
+      DTS:CreationName="FILE"
+      DTS:DTSID="{ed166e5e-20d0-461a-9fb5-3008bae5dd19}"
+      DTS:ObjectName="File_TXT_PROVE_Source">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="\\host03\qdls\DWCONS\Consumo\PROVE.txt" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="2" />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Copia Archivo DESPPRE"
+      DTS:CreationName="Microsoft.FileSystemTask"
+      DTS:Description="File System Task"
+      DTS:DTSID="{3062ea25-df1a-494d-9298-c427b3056f42}"
+      DTS:ExecutableType="Microsoft.FileSystemTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Copia Archivo DESPPRE"
+      DTS:TaskContact="File System Task;Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <FileSystemData
+          TaskOverwriteDestFile="True"
+          TaskSourcePath="{d1bd560c-4612-4602-b9bf-f0f86ad93abb}"
+          TaskDestinationPath="{5b8528d4-c909-4acd-9617-7e4fe919ad21}" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Copia Archivo PROVE"
+      DTS:CreationName="Microsoft.FileSystemTask"
+      DTS:Description="File System Task"
+      DTS:DTSID="{463fe57f-d0f8-4455-ade5-69106aafa6ae}"
+      DTS:ExecutableType="Microsoft.FileSystemTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Copia Archivo PROVE"
+      DTS:TaskContact="File System Task;Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <FileSystemData
+          TaskOverwriteDestFile="True"
+          TaskSourcePath="{ed166e5e-20d0-461a-9fb5-3008bae5dd19}"
+          TaskDestinationPath="{5b8528d4-c909-4acd-9617-7e4fe919ad21}" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\InternacionesDiario Actualizacion_Medianas_Y_Consumo_Futuro"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Execute Package Task"
+      DTS:DTSID="{ce4a9dfb-f0b6-4c3f-9bd4-63f70ac92244}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="InternacionesDiario Actualizacion_Medianas_Y_Consumo_Futuro"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>InternacionesDiario Actualizacion_Medianas_Y_Consumo_Futuro.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\InternacionesDiario H_AINTERNA_INTERNACIONES"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Execute Package Task"
+      DTS:DTSID="{347c740d-4ff4-45a0-a3e0-881b1726a05c}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="InternacionesDiario H_AINTERNA_INTERNACIONES"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>InternacionesDiario H_AINTERNA_INTERNACIONES.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\InternacionesDiario H_INTERNACIONES_CARLOS"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Execute Package Task"
+      DTS:DTSID="{5f8c5d5e-346e-44ec-9304-742c58429c5f}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="InternacionesDiario H_INTERNACIONES_CARLOS"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>InternacionesDiario H_INTERNACIONES_CARLOS.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\InternacionesDiario H_PRORROGAS_INTERNACIONES"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Execute Package Task"
+      DTS:DTSID="{bc3f5845-998a-46e4-8827-626b9ceea215}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="InternacionesDiario H_PRORROGAS_INTERNACIONES"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>InternacionesDiario H_PRORROGAS_INTERNACIONES.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\InternacionesDiario H_VISITAS_INTERNACIONES"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Execute Package Task"
+      DTS:DTSID="{f5c57b23-c15c-4441-9596-1dfecf7994e0}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="InternacionesDiario H_VISITAS_INTERNACIONES"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>InternacionesDiario H_VISITAS_INTERNACIONES.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\InternacionesDiario SSIS_Internaciones_Calculo_Dias_Int"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Execute Package Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{3b70eba6-b78b-41e0-a31c-536141785263}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="InternacionesDiario SSIS_Internaciones_Calculo_Dias_Int"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>InternacionesDiario SSIS_Internaciones_Calculo_Dias_Int.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\InternacionesDiario SSIS_Internaciones_Costo_CIE10"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Execute Package Task"
+      DTS:DTSID="{e45db8e4-c0d7-4923-9c4d-9fa503cba7a7}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="InternacionesDiario SSIS_Internaciones_Costo_CIE10"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>InternacionesDiario SSIS_Internaciones_Costo_CIE10.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Tablas de Dimensión"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{F6EEE7B2-DAB5-4814-B1F6-CC03DB5CF93F}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Tablas de Dimensión">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Tablas de Dimensión\InternacionesDiario D_ACREEDOR"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{f0d9a1fd-0a88-47ec-b412-446a44f06dc3}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="InternacionesDiario D_ACREEDOR"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>InternacionesDiario D_ACREEDOR.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Tablas de Dimensión\InternacionesDiario D_CATEGORIA"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{59c58aa9-888c-414d-9e86-7d74e146f82f}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="InternacionesDiario D_CATEGORIA"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>InternacionesDiario D_CATEGORIA.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Tablas de Dimensión\InternacionesDiario D_CATEGORIA_USUARIO"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{8A931B64-D0A4-43C4-80A3-7DB7517BD71C}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="InternacionesDiario D_CATEGORIA_USUARIO"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>InternacionesDiario D_CATEGORIA_USUARIO.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Tablas de Dimensión\InternacionesDiario D_DIAGNOSTICO"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{b33bc2e5-b107-4646-951e-7743ab89fcb9}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="InternacionesDiario D_DIAGNOSTICO"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>InternacionesDiario D_DIAGNOSTICO.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Tablas de Dimensión\InternacionesDiario D_ESPECIALIDADES"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{faff46d1-bc52-494d-a1f7-d0e869e8cd36}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="InternacionesDiario D_ESPECIALIDADES"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>InternacionesDiario D_ESPECIALIDADES.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Tablas de Dimensión\InternacionesDiario D_NO_FACTURADOR"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{c7839880-92e7-45f2-9fba-c7f1dcdbd8b1}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="InternacionesDiario D_NO_FACTURADOR"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>InternacionesDiario D_NO_FACTURADOR.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Tablas de Dimensión\InternacionesDiario D_PRESTADOR_ESPECIALIDAD"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{09a4c7a8-def4-4769-b9c7-5b17ebe758a1}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="InternacionesDiario D_PRESTADOR_ESPECIALIDAD"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>InternacionesDiario D_PRESTADOR_ESPECIALIDAD.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Tablas de Dimensión\InternacionesDiario D_PROFESIONAL"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{ec459f7f-6b09-43ea-8850-da9c6626c64d}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="InternacionesDiario D_PROFESIONAL"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>InternacionesDiario D_PROFESIONAL.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Tablas de Dimensión\InternacionesDiario D_PROF_PRESCRIBIENTE"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{43f041f3-0f24-4435-a516-6f848ccb3b00}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="InternacionesDiario D_PROF_PRESCRIBIENTE"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>InternacionesDiario D_PROF_PRESCRIBIENTE.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Tablas de Dimensión\InternacionesDiario D_PROVISION"
+          DTS:CreationName="Microsoft.ExecutePackageTask"
+          DTS:Description="Execute Package Task"
+          DTS:DTSID="{b72de035-e697-452c-8803-5876d7951e22}"
+          DTS:ExecutableType="Microsoft.ExecutePackageTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="InternacionesDiario D_PROVISION"
+          DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:LoggingOptions
+            DTS:FilterKind="0" />
+          <DTS:ObjectData>
+            <ExecutePackageTask>
+              <UseProjectReference>True</UseProjectReference>
+              <PackageName>InternacionesDiario D_PROVISION.dtsx</PackageName>
+            </ExecutePackageTask>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Tablas de Dimensión.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{9C2A930E-60AD-44F5-922E-DF709A9F8FA5}"
+          DTS:From="Package\Tablas de Dimensión\InternacionesDiario D_ACREEDOR"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\Tablas de Dimensión\InternacionesDiario D_PROF_PRESCRIBIENTE" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Tablas de Dimensión.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{11D734A3-94BE-4BF4-98D1-16B92CEBF63E}"
+          DTS:From="Package\Tablas de Dimensión\InternacionesDiario D_PROF_PRESCRIBIENTE"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\Tablas de Dimensión\InternacionesDiario D_NO_FACTURADOR" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Tablas de Dimensión.PrecedenceConstraints[Constraint 2]"
+          DTS:CreationName=""
+          DTS:DTSID="{FE253769-993A-409A-92CB-48998B2CBF55}"
+          DTS:From="Package\Tablas de Dimensión\InternacionesDiario D_NO_FACTURADOR"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 2"
+          DTS:To="Package\Tablas de Dimensión\InternacionesDiario D_PROFESIONAL" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{9D880CEC-6C92-4F04-9BA9-A14F700F129F}"
+      DTS:From="Package\InternacionesDiario SSIS_Internaciones_Calculo_Dias_Int"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\InternacionesDiario Actualizacion_Medianas_Y_Consumo_Futuro" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 10]"
+      DTS:CreationName=""
+      DTS:DTSID="{EC073388-4038-49AE-8ED0-D8FE50C6BB57}"
+      DTS:From="Package\InternacionesDiario SSIS_Internaciones_Costo_CIE10"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 10"
+      DTS:To="Package\InternacionesDiario SSIS_Internaciones_Calculo_Dias_Int" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{ED36E41F-3242-4BDD-AD70-788CDDE77678}"
+      DTS:From="Package\InternacionesDiario H_INTERNACIONES_CARLOS"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\InternacionesDiario SSIS_Internaciones_Costo_CIE10" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
+      DTS:CreationName=""
+      DTS:DTSID="{AAF44739-B5BE-4D02-9A1A-21BC17BD1EDE}"
+      DTS:From="Package\Tablas de Dimensión"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 4"
+      DTS:To="Package\InternacionesDiario H_AINTERNA_INTERNACIONES" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 6]"
+      DTS:CreationName=""
+      DTS:DTSID="{EAEBD00B-5E23-4482-8C1F-6FF96F3C2508}"
+      DTS:From="Package\InternacionesDiario H_PRORROGAS_INTERNACIONES"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 6"
+      DTS:To="Package\InternacionesDiario H_VISITAS_INTERNACIONES" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 7]"
+      DTS:CreationName=""
+      DTS:DTSID="{4BED2F52-C7E6-45F8-A68F-779AA6427482}"
+      DTS:From="Package\InternacionesDiario H_VISITAS_INTERNACIONES"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 7"
+      DTS:To="Package\InternacionesDiario H_INTERNACIONES_CARLOS" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 8]"
+      DTS:CreationName=""
+      DTS:DTSID="{8CD53544-F4F9-4452-8A22-9544A284E6F9}"
+      DTS:From="Package\InternacionesDiario H_AINTERNA_INTERNACIONES"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 8"
+      DTS:To="Package\InternacionesDiario H_PRORROGAS_INTERNACIONES" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Restricción]"
+      DTS:CreationName=""
+      DTS:DTSID="{7C7467AE-4267-4719-A68B-EA10F6F7EABF}"
+      DTS:From="Package\Copia Archivo DESPPRE"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Restricción"
+      DTS:To="Package\Tablas de Dimensión" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Restricción 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{9DA1407D-9002-4EEA-B776-0690851E8A80}"
+      DTS:From="Package\Copia Archivo PROVE"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Restricción 1"
+      DTS:To="Package\Tablas de Dimensión" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--Esta sección CDATA contiene la información de diseño del paquete. Esta sección incluye información como, por ejemplo, las coordenadas (x,y), el ancho y el alto.-->
+<!--Si edita manualmente esta sección y comete un error, puede eliminarlo. -->
+<!--El paquete podrá cargarse normalmente, pero se perderá la información de diseño anterior y el diseñador reorganizará los elementos automáticamente en la superficie de diseño.-->
+<Objects
+  Version="8">
+  <!--Cada uno de los nodos siguientes contiene propiedades que no afectan al comportamiento en tiempo de ejecución.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="64" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="203,42"
+          Id="Package\Copia Archivo DESPPRE"
+          TopLeft="286.593481989708,37.3962264150944" />
+        <NodeLayout
+          Size="189,42"
+          Id="Package\Copia Archivo PROVE"
+          TopLeft="70.5934819897084,35.6226415094339" />
+        <NodeLayout
+          Size="400,42"
+          Id="Package\InternacionesDiario Actualizacion_Medianas_Y_Consumo_Futuro"
+          TopLeft="70.4059819897083,759.471698113208" />
+        <NodeLayout
+          Size="343,42"
+          Id="Package\InternacionesDiario H_AINTERNA_INTERNACIONES"
+          TopLeft="94.9059819897083,227.264150943396" />
+        <NodeLayout
+          Size="333,42"
+          Id="Package\InternacionesDiario H_INTERNACIONES_CARLOS"
+          TopLeft="103.905981989708,495.382749326146" />
+        <NodeLayout
+          Size="359,42"
+          Id="Package\InternacionesDiario H_PRORROGAS_INTERNACIONES"
+          TopLeft="90.9059819897083,319.323450134771" />
+        <NodeLayout
+          Size="330,42"
+          Id="Package\InternacionesDiario H_VISITAS_INTERNACIONES"
+          TopLeft="105.405981989708,407.353099730458" />
+        <NodeLayout
+          Size="363,42"
+          Id="Package\InternacionesDiario SSIS_Internaciones_Calculo_Dias_Int"
+          TopLeft="88.9059819897083,671.442048517521" />
+        <NodeLayout
+          Size="346,42"
+          Id="Package\InternacionesDiario SSIS_Internaciones_Costo_CIE10"
+          TopLeft="97.4059819897083,583.412398921833" />
+        <NodeLayout
+          Size="253,42"
+          Id="Package\Tablas de Dimensión\InternacionesDiario D_ACREEDOR"
+          TopLeft="49.4544025157234,33.0754716981132" />
+        <NodeLayout
+          Size="256,42"
+          Id="Package\Tablas de Dimensión\InternacionesDiario D_CATEGORIA"
+          TopLeft="411.635797836859,88" />
+        <NodeLayout
+          Size="312,42"
+          Id="Package\Tablas de Dimensión\InternacionesDiario D_CATEGORIA_USUARIO"
+          TopLeft="383.635797836859,346.691823899371" />
+        <NodeLayout
+          Size="268,42"
+          Id="Package\Tablas de Dimensión\InternacionesDiario D_DIAGNOSTICO"
+          TopLeft="405.635797836859,204.293800539083" />
+        <NodeLayout
+          Size="286,42"
+          Id="Package\Tablas de Dimensión\InternacionesDiario D_ESPECIALIDADES"
+          TopLeft="396.635797836859,24" />
+        <NodeLayout
+          Size="290,42"
+          Id="Package\Tablas de Dimensión\InternacionesDiario D_NO_FACTURADOR"
+          TopLeft="30.9544025157234,196.322012578616" />
+        <NodeLayout
+          Size="345,42"
+          Id="Package\Tablas de Dimensión\InternacionesDiario D_PRESTADOR_ESPECIALIDAD"
+          TopLeft="367.135797836859,273.56855345912" />
+        <NodeLayout
+          Size="316,42"
+          Id="Package\Tablas de Dimensión\InternacionesDiario D_PROF_PRESCRIBIENTE"
+          TopLeft="21.9544025157234,109.198742138365" />
+        <NodeLayout
+          Size="269,42"
+          Id="Package\Tablas de Dimensión\InternacionesDiario D_PROFESIONAL"
+          TopLeft="42.4544025157234,283.445283018868" />
+        <NodeLayout
+          Size="252,42"
+          Id="Package\Tablas de Dimensión\InternacionesDiario D_PROVISION"
+          TopLeft="413.635797836859,139" />
+        <EdgeLayout
+          Id="Package\Tablas de Dimensión.PrecedenceConstraints[Constraint]"
+          TopLeft="177.954402515723,75.0754716981132">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,34.1232704402518"
+              Start="0,0"
+              End="0,26.6232704402518">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26.6232704402518" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Tablas de Dimensión.PrecedenceConstraints[Constraint 1]"
+          TopLeft="177.954402515723,151.198742138365">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,45.1232704402511"
+              Start="0,0"
+              End="0,37.6232704402511">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,37.6232704402511" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Tablas de Dimensión.PrecedenceConstraints[Constraint 2]"
+          TopLeft="176.454402515723,238.322012578616">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,45.1232704402519"
+              Start="0,0"
+              End="0,37.6232704402519">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,37.6232704402519" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <AnnotationLayout
+          Text="estos paquetes corren en secuencia porque&#xA;toman el mismo TXT. Los demas pueden &#xA;hacerlo en paralelo."
+          ParentId="Package\Tablas de Dimensión"
+          FontInfo="{assembly:Null}"
+          Size="258,NaN"
+          Id="7f2df25e-0fb4-48c1-8e5c-838662ebda29"
+          TopLeft="51,340" />
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="False"
+          PanelSize="771,493"
+          Size="205,43"
+          Id="Package\Tablas de Dimensión"
+          TopLeft="163,145" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="270.405981989708,713.442048517521">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,46.0296495956875"
+              Start="0,0"
+              End="0,38.5296495956875">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,38.5296495956875" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 10]"
+          TopLeft="270.405981989708,625.412398921833">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,46.0296495956881"
+              Start="0,0"
+              End="0,38.5296495956881">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,38.5296495956881" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="270.405981989708,537.382749326146">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,46.0296495956869"
+              Start="0,0"
+              End="0,38.5296495956869">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,38.5296495956869" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="265.952990994854,188">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,39.264150943396"
+              Start="0,0"
+              End="0,31.764150943396">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.764150943396" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 6]"
+          TopLeft="270.405981989708,361.323450134771">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,46.0296495956874"
+              Start="0,0"
+              End="0,38.5296495956874">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,38.5296495956874" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 7]"
+          TopLeft="270.405981989708,449.353099730458">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,46.0296495956874"
+              Start="0,0"
+              End="0,38.5296495956874">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,38.5296495956874" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 8]"
+          TopLeft="268.405981989708,269.264150943396">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,50.059299191375"
+              Start="0,0"
+              End="0,42.559299191375">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,42.559299191375" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Restricción]"
+          TopLeft="388.093481989708,79.3962264150944">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-89.7601486563747,65.6037735849056"
+              Start="0,0"
+              End="-89.7601486563747,58.1037735849056">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,35.0574257064056" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,35.0574257064056"
+                    Point2="0,39.0574257064056"
+                    Point3="-4,39.0574257064056" />
+                  <mssgle:LineSegment
+                    End="-85.7601486563747,39.0574257064056" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-85.7601486563747,39.0574257064056"
+                    Point2="-89.7601486563747,39.0574257064056"
+                    Point3="-89.7601486563747,43.0574257064056" />
+                  <mssgle:LineSegment
+                    End="-89.7601486563747,58.1037735849056" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Restricción 1]"
+          TopLeft="165.093481989708,77.6226415094339">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="67.5731846769583,67.3773584905661"
+              Start="0,0"
+              End="67.5731846769583,59.8773584905661">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,36.1133354033864" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,36.1133354033864"
+                    Point2="0,40.1133354033864"
+                    Point3="4,40.1133354033864" />
+                  <mssgle:LineSegment
+                    End="63.5731846769583,40.1133354033864" />
+                  <mssgle:CubicBezierSegment
+                    Point1="63.5731846769583,40.1133354033864"
+                    Point2="67.5731846769583,40.1133354033864"
+                    Point3="67.5731846769583,44.1133354033864" />
+                  <mssgle:LineSegment
+                    End="67.5731846769583,59.8773584905661" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

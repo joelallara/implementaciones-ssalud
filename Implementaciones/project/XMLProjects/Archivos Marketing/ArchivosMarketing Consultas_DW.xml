@@ -1,0 +1,102 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="4/9/2012 1:54:33 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AMS16"
+  DTS:CreatorName="AMS\adminb"
+  DTS:DTSID="{C8F0F776-EB1C-427A-AADB-FE19C3A58507}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="ArchivosMarketing Consultas_DW"
+  DTS:PackageType="5"
+  DTS:VersionBuild="23"
+  DTS:VersionGUID="{E94BBE76-2212-4322-8808-4987D4F26C90}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{8FD82B77-0ABE-48A3-B967-CAB0298A5556}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">1,7,OnError</DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnError"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{8FD82B77-0ABE-48A3-B967-CAB0298A5556}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Borro y Lleno Tablas"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{CEC9EB59-6D31-483C-A643-523F796B904F}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Borro y Lleno Tablas"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{B2E6C790-000D-4331-AC48-64749D58BF6E}"
+          SQLTask:BypassPrepare="False"
+          SQLTask:SqlStatementSource="-- Arma Tablas Base de Datos CONSULTAS_DW&#xA;USE CONSULTAS_DW&#xA;&#xA;DELETE FROM CONSULTAS_DW.dbo.H_ALTAS_GENUINAS&#xA;DELETE FROM CONSULTAS_DW.dbo.H_BAJAS_GENUINAS&#xA;DELETE FROM CONSULTAS_DW.dbo.H_COMER_CAMBIO_PLAN_CAB&#xA;&#xA;GO&#xA;INSERT INTO CONSULTAS_DW.dbo.H_ALTAS_GENUINAS&#xA;(id_periodo, id_persona, afiliado, subnumero, secuencia, id_producto, id_subproducto, id_plan_producto, edad_periodo, id_promotor, id_datero, id_supervisor, id_entidad, id_jefe_equipo, id_comercializadora, id_cobertura, comer_remun_afiliado, id_categoria, fecha_inicio_serv, fecha_ingreso_Sancor_Salud, subgrupo_plan, id_nro_tambo, id_tipo_alta, comer_cant_altas_genuina, fecha_suscripcion, id_reingreso, char_fecha_patologia_preexistente, fecha_patologia_preexistente, grilla, fecha_ingreso_segmento_comercial, ID_Caida_OS, id_os_proveniente, Fecha_Ingreso_Empresa)&#xA;SELECT id_periodo, id_persona, afiliado, subnumero, secuencia, id_producto, id_subproducto, id_plan_producto, edad_periodo, id_promotor, id_datero, id_supervisor, id_entidad, id_jefe_equipo, id_comercializadora, id_cobertura, comer_remun_afiliado, id_categoria, fecha_inicio_serv, fecha_ingreso_Sancor_Salud, subgrupo_plan, id_nro_tambo, id_tipo_alta, comer_cant_altas_genuina, fecha_suscripcion, id_reingreso, char_fecha_patologia_preexistente, fecha_patologia_preexistente, grilla, fecha_ingreso_segmento_comercial, ID_Caida_OS, id_os_proveniente, Fecha_Ingreso_Empresa&#xA;FROM DW_SALUD.dbo.H_ALTAS_GENUINAS Where id_periodo in (Select Id_Periodo_Anterior FROM DW_SALUD.dbo.TRANS_PERIODO WHERE ID_Periodo in (Select MAX(ID_PERIODO) FROM DW_SALUD.dbo.D_PERIODO WHERE vigente_comercial = 1))&#xA;&#xA;INSERT INTO CONSULTAS_DW.dbo.H_BAJAS_GENUINAS&#xA;(id_periodo, id_persona, afiliado, subnumero, secuencia, id_producto, id_subproducto, id_plan_producto, edad_periodo, id_promotor, id_datero, id_supervisor, id_entidad, id_jefe_equipo, id_comercializadora, id_motivo_baja, id_cobertura, comer_remun_afiliado, id_categoria, fecha_inicio_serv, fecha_ingreso_Sancor_Salud, fecha_cierre, id_nro_tambo, subgrupo_plan, comer_cant_bajas_genuina, fecha_suscripcion, id_reingreso, char_fecha_patologia_preexistente, fecha_patologia_preexistente, grilla, fecha_periodo_actual, fecha_ingreso_segmento_comercial, id_submotivo_baja, id_otra_cobertura, id_os_destino, id_os_proveniente, Fecha_Ingreso_Empresa)&#xA;SELECT id_periodo, id_persona, afiliado, subnumero, secuencia, id_producto, id_subproducto, id_plan_producto, edad_periodo, id_promotor, id_datero, id_supervisor, id_entidad, id_jefe_equipo, id_comercializadora, id_motivo_baja, id_cobertura, comer_remun_afiliado, id_categoria, fecha_inicio_serv, fecha_ingreso_Sancor_Salud, fecha_cierre, id_nro_tambo, subgrupo_plan, comer_cant_bajas_genuina, fecha_suscripcion, id_reingreso, char_fecha_patologia_preexistente, fecha_patologia_preexistente, grilla, fecha_periodo_actual, fecha_ingreso_segmento_comercial, id_submotivo_baja, id_otra_cobertura, id_os_destino, id_os_proveniente, Fecha_Ingreso_Empresa&#xA;FROM DW_SALUD.dbo.H_BAJAS_GENUINAS Where id_periodo in (Select MAX(Id_PERIODO) FROM DW_SALUD.dbo.D_PERIODO WHERE vigente_comercial = 1)&#xA;&#xA;INSERT INTO CONSULTAS_DW.dbo.H_COMER_CAMBIO_PLAN_CAB&#xA;([id_periodo], [id_persona], [afiliado], [subnumero], [secuencia], [id_producto], [id_subproducto], [id_plan_producto], [comer_cant_cambio_plan], [fecha_suscripcion], [id_reingreso], [fecha_inicio_serv], [fecha_ingreso_Sancor_Salud], [char_fecha_patologia_preexistente], [fecha_patologia_preexistente], [edad_periodo], [id_promotor], [id_datero], [id_supervisor], [id_entidad], [id_jefe_equipo], [id_cobertura],  [id_categoria], [id_nro_tambo], [subgrupo_plan], [id_comercializadora], [grilla], fecha_ingreso_segmento_comercial, [id_os_proveniente])&#xA;SELECT [id_periodo], [id_persona], [afiliado], [subnumero], [secuencia], [id_producto], [id_subproducto], [id_plan_producto], [comer_cant_cambio_plan], [fecha_suscripcion], [id_reingreso], [fecha_inicio_serv], [fecha_ingreso_Sancor_Salud], [char_fecha_patologia_preexistente], [fecha_patologia_preexistente], [edad_periodo], [id_promotor], [id_datero], [id_supervisor], [id_entidad], [id_jefe_equipo], [id_cobertura],  [id_categoria], [id_nro_tambo], [subgrupo_plan], [id_comercializadora], [grilla], fecha_ingreso_segmento_comercial, [id_os_proveniente]&#xA;FROM DW_SALUD.dbo.H_COMER_CAMBIO_PLAN_CAB&#xA;Where id_periodo in (Select MAX(Id_PERIODO) FROM DW_SALUD.dbo.D_PERIODO WHERE vigente_comercial = 1)&#xA;&#xA;&#xA;--INSERT INTO CONSULTAS_DW.dbo.H_AFI_EMP_DET SELECT * FROM DW_SALUD.dbo.H_AFI_EMP_DET WHere id_periodo in (Select MAX(Id_PERIODO) FROM DW_SALUD.dbo.D_PERIODO WHERE vigente_comercial = 1)&#xA;--INSERT INTO CONSULTAS_DW.dbo.H_AFI_EMP_TOT SELECT * FROM DW_SALUD.dbo.H_AFI_EMP_TOT WHere id_periodo in (Select MAX(Id_PERIODO) FROM DW_SALUD.dbo.D_PERIODO WHERE vigente_comercial = 1)&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="180,42"
+          Id="Package\Borro y Lleno Tablas"
+          TopLeft="5.5,5.5" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

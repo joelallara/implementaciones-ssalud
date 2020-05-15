@@ -1,0 +1,1339 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="2/5/2020 1:09:57 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="DES6103"
+  DTS:CreatorName="AMS\jallara"
+  DTS:DTSID="{5F35C622-3F26-493B-8523-DB5D6A6602CE}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="Indicadores Satisfaccion Atención - H_INDICADORES_SATISFACCION_ATECION_COMPANIA"
+  DTS:PackageType="5"
+  DTS:VersionBuild="27"
+  DTS:VersionGUID="{112799D1-C439-442E-BB30-EDDB60D2C1F4}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Excel Connection Manager]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{DA09CDF0-5947-4D1B-AE6A-EF28CE7C3BF0}"
+      DTS:ObjectName="Excel Connection Manager">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=\\P-IS-01\SSIS2017$\03 - Archivos\Indicadores Satisfaccion Atención\Evolución Indicadores (Por compañía).xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[File_XLS_Evolución Indicadores (Por compañía)_Source]"
+      DTS:CreationName="FILE"
+      DTS:DTSID="{4F94AF78-E7D8-4570-9D35-68A724F1D8F8}"
+      DTS:ObjectName="File_XLS_Evolución Indicadores (Por compañía)_Source">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="\\P-IS-01\SSIS2017$\03 - Archivos\Indicadores Satisfaccion Atención\Evolución Indicadores (Por compañía).xlsx" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{E37D049F-A2EC-488E-9BD9-485211115E3E}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;\\\\P-IS-01\\SSIS2017$\\03 - Archivos\\Indicadores Satisfaccion Atención\\Historico\\&quot; + (DT_WSTR, 8)  @[User::V_Periodo]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="V_Nombre_Carpeta">
+      <DTS:VariableValue
+        DTS:DataType="8">\\P-IS-01\SSIS2017$\03 - Archivos\Indicadores Satisfaccion Atención\Historico\0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{64478055-55AA-4536-A82E-534900B5BD6C}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="V_Periodo">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza AUX_H_INDICADORES_SATISFACCION_ATENCION_COMPANIA"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tarea Ejecutar SQL"
+      DTS:DTSID="{C39E8552-097B-499B-8DF0-55806D2B893F}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza AUX_H_INDICADORES_SATISFACCION_ATENCION_COMPANIA"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{D6599137-CCBF-4514-91C7-654663DB4FD7}"
+          SQLTask:SqlStatementSource="--Actualiza cant_envios_encuestas_satisfaccion NULL a 0&#xA;UPDATE AUX_H_INDICADORES_SATISFACCION_ATENCION_COMPANIA&#xA;SET cant_envios_encuestas_satisfaccion = 0&#xA;WHERE cant_envios_encuestas_satisfaccion IS NULL&#xA;&#xA;&#xA;--Actualiza numeradores NULL a 0&#xA;UPDATE AUX_H_INDICADORES_SATISFACCION_ATENCION_COMPANIA&#xA;SET numerador = 0&#xA;WHERE numerador IS NULL&#xA;&#xA;&#xA;--Actualiza denominadores NULL a 0&#xA;UPDATE AUX_H_INDICADORES_SATISFACCION_ATENCION_COMPANIA&#xA;SET denominador = 0&#xA;WHERE denominador IS NULL&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Borra AUX_H_INDICADORES_SATISFACCION_ATENCION_COMPANIA"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tarea Ejecutar SQL"
+      DTS:DTSID="{CE52ED4D-2BCF-425C-A4F0-40DDF572875E}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Borra AUX_H_INDICADORES_SATISFACCION_ATENCION_COMPANIA"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{D6599137-CCBF-4514-91C7-654663DB4FD7}"
+          SQLTask:SqlStatementSource="DELETE FROM AUX_H_INDICADORES_SATISFACCION_ATENCION_COMPANIA" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Copia XLS Evolución Indicadores (Por compañía) a Historico"
+      DTS:CreationName="Microsoft.FileSystemTask"
+      DTS:Description="Tarea Sistema de archivos"
+      DTS:DTSID="{3e3b912d-b2b0-4a99-850d-f8776034b774}"
+      DTS:ExecutableType="Microsoft.FileSystemTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Copia XLS Evolución Indicadores (Por compañía) a Historico"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <FileSystemData
+          TaskOverwriteDestFile="True"
+          TaskSourcePath="{4F94AF78-E7D8-4570-9D35-68A724F1D8F8}"
+          TaskDestinationPath="User::V_Nombre_Carpeta"
+          TaskIsDestinationVariable="True" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Crear Carpeta"
+      DTS:CreationName="Microsoft.FileSystemTask"
+      DTS:Description="Tarea Sistema de archivos"
+      DTS:DTSID="{6ddc3354-83a0-4ef2-a855-9e8738410de4}"
+      DTS:ExecutableType="Microsoft.FileSystemTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Crear Carpeta"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <FileSystemData
+          TaskOperationType="CreateDirectory"
+          TaskOverwriteDestFile="True"
+          TaskSourcePath="User::V_Nombre_Carpeta"
+          TaskIsSourceVariable="True" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Data Flow Evolución Compañia Contacto"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:DelayValidation="True"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{DCB0A821-B3D5-4D0B-AAB3-0E67CA60BEBD}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Data Flow Evolución Compañia Contacto"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Data Flow Evolución Compañia Contacto\Excel Source"
+              componentClassID="Microsoft.ExcelSource"
+              contactInfo="Excel Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Excel Source"
+              name="Excel Source"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">Contacto$A6:H</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT *
+FROM [Contacto$A6:H]
+WHERE Compañía is not null</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mapping from parameters in the SQL command to variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Evolución Compañia Contacto\Excel Source.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Excel Connection Manager]"
+                  connectionManagerRefId="Package.ConnectionManagers[Excel Connection Manager]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Evolución Compañia Contacto\Excel Source.Outputs[Excel Source Output]"
+                  name="Excel Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Evolución Compañia Contacto\Excel Source.Outputs[Excel Source Output].Columns[Compañía]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Evolución Compañia Contacto\Excel Source.Outputs[Excel Source Output].ExternalColumns[Compañía]"
+                      lineageId="Package\Data Flow Evolución Compañia Contacto\Excel Source.Outputs[Excel Source Output].Columns[Compañía]"
+                      name="Compañía"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Evolución Compañia Contacto\Excel Source.Outputs[Excel Source Output].Columns[Período]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Evolución Compañia Contacto\Excel Source.Outputs[Excel Source Output].ExternalColumns[Período]"
+                      lineageId="Package\Data Flow Evolución Compañia Contacto\Excel Source.Outputs[Excel Source Output].Columns[Período]"
+                      name="Período"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Evolución Compañia Contacto\Excel Source.Outputs[Excel Source Output].Columns[Cantidad de envíos]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Evolución Compañia Contacto\Excel Source.Outputs[Excel Source Output].ExternalColumns[Cantidad de envíos]"
+                      lineageId="Package\Data Flow Evolución Compañia Contacto\Excel Source.Outputs[Excel Source Output].Columns[Cantidad de envíos]"
+                      name="Cantidad de envíos"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Evolución Compañia Contacto\Excel Source.Outputs[Excel Source Output].Columns[Numerador]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Evolución Compañia Contacto\Excel Source.Outputs[Excel Source Output].ExternalColumns[Numerador]"
+                      lineageId="Package\Data Flow Evolución Compañia Contacto\Excel Source.Outputs[Excel Source Output].Columns[Numerador]"
+                      name="Numerador"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Evolución Compañia Contacto\Excel Source.Outputs[Excel Source Output].Columns[Denominador]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Evolución Compañia Contacto\Excel Source.Outputs[Excel Source Output].ExternalColumns[Denominador]"
+                      lineageId="Package\Data Flow Evolución Compañia Contacto\Excel Source.Outputs[Excel Source Output].Columns[Denominador]"
+                      name="Denominador"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Evolución Compañia Contacto\Excel Source.Outputs[Excel Source Output].Columns[ID Indicador]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Evolución Compañia Contacto\Excel Source.Outputs[Excel Source Output].ExternalColumns[ID Indicador]"
+                      lineageId="Package\Data Flow Evolución Compañia Contacto\Excel Source.Outputs[Excel Source Output].Columns[ID Indicador]"
+                      name="ID Indicador"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Evolución Compañia Contacto\Excel Source.Outputs[Excel Source Output].ExternalColumns[Compañía]"
+                      dataType="r8"
+                      name="Compañía" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Evolución Compañia Contacto\Excel Source.Outputs[Excel Source Output].ExternalColumns[Período]"
+                      dataType="r8"
+                      name="Período" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Evolución Compañia Contacto\Excel Source.Outputs[Excel Source Output].ExternalColumns[Cantidad de envíos]"
+                      dataType="r8"
+                      name="Cantidad de envíos" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Evolución Compañia Contacto\Excel Source.Outputs[Excel Source Output].ExternalColumns[Indicador]"
+                      dataType="wstr"
+                      length="255"
+                      name="Indicador" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Evolución Compañia Contacto\Excel Source.Outputs[Excel Source Output].ExternalColumns[Numerador]"
+                      dataType="r8"
+                      name="Numerador" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Evolución Compañia Contacto\Excel Source.Outputs[Excel Source Output].ExternalColumns[Denominador]"
+                      dataType="r8"
+                      name="Denominador" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Evolución Compañia Contacto\Excel Source.Outputs[Excel Source Output].ExternalColumns[Valor]"
+                      dataType="r8"
+                      name="Valor" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Evolución Compañia Contacto\Excel Source.Outputs[Excel Source Output].ExternalColumns[ID Indicador]"
+                      dataType="r8"
+                      name="ID Indicador" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Data Flow Evolución Compañia Contacto\Excel Source.Outputs[Excel Source Error Output]"
+                  isErrorOut="true"
+                  name="Excel Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Evolución Compañia Contacto\Excel Source.Outputs[Excel Source Error Output].Columns[Compañía]"
+                      dataType="r8"
+                      lineageId="Package\Data Flow Evolución Compañia Contacto\Excel Source.Outputs[Excel Source Error Output].Columns[Compañía]"
+                      name="Compañía" />
+                    <outputColumn
+                      refId="Package\Data Flow Evolución Compañia Contacto\Excel Source.Outputs[Excel Source Error Output].Columns[Período]"
+                      dataType="r8"
+                      lineageId="Package\Data Flow Evolución Compañia Contacto\Excel Source.Outputs[Excel Source Error Output].Columns[Período]"
+                      name="Período" />
+                    <outputColumn
+                      refId="Package\Data Flow Evolución Compañia Contacto\Excel Source.Outputs[Excel Source Error Output].Columns[Cantidad de envíos]"
+                      dataType="r8"
+                      lineageId="Package\Data Flow Evolución Compañia Contacto\Excel Source.Outputs[Excel Source Error Output].Columns[Cantidad de envíos]"
+                      name="Cantidad de envíos" />
+                    <outputColumn
+                      refId="Package\Data Flow Evolución Compañia Contacto\Excel Source.Outputs[Excel Source Error Output].Columns[ID Indicador]"
+                      dataType="r8"
+                      lineageId="Package\Data Flow Evolución Compañia Contacto\Excel Source.Outputs[Excel Source Error Output].Columns[ID Indicador]"
+                      name="ID Indicador" />
+                    <outputColumn
+                      refId="Package\Data Flow Evolución Compañia Contacto\Excel Source.Outputs[Excel Source Error Output].Columns[Numerador]"
+                      dataType="r8"
+                      lineageId="Package\Data Flow Evolución Compañia Contacto\Excel Source.Outputs[Excel Source Error Output].Columns[Numerador]"
+                      name="Numerador" />
+                    <outputColumn
+                      refId="Package\Data Flow Evolución Compañia Contacto\Excel Source.Outputs[Excel Source Error Output].Columns[Denominador]"
+                      dataType="r8"
+                      lineageId="Package\Data Flow Evolución Compañia Contacto\Excel Source.Outputs[Excel Source Error Output].Columns[Denominador]"
+                      name="Denominador" />
+                    <outputColumn
+                      refId="Package\Data Flow Evolución Compañia Contacto\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Evolución Compañia Contacto\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Evolución Compañia Contacto\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Evolución Compañia Contacto\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Evolución Compañia Contacto\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[AUX_H_INDICADORES_SATISFACCION_ATENCION_COMPANIA]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Evolución Compañia Contacto\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="{D6599137-CCBF-4514-91C7-654663DB4FD7}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DS_CONSULTAS_DW]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Data Flow Evolución Compañia Contacto\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Evolución Compañia Contacto\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Período]"
+                      cachedDataType="r8"
+                      cachedName="Período"
+                      externalMetadataColumnId="Package\Data Flow Evolución Compañia Contacto\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_periodo]"
+                      lineageId="Package\Data Flow Evolución Compañia Contacto\Excel Source.Outputs[Excel Source Output].Columns[Período]" />
+                    <inputColumn
+                      refId="Package\Data Flow Evolución Compañia Contacto\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Compañía]"
+                      cachedDataType="r8"
+                      cachedName="Compañía"
+                      externalMetadataColumnId="Package\Data Flow Evolución Compañia Contacto\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_compania]"
+                      lineageId="Package\Data Flow Evolución Compañia Contacto\Excel Source.Outputs[Excel Source Output].Columns[Compañía]" />
+                    <inputColumn
+                      refId="Package\Data Flow Evolución Compañia Contacto\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Cantidad de envíos]"
+                      cachedDataType="r8"
+                      cachedName="Cantidad de envíos"
+                      externalMetadataColumnId="Package\Data Flow Evolución Compañia Contacto\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[cant_envios_encuestas_satisfaccion]"
+                      lineageId="Package\Data Flow Evolución Compañia Contacto\Excel Source.Outputs[Excel Source Output].Columns[Cantidad de envíos]" />
+                    <inputColumn
+                      refId="Package\Data Flow Evolución Compañia Contacto\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Numerador]"
+                      cachedDataType="r8"
+                      cachedName="Numerador"
+                      externalMetadataColumnId="Package\Data Flow Evolución Compañia Contacto\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[numerador]"
+                      lineageId="Package\Data Flow Evolución Compañia Contacto\Excel Source.Outputs[Excel Source Output].Columns[Numerador]" />
+                    <inputColumn
+                      refId="Package\Data Flow Evolución Compañia Contacto\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Denominador]"
+                      cachedDataType="r8"
+                      cachedName="Denominador"
+                      externalMetadataColumnId="Package\Data Flow Evolución Compañia Contacto\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[denominador]"
+                      lineageId="Package\Data Flow Evolución Compañia Contacto\Excel Source.Outputs[Excel Source Output].Columns[Denominador]" />
+                    <inputColumn
+                      refId="Package\Data Flow Evolución Compañia Contacto\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ID Indicador]"
+                      cachedDataType="r8"
+                      cachedName="ID Indicador"
+                      externalMetadataColumnId="Package\Data Flow Evolución Compañia Contacto\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_indicador_satisfaccion_atencion]"
+                      lineageId="Package\Data Flow Evolución Compañia Contacto\Excel Source.Outputs[Excel Source Output].Columns[ID Indicador]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Evolución Compañia Contacto\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_periodo]"
+                      dataType="i4"
+                      name="id_periodo" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Evolución Compañia Contacto\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_compania]"
+                      dataType="ui1"
+                      name="id_compania" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Evolución Compañia Contacto\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_indicador_satisfaccion_atencion]"
+                      dataType="i4"
+                      name="id_indicador_satisfaccion_atencion" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Evolución Compañia Contacto\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[cant_envios_encuestas_satisfaccion]"
+                      dataType="i4"
+                      name="cant_envios_encuestas_satisfaccion" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Evolución Compañia Contacto\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[numerador]"
+                      dataType="i4"
+                      name="numerador" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Evolución Compañia Contacto\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[denominador]"
+                      dataType="i4"
+                      name="denominador" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Evolución Compañia Contacto\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Data Flow Evolución Compañia Contacto\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Evolución Compañia Contacto\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Evolución Compañia Contacto\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Evolución Compañia Contacto\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Evolución Compañia Contacto\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Data Flow Evolución Compañia Contacto.Paths[Excel Source Output]"
+              endId="Package\Data Flow Evolución Compañia Contacto\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="Excel Source Output"
+              startId="Package\Data Flow Evolución Compañia Contacto\Excel Source.Outputs[Excel Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Data Flow Evolución Compañia Stock"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:DelayValidation="True"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{bedcab3d-a3ac-493e-aa7e-a945548f3b99}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Data Flow Evolución Compañia Stock"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Data Flow Evolución Compañia Stock\Excel Source"
+              componentClassID="Microsoft.ExcelSource"
+              contactInfo="Excel Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Excel Source"
+              name="Excel Source"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">Stock$A6:H</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT *
+FROM [Stock$A6:H]
+WHERE Compañía is not null</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mapping from parameters in the SQL command to variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Evolución Compañia Stock\Excel Source.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Excel Connection Manager]"
+                  connectionManagerRefId="Package.ConnectionManagers[Excel Connection Manager]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Evolución Compañia Stock\Excel Source.Outputs[Excel Source Output]"
+                  name="Excel Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Evolución Compañia Stock\Excel Source.Outputs[Excel Source Output].Columns[Compañía]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Evolución Compañia Stock\Excel Source.Outputs[Excel Source Output].ExternalColumns[Compañía]"
+                      lineageId="Package\Data Flow Evolución Compañia Stock\Excel Source.Outputs[Excel Source Output].Columns[Compañía]"
+                      name="Compañía"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Evolución Compañia Stock\Excel Source.Outputs[Excel Source Output].Columns[Período]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Evolución Compañia Stock\Excel Source.Outputs[Excel Source Output].ExternalColumns[Período]"
+                      lineageId="Package\Data Flow Evolución Compañia Stock\Excel Source.Outputs[Excel Source Output].Columns[Período]"
+                      name="Período"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Evolución Compañia Stock\Excel Source.Outputs[Excel Source Output].Columns[Cantidad de envíos]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Evolución Compañia Stock\Excel Source.Outputs[Excel Source Output].ExternalColumns[Cantidad de envíos]"
+                      lineageId="Package\Data Flow Evolución Compañia Stock\Excel Source.Outputs[Excel Source Output].Columns[Cantidad de envíos]"
+                      name="Cantidad de envíos"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Evolución Compañia Stock\Excel Source.Outputs[Excel Source Output].Columns[Numerador]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Evolución Compañia Stock\Excel Source.Outputs[Excel Source Output].ExternalColumns[Numerador]"
+                      lineageId="Package\Data Flow Evolución Compañia Stock\Excel Source.Outputs[Excel Source Output].Columns[Numerador]"
+                      name="Numerador"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Evolución Compañia Stock\Excel Source.Outputs[Excel Source Output].Columns[Denominador]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Evolución Compañia Stock\Excel Source.Outputs[Excel Source Output].ExternalColumns[Denominador]"
+                      lineageId="Package\Data Flow Evolución Compañia Stock\Excel Source.Outputs[Excel Source Output].Columns[Denominador]"
+                      name="Denominador"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Data Flow Evolución Compañia Stock\Excel Source.Outputs[Excel Source Output].Columns[ID Indicador]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Evolución Compañia Stock\Excel Source.Outputs[Excel Source Output].ExternalColumns[ID Indicador]"
+                      lineageId="Package\Data Flow Evolución Compañia Stock\Excel Source.Outputs[Excel Source Output].Columns[ID Indicador]"
+                      name="ID Indicador"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Evolución Compañia Stock\Excel Source.Outputs[Excel Source Output].ExternalColumns[Compañía]"
+                      dataType="r8"
+                      name="Compañía" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Evolución Compañia Stock\Excel Source.Outputs[Excel Source Output].ExternalColumns[Período]"
+                      dataType="r8"
+                      name="Período" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Evolución Compañia Stock\Excel Source.Outputs[Excel Source Output].ExternalColumns[Cantidad de envíos]"
+                      dataType="r8"
+                      name="Cantidad de envíos" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Evolución Compañia Stock\Excel Source.Outputs[Excel Source Output].ExternalColumns[Indicador]"
+                      dataType="wstr"
+                      length="255"
+                      name="Indicador" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Evolución Compañia Stock\Excel Source.Outputs[Excel Source Output].ExternalColumns[Numerador]"
+                      dataType="r8"
+                      name="Numerador" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Evolución Compañia Stock\Excel Source.Outputs[Excel Source Output].ExternalColumns[Denominador]"
+                      dataType="r8"
+                      name="Denominador" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Evolución Compañia Stock\Excel Source.Outputs[Excel Source Output].ExternalColumns[Valor]"
+                      dataType="r8"
+                      name="Valor" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Evolución Compañia Stock\Excel Source.Outputs[Excel Source Output].ExternalColumns[ID Indicador]"
+                      dataType="r8"
+                      name="ID Indicador" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Data Flow Evolución Compañia Stock\Excel Source.Outputs[Excel Source Error Output]"
+                  isErrorOut="true"
+                  name="Excel Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Evolución Compañia Stock\Excel Source.Outputs[Excel Source Error Output].Columns[Compañía]"
+                      dataType="r8"
+                      lineageId="Package\Data Flow Evolución Compañia Stock\Excel Source.Outputs[Excel Source Error Output].Columns[Compañía]"
+                      name="Compañía" />
+                    <outputColumn
+                      refId="Package\Data Flow Evolución Compañia Stock\Excel Source.Outputs[Excel Source Error Output].Columns[Período]"
+                      dataType="r8"
+                      lineageId="Package\Data Flow Evolución Compañia Stock\Excel Source.Outputs[Excel Source Error Output].Columns[Período]"
+                      name="Período" />
+                    <outputColumn
+                      refId="Package\Data Flow Evolución Compañia Stock\Excel Source.Outputs[Excel Source Error Output].Columns[Cantidad de envíos]"
+                      dataType="r8"
+                      lineageId="Package\Data Flow Evolución Compañia Stock\Excel Source.Outputs[Excel Source Error Output].Columns[Cantidad de envíos]"
+                      name="Cantidad de envíos" />
+                    <outputColumn
+                      refId="Package\Data Flow Evolución Compañia Stock\Excel Source.Outputs[Excel Source Error Output].Columns[ID Indicador]"
+                      dataType="r8"
+                      lineageId="Package\Data Flow Evolución Compañia Stock\Excel Source.Outputs[Excel Source Error Output].Columns[ID Indicador]"
+                      name="ID Indicador" />
+                    <outputColumn
+                      refId="Package\Data Flow Evolución Compañia Stock\Excel Source.Outputs[Excel Source Error Output].Columns[Numerador]"
+                      dataType="r8"
+                      lineageId="Package\Data Flow Evolución Compañia Stock\Excel Source.Outputs[Excel Source Error Output].Columns[Numerador]"
+                      name="Numerador" />
+                    <outputColumn
+                      refId="Package\Data Flow Evolución Compañia Stock\Excel Source.Outputs[Excel Source Error Output].Columns[Denominador]"
+                      dataType="r8"
+                      lineageId="Package\Data Flow Evolución Compañia Stock\Excel Source.Outputs[Excel Source Error Output].Columns[Denominador]"
+                      name="Denominador" />
+                    <outputColumn
+                      refId="Package\Data Flow Evolución Compañia Stock\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Evolución Compañia Stock\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Evolución Compañia Stock\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Evolución Compañia Stock\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Evolución Compañia Stock\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[AUX_H_INDICADORES_SATISFACCION_ATENCION_COMPANIA]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Evolución Compañia Stock\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="{D6599137-CCBF-4514-91C7-654663DB4FD7}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DS_CONSULTAS_DW]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Data Flow Evolución Compañia Stock\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Evolución Compañia Stock\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Período]"
+                      cachedDataType="r8"
+                      cachedName="Período"
+                      externalMetadataColumnId="Package\Data Flow Evolución Compañia Stock\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_periodo]"
+                      lineageId="Package\Data Flow Evolución Compañia Stock\Excel Source.Outputs[Excel Source Output].Columns[Período]" />
+                    <inputColumn
+                      refId="Package\Data Flow Evolución Compañia Stock\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Compañía]"
+                      cachedDataType="r8"
+                      cachedName="Compañía"
+                      externalMetadataColumnId="Package\Data Flow Evolución Compañia Stock\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_compania]"
+                      lineageId="Package\Data Flow Evolución Compañia Stock\Excel Source.Outputs[Excel Source Output].Columns[Compañía]" />
+                    <inputColumn
+                      refId="Package\Data Flow Evolución Compañia Stock\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Cantidad de envíos]"
+                      cachedDataType="r8"
+                      cachedName="Cantidad de envíos"
+                      externalMetadataColumnId="Package\Data Flow Evolución Compañia Stock\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[cant_envios_encuestas_satisfaccion]"
+                      lineageId="Package\Data Flow Evolución Compañia Stock\Excel Source.Outputs[Excel Source Output].Columns[Cantidad de envíos]" />
+                    <inputColumn
+                      refId="Package\Data Flow Evolución Compañia Stock\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Numerador]"
+                      cachedDataType="r8"
+                      cachedName="Numerador"
+                      externalMetadataColumnId="Package\Data Flow Evolución Compañia Stock\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[numerador]"
+                      lineageId="Package\Data Flow Evolución Compañia Stock\Excel Source.Outputs[Excel Source Output].Columns[Numerador]" />
+                    <inputColumn
+                      refId="Package\Data Flow Evolución Compañia Stock\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Denominador]"
+                      cachedDataType="r8"
+                      cachedName="Denominador"
+                      externalMetadataColumnId="Package\Data Flow Evolución Compañia Stock\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[denominador]"
+                      lineageId="Package\Data Flow Evolución Compañia Stock\Excel Source.Outputs[Excel Source Output].Columns[Denominador]" />
+                    <inputColumn
+                      refId="Package\Data Flow Evolución Compañia Stock\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ID Indicador]"
+                      cachedDataType="r8"
+                      cachedName="ID Indicador"
+                      externalMetadataColumnId="Package\Data Flow Evolución Compañia Stock\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_indicador_satisfaccion_atencion]"
+                      lineageId="Package\Data Flow Evolución Compañia Stock\Excel Source.Outputs[Excel Source Output].Columns[ID Indicador]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Evolución Compañia Stock\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_periodo]"
+                      dataType="i4"
+                      name="id_periodo" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Evolución Compañia Stock\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_compania]"
+                      dataType="ui1"
+                      name="id_compania" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Evolución Compañia Stock\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_indicador_satisfaccion_atencion]"
+                      dataType="i4"
+                      name="id_indicador_satisfaccion_atencion" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Evolución Compañia Stock\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[cant_envios_encuestas_satisfaccion]"
+                      dataType="i4"
+                      name="cant_envios_encuestas_satisfaccion" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Evolución Compañia Stock\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[numerador]"
+                      dataType="i4"
+                      name="numerador" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Evolución Compañia Stock\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[denominador]"
+                      dataType="i4"
+                      name="denominador" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Evolución Compañia Stock\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Data Flow Evolución Compañia Stock\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Evolución Compañia Stock\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Evolución Compañia Stock\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Evolución Compañia Stock\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Evolución Compañia Stock\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Data Flow Evolución Compañia Stock.Paths[Excel Source Output]"
+              endId="Package\Data Flow Evolución Compañia Stock\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="Excel Source Output"
+              startId="Package\Data Flow Evolución Compañia Stock\Excel Source.Outputs[Excel Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Inserta en H_INDICADORES_SATISFACCION_ATENCION_COMPANIA"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tarea Ejecutar SQL"
+      DTS:DTSID="{93E309E0-7586-4555-9705-C64F88684914}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Inserta en H_INDICADORES_SATISFACCION_ATENCION_COMPANIA"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{C9B8BC51-0476-4D69-A09E-8A6801598ECE}"
+          SQLTask:SqlStatementSource="--Inserta en H_INDICADORES_SATISFACCION_ATENCION_COMPANIA &#xA;INSERT INTO H_INDICADORES_SATISFACCION_ATENCION_COMPANIA&#xA;           ([id_periodo]&#xA;           ,[id_compania]&#xA;           ,[id_indicador_satisfaccion_atencion]&#xA;           ,[cant_envios_encuestas_satisfaccion]&#xA;           ,[numerador]&#xA;           ,[denominador])&#xA;SELECT&#xA;           id_periodo&#xA;           ,id_compania&#xA;           ,id_indicador_satisfaccion_atencion&#xA;           ,cant_envios_encuestas_satisfaccion&#xA;           ,numerador&#xA;           ,denominador&#xA;FROM Consultas_DW.dbo.AUX_H_INDICADORES_SATISFACCION_ATENCION_COMPANIA A&#xA;WHERE NOT EXISTS&#xA; (SELECT h.id_indicador_satisfaccion_atencion, h.id_periodo, h.id_compania&#xA;  FROM  H_INDICADORES_SATISFACCION_ATENCION_COMPANIA H&#xA;  WHERE H.id_periodo = A.id_periodo and H.id_indicador_satisfaccion_atencion = A.id_indicador_satisfaccion_atencion and H.id_compania = A.id_compania)&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Obtiene Periodo"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tarea Ejecutar SQL"
+      DTS:DTSID="{76586e95-3a42-479d-93c7-6532d24ffb2b}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Obtiene Periodo"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{C9B8BC51-0476-4D69-A09E-8A6801598ECE}"
+          SQLTask:SqlStatementSource="select dbo.devuelveperiodo(GETDATE( )) as id_periodo"
+          SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="id_periodo"
+            SQLTask:DtsVariableName="User::V_Periodo" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{CCCA8EF2-6FB4-4EE0-AC18-7EC97415D4B7}"
+      DTS:From="Package\Borra AUX_H_INDICADORES_SATISFACCION_ATENCION_COMPANIA"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Data Flow Evolución Compañia Contacto" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{473284E2-C922-4FB1-8C97-F8A24FECCF59}"
+      DTS:From="Package\Data Flow Evolución Compañia Contacto"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Data Flow Evolución Compañia Stock" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{8025F40B-C7FC-4D9A-B305-E39A0E36921C}"
+      DTS:From="Package\Data Flow Evolución Compañia Stock"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Actualiza AUX_H_INDICADORES_SATISFACCION_ATENCION_COMPANIA" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{30c14493-5151-49ac-ae38-ff5ac2261d5d}"
+      DTS:From="Package\Obtiene Periodo"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2 1"
+      DTS:To="Package\Crear Carpeta" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{223B3AE1-5B99-4E9C-BD34-C1CA048C09A2}"
+      DTS:From="Package\Actualiza AUX_H_INDICADORES_SATISFACCION_ATENCION_COMPANIA"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Inserta en H_INDICADORES_SATISFACCION_ATENCION_COMPANIA" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
+      DTS:CreationName=""
+      DTS:DTSID="{128730DB-5110-4FBA-AA53-48676414FCF8}"
+      DTS:From="Package\Inserta en H_INDICADORES_SATISFACCION_ATENCION_COMPANIA"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 4"
+      DTS:To="Package\Obtiene Periodo" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 5]"
+      DTS:CreationName=""
+      DTS:DTSID="{2B11D789-996D-4C2A-ADBE-36DAD0DC825B}"
+      DTS:From="Package\Crear Carpeta"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 5"
+      DTS:To="Package\Copia XLS Evolución Indicadores (Por compañía) a Historico" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="461,42"
+          Id="Package\Actualiza AUX_H_INDICADORES_SATISFACCION_ATENCION_COMPANIA"
+          TopLeft="64.9,237.428571428571" />
+        <NodeLayout
+          Size="443,42"
+          Id="Package\Borra AUX_H_INDICADORES_SATISFACCION_ATENCION_COMPANIA"
+          TopLeft="73.9,7.5" />
+        <NodeLayout
+          Size="279,42"
+          Id="Package\Data Flow Evolución Compañia Contacto"
+          TopLeft="155.9,84.1428571428571" />
+        <NodeLayout
+          Size="263,42"
+          Id="Package\Data Flow Evolución Compañia Stock"
+          TopLeft="163.9,160.785714285714" />
+        <NodeLayout
+          Size="436,42"
+          Id="Package\Inserta en H_INDICADORES_SATISFACCION_ATENCION_COMPANIA"
+          TopLeft="77.4,314.071428571429" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="295.4,49.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,34.6428571428571"
+              Start="0,0"
+              End="0,27.1428571428571">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,27.1428571428571" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="295.4,126.142857142857">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,34.6428571428571"
+              Start="0,0"
+              End="0,27.1428571428571">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,27.1428571428571" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="295.4,202.785714285714">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,34.6428571428572"
+              Start="0,0"
+              End="0,27.1428571428572">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,27.1428571428572" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="295.4,279.428571428571">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,34.6428571428572"
+              Start="0,0"
+              End="0,27.1428571428572">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,27.1428571428572" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="149,42"
+          Id="Package\Crear Carpeta"
+          TopLeft="220.9,467.357142857143" />
+        <NodeLayout
+          Size="158,42"
+          Id="Package\Obtiene Periodo"
+          TopLeft="216.4,390.714285714286" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2 1]"
+          TopLeft="295.4,432.714285714286">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,34.6428571428572"
+              Start="0,0"
+              End="0,27.1428571428572">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,27.1428571428572" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="295.4,356.071428571429">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,34.6428571428572"
+              Start="0,0"
+              End="0,27.1428571428572">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,27.1428571428572" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="375,42"
+          Id="Package\Copia XLS Evolución Indicadores (Por compañía) a Historico"
+          TopLeft="107.9,544" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 5]"
+          TopLeft="295.4,509.357142857143">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,34.6428571428572"
+              Start="0,0"
+              End="0,27.1428571428572">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,27.1428571428572" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Data Flow Evolución Compañia Contacto">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="144,42"
+          Id="Package\Data Flow Evolución Compañia Contacto\Excel Source"
+          TopLeft="33.5,13.5" />
+        <NodeLayout
+          Size="177,42"
+          Id="Package\Data Flow Evolución Compañia Contacto\OLE DB Destination"
+          TopLeft="20.5,132.5" />
+        <EdgeLayout
+          Id="Package\Data Flow Evolución Compañia Contacto.Paths[Excel Source Output]"
+          TopLeft="107.25,55.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,77"
+              Start="0,0"
+              End="0,69.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,69.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Evolución Compañia Contacto\Excel Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Evolución Compañia Contacto\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Data Flow Evolución Compañia Stock">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="144,42"
+          Id="Package\Data Flow Evolución Compañia Stock\Excel Source"
+          TopLeft="33.5,13.5" />
+        <NodeLayout
+          Size="177,42"
+          Id="Package\Data Flow Evolución Compañia Stock\OLE DB Destination"
+          TopLeft="20.5,132.5" />
+        <EdgeLayout
+          Id="Package\Data Flow Evolución Compañia Stock.Paths[Excel Source Output]"
+          TopLeft="107.25,55.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,77"
+              Start="0,0"
+              End="0,69.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,69.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Evolución Compañia Stock\Excel Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Data Flow Evolución Compañia Stock\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

@@ -1,0 +1,1807 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="6/12/2017 8:46:09 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AMS06X"
+  DTS:CreatorName="AMS\jtrinchier"
+  DTS:DTSID="{E8F52835-48D9-40BC-80DA-4FACA443CB00}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="MKTInfodelMercado D_ACTIVIDADES_ECONOMICAS_AFIP"
+  DTS:PackageType="5"
+  DTS:VersionBuild="56"
+  DTS:VersionGUID="{E59C8080-78CD-4F17-AB2B-F67AD985BC87}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Conexion Excel para D_Grupo]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{89F24196-899C-464A-A41C-E0AFA1430D3C}"
+      DTS:ObjectName="Conexion Excel para D_Grupo">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=\\P-IS-01\SSIS2017$\03 - Archivos\MKT Informacion del Mercado\Archivo para la tabla d_grupo_actividad_afip.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Conexion Excel para D_Seccion]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{1A9E8C35-2868-4EF4-ACAD-212D5A5960CE}"
+      DTS:ObjectName="Conexion Excel para D_Seccion">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=\\P-IS-01\SSIS2017$\03 - Archivos\MKT Informacion del Mercado\Archivo para la tabla d_SECCIÓN_actividad_afip.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[File_TXT_ACTIVIDADES_ECONOMICAS_F883_Source]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{AAA976D3-7449-48C0-B311-5BCEFD8233D0}"
+      DTS:ObjectName="File_TXT_ACTIVIDADES_ECONOMICAS_F883_Source">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="Delimited"
+          DTS:LocaleID="11274"
+          DTS:HeaderRowDelimiter="_x003B_"
+          DTS:ColumnNamesInFirstDataRow="True"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x003C_none_x003E_"
+          DTS:CodePage="65001"
+          DTS:ConnectionString="\\P-IS-01\SSIS2017$\03 - Archivos\MKT Informacion del Mercado\ACTIVIDADES_ECONOMICAS_F883.txt">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x003B_"
+              DTS:MaximumWidth="10"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="COD_ACTIVIDAD_F883"
+              DTS:DTSID="{678C3618-5147-4616-9360-41883C64A142}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x003B_"
+              DTS:MaximumWidth="500"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="DESC_ACTIVIDAD_F883"
+              DTS:DTSID="{239026D1-951B-46B5-AF44-1E69118C97EB}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000D__x000A_"
+              DTS:MaximumWidth="1500"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="DESCL_ACTIVIDA_F883"
+              DTS:DTSID="{F4BE44F1-EC0F-454F-A648-ABCB22A1FA6F}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{53C639E4-188D-43D5-9F59-3AB43398324F}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{53C639E4-188D-43D5-9F59-3AB43398324F}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza D_Actividad_economica_afip"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{E7F649D0-6077-40E7-8DBF-50D70A577453}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza D_Actividad_economica_afip"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{3AAED19C-D9F2-49F5-8ECD-FCFD7540AC0F}"
+          SQLTask:SqlStatementSource="---- Actualiza los campos que tengan id_actividad_afip igual a 5 caracteres y id_grupo_actividad_afip 2&#xA;Update D_ACTIVIDAD_ECONOMICA_AFIP set id_grupo_actividad_afip = g.id_grupo_actividad_afip&#xA;from d_grupo_actividad_afip G, D_ACTIVIDAD_ECONOMICA_AFIP A&#xA;where g.id_grupo_actividad_afip = LEFT(a.id_actividad_afip,2) and   LEN(id_actividad_afip) = 5&#xA;&#xA;&#xA;&#xA;---- Actualiza los campos que tengan id_actividad_afip igual a 6 caracteres y id_grupo_actividad_afip 3&#xA;Update D_ACTIVIDAD_ECONOMICA_AFIP set id_grupo_actividad_afip = g.id_grupo_actividad_afip&#xA;from d_grupo_actividad_afip G, D_ACTIVIDAD_ECONOMICA_AFIP A&#xA;where g.id_grupo_actividad_afip = LEFT(a.id_actividad_afip,3) and   LEN(id_actividad_afip) = 6" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{f8227fb4-d832-43bc-9cb1-e0849b5996ab}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <pipeline
+          BLOBTempStoragePath=""
+          bufferTempStoragePath=""
+          version="1">
+          <components>
+            <component
+              refId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\Data Conversion"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Data Conversion;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Data Conversion"
+              name="Data Conversion"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\Data Conversion.Inputs[Data Conversion Input]"
+                  name="Data Conversion Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\Data Conversion.Inputs[Data Conversion Input].Columns[COD_ACTIVIDAD_F883]"
+                      cachedCodepage="65001"
+                      cachedDataType="str"
+                      cachedLength="10"
+                      cachedName="COD_ACTIVIDAD_F883"
+                      lineageId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\Flat File Source.Outputs[Flat File Source Output].Columns[COD_ACTIVIDAD_F883]" />
+                    <inputColumn
+                      refId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\Data Conversion.Inputs[Data Conversion Input].Columns[DESC_ACTIVIDAD_F883]"
+                      cachedCodepage="65001"
+                      cachedDataType="str"
+                      cachedLength="500"
+                      cachedName="DESC_ACTIVIDAD_F883"
+                      lineageId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\Flat File Source.Outputs[Flat File Source Output].Columns[DESC_ACTIVIDAD_F883]" />
+                    <inputColumn
+                      refId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\Data Conversion.Inputs[Data Conversion Input].Columns[DESCL_ACTIVIDA_F883]"
+                      cachedCodepage="65001"
+                      cachedDataType="str"
+                      cachedLength="1500"
+                      cachedName="DESCL_ACTIVIDA_F883"
+                      lineageId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\Flat File Source.Outputs[Flat File Source Output].Columns[DESCL_ACTIVIDA_F883]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\Data Conversion.Outputs[Data Conversion Output]"
+                  exclusionGroup="1"
+                  name="Data Conversion Output"
+                  synchronousInputId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of COD_ACTIVIDAD_F883]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="10"
+                      lineageId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of COD_ACTIVIDAD_F883]"
+                      name="Copy of COD_ACTIVIDAD_F883"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\Flat File Source.Outputs[Flat File Source Output].Columns[COD_ACTIVIDAD_F883]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of DESC_ACTIVIDAD_F883]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="500"
+                      lineageId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of DESC_ACTIVIDAD_F883]"
+                      name="Copy of DESC_ACTIVIDAD_F883"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\Flat File Source.Outputs[Flat File Source Output].Columns[DESC_ACTIVIDAD_F883]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of DESCL_ACTIVIDA_F883]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="1500"
+                      lineageId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of DESCL_ACTIVIDA_F883]"
+                      name="Copy of DESCL_ACTIVIDA_F883"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\Flat File Source.Outputs[Flat File Source Output].Columns[DESCL_ACTIVIDA_F883]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\Data Conversion.Outputs[Data Conversion Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Data Conversion Error Output"
+                  synchronousInputId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\Flat File Source"
+              componentClassID="Microsoft.FlatFileSource"
+              contactInfo="Flat File Source;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Flat File Source"
+              localeId="11274"
+              name="Flat File Source"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Specifies whether zero-length columns are treated as null."
+                  name="RetainNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of an output column containing the file name. If no name is specified, no output column containing the file name will be generated."
+                  name="FileNameColumnName"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\Flat File Source.Connections[FlatFileConnection]"
+                  connectionManagerID="Package.ConnectionManagers[File_TXT_ACTIVIDADES_ECONOMICAS_F883_Source]"
+                  connectionManagerRefId="Package.ConnectionManagers[File_TXT_ACTIVIDADES_ECONOMICAS_F883_Source]"
+                  name="FlatFileConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\Flat File Source.Outputs[Flat File Source Output]"
+                  name="Flat File Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\Flat File Source.Outputs[Flat File Source Output].Columns[COD_ACTIVIDAD_F883]"
+                      codePage="65001"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[COD_ACTIVIDAD_F883]"
+                      length="10"
+                      lineageId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\Flat File Source.Outputs[Flat File Source Output].Columns[COD_ACTIVIDAD_F883]"
+                      name="COD_ACTIVIDAD_F883"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\Flat File Source.Outputs[Flat File Source Output].Columns[DESC_ACTIVIDAD_F883]"
+                      codePage="65001"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[DESC_ACTIVIDAD_F883]"
+                      length="500"
+                      lineageId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\Flat File Source.Outputs[Flat File Source Output].Columns[DESC_ACTIVIDAD_F883]"
+                      name="DESC_ACTIVIDAD_F883"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\Flat File Source.Outputs[Flat File Source Output].Columns[DESCL_ACTIVIDA_F883]"
+                      codePage="65001"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[DESCL_ACTIVIDA_F883]"
+                      length="1500"
+                      lineageId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\Flat File Source.Outputs[Flat File Source Output].Columns[DESCL_ACTIVIDA_F883]"
+                      name="DESCL_ACTIVIDA_F883"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[COD_ACTIVIDAD_F883]"
+                      codePage="65001"
+                      dataType="str"
+                      length="10"
+                      name="COD_ACTIVIDAD_F883" />
+                    <externalMetadataColumn
+                      refId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[DESC_ACTIVIDAD_F883]"
+                      codePage="65001"
+                      dataType="str"
+                      length="500"
+                      name="DESC_ACTIVIDAD_F883" />
+                    <externalMetadataColumn
+                      refId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[DESCL_ACTIVIDA_F883]"
+                      codePage="65001"
+                      dataType="str"
+                      length="1500"
+                      name="DESCL_ACTIVIDA_F883" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\Flat File Source.Outputs[Flat File Source Error Output]"
+                  isErrorOut="true"
+                  name="Flat File Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\Flat File Source.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      codePage="1252"
+                      dataType="text"
+                      description="Flat File Source Error Output Column"
+                      lineageId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\Flat File Source.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      name="Flat File Source Error Output Column" />
+                    <outputColumn
+                      refId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[D_ACTIVIDAD_ECONOMICA_AFIP]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="{3AAED19C-D9F2-49F5-8ECD-FCFD7540AC0F}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DS_DW_SALUD]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of COD_ACTIVIDAD_F883]"
+                      cachedDataType="wstr"
+                      cachedLength="10"
+                      cachedName="Copy of COD_ACTIVIDAD_F883"
+                      externalMetadataColumnId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_actividad_afip]"
+                      lineageId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of COD_ACTIVIDAD_F883]" />
+                    <inputColumn
+                      refId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of DESC_ACTIVIDAD_F883]"
+                      cachedDataType="wstr"
+                      cachedLength="500"
+                      cachedName="Copy of DESC_ACTIVIDAD_F883"
+                      externalMetadataColumnId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[de_actividad_afip]"
+                      lineageId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of DESC_ACTIVIDAD_F883]" />
+                    <inputColumn
+                      refId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of DESCL_ACTIVIDA_F883]"
+                      cachedDataType="wstr"
+                      cachedLength="1500"
+                      cachedName="Copy of DESCL_ACTIVIDA_F883"
+                      externalMetadataColumnId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[de_actividad_ampliada_afip]"
+                      lineageId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of DESCL_ACTIVIDA_F883]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_actividad_afip]"
+                      dataType="wstr"
+                      length="6"
+                      name="id_actividad_afip" />
+                    <externalMetadataColumn
+                      refId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[de_actividad_afip]"
+                      dataType="wstr"
+                      length="500"
+                      name="de_actividad_afip" />
+                    <externalMetadataColumn
+                      refId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[de_actividad_ampliada_afip]"
+                      dataType="wstr"
+                      length="1500"
+                      name="de_actividad_ampliada_afip" />
+                    <externalMetadataColumn
+                      refId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_grupo_actividad_afip]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      name="id_grupo_actividad_afip" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP.Paths[Data Conversion Output]"
+              endId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="Data Conversion Output"
+              startId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\Data Conversion.Outputs[Data Conversion Output]" />
+            <path
+              refId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP.Paths[Flat File Source Output]"
+              endId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\Data Conversion.Inputs[Data Conversion Input]"
+              name="Flat File Source Output"
+              startId="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\Flat File Source.Outputs[Flat File Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Funciona para d_grupo_economico Afip"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{f802139e-f890-4314-a761-40b88ebe2e91}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Funciona para d_grupo_economico Afip"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <pipeline
+          BLOBTempStoragePath=""
+          bufferTempStoragePath=""
+          version="1">
+          <components>
+            <component
+              refId="Package\Funciona para d_grupo_economico Afip\Data Conversion"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Data Conversion;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Data Conversion"
+              name="Data Conversion"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Funciona para d_grupo_economico Afip\Data Conversion.Inputs[Data Conversion Input]"
+                  name="Data Conversion Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Funciona para d_grupo_economico Afip\Data Conversion.Inputs[Data Conversion Input].Columns[id_grupo_actividad_afip]"
+                      cachedDataType="r8"
+                      cachedName="id_grupo_actividad_afip"
+                      lineageId="Package\Funciona para d_grupo_economico Afip\Excel Source.Outputs[Excel Source Output].Columns[id_grupo_actividad_afip]" />
+                    <inputColumn
+                      refId="Package\Funciona para d_grupo_economico Afip\Data Conversion.Inputs[Data Conversion Input].Columns[de_grupo_actividad_afip]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="de_grupo_actividad_afip"
+                      lineageId="Package\Funciona para d_grupo_economico Afip\Excel Source.Outputs[Excel Source Output].Columns[de_grupo_actividad_afip]" />
+                    <inputColumn
+                      refId="Package\Funciona para d_grupo_economico Afip\Data Conversion.Inputs[Data Conversion Input].Columns[id_seccion_actividad_afip]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="id_seccion_actividad_afip"
+                      lineageId="Package\Funciona para d_grupo_economico Afip\Excel Source.Outputs[Excel Source Output].Columns[id_seccion_actividad_afip]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Funciona para d_grupo_economico Afip\Data Conversion.Outputs[Data Conversion Output]"
+                  exclusionGroup="1"
+                  name="Data Conversion Output"
+                  synchronousInputId="Package\Funciona para d_grupo_economico Afip\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Funciona para d_grupo_economico Afip\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_grupo_actividad_afip]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Funciona para d_grupo_economico Afip\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_grupo_actividad_afip]"
+                      name="Copy of id_grupo_actividad_afip"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Funciona para d_grupo_economico Afip\Excel Source.Outputs[Excel Source Output].Columns[id_grupo_actividad_afip]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Funciona para d_grupo_economico Afip\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of de_grupo_actividad_afip]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="1000"
+                      lineageId="Package\Funciona para d_grupo_economico Afip\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of de_grupo_actividad_afip]"
+                      name="Copy of de_grupo_actividad_afip"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Funciona para d_grupo_economico Afip\Excel Source.Outputs[Excel Source Output].Columns[de_grupo_actividad_afip]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Funciona para d_grupo_economico Afip\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_seccion_actividad_afip]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\Funciona para d_grupo_economico Afip\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_seccion_actividad_afip]"
+                      name="Copy of id_seccion_actividad_afip"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Funciona para d_grupo_economico Afip\Excel Source.Outputs[Excel Source Output].Columns[id_seccion_actividad_afip]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Funciona para d_grupo_economico Afip\Data Conversion.Outputs[Data Conversion Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Data Conversion Error Output"
+                  synchronousInputId="Package\Funciona para d_grupo_economico Afip\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Funciona para d_grupo_economico Afip\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Funciona para d_grupo_economico Afip\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Funciona para d_grupo_economico Afip\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Funciona para d_grupo_economico Afip\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Funciona para d_grupo_economico Afip\Excel Source"
+              componentClassID="Microsoft.ExcelSource"
+              contactInfo="Excel Source;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Excel Source"
+              name="Excel Source"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">Hoja1$</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mapping from parameters in the SQL command to variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Funciona para d_grupo_economico Afip\Excel Source.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Conexion Excel para D_Grupo]"
+                  connectionManagerRefId="Package.ConnectionManagers[Conexion Excel para D_Grupo]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Funciona para d_grupo_economico Afip\Excel Source.Outputs[Excel Source Output]"
+                  name="Excel Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Funciona para d_grupo_economico Afip\Excel Source.Outputs[Excel Source Output].Columns[id_grupo_actividad_afip]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Funciona para d_grupo_economico Afip\Excel Source.Outputs[Excel Source Output].ExternalColumns[id_grupo_actividad_afip]"
+                      lineageId="Package\Funciona para d_grupo_economico Afip\Excel Source.Outputs[Excel Source Output].Columns[id_grupo_actividad_afip]"
+                      name="id_grupo_actividad_afip"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Funciona para d_grupo_economico Afip\Excel Source.Outputs[Excel Source Output].Columns[de_grupo_actividad_afip]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Funciona para d_grupo_economico Afip\Excel Source.Outputs[Excel Source Output].ExternalColumns[de_grupo_actividad_afip]"
+                      length="255"
+                      lineageId="Package\Funciona para d_grupo_economico Afip\Excel Source.Outputs[Excel Source Output].Columns[de_grupo_actividad_afip]"
+                      name="de_grupo_actividad_afip"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Funciona para d_grupo_economico Afip\Excel Source.Outputs[Excel Source Output].Columns[id_seccion_actividad_afip]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Funciona para d_grupo_economico Afip\Excel Source.Outputs[Excel Source Output].ExternalColumns[id_seccion_actividad_afip]"
+                      length="255"
+                      lineageId="Package\Funciona para d_grupo_economico Afip\Excel Source.Outputs[Excel Source Output].Columns[id_seccion_actividad_afip]"
+                      name="id_seccion_actividad_afip"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Funciona para d_grupo_economico Afip\Excel Source.Outputs[Excel Source Output].ExternalColumns[id_grupo_actividad_afip]"
+                      dataType="r8"
+                      name="id_grupo_actividad_afip" />
+                    <externalMetadataColumn
+                      refId="Package\Funciona para d_grupo_economico Afip\Excel Source.Outputs[Excel Source Output].ExternalColumns[de_grupo_actividad_afip]"
+                      dataType="wstr"
+                      length="255"
+                      name="de_grupo_actividad_afip" />
+                    <externalMetadataColumn
+                      refId="Package\Funciona para d_grupo_economico Afip\Excel Source.Outputs[Excel Source Output].ExternalColumns[id_seccion_actividad_afip]"
+                      dataType="wstr"
+                      length="255"
+                      name="id_seccion_actividad_afip" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Funciona para d_grupo_economico Afip\Excel Source.Outputs[Excel Source Error Output]"
+                  isErrorOut="true"
+                  name="Excel Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Funciona para d_grupo_economico Afip\Excel Source.Outputs[Excel Source Error Output].Columns[id_grupo_actividad_afip]"
+                      dataType="r8"
+                      lineageId="Package\Funciona para d_grupo_economico Afip\Excel Source.Outputs[Excel Source Error Output].Columns[id_grupo_actividad_afip]"
+                      name="id_grupo_actividad_afip" />
+                    <outputColumn
+                      refId="Package\Funciona para d_grupo_economico Afip\Excel Source.Outputs[Excel Source Error Output].Columns[de_grupo_actividad_afip]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Funciona para d_grupo_economico Afip\Excel Source.Outputs[Excel Source Error Output].Columns[de_grupo_actividad_afip]"
+                      name="de_grupo_actividad_afip" />
+                    <outputColumn
+                      refId="Package\Funciona para d_grupo_economico Afip\Excel Source.Outputs[Excel Source Error Output].Columns[id_seccion_actividad_afip]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Funciona para d_grupo_economico Afip\Excel Source.Outputs[Excel Source Error Output].Columns[id_seccion_actividad_afip]"
+                      name="id_seccion_actividad_afip" />
+                    <outputColumn
+                      refId="Package\Funciona para d_grupo_economico Afip\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Funciona para d_grupo_economico Afip\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Funciona para d_grupo_economico Afip\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Funciona para d_grupo_economico Afip\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Funciona para d_grupo_economico Afip\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[D_GRUPO_ACTIVIDAD_AFIP]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Funciona para d_grupo_economico Afip\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="{3AAED19C-D9F2-49F5-8ECD-FCFD7540AC0F}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DS_DW_SALUD]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Funciona para d_grupo_economico Afip\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Funciona para d_grupo_economico Afip\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[id_grupo_actividad_afip]"
+                      cachedDataType="r8"
+                      cachedName="id_grupo_actividad_afip"
+                      externalMetadataColumnId="Package\Funciona para d_grupo_economico Afip\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_grupo_actividad_afip]"
+                      lineageId="Package\Funciona para d_grupo_economico Afip\Excel Source.Outputs[Excel Source Output].Columns[id_grupo_actividad_afip]" />
+                    <inputColumn
+                      refId="Package\Funciona para d_grupo_economico Afip\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of de_grupo_actividad_afip]"
+                      cachedDataType="wstr"
+                      cachedLength="1000"
+                      cachedName="Copy of de_grupo_actividad_afip"
+                      externalMetadataColumnId="Package\Funciona para d_grupo_economico Afip\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[de_grupo_actividad_afip]"
+                      lineageId="Package\Funciona para d_grupo_economico Afip\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of de_grupo_actividad_afip]" />
+                    <inputColumn
+                      refId="Package\Funciona para d_grupo_economico Afip\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of id_seccion_actividad_afip]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="Copy of id_seccion_actividad_afip"
+                      externalMetadataColumnId="Package\Funciona para d_grupo_economico Afip\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_seccion_actividad_afip]"
+                      lineageId="Package\Funciona para d_grupo_economico Afip\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_seccion_actividad_afip]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Funciona para d_grupo_economico Afip\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_grupo_actividad_afip]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      name="id_grupo_actividad_afip" />
+                    <externalMetadataColumn
+                      refId="Package\Funciona para d_grupo_economico Afip\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[de_grupo_actividad_afip]"
+                      dataType="wstr"
+                      length="500"
+                      name="de_grupo_actividad_afip" />
+                    <externalMetadataColumn
+                      refId="Package\Funciona para d_grupo_economico Afip\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_seccion_actividad_afip]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="id_seccion_actividad_afip" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Funciona para d_grupo_economico Afip\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Funciona para d_grupo_economico Afip\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Funciona para d_grupo_economico Afip\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Funciona para d_grupo_economico Afip\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Funciona para d_grupo_economico Afip\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Funciona para d_grupo_economico Afip\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Funciona para d_grupo_economico Afip.Paths[Data Conversion Output]"
+              endId="Package\Funciona para d_grupo_economico Afip\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="Data Conversion Output"
+              startId="Package\Funciona para d_grupo_economico Afip\Data Conversion.Outputs[Data Conversion Output]" />
+            <path
+              refId="Package\Funciona para d_grupo_economico Afip.Paths[Excel Source Output]"
+              endId="Package\Funciona para d_grupo_economico Afip\Data Conversion.Inputs[Data Conversion Input]"
+              name="Excel Source Output"
+              startId="Package\Funciona para d_grupo_economico Afip\Excel Source.Outputs[Excel Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{2fbac779-8e66-4889-9cb8-88be0c0f752f}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Funciona para D_SECCION_ACTIVIDAD_AFIP"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <pipeline
+          BLOBTempStoragePath=""
+          bufferTempStoragePath=""
+          version="1">
+          <components>
+            <component
+              refId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\Data Conversion"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Data Conversion;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Data Conversion"
+              name="Data Conversion"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\Data Conversion.Inputs[Data Conversion Input]"
+                  name="Data Conversion Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\Data Conversion.Inputs[Data Conversion Input].Columns[id_seccion_actividad_afip]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="id_seccion_actividad_afip"
+                      lineageId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\Excel Source.Outputs[Excel Source Output].Columns[id_seccion_actividad_afip]" />
+                    <inputColumn
+                      refId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\Data Conversion.Inputs[Data Conversion Input].Columns[de_seccion_actividad_afip]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="de_seccion_actividad_afip"
+                      lineageId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\Excel Source.Outputs[Excel Source Output].Columns[de_seccion_actividad_afip]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\Data Conversion.Outputs[Data Conversion Output]"
+                  exclusionGroup="1"
+                  name="Data Conversion Output"
+                  synchronousInputId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_seccion_actividad_afip]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_seccion_actividad_afip]"
+                      name="Copy of id_seccion_actividad_afip"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\Excel Source.Outputs[Excel Source Output].Columns[id_seccion_actividad_afip]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of de_seccion_actividad_afip]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="1000"
+                      lineageId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of de_seccion_actividad_afip]"
+                      name="Copy of de_seccion_actividad_afip"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\Excel Source.Outputs[Excel Source Output].Columns[de_seccion_actividad_afip]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\Data Conversion.Outputs[Data Conversion Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Data Conversion Error Output"
+                  synchronousInputId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\Excel Source"
+              componentClassID="Microsoft.ExcelSource"
+              contactInfo="Excel Source;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Excel Source"
+              name="Excel Source"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">Hoja1$</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mapping from parameters in the SQL command to variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\Excel Source.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[Conexion Excel para D_Seccion]"
+                  connectionManagerRefId="Package.ConnectionManagers[Conexion Excel para D_Seccion]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\Excel Source.Outputs[Excel Source Output]"
+                  name="Excel Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\Excel Source.Outputs[Excel Source Output].Columns[id_seccion_actividad_afip]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\Excel Source.Outputs[Excel Source Output].ExternalColumns[id_seccion_actividad_afip]"
+                      length="255"
+                      lineageId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\Excel Source.Outputs[Excel Source Output].Columns[id_seccion_actividad_afip]"
+                      name="id_seccion_actividad_afip"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\Excel Source.Outputs[Excel Source Output].Columns[de_seccion_actividad_afip]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\Excel Source.Outputs[Excel Source Output].ExternalColumns[de_seccion_actividad_afip]"
+                      length="255"
+                      lineageId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\Excel Source.Outputs[Excel Source Output].Columns[de_seccion_actividad_afip]"
+                      name="de_seccion_actividad_afip"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\Excel Source.Outputs[Excel Source Output].ExternalColumns[id_seccion_actividad_afip]"
+                      dataType="wstr"
+                      length="255"
+                      name="id_seccion_actividad_afip" />
+                    <externalMetadataColumn
+                      refId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\Excel Source.Outputs[Excel Source Output].ExternalColumns[de_seccion_actividad_afip]"
+                      dataType="wstr"
+                      length="255"
+                      name="de_seccion_actividad_afip" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\Excel Source.Outputs[Excel Source Error Output]"
+                  isErrorOut="true"
+                  name="Excel Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\Excel Source.Outputs[Excel Source Error Output].Columns[id_seccion_actividad_afip]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\Excel Source.Outputs[Excel Source Error Output].Columns[id_seccion_actividad_afip]"
+                      name="id_seccion_actividad_afip" />
+                    <outputColumn
+                      refId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\Excel Source.Outputs[Excel Source Error Output].Columns[de_seccion_actividad_afip]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\Excel Source.Outputs[Excel Source Error Output].Columns[de_seccion_actividad_afip]"
+                      name="de_seccion_actividad_afip" />
+                    <outputColumn
+                      refId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[D_SECCION_ACTIVIDAD_AFIP]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="{3AAED19C-D9F2-49F5-8ECD-FCFD7540AC0F}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DS_DW_SALUD]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of id_seccion_actividad_afip]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="Copy of id_seccion_actividad_afip"
+                      externalMetadataColumnId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_seccion_actividad_afip]"
+                      lineageId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of id_seccion_actividad_afip]" />
+                    <inputColumn
+                      refId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of de_seccion_actividad_afip]"
+                      cachedDataType="wstr"
+                      cachedLength="1000"
+                      cachedName="Copy of de_seccion_actividad_afip"
+                      externalMetadataColumnId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[de_seccion_actividad_afip]"
+                      lineageId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of de_seccion_actividad_afip]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_seccion_actividad_afip]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="id_seccion_actividad_afip" />
+                    <externalMetadataColumn
+                      refId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[de_seccion_actividad_afip]"
+                      dataType="wstr"
+                      length="200"
+                      name="de_seccion_actividad_afip" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP.Paths[Data Conversion Output]"
+              endId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="Data Conversion Output"
+              startId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\Data Conversion.Outputs[Data Conversion Output]" />
+            <path
+              refId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP.Paths[Excel Source Output]"
+              endId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\Data Conversion.Inputs[Data Conversion Input]"
+              name="Excel Source Output"
+              startId="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\Excel Source.Outputs[Excel Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{F1F613FB-6357-4574-AC17-4D2C22E39D0A}"
+      DTS:From="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Funciona para d_grupo_economico Afip" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{70270301-8FF8-4D00-B2A0-CA0447EA079F}"
+      DTS:From="Package\Funciona para d_grupo_economico Afip"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{4DB3018A-F805-44DD-8BC8-C3BD20530B9D}"
+      DTS:From="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Actualiza D_Actividad_economica_afip" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="269,42"
+          Id="Package\Actualiza D_Actividad_economica_afip"
+          TopLeft="36.5896226415094,271.27358490566" />
+        <NodeLayout
+          Size="331,42"
+          Id="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP"
+          TopLeft="5.58962264150944,5.5" />
+        <NodeLayout
+          Size="274,42"
+          Id="Package\Funciona para d_grupo_economico Afip"
+          TopLeft="34.0896226415094,94.0911949685535" />
+        <NodeLayout
+          Size="312,42"
+          Id="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP"
+          TopLeft="15.0896226415094,182.682389937107" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="171.089622641509,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,46.5911949685535"
+              Start="0,0"
+              End="0,39.0911949685535">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,39.0911949685535" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="171.089622641509,136.091194968553">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,46.5911949685535"
+              Start="0,0"
+              End="0,39.0911949685535">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,39.0911949685535" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="171.089622641509,224.682389937107">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,46.5911949685535"
+              Start="0,0"
+              End="0,39.0911949685535">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,39.0911949685535" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="156,42"
+          Id="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\Flat File Source"
+          TopLeft="48.7767295597484,5.5" />
+        <NodeLayout
+          Size="161,42"
+          Id="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\Data Conversion"
+          TopLeft="46.2767295597484,123.424528301887" />
+        <NodeLayout
+          Size="177,42"
+          Id="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\OLE DB Destination"
+          TopLeft="38.2767295597484,241.349056603774" />
+        <EdgeLayout
+          Id="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP.Paths[Flat File Source Output]"
+          TopLeft="126.776729559748,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,75.9245283018868"
+              Start="0,0"
+              End="0,68.4245283018868">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,68.4245283018868" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP.Paths[Data Conversion Output]"
+          TopLeft="126.776729559748,165.424528301887">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,75.9245283018868"
+              Start="0,0"
+              End="0,68.4245283018868">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,68.4245283018868" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Actualiza tabla D_ACTIVIDAD_ECONOMICA_AFIP\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Funciona para d_grupo_economico Afip">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="144,42"
+          Id="Package\Funciona para d_grupo_economico Afip\Excel Source"
+          TopLeft="29.1289308176101,5.5" />
+        <NodeLayout
+          Size="161,42"
+          Id="Package\Funciona para d_grupo_economico Afip\Data Conversion"
+          TopLeft="20.6289308176101,98.3490566037736" />
+        <NodeLayout
+          Size="177,42"
+          Id="Package\Funciona para d_grupo_economico Afip\OLE DB Destination"
+          TopLeft="12.6289308176101,191.198113207547" />
+        <EdgeLayout
+          Id="Package\Funciona para d_grupo_economico Afip.Paths[Excel Source Output]"
+          TopLeft="101.12893081761,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,50.8490566037736"
+              Start="0,0"
+              End="0,43.3490566037736">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,43.3490566037736" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Funciona para d_grupo_economico Afip.Paths[Data Conversion Output]"
+          TopLeft="101.12893081761,140.349056603774">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,50.8490566037736"
+              Start="0,0"
+              End="0,43.3490566037736">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,43.3490566037736" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Funciona para d_grupo_economico Afip\Excel Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Funciona para d_grupo_economico Afip\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="177,42"
+          Id="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\OLE DB Destination"
+          TopLeft="12.6289308176101,191.198113207547" />
+        <NodeLayout
+          Size="144,42"
+          Id="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\Excel Source"
+          TopLeft="29.1289308176101,5.5" />
+        <NodeLayout
+          Size="161,42"
+          Id="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\Data Conversion"
+          TopLeft="20.6289308176101,98.3490566037736" />
+        <EdgeLayout
+          Id="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP.Paths[Excel Source Output]"
+          TopLeft="101.12893081761,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,50.8490566037736"
+              Start="0,0"
+              End="0,43.3490566037736">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,43.3490566037736" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP.Paths[Data Conversion Output]"
+          TopLeft="101.12893081761,140.349056603774">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,50.8490566037736"
+              Start="0,0"
+              End="0,43.3490566037736">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,43.3490566037736" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Funciona para D_SECCION_ACTIVIDAD_AFIP\Excel Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

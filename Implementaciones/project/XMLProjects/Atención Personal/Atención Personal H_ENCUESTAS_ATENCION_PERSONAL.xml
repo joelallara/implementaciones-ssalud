@@ -1,0 +1,446 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="6/4/2018 9:33:30 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AMS06X"
+  DTS:CreatorName="AMS\mpaludi"
+  DTS:DTSID="{D44C9385-0CF3-4FA2-9B73-98680743BB75}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="Atención Personal H_ENCUESTAS_ATENCION_PERSONAL"
+  DTS:PackageType="5"
+  DTS:VersionBuild="50"
+  DTS:VersionGUID="{858147A2-92A2-4187-86FB-8BB31FE0AE70}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{85C230CA-5F80-4AD6-997D-5DFE605AC67E}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">1,7,OnError</DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnError"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{85C230CA-5F80-4AD6-997D-5DFE605AC67E}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza AUX_H_ENCUESTAS_ATENCION_PERSONAL"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{8230A452-945B-4273-9FF6-77B3D6CB8D75}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza AUX_H_ENCUESTAS_ATENCION_PERSONAL"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{4081693F-AEA7-4256-9077-CD881119B1DE}"
+          SQLTask:SqlStatementSource="---- Actualizacion a la   AUX_H_ENCUESTAS_ATENCION_PERSONAL  por id_empresa_legajo_supervisor_zonal e id_legajo_supervisor_zonal&#xA;UPDATE AUX_H_ENCUESTAS_ATENCION_PERSONAL&#xA;SET id_empresa_legajo_gerente = H.id_empresa_legajo_gerente,&#xA;id_legajo_gerente =  H.id_legajo_gerente,&#xA;id_empresa_legajo_jefe_regional = H.id_empresa_legajo_jefe_regional,&#xA;id_legajo_jefe_regional = H.id_legajo_jefe_regional,&#xA;id_empresa_legajo_supervisor_zonal =  H.id_empresa_legajo_supervisor_zonal,&#xA;id_legajo_supervisor_zonal = H.id_legajo_supervisor_zonal,&#xA;id_empresa_legajo_responsable_car = 'F/D',&#xA;id_legajo_responsable_car = 0,&#xA;id_empresa_legajo_oficial_atencion ='F/D',&#xA;id_legajo_oficial_atencion = 0&#xA;from AUX_H_ENCUESTAS_ATENCION_PERSONAL T&#xA;inner join D_USUARIOS_TURNOS U on U.id_usuario_turno = T.id_usuario_turno&#xA;inner join D_PERSONAS_CASCADA_ATENCION P on P.email_usuario_turno = U.email_usuario_turno &#xA;inner join H_CASCADA_ATENCION H on H.id_empresa_legajo_supervisor_zonal = p.id_empresa_legajo&#xA;and h.id_legajo_supervisor_zonal = p.id_legajo&#xA;and T.id_periodo = H.id_periodo&#xA;----- &#xA;---- Actualizacion a la   AUX_H_ENCUESTAS_ATENCION_PERSONAL  por id_empresa_legajo_responsable_car e id_legajo_responsable_car&#xA;UPDATE AUX_H_ENCUESTAS_ATENCION_PERSONAL&#xA;SET id_empresa_legajo_gerente = h.id_empresa_legajo_gerente,&#xA;id_legajo_gerente =  h.id_legajo_gerente,&#xA;id_empresa_legajo_jefe_regional = h.id_empresa_legajo_jefe_regional,&#xA;id_legajo_jefe_regional = h.id_legajo_jefe_regional,&#xA;id_empresa_legajo_supervisor_zonal =  h.id_empresa_legajo_supervisor_zonal,&#xA;id_legajo_supervisor_zonal = h.id_legajo_supervisor_zonal,&#xA;id_empresa_legajo_responsable_car = h.id_empresa_legajo_responsable_car,&#xA;id_legajo_responsable_car = h.id_legajo_responsable_car,&#xA;id_empresa_legajo_oficial_atencion = 'F/D',&#xA;id_legajo_oficial_atencion =  0&#xA;from AUX_H_ENCUESTAS_ATENCION_PERSONAL T&#xA;inner join D_USUARIOS_TURNOS U on U.id_usuario_turno = T.id_usuario_turno&#xA;inner join D_PERSONAS_CASCADA_ATENCION P on P.email_usuario_turno = U.email_usuario_turno &#xA;inner join H_CASCADA_ATENCION H on H.id_empresa_legajo_responsable_car = p.id_empresa_legajo&#xA;and h.id_legajo_responsable_car = p.id_legajo&#xA;and T.id_periodo = H.id_periodo&#xA;&#xA;---- Actualizacion a la   AUX_H_ENCUESTAS_ATENCION_PERSONAL  por id_empresa_legajo_oficial_atencion e id_legajo_oficial_atencion&#xA;&#xA;UPDATE AUX_H_ENCUESTAS_ATENCION_PERSONAL&#xA;SET id_empresa_legajo_gerente = H.id_empresa_legajo_gerente,&#xA;id_legajo_gerente =  H.id_legajo_gerente,&#xA;id_empresa_legajo_jefe_regional = H.id_empresa_legajo_jefe_regional,&#xA;id_legajo_jefe_regional = H.id_legajo_jefe_regional,&#xA;id_empresa_legajo_supervisor_zonal =  H.id_empresa_legajo_supervisor_zonal,&#xA;id_legajo_supervisor_zonal = H.id_legajo_supervisor_zonal,&#xA;id_empresa_legajo_responsable_car = H.id_empresa_legajo_responsable_car,&#xA;id_legajo_responsable_car = H.id_legajo_responsable_car,&#xA;id_empresa_legajo_oficial_atencion = H.id_empresa_legajo_oficial_atencion,&#xA;id_legajo_oficial_atencion =  H.id_legajo_oficial_atencion&#xA;from AUX_H_ENCUESTAS_ATENCION_PERSONAL T&#xA;inner join D_USUARIOS_TURNOS U on U.id_usuario_turno = T.id_usuario_turno&#xA;inner join D_PERSONAS_CASCADA_ATENCION P on P.email_usuario_turno = U.email_usuario_turno &#xA;inner join H_CASCADA_ATENCION H on H.id_empresa_legajo_oficial_atencion = p.id_empresa_legajo&#xA;and h.id_legajo_oficial_atencion = p.id_legajo&#xA;and T.id_periodo = H.id_periodo&#xA;&#xA;--- Actualiza campos en null H_ENCUESTAS_ATENCION_PERSONAL con valores por defecto para Gerente&#xA;&#xA;UPDATE  AUX_H_ENCUESTAS_ATENCION_PERSONAL  SET id_empresa_legajo_gerente  = 'F/D'&#xA;from AUX_H_ENCUESTAS_ATENCION_PERSONAL where id_empresa_legajo_gerente is null&#xA;&#xA;UPDATE  AUX_H_ENCUESTAS_ATENCION_PERSONAL  SET id_legajo_gerente  = 0&#xA;from AUX_H_ENCUESTAS_ATENCION_PERSONAL where id_legajo_gerente is null&#xA;&#xA;--- Actualiza campos en null H_ENCUESTAS_ATENCION_PERSONAL con valores por defecto para Jefe Regional&#xA;&#xA;UPDATE  AUX_H_ENCUESTAS_ATENCION_PERSONAL  SET id_empresa_legajo_jefe_regional  = 'F/D'&#xA;from AUX_H_ENCUESTAS_ATENCION_PERSONAL where id_empresa_legajo_jefe_regional is null&#xA;&#xA;UPDATE  AUX_H_ENCUESTAS_ATENCION_PERSONAL  SET id_legajo_jefe_regional  = 0&#xA;from AUX_H_ENCUESTAS_ATENCION_PERSONAL where id_legajo_jefe_regional is null&#xA;&#xA;--- Actualiza campos en null H_ENCUESTAS_ATENCION_PERSONAL con valores por defecto para Supervisor Zonal&#xA;&#xA;UPDATE  AUX_H_ENCUESTAS_ATENCION_PERSONAL  SET id_empresa_legajo_supervisor_zonal  = 'F/D'&#xA;from AUX_H_ENCUESTAS_ATENCION_PERSONAL where id_empresa_legajo_supervisor_zonal is null&#xA;&#xA;UPDATE  AUX_H_ENCUESTAS_ATENCION_PERSONAL  SET id_legajo_supervisor_zonal  = 0&#xA;from AUX_H_ENCUESTAS_ATENCION_PERSONAL where id_legajo_supervisor_zonal is null&#xA;&#xA;--- Actualiza campos en null H_ENCUESTAS_ATENCION_PERSONAL con valores por defecto para Responsable CAR&#xA;&#xA;UPDATE  AUX_H_ENCUESTAS_ATENCION_PERSONAL  SET id_empresa_legajo_responsable_car  = 'F/D'&#xA;from AUX_H_ENCUESTAS_ATENCION_PERSONAL where id_empresa_legajo_responsable_car is null&#xA;&#xA;UPDATE  AUX_H_ENCUESTAS_ATENCION_PERSONAL  SET id_legajo_responsable_car  = 0&#xA;from AUX_H_ENCUESTAS_ATENCION_PERSONAL where id_legajo_responsable_car is null&#xA;&#xA;--- Actualiza campos en null H_ENCUESTAS_ATENCION_PERSONAL con valores por defecto para Oficial Atención&#xA;&#xA;UPDATE  AUX_H_ENCUESTAS_ATENCION_PERSONAL  SET id_empresa_legajo_oficial_atencion  = 'F/D'&#xA;from AUX_H_ENCUESTAS_ATENCION_PERSONAL where id_empresa_legajo_oficial_atencion is null&#xA;&#xA;UPDATE  AUX_H_ENCUESTAS_ATENCION_PERSONAL  SET id_legajo_oficial_atencion  = 0&#xA;from AUX_H_ENCUESTAS_ATENCION_PERSONAL where id_legajo_oficial_atencion is null&#xA;&#xA;/* Actualiza los campos id_persona, id_producto, id_subproducto, id_plan_producto, id_compania */&#xA;&#xA;UPDATE AUX_H_ENCUESTAS_ATENCION_PERSONAL &#xA;SET  id_persona = T.id_persona,&#xA;&#x9; id_producto = T.id_producto,&#xA;&#x9; id_subproducto = T.id_subproducto,&#xA;&#x9; id_plan_producto = T.id_plan_producto,&#xA;&#x9; id_compania = T.id_compania&#xA;from AUX_H_ENCUESTAS_ATENCION_PERSONAL  A&#xA;Inner join H_TOTEM_TURNOS T ON A.id_turno = T.id_turno &#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza AUX_H_ENCUESTAS_ENVIADAS_TURNOS"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{f052033f-b61e-4f75-acf3-6fd5d9f817cd}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza AUX_H_ENCUESTAS_ENVIADAS_TURNOS"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{4081693F-AEA7-4256-9077-CD881119B1DE}"
+          SQLTask:SqlStatementSource="---- Variable para tomar información 7 días antes del día actual, para evitar la pérdida de algún mensaje.&#xA;DECLARE @Fecha DATE&#xA;SET @Fecha =  (SELECT (GETDATE() - 7))&#xA;&#xA;---- SCRIPT PARA ENCUESTAS ENVIADAS&#xA;&#xA;TRUNCATE TABLE AUX_H_ENCUESTAS_ENVIADAS_TURNOS&#xA;&#xA;SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED&#xA;INSERT INTO AUX_H_ENCUESTAS_ENVIADAS_TURNOS&#xA;&#x9;(id_encuesta_enviada_turno,&#xA;&#x9;id_turno,&#xA;&#x9;id_periodo,&#xA;&#x9;fecha_encuesta_turno,&#xA;&#x9;id_posicion,&#xA;&#x9;id_usuario_turno,&#xA;&#x9;id_usuario_supervisor,&#xA;&#x9;de_pregunta_turno,&#xA;&#x9;id_encuesta_turno,&#xA;&#x9;id_pregunta_turno,&#xA;&#x9;nro_documento,&#xA;&#x9;telefono_asociado,&#xA;&#x9;cant_encuestas_enviadas,&#xA;&#x9;id_status_envio_encuesta_personal)&#xA;SELECT E.id_encuesta_enviada_turno as id_encuesta_enviada_turno&#xA;&#x9;,0 as id_turno&#xA;&#x9;,dbo.DevuelvePeriodo(E.created_at) as id_periodo&#xA;&#x9;,E.created_at as fecha_encuesta_turno&#xA;&#x9;,P.id_posicion as id_posicion&#xA;&#x9;,u.id as id_usuario_turno&#xA;&#x9;,NULL as id_usuario_supervisor&#xA;&#x9;,E.message as de_pregunta_turno&#xA;&#x9;,E.id_encuesta as id_encuesta_turno&#xA;&#x9;,E.id_pregunta as id_pregunta_turno&#xA;&#x9;,0 as nro_documento&#xA;&#x9;,E.receiver as telefono_asociado&#xA;&#x9;,1 as cant_encuestas_enviadas&#xA;&#x9;,(CASE WHEN status_debq in ('FAIL') THEN 1 WHEN status_debq in ('DELIVERED') THEN 2 WHEN status_debq in ('ANSWERED') THEN 3 ELSE 0 END) as id_status_envio_encuesta_personal&#xA;FROM OPENQUERY([ENCUESTAS_DEBMEDIA],&#xA;&#x9;'SELECT * FROM (&#xA;         SELECT s.id as id_encuesta_enviada_turno,&#xA;                s.branch_id,&#xA;                s.created_at,&#xA;                tf.field_value,&#xA;                tf.field_name,&#xA;                s.message,&#xA;                s.receiver,&#xA;                sq.id as id_pregunta,&#xA;                sy.id as id_encuesta,&#xA;                s.status as status_debq&#xA;         FROM debqsurvey.sent_survey_sancorsalud s&#xA;                  INNER JOIN debqsurvey.sent_survey_tf_sancorsalud stf on (stf.sent_survey_id = s.id)&#xA;                  INNER JOIN debqsurvey.track_field_sancorsalud tf on (stf.track_field_id = tf.id)&#xA;                  INNER JOIN debqsurvey.survey_sancorsalud sy on (sy.branch_id = s.branch_id)&#xA;                  INNER JOIN debqsurvey.survey_question_sancorsalud sq on (sq.survey_id = sy.id)&#xA;                  INNER JOIN debqsurvey.dBranches_sancorsalud b on (s.branch_id = b.id)&#xA;         WHERE created_at &gt;= ''2019-08-01 00:00:00.000'' and sy.active=1 and b.company_id &lt;&gt; 42) as aux&#xA;where aux.field_name = ''quser.id''') E&#xA;INNER JOIN [DEBQCLIENTSDB.DEBMEDIA.COM].[debq].[dbo].[qusers_sancorsalud] q ON (q.id=E.field_value)&#xA;INNER JOIN [DEBQCLIENTSDB.DEBMEDIA.COM].[debq].[dbo].[uusers_sancorsalud] u ON (Q.u_user_id=u.id)&#xA;INNER JOIN D_POSICION_BRANCH_TURNOS P ON (P.id_totem_encuesta=E.branch_id)&#xA;WHERE  CAST(e.created_at AS DATE)  &gt;= @Fecha  &#xA;&#xA;-- Actualiza el turno en la tabla auxiliar. Lo busca en las vistas de debQ y lo pega en la auxiliar nuestra.&#xA;SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED&#xA;UPDATE  AUX_H_ENCUESTAS_ENVIADAS_TURNOS&#xA;SET id_turno = turn_id&#xA;FROM OPENQUERY([ENCUESTAS_DEBMEDIA],&#xA;'SELECT s.id as id_encuesta_enviada_turno, tf.field_value as turn_id, s.created_at&#xA;FROM debqsurvey.sent_survey_sancorsalud s&#xA;INNER JOIN debqsurvey.sent_survey_tf_sancorsalud stf on (stf.sent_survey_id=s.id)&#xA;INNER JOIN debqsurvey.track_field_sancorsalud tf on (stf.track_field_id=tf.id and field_name = ''turn.id'')&#xA;WHERE created_at &gt;=''2019-08-01 00:00:00.000''') E -- DEJO LA FECHA ESTATICA PARA PROCESAR MAS RAPIDO LA INFORMACIÓN. EN CASO DE REPROCESO, ELIMINAR CONDICIÓN.&#xA;INNER JOIN AUX_H_ENCUESTAS_ENVIADAS_TURNOS A ON (A.id_encuesta_enviada_turno=E.id_encuesta_enviada_turno)&#xA;  &#xA;-- La actualización del turno es necesaria para poder obtener el DNI. Ya que está mucho mas prolijo y existe un único DNI por turno, que obtenerlo del módulo de encuestas.&#xA;UPDATE   AUX_H_ENCUESTAS_ENVIADAS_TURNOS&#xA;SET nro_documento = T.nro_documento&#xA;FROM H_TOTEM_TURNOS T INNER JOIN  DW_SALUD.DBO.AUX_H_ENCUESTAS_ENVIADAS_TURNOS E ON (T.id_turno=E.id_turno)&#xA;&#xA;-- Desde debMedia tienen un script que intenta enviar el mensaje cada vez que falla. Si bien ya está solucionado, mientras se procese ese día va a seguir incorporando estos casos.&#xA;DELETE A&#xA;FROM AUX_H_ENCUESTAS_ENVIADAS_TURNOS A WHERE EXISTS (SELECT id_turno, COUNT(*) FROM AUX_H_ENCUESTAS_ENVIADAS_TURNOS H&#xA;WHERE (A.id_turno=H.id_turno) and id_posicion &lt;&gt; 130&#xA;GROUP BY id_turno&#xA;HAVING COUNT(*)&gt;1)&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza AUX_H_RESPUESTAS_RECIBIDAS_TURNOS"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{c8028d23-142d-4c7b-8862-055301787eca}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza AUX_H_RESPUESTAS_RECIBIDAS_TURNOS"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{4081693F-AEA7-4256-9077-CD881119B1DE}"
+          SQLTask:SqlStatementSource="--- Variable para tomar información 7 días antes del día actual, para procesar toda la info de un mes para atras.&#xA;DECLARE @Fecha DATE&#xA;SET @Fecha = (SELECT (GETDATE() - 7))&#xA;&#xA;TRUNCATE TABLE AUX_H_RESPUESTAS_RECIBIDAS_TURNOS&#xA;&#xA;SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED&#xA;INSERT INTO AUX_H_RESPUESTAS_RECIBIDAS_TURNOS &#xA;&#x9;(id_periodo, &#xA;&#x9;id_respuesta_recibida,&#xA;&#x9;nro_documento_encuesta_turno,&#xA;&#x9;telefono_respuesta_encuesta,&#xA;&#x9;fecha_respuesta_encuesta_turno, &#xA;&#x9;respuesta_recibida_turno, &#xA;&#x9;respuesta_recibida_vitus,&#xA;&#x9;cant_respuestas_recibidas, &#xA;&#x9;objetivo_encuesta_atencion_personal, &#xA;&#x9;id_usuario_turno, &#xA;&#x9;id_pregunta_turno,&#xA;&#x9;id_encuesta_turno,&#xA;&#x9;id_posicion)&#xA;SELECT dbo.DevuelvePeriodo(E.answered_at) AS id_periodo, &#xA;&#x9;E.id_respuesta_recibida,&#xA;&#x9;0,&#xA;&#x9;E.phone,&#xA;&#x9;E.answered_at as fecha_respuesta_encuesta_turno, &#xA;&#x9;CASE WHEN ISNUMERIC(CAST(filtered_answer AS VARCHAR(2)))=1 AND E.company_id = 2 AND cast(filtered_answer AS nvarchar(max)) IN ('1', '2', '3', '4', '5', '6', '7', '8', '9', '10') THEN CAST(filtered_answer AS VARCHAR(2)) ELSE 0 END as respuesta_recibida_turno,&#xA;&#x9;CASE WHEN E.company_id = 42 THEN filtered_answer ELSE '0' END,&#xA;&#x9;1 as cant_respuestas_recibidas, &#xA;&#x9;0 as objetivo_encuesta_atencion_personal, &#xA;&#x9;u.id as id_usuario_turno, &#xA;&#x9;E.id_pregunta,&#xA;&#x9;E.id_encuesta,&#xA;&#x9;P.id_posicion as id_posicion&#xA;FROM OPENQUERY([ENCUESTAS_DEBMEDIA],&#xA;'SELECT a.id as id_respuesta_recibida, a.filtered_answer, answered_at, tf.field_value, sy.branch_id, c.phone, sq.survey_id as id_encuesta, sq.id as id_pregunta, b.company_id&#xA;FROM debqsurvey.answer_sancorsalud a&#xA;INNER JOIN debqsurvey.answer_tf_sancorsalud atf on (atf.answer_id=a.id)&#xA;INNER JOIN debqsurvey.track_field_sancorsalud tf on (atf.track_field_id=tf.id)&#xA;INNER JOIN debqsurvey.survey_question_sancorsalud sq on (sq.id=a.question_id)&#xA;INNER JOIN debqsurvey.survey_sancorsalud sy on (sq.survey_id=sy.id)&#xA;INNER JOIN debqsurvey.customer_sancorsalud c on (c.id=a.customer_id) &#xA;INNER JOIN debqsurvey.dBranches_sancorsalud b ON (a.branch_id=b.id)&#xA;WHERE field_name = ''quser.id'' and answered_at &gt;= ''2019-08-01 00:00:00.000'' and b.company_id &lt;&gt; 42') E&#xA;INNER JOIN [DEBQCLIENTSDB.DEBMEDIA.COM].[debq].[dbo].[qusers_sancorsalud] q ON (q.id=E.field_value)&#xA;INNER JOIN [DEBQCLIENTSDB.DEBMEDIA.COM].[debq].[dbo].[uusers_sancorsalud] u ON (Q.u_user_id=u.id)&#xA;INNER JOIN D_POSICION_BRANCH_TURNOS P ON (P.id_totem_encuesta=E.branch_id)&#xA;WHERE CAST(e.answered_at AS DATE) &gt;= @Fecha&#xA;&#xA;UPDATE AUX_H_RESPUESTAS_RECIBIDAS_TURNOS&#xA;SET id_turno = turn_id&#xA;FROM OPENQUERY([ENCUESTAS_DEBMEDIA],&#xA;'SELECT a.id as id_respuesta_recibida, tf.field_value as turn_id&#xA;FROM debqsurvey.answer_sancorsalud a&#xA;INNER JOIN debqsurvey.answer_tf_sancorsalud atf on (atf.answer_id=a.id)&#xA;INNER JOIN debqsurvey.track_field_sancorsalud tf on (atf.track_field_id=tf.id)&#xA;WHERE field_name = ''turn.id'' and answered_at &gt;= ''2019-01-01 00:00:00.000''') E&#xA;INNER JOIN AUX_H_RESPUESTAS_RECIBIDAS_TURNOS A ON (A.id_respuesta_recibida=E.id_respuesta_recibida)&#xA;&#xA;UPDATE AUX_H_RESPUESTAS_RECIBIDAS_TURNOS &#xA;SET nro_documento_encuesta_turno = T.nro_documento&#xA;FROM H_TOTEM_TURNOS T INNER JOIN AUX_H_RESPUESTAS_RECIBIDAS_TURNOS E ON (T.id_turno=E.id_turno)&#xA;&#xA;&#xA;UPDATE AUX_H_RESPUESTAS_RECIBIDAS_TURNOS&#xA;SET objetivo_encuesta_atencion_personal = &#xA;CASE &#xA;&#x9;WHEN id_periodo &lt;= 201907 THEN 9.0&#xA;&#x9;WHEN id_periodo &gt;= 201908 THEN 9.5&#xA;&#x9;ELSE 0&#xA;END" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza H_ENCUESTAS_ATENCION_PERSONAL"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{B9819FA5-3082-44D4-A54F-2B1323F28EA1}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza H_ENCUESTAS_ATENCION_PERSONAL"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{4081693F-AEA7-4256-9077-CD881119B1DE}"
+          SQLTask:SqlStatementSource="DECLARE @Fecha DATE&#xA;SET @Fecha = (SELECT GETDATE()-7)&#xA;&#xA;DELETE H_ENCUESTAS_ATENCION_PERSONAL WHERE (fecha_envio_encuesta_turno &gt;= @Fecha OR (fecha_respuesta_encuesta_turno &gt;= @Fecha and id_turno IS NULL))&#xA;&#xA;INSERT INTO H_ENCUESTAS_ATENCION_PERSONAL&#xA;(id_periodo&#x9;,&#xA;id_encuesta_enviada_turno&#x9;,&#xA;id_respuesta_recibida_turno&#x9;,&#xA;id_turno&#x9;,&#xA;nro_documento_encuesta_turno&#x9;,&#xA;fecha_envio_encuesta_turno&#x9;,&#xA;fecha_respuesta_encuesta_turno&#x9;,&#xA;telefono_respuesta_encuesta&#x9;,&#xA;id_posicion&#x9;,&#xA;id_usuario_turno&#x9;,&#xA;id_usuario_supervisor&#x9;,&#xA;id_encuesta_turno&#x9;,&#xA;id_pregunta_turno&#x9;,&#xA;id_empresa_legajo_gerente&#x9;,&#xA;id_legajo_gerente&#x9;,&#xA;id_empresa_legajo_jefe_regional&#x9;,&#xA;id_legajo_jefe_regional&#x9;,&#xA;id_empresa_legajo_supervisor_zonal&#x9;,&#xA;id_legajo_supervisor_zonal&#x9;,&#xA;id_empresa_legajo_responsable_car&#x9;,&#xA;id_legajo_responsable_car&#x9;,&#xA;id_empresa_legajo_oficial_atencion&#x9;,&#xA;id_legajo_oficial_atencion&#x9;,&#xA;id_status_envio_encuesta_personal&#x9;,&#xA;cant_encuestas_enviadas&#x9;,&#xA;cant_respuestas_recibidas&#x9;,&#xA;respuesta_recibida_turno&#x9;,&#xA;respuesta_recibida_vitus&#x9;,&#xA;objetivo_encuesta_atencion_personal, id_persona, id_producto, id_subproducto, id_plan_producto, id_compania )&#xA;SELECT id_periodo&#x9;,&#xA;id_encuesta_enviada_turno&#x9;,&#xA;id_respuesta_recibida_turno&#x9;,&#xA;id_turno&#x9;,&#xA;nro_documento_encuesta_turno&#x9;,&#xA;fecha_envio_encuesta_turno&#x9;,&#xA;fecha_respuesta_encuesta_turno&#x9;,&#xA;telefono_respuesta_encuesta&#x9;,&#xA;id_posicion&#x9;,&#xA;id_usuario_turno&#x9;,&#xA;id_usuario_supervisor&#x9;,&#xA;id_encuesta_turno&#x9;,&#xA;id_pregunta_turno&#x9;,&#xA;id_empresa_legajo_gerente&#x9;,&#xA;id_legajo_gerente&#x9;,&#xA;id_empresa_legajo_jefe_regional&#x9;,&#xA;id_legajo_jefe_regional&#x9;,&#xA;id_empresa_legajo_supervisor_zonal&#x9;,&#xA;id_legajo_supervisor_zonal&#x9;,&#xA;id_empresa_legajo_responsable_car&#x9;,&#xA;id_legajo_responsable_car&#x9;,&#xA;id_empresa_legajo_oficial_atencion&#x9;,&#xA;id_legajo_oficial_atencion&#x9;,&#xA;id_status_envio_encuesta_personal&#x9;,&#xA;cant_encuestas_enviadas&#x9;,&#xA;cant_respuestas_recibidas&#x9;,&#xA;respuesta_recibida_turno&#x9;,&#xA;respuesta_recibida_vitus&#x9;,&#xA;objetivo_encuesta_atencion_personal&#x9;,  isnull(id_persona,0) , isnull(id_producto,0) , isnull(id_subproducto,0) , isnull(id_plan_producto,'') , isnull(id_compania,9) &#xA;FROM AUX_H_ENCUESTAS_ATENCION_PERSONAL" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Envio Mail"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{3491d235-5173-4531-b0fe-f974494d9caf}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Envio Mail"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{4081693F-AEA7-4256-9077-CD881119B1DE}"
+          SQLTask:SqlStatementSource="if (SELECT  count(ID) &#xA;FROM OPENQUERY([ENCUESTAS_DEBMEDIA],&#xA; 'SELECT * FROM debqsurvey.survey_sancorsalud')&#xA;  where active = 1 and &#xA;          id NOT IN &#xA;                   (SELECT id_encuesta_turno &#xA;                      FROM D_ENCUESTAS_TURNOS)) &gt; 0&#xA; &#xA;begin &#xA; EXEC msdb.dbo.sp_send_dbmail&#xA;    @profile_name = 'Soporte Microstrategy',&#xA;    @recipients = ' nicolas.borio@sancorsalud.com.ar; juanfrancisco.trinchieri@sancorsalud.com.ar',&#xA;    @subject = 'Turnos Totem - Actualización tabla Dimensión',&#xA;    @body = 'Se detectaron los siguientes casos ingresan a la tablas de Dimensión de Turnos Totem :&#xA;    &#xA;    ',&#xA;    @query = 'select ''La Siguiente información ingresa en la Tabla D_ENCUESTAS_TURNOS, Controlar si es correcto que se ingresen a la tabla dimesion.'' as Comentario&#xA;&#xA;SELECT  id as id_encuesta_turno, name as de_encuesta_turno &#xA;FROM OPENQUERY([ENCUESTAS_DEBMEDIA],&#xA; ''SELECT * FROM debqsurvey.survey_sancorsalud'')&#xA;WHERE id NOT IN &#xA;               (SELECT id_encuesta_turno &#xA;                      FROM D_ENCUESTAS_TURNOS)',&#xA;    @query_result_separator = '|',&#xA;    @execute_query_database = 'DW_SALUD';&#xA;end&#xA;&#xA;&#xA;---- Envio Mail D_PREGUNTAS_TURNOS&#xA;&#xA;if (SELECT  count(ID) &#xA;FROM OPENQUERY([ENCUESTAS_DEBMEDIA],&#xA; 'SELECT * FROM debqsurvey.survey_question_sancorsalud')&#xA;WHERE id NOT IN&#xA;               (SELECT id_pregunta_turno &#xA;                      FROM D_PREGUNTAS_TURNOS)) &gt; 0&#xA; &#xA;begin &#xA; EXEC msdb.dbo.sp_send_dbmail&#xA;    @profile_name = 'Soporte Microstrategy',&#xA;    @recipients = ' nicolas.borio@sancorsalud.com.ar; juanfrancisco.trinchieri@sancorsalud.com.ar',&#xA;    @subject = 'Turnos Totem - Actualización tabla Dimensión',&#xA;    @body = 'Se detectaron los siguientes casos ingresan a la tablas de Dimensión de Turnos Totem :&#xA;    &#xA;    ',&#xA;    @query = 'select ''La Siguiente información ingresa en la Tabla D_PREGUNTAS_TURNOS, Controlar si es correcto que se ingresen a la tabla dimesion, puede que no tenga registros para ingresar porque son de la otra tabla'' as Comentario&#xA;&#xA;&#xA;SELECT id as id_pregunta_turno, question as de_pregunta_turno&#xA;FROM OPENQUERY([ENCUESTAS_DEBMEDIA],&#xA; ''SELECT * FROM debqsurvey.survey_question_sancorsalud'')&#xA;WHERE id NOT IN&#xA;               (SELECT id_pregunta_turno &#xA;                      FROM D_PREGUNTAS_TURNOS)',&#xA;    @query_result_separator = '|',&#xA;    @execute_query_database = 'DW_SALUD';&#xA;end" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Inserta en AUX_H_ENCUESTAS_ATENCION_PERSONAL"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{44498874-3ffa-49e1-a4f6-aa050b25b225}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Inserta en AUX_H_ENCUESTAS_ATENCION_PERSONAL"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{4081693F-AEA7-4256-9077-CD881119B1DE}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE AUX_H_ENCUESTAS_ATENCION_PERSONAL&#xA;&#xA;INSERT INTO AUX_H_ENCUESTAS_ATENCION_PERSONAL&#xA;&#x9;&#x9;(id_periodo,&#xA;&#x9;&#x9;id_encuesta_enviada_turno,&#xA;&#x9;&#x9;id_respuesta_recibida_turno,&#xA;&#x9;&#x9;id_turno,&#xA;&#x9;&#x9;nro_documento_encuesta_turno,&#xA;&#x9;&#x9;fecha_envio_encuesta_turno,&#xA;&#x9;&#x9;fecha_respuesta_encuesta_turno,&#xA;&#x9;&#x9;telefono_respuesta_encuesta,&#xA;&#x9;&#x9;id_posicion,&#xA;&#x9;&#x9;id_usuario_turno,&#xA;&#x9;&#x9;id_usuario_supervisor,&#xA;&#x9;&#x9;id_encuesta_turno,&#xA;&#x9;&#x9;id_pregunta_turno,&#xA;&#x9;&#x9;id_status_envio_encuesta_personal,&#xA;&#x9;&#x9;cant_encuestas_enviadas,&#xA;&#x9;&#x9;cant_respuestas_recibidas,&#xA;&#x9;&#x9;respuesta_recibida_turno,&#xA;&#x9;&#x9;respuesta_recibida_vitus,&#xA;&#x9;&#x9;objetivo_encuesta_atencion_personal)&#xA;SELECT&#x9;id_periodo, &#xA;&#x9;&#x9;id_encuesta_enviada_turno, &#xA;&#x9;&#x9;0, &#xA;&#x9;&#x9;id_turno, &#xA;&#x9;&#x9;nro_documento, &#xA;&#x9;&#x9;fecha_encuesta_turno, &#xA;&#x9;&#x9;NULL, -- Fecha respuesta, &#xA;&#x9;&#x9;telefono_asociado, &#xA;&#x9;&#x9;id_posicion,&#xA;&#x9;&#x9;id_usuario_turno,&#xA;&#x9;&#x9;id_usuario_supervisor,&#xA;&#x9;&#x9;id_encuesta_turno,&#xA;&#x9;&#x9;id_pregunta_turno,&#xA;&#x9;&#x9;id_status_envio_encuesta_personal,&#xA;&#x9;&#x9;cant_encuestas_enviadas,&#xA;&#x9;&#x9;0, -- Cantidad de respuestas&#xA;&#x9;&#x9;0, -- Respuesta recibida&#xA;&#x9;&#x9;0, -- Respuesta vitus&#xA;&#x9;&#x9;0 -- Objetivo de respuesta&#x9;&#x9;&#xA;&#x9;&#x9;FROM AUX_H_ENCUESTAS_ENVIADAS_TURNOS&#xA;&#xA;&#xA;UPDATE AUX_H_ENCUESTAS_ATENCION_PERSONAL&#xA;SET id_respuesta_recibida_turno = R.id_respuesta_recibida,&#xA;fecha_respuesta_encuesta_turno = R.fecha_respuesta_encuesta_turno, &#xA;cant_respuestas_recibidas = R.cant_respuestas_recibidas, &#xA;respuesta_recibida_turno = R.respuesta_recibida_turno, &#xA;respuesta_recibida_vitus = R.respuesta_recibida_vitus, &#xA;objetivo_encuesta_atencion_personal = R.objetivo_encuesta_atencion_personal&#xA;FROM AUX_H_RESPUESTAS_RECIBIDAS_TURNOS R INNER JOIN AUX_H_ENCUESTAS_ATENCION_PERSONAL E ON (E.id_turno=R.id_turno and E.id_pregunta_turno=R.id_pregunta_turno)&#xA;WHERE R.id_turno IS NOT NULL&#xA;&#xA;INSERT INTO AUX_H_ENCUESTAS_ATENCION_PERSONAL&#xA;&#x9;&#x9;(id_periodo,&#xA;&#x9;&#x9;id_encuesta_enviada_turno,&#xA;&#x9;&#x9;id_respuesta_recibida_turno,&#xA;&#x9;&#x9;nro_documento_encuesta_turno,&#xA;&#x9;&#x9;fecha_respuesta_encuesta_turno,&#xA;&#x9;&#x9;telefono_respuesta_encuesta,&#xA;&#x9;&#x9;id_posicion,&#xA;&#x9;&#x9;id_usuario_turno,&#xA;&#x9;&#x9;id_encuesta_turno,&#xA;&#x9;&#x9;id_pregunta_turno,&#xA;&#x9;&#x9;respuesta_recibida_turno,&#xA;&#x9;&#x9;respuesta_recibida_vitus,&#xA;&#x9;&#x9;cant_respuestas_recibidas,&#xA;&#x9;&#x9;cant_encuestas_enviadas,&#xA;&#x9;&#x9;objetivo_encuesta_atencion_personal)&#xA;SELECT&#x9;id_periodo, &#xA;&#x9;&#x9;0,&#xA;&#x9;&#x9;id_respuesta_recibida, &#xA;&#x9;&#x9;nro_documento_encuesta_turno, &#xA;&#x9;&#x9;fecha_respuesta_encuesta_turno, &#xA;&#x9;&#x9;telefono_respuesta_encuesta, &#xA;&#x9;&#x9;id_posicion, &#xA;&#x9;&#x9;id_usuario_turno, &#xA;&#x9;&#x9;id_encuesta_turno,&#xA;&#x9;&#x9;id_pregunta_turno,&#xA;&#x9;&#x9;respuesta_recibida_turno, &#xA;&#x9;&#x9;respuesta_recibida_vitus,&#xA;&#x9;&#x9;cant_respuestas_recibidas, &#xA;&#x9;&#x9;0,&#xA;&#x9;&#x9;objetivo_encuesta_atencion_personal &#xA;FROM AUX_H_RESPUESTAS_RECIBIDAS_TURNOS &#xA;WHERE id_turno IS NULL&#xA;&#xA;UPDATE AUX_H_ENCUESTAS_ATENCION_PERSONAL&#xA;SET id_turno = 0 WHERE id_turno IS NULL&#xA;&#xA;UPDATE AUX_H_ENCUESTAS_ATENCION_PERSONAL&#xA;SET telefono_respuesta_encuesta = 0 WHERE telefono_respuesta_encuesta IS NULL&#xA;&#xA;UPDATE AUX_H_ENCUESTAS_ATENCION_PERSONAL&#xA;SET id_status_envio_encuesta_personal = 0 WHERE id_status_envio_encuesta_personal IS NULL&#xA;&#xA;UPDATE AUX_H_ENCUESTAS_ATENCION_PERSONAL&#xA;SET id_usuario_supervisor = 0 WHERE id_usuario_supervisor IS NULL" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{6047BB81-3889-4BB4-9234-FC9C2E640423}"
+      DTS:From="Package\Actualiza AUX_H_ENCUESTAS_ATENCION_PERSONAL"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Actualiza H_ENCUESTAS_ATENCION_PERSONAL" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{FF4A65B9-A806-486F-86EB-570D43E9316A}"
+      DTS:From="Package\Envio Mail"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Actualiza AUX_H_ENCUESTAS_ENVIADAS_TURNOS" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{04FF4610-5A7C-4DBB-9AD1-C19BF64711B4}"
+      DTS:From="Package\Envio Mail"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Actualiza AUX_H_RESPUESTAS_RECIBIDAS_TURNOS" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{6f83c2d4-4906-4b48-b1f8-8a5be064f2df}"
+      DTS:From="Package\Actualiza AUX_H_ENCUESTAS_ENVIADAS_TURNOS"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Inserta en AUX_H_ENCUESTAS_ATENCION_PERSONAL" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
+      DTS:CreationName=""
+      DTS:DTSID="{C26AEEE5-D9F7-4309-B268-647E4E95BD7B}"
+      DTS:From="Package\Inserta en AUX_H_ENCUESTAS_ATENCION_PERSONAL"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 4"
+      DTS:To="Package\Actualiza AUX_H_ENCUESTAS_ATENCION_PERSONAL" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 5]"
+      DTS:CreationName=""
+      DTS:DTSID="{2CFCA831-30FB-4C35-9553-F434DCD30708}"
+      DTS:From="Package\Actualiza AUX_H_RESPUESTAS_RECIBIDAS_TURNOS"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 5"
+      DTS:To="Package\Inserta en AUX_H_ENCUESTAS_ATENCION_PERSONAL" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="365,42"
+          Id="Package\Actualiza AUX_H_ENCUESTAS_ATENCION_PERSONAL"
+          TopLeft="176.150943396226,216.179245283019" />
+        <NodeLayout
+          Size="351,42"
+          Id="Package\Actualiza AUX_H_ENCUESTAS_ENVIADAS_TURNOS"
+          TopLeft="4.65094339622601,74.0660377358488" />
+        <NodeLayout
+          Size="361,42"
+          Id="Package\Actualiza AUX_H_RESPUESTAS_RECIBIDAS_TURNOS"
+          TopLeft="375.650943396226,74.0660377358488" />
+        <NodeLayout
+          Size="337,42"
+          Id="Package\Actualiza H_ENCUESTAS_ATENCION_PERSONAL"
+          TopLeft="190.150943396226,287.405660377358" />
+        <NodeLayout
+          Size="130,42"
+          Id="Package\Envio Mail"
+          TopLeft="293.650943396226,2.5" />
+        <NodeLayout
+          Size="370,42"
+          Id="Package\Inserta en AUX_H_ENCUESTAS_ATENCION_PERSONAL"
+          TopLeft="173.650943396226,144.952830188679" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="358.650943396226,258.179245283019">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,29.226415094339"
+              Start="0,0"
+              End="0,21.726415094339">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,21.726415094339" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="338.317610062893,44.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-158.166666666667,29.5660377358488"
+              Start="0,0"
+              End="-158.166666666667,22.0660377358488">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,8.04209439697185" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,8.04209439697185"
+                    Point2="0,12.0420943969719"
+                    Point3="-4,12.0420943969719" />
+                  <mssgle:LineSegment
+                    End="-154.166666666667,12.0420943969719" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-154.166666666667,12.0420943969719"
+                    Point2="-158.166666666667,12.0420943969719"
+                    Point3="-158.166666666667,16.0420943969719" />
+                  <mssgle:LineSegment
+                    End="-158.166666666667,22.0660377358488" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="378.984276729559,44.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="177.166666666667,29.5660377358488"
+              Start="0,0"
+              End="177.166666666667,22.0660377358488">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,8.04209439697185" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,8.04209439697185"
+                    Point2="0,12.0420943969719"
+                    Point3="4,12.0420943969719" />
+                  <mssgle:LineSegment
+                    End="173.166666666667,12.0420943969719" />
+                  <mssgle:CubicBezierSegment
+                    Point1="173.166666666667,12.0420943969719"
+                    Point2="177.166666666667,12.0420943969719"
+                    Point3="177.166666666667,16.0420943969719" />
+                  <mssgle:LineSegment
+                    End="177.166666666667,22.0660377358488" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="180.150943396226,116.066037735849">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="118.166666666667,28.8867924528302"
+              Start="0,0"
+              End="118.166666666667,21.3867924528302">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,13.2574486666531" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,13.2574486666531"
+                    Point2="0,17.2574486666531"
+                    Point3="4,17.2574486666531" />
+                  <mssgle:LineSegment
+                    End="114.166666666667,17.2574486666531" />
+                  <mssgle:CubicBezierSegment
+                    Point1="114.166666666667,17.2574486666531"
+                    Point2="118.166666666667,17.2574486666531"
+                    Point3="118.166666666667,21.2574486666531" />
+                  <mssgle:LineSegment
+                    End="118.166666666667,21.3867924528302" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="358.650943396226,186.952830188679">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,29.22641509434"
+              Start="0,0"
+              End="0,21.72641509434">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,21.72641509434" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 5]"
+          TopLeft="556.150943396226,116.066037735849">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-137.166666666667,28.8867924528302"
+              Start="0,0"
+              End="-137.166666666667,21.3867924528302">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,13.2574486666531" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,13.2574486666531"
+                    Point2="0,17.2574486666531"
+                    Point3="-4,17.2574486666531" />
+                  <mssgle:LineSegment
+                    End="-133.166666666667,17.2574486666531" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-133.166666666667,17.2574486666531"
+                    Point2="-137.166666666667,17.2574486666531"
+                    Point3="-137.166666666667,21.2574486666531" />
+                  <mssgle:LineSegment
+                    End="-137.166666666667,21.3867924528302" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

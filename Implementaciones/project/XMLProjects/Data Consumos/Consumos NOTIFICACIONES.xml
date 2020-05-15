@@ -1,0 +1,101 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="1/25/2017 7:59:52 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AMS06X"
+  DTS:CreatorName="AMS\nborio"
+  DTS:DTSID="{3A7B0E0D-6810-4DE4-B077-05699A64DD7E}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="Consumos NOTIFICACIONES"
+  DTS:PackageType="5"
+  DTS:VersionBuild="20"
+  DTS:VersionGUID="{6C720443-81BF-49EB-8D31-B02D01B8DE74}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{A91A3A80-3134-4B74-AEAF-A112A453D275}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">1,7,OnError</DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnError"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{A91A3A80-3134-4B74-AEAF-A112A453D275}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Disparar NOTIFICACIONES"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{09A32911-056C-4832-8FC8-1BE28F3E8C35}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Disparar NOTIFICACIONES"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{6601EFDC-B0A3-4B05-9A3F-EFAAD98885BF}"
+          SQLTask:SqlStatementSource="&#xA;/* Actualiza la tabla de PLANES */&#xA;&#xA;&#x9;&#x9;-- Informa&#xA;&#x9;&#x9;IF (select COUNT(informado) &#xA;&#x9;&#x9;from Consultas_DW.dbo.NOTIFICACION_Planes_Dimensiones&#xA;&#x9;&#x9;where informado = 0) &gt; 0&#xA;&#xA;&#x9;&#x9;&#x9;begin&#xA;&#xA;&#x9;&#x9;EXEC msdb.dbo.sp_send_dbmail&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;@profile_name = 'Soporte MicroStrategy',&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;@recipients =  'nicolas.borio@sancorsalud.com.ar;nicolas.prida@sancorsalud.com.ar;juanfrancisco.trinchieri@sancorsalud.com.ar;matias.paludi@sancorsalud.com.ar',&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;@subject = 'Nuevos Planes - Desde Tablas de Dimensión.',&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;@body = 'Campos a parametrizar:&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;* ID_Plan_agrupado_Convenio: Con Pedro. Actualizar para que luego sirva en los calculos de % Aumentos de Aranceles Ponderados con Consumos. Tomar la tabla D_PLANES_AGRUPADOS_CONVENIOS para tal fin.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;* ID_Plan_Agrupado / ID_SubRubro_Ley / ID_Rubro_Ley: Con Liliana. Campo importante para Stock. Tomar la tabla D_PLANES_AGRUPADOS, D_SUBRUBRO_LEY y D_RUBRO_LEY para tal fin.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;',&#xA;&#xA;&#x9;&#x9;&#x9;@query = 'select distinct Id_Producto, Id_Plan_Producto, Observaciones from Consultas_DW.dbo.NOTIFICACION_Planes_Dimensiones where informado = 0',&#xA;&#x9;&#x9;&#x9;@execute_query_database = 'DW_SALUD';&#xA;&#xA;&#x9;&#x9;-- Limpia el campo Informado para que pueda usarlo el DATA siguiente.&#xA;&#x9;&#x9;UPDATE Consultas_DW.dbo.NOTIFICACION_Planes_Dimensiones SET informado = 1&#xA;&#xA;&#x9;&#x9;end&#xA;&#xA;&#xA;/* Actualiza la tabla de PRODUCTOS. */&#xA;&#xA;&#x9;&#x9;-- Informa&#xA;&#x9;&#x9;IF (select COUNT(informado) &#xA;&#x9;&#x9;from Consultas_DW.dbo.NOTIFICACION_Producto_Dimensiones&#xA;&#x9;&#x9;where informado = 0) &gt; 0&#xA;&#xA;&#x9;&#x9;&#x9;begin&#xA;&#xA;&#x9;&#x9;EXEC msdb.dbo.sp_send_dbmail&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;@profile_name = 'Soporte MicroStrategy',&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;@recipients =  'nicolas.borio@sancorsalud.com.ar;nicolas.prida@sancorsalud.com.ar;juanfrancisco.trinchieri@sancorsalud.com.ar;matias.paludi@sancorsalud.com.ar',&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;@subject = 'Nuevos Productos - Desde Tablas de Dimensión.',&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;@body = 'Campos a parametrizar:&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;* ID_Plan_agrupado_Convenio: Con Pedro. Actualizar para que luego sirva en los calculos de % Aumentos de Aranceles Ponderados con Consumos. Tomar la tabla D_PLANES_AGRUPADOS_CONVENIOS para tal fin.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;* ID_Plan_Agrupado / ID_SubRubro_Ley / ID_Rubro_Ley: Con Liliana. Campo importante para Stock. Tomar la tabla D_PLANES_AGRUPADOS, D_SUBRUBRO_LEY y D_RUBRO_LEY para tal fin.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;',&#xA;&#xA;&#x9;&#x9;&#x9;@query = 'select distinct Id_Producto, Id_Plan_Producto, Observaciones from Consultas_DW.dbo.NOTIFICACION_Planes_Dimensiones where informado = 0',&#xA;&#x9;&#x9;&#x9;@execute_query_database = 'DW_SALUD';&#xA;&#xA;&#x9;&#x9;-- Limpia el campo Informado para que pueda usarlo el DATA siguiente.&#xA;&#x9;&#x9;UPDATE Consultas_DW.dbo.NOTIFICACION_Producto_Dimensiones SET informado = 1&#xA;&#xA;&#x9;&#x9;end&#xA;&#x9;&#x9;&#x9;&#x9;&#xA;&#xA;&#xA;/* Actualiza la tabla de ACREEDOR. */&#xA;&#xA;&#x9;&#x9;-- Informa&#xA;&#x9;&#x9;IF (select COUNT(informado) &#xA;&#x9;&#x9;from Consultas_DW.dbo.NOTIFICACION_ACREEDOR_Dimensiones&#xA;&#x9;&#x9;where informado = 0) &gt; 0&#xA;&#xA;&#x9;&#x9;&#x9;begin&#xA;&#xA;&#x9;&#x9;EXEC msdb.dbo.sp_send_dbmail&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;@profile_name = 'Soporte MicroStrategy',&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;@recipients =  'nicolas.borio@sancorsalud.com.ar;nicolas.prida@sancorsalud.com.ar;juanfrancisco.trinchieri@sancorsalud.com.ar;matias.paludi@sancorsalud.com.ar',&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;@subject = 'Nuevos ACREEDORES - Desde Tablas de Dimensión.',&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;@body = 'Se envia este mail para llevar un registro sobre los id_acreedor e id_Tipo_prestador que se insertan en la tarea &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&quot;Actualizar tablas de dimensión&quot;, con todos los demás campos con los valores por defecto.&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;',&#xA;&#xA;&#x9;&#x9;&#x9;@query = 'select distinct id_acreedor, id_Tipo_prestador, Observaciones from Consultas_DW.dbo.NOTIFICACION_ACREEDOR_Dimensiones where informado = 0',&#xA;&#x9;&#x9;&#x9;@execute_query_database = 'DW_SALUD';&#xA;&#xA;&#x9;&#x9;-- Limpia el campo Informado para que pueda usarlo el DATA siguiente.&#xA;&#x9;&#x9;UPDATE Consultas_DW.dbo.NOTIFICACION_ACREEDOR_Dimensiones SET informado = 1&#xA;&#xA;&#x9;&#x9;end&#xA;&#xA;&#xA;&#xA;/* Actualiza la tabla de GRILLAS. */&#xA;&#xA;&#x9;&#x9;-- Informa&#xA;&#x9;&#x9;IF (select COUNT(informado) &#xA;&#x9;&#x9;from Consultas_DW.dbo.NOTIFICACION_Grillas_Dimensiones&#xA;&#x9;&#x9;where informado = 0) &gt; 0&#xA;&#xA;&#x9;&#x9;&#x9;begin&#xA;&#xA;&#x9;&#x9;EXEC msdb.dbo.sp_send_dbmail&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;@profile_name = 'Soporte MicroStrategy',&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;@recipients =  'nicolas.borio@sancorsalud.com.ar;nicolas.prida@sancorsalud.com.ar;juanfrancisco.trinchieri@sancorsalud.com.ar;matias.paludi@sancorsalud.com.ar',&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;@subject = 'Nuevas Grillas - Desde Tablas de Dimensión.',&#xA;&#xA;&#xA;&#x9;&#x9;&#x9;@query = 'select distinct Id_Producto, Id_Plan_Producto, Grilla, Observaciones from Consultas_DW.dbo.NOTIFICACION_Grillas_Dimensiones where informado = 0',&#xA;&#x9;&#x9;&#x9;@execute_query_database = 'DW_SALUD';&#xA;&#xA;&#x9;&#x9;-- Limpia el campo Informado para que pueda usarlo el DATA siguiente.&#xA;&#x9;&#x9;UPDATE Consultas_DW.dbo.NOTIFICACION_Grillas_Dimensiones SET informado = 1&#xA;&#xA;&#x9;&#x9;end&#xA;&#xA;&#xA;&#xA;/* Actualiza la tabla de Tipo de Internacion. */&#xA;&#xA;&#x9;&#x9;-- Informa&#xA;&#x9;&#x9;IF (select COUNT(informado) &#xA;&#x9;&#x9;from Consultas_DW.dbo.NOTIFICACION_Tipo_Internacion&#xA;&#x9;&#x9;where informado = 0) &gt; 0&#xA;&#xA;&#x9;&#x9;&#x9;begin&#xA;&#xA;&#x9;&#x9;EXEC msdb.dbo.sp_send_dbmail&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;@profile_name = 'Soporte MicroStrategy',&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;@recipients =  'nicolas.borio@sancorsalud.com.ar;nicolas.prida@sancorsalud.com.ar;juanfrancisco.trinchieri@sancorsalud.com.ar;matias.paludi@sancorsalud.com.ar',&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;@subject = 'Nuevos Tipos de Internacion - Desde Tablas de Dimensión.',&#xA;&#xA;&#xA;&#x9;&#x9;&#x9;@query = 'select distinct id_tipo_internacion, de_tipo_internacion, Observaciones from Consultas_DW.dbo.NOTIFICACION_Tipo_Internacion where informado = 0',&#xA;&#x9;&#x9;&#x9;@execute_query_database = 'DW_SALUD';&#xA;&#xA;&#x9;&#x9;-- Limpia el campo Informado para que pueda usarlo el DATA siguiente.&#xA;&#x9;&#x9;UPDATE Consultas_DW.dbo.NOTIFICACION_Tipo_Internacion SET informado = 1&#xA;&#xA;&#x9;&#x9;end&#xA;&#xA;&#xA;&#xA;/* Actualiza la tabla de Diagnosticos. */&#xA;&#xA;&#x9;&#x9;-- Informa&#xA;&#x9;&#x9;IF (select COUNT(informado) &#xA;&#x9;&#x9;from Consultas_DW.dbo.NOTIFICACION_Diagnostico&#xA;&#x9;&#x9;where informado = 0) &gt; 0&#xA;&#xA;&#x9;&#x9;&#x9;begin&#xA;&#xA;&#x9;&#x9;EXEC msdb.dbo.sp_send_dbmail&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;@profile_name = 'Soporte MicroStrategy',&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;@recipients =  'nicolas.borio@sancorsalud.com.ar;nicolas.prida@sancorsalud.com.ar;juanfrancisco.trinchieri@sancorsalud.com.ar;matias.paludi@sancorsalud.com.ar',&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;@subject = 'Nuevos Diagnosticos - Desde Tablas de Dimensión.',&#xA;&#xA;&#x9;&#x9;&#x9;@query = 'select distinct id_diagnostico, de_diagnostico, Observaciones from Consultas_DW.dbo.NOTIFICACION_DIAGNOSTICO where informado = 0',&#xA;&#x9;&#x9;&#x9;@execute_query_database = 'DW_SALUD';&#xA;&#xA;&#x9;&#x9;-- Limpia el campo Informado para que pueda usarlo el DATA siguiente.&#xA;&#x9;&#x9;UPDATE Consultas_DW.dbo.NOTIFICACION_Diagnostico SET informado = 1&#xA;&#xA;&#x9;&#x9;end&#xA;&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="217,42"
+          Id="Package\Disparar NOTIFICACIONES"
+          TopLeft="5.5,5.5" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

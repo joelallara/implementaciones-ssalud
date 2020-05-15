@@ -1,0 +1,315 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="7/10/2015 9:19:54 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AMS06X"
+  DTS:CreatorName="AMS\pgonzalez"
+  DTS:DTSID="{9C50C555-F6BC-42C8-8E9B-FFA6B9376B3F}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="IndConsumos Tasas_x_Tipo_INT"
+  DTS:PackageType="5"
+  DTS:VersionBuild="78"
+  DTS:VersionGUID="{63D37B7B-3F67-4104-9D42-F137B58C8CB2}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{B361FBA5-8EDF-4DD4-91DD-C919F1DCAFE2}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">1,7,OnError</DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnError"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{B361FBA5-8EDF-4DD4-91DD-C919F1DCAFE2}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Alos Cesareas"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{BBBCB86B-6C94-497E-A680-02D8D4827B52}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Alos Cesareas"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{A3223EA0-900E-4B20-A33F-FDC7A3B40426}"
+          SQLTask:SqlStatementSource="&#xA;DECLARE @Indicador Int Set @Indicador = 16&#xA;DECLARE @Periodo Int Set @Periodo = (select MAX(id_periodo) from DW_SALUD.dbo.AUX_PERIODO_MES_BORRA_IND_CONSUMOS)&#xA;&#xA;---- Consumos............&#xA;&#xA;&#x9;INSERT INTO DW_SALUD.dbo.AUX_H_INDICADORES_CONS_CANT_PREST&#xA;&#x9;(id_periodo, id_ind_consumo, id_persona, nro_orden, id_tipo_orden, id_producto, id_subproducto, id_plan_producto, id_provincia, id_posicion, id_reintegro, id_sexo, edad_orden, edad_periodo, id_rango_edad, id_acreedor, nro_cursograma, Nro_Lote, nro_secuencia, id_prestacion, cant_practicas_indicador , cant_dias_indicador,id_empresa_PE_ind, id_tipo_entidad_PE_ind, id_marca_PE_ind, id_convenio, id_tipo_entidad_convenio)&#xA;&#x9;SELECT id_periodo_fecha_internacion, @Indicador as id_ind_consumo, S.id_persona, S.nro_orden, S.id_tipo_orden, S.id_producto, S.id_subproducto, S.id_plan_producto, ' ' as id_provincia, 0 as id_posicion, 'F' as id_reintegro, 'X' as id_sexo, S.edad_orden, 0 as edad_periodo, 0 as id_rango_edad, 0 as id_acreedor, 0 as nro_cursograma, 0 as Nro_Lote, 0 as nro_secuencia, '' as id_prestacion, sum(cant_internaciones) as cant_practicas_indicador, sum(cant_dias_reales) as cant_dias_indicador, S.id_empresa_PE_int as id_empresa_PE_ind, S.id_tipo_entidad_PE_int as id_tipo_entidad_PE_ind, S.id_marca_PE_int as id_marca_PE_ind, id_convenio, id_tipo_entidad_convenio&#xA;&#x9;FROM DW_SALUD.dbo.H_INTERNACIONES_CARLOS S&#xA;&#x9;JOIN DW_SALUD.dbo.D_PRODUCTOS P on P.id_producto = S.id_producto&#xA;&#x9;JOIN DW_SALUD.dbo.D_PLANES PL on PL.id_producto = S.id_producto and PL.id_plan_producto = S.id_plan_producto&#xA;&#x9;WHERE S.id_tipo_internacion in ('CE')  /* Tipo Internacion Cesarea. */  /* Cesareas. */&#x9;&#xA;&#x9;and id_clase_producto in ('S')&#xA;&#x9;and id_internacion_prolongada = 'N'&#xA;&#x9;and id_periodo_fecha_internacion = @Periodo&#xA;&#x9;and S.id_tipo_orden = 6 /* Solo tipo orden Internacion. */&#xA;&#x9;and not exists (select FP.id_producto, FP.id_plan_producto from FILTRO_PLAN_PRODUCTO FP where FP.id_producto = S.id_producto and FP.id_plan_producto = S.id_plan_producto) /* Filtros de Tablero. */&#xA;&#x9;and not ((S.id_producto = 4 and S.id_plan_producto = 'PMO  ') /* A demás del filtro de planes (igual a Tablero) aqui tampoco tomamos PMO. */&#xA;&#x9;&#x9;or  (S.id_producto = 35 and S.id_plan_producto = 'PMO  ')) /* A demás del filtro de planes (igual a Tablero) aqui tampoco tomamos PMO. */&#xA;&#x9;GROUP BY S.id_periodo_fecha_internacion, S.id_persona, S.nro_orden, S.id_tipo_orden, S.id_producto, S.id_subproducto, S.id_plan_producto, S.edad_orden, S.id_empresa_PE_int, S.id_tipo_entidad_PE_int, S.id_marca_PE_int, id_convenio, id_tipo_entidad_convenio&#xA;&#xA;&#x9;/* Borra las personas que están capitadas en Consultas. */&#xA;&#x9;&#xA;&#x9;&#x9;DELETE DW_SALUD.dbo.AUX_H_INDICADORES_CONS_CANT_PREST&#xA;&#x9;&#x9;FROM DW_SALUD.dbo.AUX_H_INDICADORES_CONS_CANT_PREST P&#xA;&#x9;&#x9;JOIN Consultas_DW.dbo.AUX_H_PERSONAS_CAPITAS_SALUD C on P.id_periodo = C.id_periodo and P.id_persona = C.id_persona and P.id_producto = C.id_producto and P.id_plan_producto = C.id_plan_producto&#xA;&#x9;&#x9;JOIN D_CAPITAS_SALUD CA on C.id_capita = CA.id_capita&#xA;&#x9;&#x9;WHERE id_ind_consumo = @Indicador and CA.id_capita_os = 1 and CA.capita_internacion = 'SI'&#xA;&#xA;   /* Calcula Sexo, Posicion, Provincia y Edad Periodo*/&#xA;&#x9;&#xA;&#x9;&#x9;UPDATE DW_SALUD.dbo.AUX_H_INDICADORES_CONS_CANT_PREST&#xA;&#x9;&#x9;&#x9;SET id_sexo = P.id_sexo,&#xA;&#x9;&#x9;&#x9;&#x9;id_posicion = LA.id_posicion,&#xA;&#x9;&#x9;&#x9;&#x9;id_provincia = LA.id_provincia,&#xA;&#x9;&#x9;&#x9;&#x9;id_localidad_indicador_consumo = P.id_localidad_afiliado&#xA;&#x9;&#x9;FROM DW_SALUD.dbo.AUX_H_INDICADORES_CONS_CANT_PREST I&#xA;&#x9;&#x9;JOIN DW_SALUD.dbo.D_PERSONAS P on P.id_persona = I.id_persona&#xA;&#x9;&#x9;JOIN DW_SALUD.dbo.D_LOCALIDADES_AFILIADO LA on LA.id_localidad_afiliado = P.id_localidad_afiliado&#xA;&#x9;&#x9;WHERE id_ind_consumo = @Indicador" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Alos Clinica"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{a9251ce8-d2b0-437d-8b1c-c5aa1d1ef3a9}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Alos Clinica"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{A3223EA0-900E-4B20-A33F-FDC7A3B40426}"
+          SQLTask:SqlStatementSource="&#xA;DECLARE @Indicador Int Set @Indicador = 13&#xA;DECLARE @Periodo Int Set @Periodo = (select MAX(id_periodo) from DW_SALUD.dbo.AUX_PERIODO_MES_BORRA_IND_CONSUMOS)&#xA;&#xA;-- Consumos............&#xA;&#xA;  INSERT INTO DW_SALUD.dbo.AUX_H_INDICADORES_CONS_CANT_PREST&#xA;  (id_periodo, id_ind_consumo, id_persona, nro_orden, id_tipo_orden, id_producto, id_subproducto, id_plan_producto, id_provincia, id_posicion, id_reintegro, id_sexo, edad_orden, edad_periodo, id_rango_edad, id_acreedor, nro_cursograma, Nro_Lote, nro_secuencia, id_prestacion, cant_practicas_indicador,  cant_dias_indicador, id_empresa_PE_ind, id_tipo_entidad_PE_ind, id_marca_PE_ind, id_convenio, id_tipo_entidad_convenio)&#xA;  SELECT id_periodo_fecha_internacion, @Indicador as id_ind_consumo, S.id_persona, S.nro_orden, S.id_tipo_orden, S.id_producto, S.id_subproducto, S.id_plan_producto, ' ' as id_provincia, 0 as id_posicion, 'F' as id_reintegro, 'X' as id_sexo, S.edad_orden, 0 as edad_periodo, 0 as id_rango_edad, 0 as id_acreedor, 0 as nro_cursograma, 0 as Nro_Lote, 0 as nro_secuencia, '' as id_prestacion, sum(cant_internaciones) as cant_practicas_indicador, sum(cant_dias_reales) as cant_dias_indicador, S.id_empresa_PE_int as id_empresa_PE_ind, S.id_tipo_entidad_PE_int as id_tipo_entidad_PE_ind, S.id_marca_PE_int as id_marca_PE_ind, id_convenio, id_tipo_entidad_convenio&#xA;  FROM DW_SALUD.dbo.H_INTERNACIONES_CARLOS S&#xA;  JOIN DW_SALUD.dbo.D_PRODUCTOS P on P.id_producto = S.id_producto&#xA;  JOIN DW_SALUD.dbo.D_PLANES PL on PL.id_producto = S.id_producto and PL.id_plan_producto = S.id_plan_producto&#xA;  WHERE S.id_tipo_internacion in ('CC') /* Tipo Internacion Clinica. */&#xA;   and id_clase_producto in ('S')&#xA;   and id_internacion_prolongada = 'N'&#xA;   and id_periodo_fecha_internacion = @Periodo&#xA;   and S.id_tipo_orden = 6 /* Solo tipo orden Internacion. */&#xA;   and not exists (select FP.id_producto, FP.id_plan_producto from FILTRO_PLAN_PRODUCTO FP where FP.id_producto = S.id_producto and FP.id_plan_producto = S.id_plan_producto) /* Filtros de Tablero. */&#xA;   and not ((S.id_producto = 4 and S.id_plan_producto = 'PMO  ') /* A demás del filtro de planes (igual a Tablero) aqui tampoco tomamos PMO. */&#xA;    or  (S.id_producto = 35 and S.id_plan_producto = 'PMO  ')) /* A demás del filtro de planes (igual a Tablero) aqui tampoco tomamos PMO. */&#xA;        -- and S.id_diagnostico not in ('O80') ---- No debe incluir diagnostico parto unico, porque ya se cuenta estos registros en el indicardor partos&#xA;  GROUP BY S.id_periodo_fecha_internacion, S.id_persona, S.nro_orden, S.id_tipo_orden, S.id_producto, S.id_subproducto, S.id_plan_producto, S.edad_orden, S.id_empresa_PE_int, S.id_tipo_entidad_PE_int, S.id_marca_PE_int, id_convenio, id_tipo_entidad_convenio&#xA;&#xA;&#xA;   /* Borra las personas que están capitadas en Consultas. */&#xA;&#x9; DELETE DW_SALUD.dbo.AUX_H_INDICADORES_CONS_CANT_PREST&#xA;&#x9; FROM DW_SALUD.dbo.AUX_H_INDICADORES_CONS_CANT_PREST P&#xA;&#x9; JOIN Consultas_DW.dbo.AUX_H_PERSONAS_CAPITAS_SALUD C on P.id_periodo = C.id_periodo and P.id_persona = C.id_persona and P.id_producto = C.id_producto and P.id_plan_producto = C.id_plan_producto&#xA;&#x9; JOIN D_CAPITAS_SALUD CA on C.id_capita = CA.id_capita&#xA;&#x9; WHERE id_ind_consumo = @Indicador and CA.id_capita_os = 1 and CA.capita_internacion = 'SI' and P.cant_practicas_indicador is not null&#xA;&#xA;   /* Calcula Sexo, Posicion, Provincia y Edad Periodo*/&#xA;     UPDATE DW_SALUD.dbo.AUX_H_INDICADORES_CONS_CANT_PREST&#xA;&#x9;&#x9;SET id_sexo = P.id_sexo,&#xA;&#x9;&#x9;&#x9;id_posicion = LA.id_posicion,&#xA;&#x9;&#x9;&#x9;id_provincia = LA.id_provincia,&#xA;&#x9;&#x9;&#x9;id_localidad_indicador_consumo = P.id_localidad_afiliado&#xA;     FROM DW_SALUD.dbo.AUX_H_INDICADORES_CONS_CANT_PREST I&#xA;     JOIN DW_SALUD.dbo.D_PERSONAS P on P.id_persona = I.id_persona&#xA;     JOIN DW_SALUD.dbo.D_LOCALIDADES_AFILIADO LA on LA.id_localidad_afiliado = P.id_localidad_afiliado&#xA;     WHERE id_ind_consumo = @Indicador&#xA;&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Alos Neonatologia"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{C8C36896-CFD4-4B4B-B2B8-2BD62D5633C8}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Alos Neonatologia"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{A3223EA0-900E-4B20-A33F-FDC7A3B40426}"
+          SQLTask:SqlStatementSource="&#xA;DECLARE @Indicador Int Set @Indicador = 37&#xA;DECLARE @Periodo Int Set @Periodo = (select MAX(id_periodo) from DW_SALUD.dbo.AUX_PERIODO_MES_BORRA_IND_CONSUMOS)&#xA;&#xA;---- Alos NEONATOLOGIA&#xA;---- Consumos............&#xA;&#xA;  INSERT INTO DW_SALUD.dbo.AUX_H_INDICADORES_CONS_CANT_PREST&#xA;  (id_periodo, id_ind_consumo, id_persona, nro_orden, id_tipo_orden, id_producto, id_subproducto, id_plan_producto, id_provincia, id_posicion, id_reintegro, id_sexo, edad_orden, edad_periodo, id_rango_edad, id_acreedor, nro_cursograma, Nro_Lote, nro_secuencia, id_prestacion,  cant_practicas_indicador, cant_dias_indicador, id_empresa_PE_ind, id_tipo_entidad_PE_ind, id_marca_PE_ind, id_convenio, id_tipo_entidad_convenio)&#xA;  SELECT id_periodo_fecha_internacion, @Indicador as id_ind_consumo, S.id_persona, S.nro_orden, S.id_tipo_orden, S.id_producto, S.id_subproducto, S.id_plan_producto, ' ' as id_provincia, 0 as id_posicion, 'F' as id_reintegro, 'X' as id_sexo, S.edad_orden, 0 as edad_periodo, 0 as id_rango_edad, 0 as id_acreedor, 0 as nro_cursograma, 0 as Nro_Lote, 0 as nro_secuencia, '' as id_prestacion,  sum(cant_internaciones) as cant_practicas_indicador, sum(cant_dias_reales) as cant_dias_indicador, S.id_empresa_PE_int as id_empresa_PE_ind, S.id_tipo_entidad_PE_int as id_tipo_entidad_PE_ind, S.id_marca_PE_int as id_marca_PE_ind, id_convenio, id_tipo_entidad_convenio&#xA;  FROM DW_SALUD.dbo.H_INTERNACIONES_CARLOS S&#xA;  JOIN DW_SALUD.dbo.D_PRODUCTOS P on P.id_producto = S.id_producto&#xA;  JOIN DW_SALUD.dbo.D_PLANES PL on PL.id_producto = S.id_producto and PL.id_plan_producto = S.id_plan_producto&#xA;  WHERE S.id_tipo_internacion in ('RN') /* Tipo Internacion NEONATOLOGIA. */&#xA;   and id_clase_producto in ('S')&#xA;   and id_internacion_prolongada = 'N'&#xA;   and id_periodo_fecha_internacion = @Periodo&#xA;   and S.id_tipo_orden = 6 /* Solo tipo orden Internacion. */&#xA;   and not exists (select FP.id_producto, FP.id_plan_producto from FILTRO_PLAN_PRODUCTO FP where FP.id_producto = S.id_producto and FP.id_plan_producto = S.id_plan_producto) /* Filtros de Tablero. */&#xA;   and not ((S.id_producto = 4 and S.id_plan_producto = 'PMO  ') /* A demás del filtro de planes (igual a Tablero) aqui tampoco tomamos PMO. */&#xA;    or  (S.id_producto = 35 and S.id_plan_producto = 'PMO  ')) /* A demás del filtro de planes (igual a Tablero) aqui tampoco tomamos PMO. */&#xA;         --and S.id_diagnostico not in ('O80') ---- No debe incluir diagnostico parto unico, porque ya se cuenta estos registros en el indicardor partos&#xA;  GROUP BY S.id_periodo_fecha_internacion, S.id_persona, S.nro_orden, S.id_tipo_orden, S.id_producto, S.id_subproducto, S.id_plan_producto, S.edad_orden, S.id_empresa_PE_int, S.id_tipo_entidad_PE_int, S.id_marca_PE_int, id_convenio, id_tipo_entidad_convenio&#xA;&#xA;   /* Borra las personas que están capitadas en Consultas. */&#xA;   &#xA;&#x9; DELETE DW_SALUD.dbo.AUX_H_INDICADORES_CONS_CANT_PREST&#xA;&#x9; FROM DW_SALUD.dbo.AUX_H_INDICADORES_CONS_CANT_PREST P&#xA;&#x9; JOIN Consultas_DW.dbo.AUX_H_PERSONAS_CAPITAS_SALUD C on P.id_periodo = C.id_periodo and P.id_persona = C.id_persona and P.id_producto = C.id_producto and P.id_plan_producto = C.id_plan_producto&#xA;&#x9; JOIN D_CAPITAS_SALUD CA on C.id_capita = CA.id_capita&#xA;&#x9; WHERE id_ind_consumo = @Indicador and CA.id_capita_os = 1 and CA.capita_internacion = 'SI' and P.cant_practicas_indicador is not null&#xA;&#xA;   /* Calcula Sexo, Posicion, Provincia y Edad Periodo*/&#xA;    &#xA;     UPDATE DW_SALUD.dbo.AUX_H_INDICADORES_CONS_CANT_PREST&#xA;&#x9;&#x9;SET id_sexo = P.id_sexo,&#xA;&#x9;&#x9;&#x9;id_posicion = LA.id_posicion,&#xA;&#x9;&#x9;&#x9;id_provincia = LA.id_provincia,&#xA;&#x9;&#x9;&#x9;id_localidad_indicador_consumo = P.id_localidad_afiliado&#xA;     FROM DW_SALUD.dbo.AUX_H_INDICADORES_CONS_CANT_PREST I&#xA;     JOIN DW_SALUD.dbo.D_PERSONAS P on P.id_persona = I.id_persona&#xA;     JOIN DW_SALUD.dbo.D_LOCALIDADES_AFILIADO LA on LA.id_localidad_afiliado = P.id_localidad_afiliado&#xA;     WHERE id_ind_consumo = @Indicador&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Alos Partos"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{059f9efc-1eb0-402b-8dad-7ebfbc8de3ed}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Alos Partos"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{A3223EA0-900E-4B20-A33F-FDC7A3B40426}"
+          SQLTask:SqlStatementSource="&#xA; DECLARE @Indicador Int Set @Indicador = 15&#xA; DECLARE @Periodo Int Set @Periodo = (select MAX(id_periodo) from DW_SALUD.dbo.AUX_PERIODO_MES_BORRA_IND_CONSUMOS)&#xA;&#xA;---- Consumos............&#xA;&#xA;  INSERT INTO DW_SALUD.dbo.AUX_H_INDICADORES_CONS_CANT_PREST&#xA;  (id_periodo, id_ind_consumo, id_persona, nro_orden, id_tipo_orden, id_producto, id_subproducto, id_plan_producto, id_provincia, id_posicion, id_reintegro, id_sexo, edad_orden, edad_periodo, id_rango_edad, id_acreedor, nro_cursograma, Nro_Lote, nro_secuencia, id_prestacion, cant_practicas_indicador, cant_dias_indicador, id_empresa_PE_ind, id_tipo_entidad_PE_ind, id_marca_PE_ind, id_convenio, id_tipo_entidad_convenio)&#xA;  SELECT id_periodo_fecha_internacion, @Indicador as id_ind_consumo, S.id_persona, S.nro_orden, S.id_tipo_orden, S.id_producto, S.id_subproducto, S.id_plan_producto, ' ' as id_provincia, 0 as id_posicion, 'F' as id_reintegro, 'X' as id_sexo, S.edad_orden, 0 as edad_periodo, 0 as id_rango_edad, 0 as id_acreedor, 0 as nro_cursograma, 0 as Nro_Lote, 0 as nro_secuencia, '' as id_prestacion, sum(cant_internaciones) as cant_practicas_indicador, sum(cant_dias_reales) as cant_dias_indicador, S.id_empresa_PE_int as id_empresa_PE_ind, S.id_tipo_entidad_PE_int as id_tipo_entidad_PE_ind, S.id_marca_PE_int as id_marca_PE_ind, id_convenio, id_tipo_entidad_convenio&#xA;  FROM DW_SALUD.dbo.H_INTERNACIONES_CARLOS S&#xA;  JOIN DW_SALUD.dbo.D_PRODUCTOS P on P.id_producto = S.id_producto&#xA;  JOIN DW_SALUD.dbo.D_PLANES PL on PL.id_producto = S.id_producto and PL.id_plan_producto = S.id_plan_producto&#xA;  WHERE  --S.id_diagnostico in ('O80') /* Parto. */&#xA;  S.id_tipo_internacion = 'P' /* Parto. */&#xA;   and id_clase_producto in ('S')&#xA;   and  id_internacion_prolongada = 'N'&#xA;   and id_periodo_fecha_internacion = @Periodo&#xA;   and S.id_tipo_orden = 6 /* Solo tipo orden Internacion. */&#xA;   and not exists (select FP.id_producto, FP.id_plan_producto from FILTRO_PLAN_PRODUCTO FP where FP.id_producto = S.id_producto and FP.id_plan_producto = S.id_plan_producto) /* Filtros de Tablero. */&#xA;   and not ((S.id_producto = 4 and S.id_plan_producto = 'PMO  ') /* A demás del filtro de planes (igual a Tablero) aqui tampoco tomamos PMO. */&#xA;    or  (S.id_producto = 35 and S.id_plan_producto = 'PMO  ')) /* A demás del filtro de planes (igual a Tablero) aqui tampoco tomamos PMO. */&#xA;  GROUP BY S.id_periodo_fecha_internacion, S.id_persona, S.nro_orden, S.id_tipo_orden, S.id_producto, S.id_subproducto, S.id_plan_producto, S.edad_orden, S.id_empresa_PE_int, S.id_tipo_entidad_PE_int, S.id_marca_PE_int, id_convenio, id_tipo_entidad_convenio&#xA;&#xA;    /* Borra las personas que están capitadas en Consultas. */&#xA;    &#xA;   DELETE DW_SALUD.dbo.AUX_H_INDICADORES_CONS_CANT_PREST&#xA;   FROM DW_SALUD.dbo.AUX_H_INDICADORES_CONS_CANT_PREST P&#xA;   JOIN Consultas_DW.dbo.AUX_H_PERSONAS_CAPITAS_SALUD C on P.id_periodo = C.id_periodo and P.id_persona = C.id_persona and P.id_producto = C.id_producto and P.id_plan_producto = C.id_plan_producto&#xA;   JOIN D_CAPITAS_SALUD CA on C.id_capita = CA.id_capita&#xA;   WHERE id_ind_consumo = @Indicador and CA.id_capita_os = 1 and CA.capita_internacion = 'SI' and P.cant_practicas_indicador is not null&#xA;&#xA;   /* Calcula Sexo, Posicion, Provincia y Edad Periodo*/&#xA;   &#xA;&#x9;&#x9;UPDATE DW_SALUD.dbo.AUX_H_INDICADORES_CONS_CANT_PREST&#xA;&#x9;&#x9;&#x9;SET id_sexo = P.id_sexo,&#xA;&#x9;&#x9;&#x9;&#x9;id_posicion = LA.id_posicion,&#xA;&#x9;&#x9;&#x9;&#x9;id_provincia = LA.id_provincia,&#xA;&#x9;&#x9;&#x9;&#x9;id_localidad_indicador_consumo = P.id_localidad_afiliado&#xA;&#x9;&#x9;FROM DW_SALUD.dbo.AUX_H_INDICADORES_CONS_CANT_PREST I&#xA;&#x9;&#x9;JOIN DW_SALUD.dbo.D_PERSONAS P on P.id_persona = I.id_persona&#xA;&#x9;&#x9;JOIN DW_SALUD.dbo.D_LOCALIDADES_AFILIADO LA on LA.id_localidad_afiliado = P.id_localidad_afiliado&#xA;&#x9;&#x9;WHERE id_ind_consumo = @Indicador" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Alos Quirurgicas"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{108581de-daf0-4c4c-aff9-7125d8732435}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Alos Quirurgicas"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{A3223EA0-900E-4B20-A33F-FDC7A3B40426}"
+          SQLTask:SqlStatementSource="&#xA;DECLARE @Indicador Int Set @Indicador = 14&#xA;DECLARE @Periodo Int Set @Periodo = (select MAX(id_periodo) from DW_SALUD.dbo.AUX_PERIODO_MES_BORRA_IND_CONSUMOS)&#xA;&#xA;---- Consumos............&#xA;&#xA;  INSERT INTO DW_SALUD.dbo.AUX_H_INDICADORES_CONS_CANT_PREST&#xA;  (id_periodo, id_ind_consumo, id_persona, nro_orden, id_tipo_orden, id_producto, id_subproducto, id_plan_producto, id_provincia, id_posicion, id_reintegro, id_sexo, edad_orden, edad_periodo, id_rango_edad, id_acreedor, nro_cursograma, Nro_Lote, nro_secuencia, id_prestacion,  cant_practicas_indicador, cant_dias_indicador, id_empresa_PE_ind, id_tipo_entidad_PE_ind, id_marca_PE_ind, id_convenio, id_tipo_entidad_convenio)&#xA;  SELECT id_periodo_fecha_internacion, @Indicador as id_ind_consumo, S.id_persona, S.nro_orden, S.id_tipo_orden, S.id_producto, S.id_subproducto, S.id_plan_producto, ' ' as id_provincia, 0 as id_posicion, 'F' as id_reintegro, 'X' as id_sexo, S.edad_orden, 0 as edad_periodo, 0 as id_rango_edad, 0 as id_acreedor, 0 as nro_cursograma, 0 as Nro_Lote, 0 as nro_secuencia, '' as id_prestacion, sum(cant_internaciones) as cant_practicas_indicador, sum(cant_dias_reales) as cant_dias_indicador, S.id_empresa_PE_int as id_empresa_PE_ind, S.id_tipo_entidad_PE_int as id_tipo_entidad_PE_ind, S.id_marca_PE_int as id_marca_PE_ind, id_convenio, id_tipo_entidad_convenio&#xA;  FROM DW_SALUD.dbo.H_INTERNACIONES_CARLOS S&#xA;  JOIN DW_SALUD.dbo.D_PRODUCTOS P on P.id_producto = S.id_producto&#xA;  JOIN DW_SALUD.dbo.D_PLANES PL on PL.id_producto = S.id_producto and PL.id_plan_producto = S.id_plan_producto&#xA;  WHERE S.id_tipo_internacion in ('QC') /* Tipo Internacion Quirúrgicas. */&#xA;   and id_clase_producto in ('S')&#xA;   and  id_internacion_prolongada = 'N'&#xA;   and id_periodo_fecha_internacion = @Periodo&#xA;   and S.id_tipo_orden = 6 /* Solo tipo orden Internacion. */&#xA;   and not exists (select FP.id_producto, FP.id_plan_producto from FILTRO_PLAN_PRODUCTO FP where FP.id_producto = S.id_producto and FP.id_plan_producto = S.id_plan_producto) /* Filtros de Tablero. */&#xA;   and not ((S.id_producto = 4 and S.id_plan_producto = 'PMO  ') /* A demás del filtro de planes (igual a Tablero) aqui tampoco tomamos PMO. */&#xA;    or  (S.id_producto = 35 and S.id_plan_producto = 'PMO  ')) /* A demás del filtro de planes (igual a Tablero) aqui tampoco tomamos PMO. */&#xA;     -- and S.id_diagnostico not in ('O80') ---- No debe incluir diagnostico parto unico, porque ya se cuenta estos registros en el indicardor partos&#xA;  GROUP BY S.id_periodo_fecha_internacion, S.id_persona, S.nro_orden, S.id_tipo_orden, S.id_producto, S.id_subproducto, S.id_plan_producto, S.edad_orden, S.id_empresa_PE_int, S.id_tipo_entidad_PE_int, S.id_marca_PE_int, id_convenio, id_tipo_entidad_convenio&#xA;&#xA;    /* Borra las personas que están capitadas en Consultas. */&#xA;&#xA;&#x9;  DELETE DW_SALUD.dbo.AUX_H_INDICADORES_CONS_CANT_PREST&#xA;&#x9;  FROM DW_SALUD.dbo.AUX_H_INDICADORES_CONS_CANT_PREST P&#xA;&#x9;  JOIN Consultas_DW.dbo.AUX_H_PERSONAS_CAPITAS_SALUD C on P.id_periodo = C.id_periodo and P.id_persona = C.id_persona and P.id_producto = C.id_producto and P.id_plan_producto = C.id_plan_producto&#xA;&#x9;  JOIN D_CAPITAS_SALUD CA on C.id_capita = CA.id_capita&#xA;&#x9;  WHERE id_ind_consumo = @Indicador and CA.id_capita_os = 1 and CA.capita_internacion = 'SI' and P.cant_practicas_indicador is not null&#xA;&#xA;   /* Calcula Sexo, Posicion, Provincia y Edad Periodo*/&#xA;  &#xA;     UPDATE DW_SALUD.dbo.AUX_H_INDICADORES_CONS_CANT_PREST&#xA;&#x9;&#x9;SET&#x9;id_sexo = P.id_sexo,&#xA;&#x9;&#x9;&#x9;id_posicion = LA.id_posicion,&#xA;&#x9;&#x9;&#x9;id_provincia = LA.id_provincia,&#xA;&#x9;&#x9;&#x9;id_localidad_indicador_consumo = P.id_localidad_afiliado&#xA;     FROM DW_SALUD.dbo.AUX_H_INDICADORES_CONS_CANT_PREST I&#xA;     JOIN DW_SALUD.dbo.D_PERSONAS P on P.id_persona = I.id_persona&#xA;     JOIN DW_SALUD.dbo.D_LOCALIDADES_AFILIADO LA on LA.id_localidad_afiliado = P.id_localidad_afiliado&#xA;     WHERE id_ind_consumo = @Indicador&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{773158A5-781E-4804-94B2-C5943DF3518A}"
+      DTS:From="Package\Alos Clinica"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Alos Quirurgicas" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{2D3A204F-10C0-46FB-8CFA-18FA5A9377A0}"
+      DTS:From="Package\Alos Quirurgicas"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Alos Partos" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{21D2164C-999A-44F1-91B5-4F753934CD86}"
+      DTS:From="Package\Alos Partos"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Alos Cesareas" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{604B55AE-24D2-47FA-99B7-13ADB00FE9E1}"
+      DTS:From="Package\Alos Cesareas"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Alos Neonatologia" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="150,42"
+          Id="Package\Alos Cesareas"
+          TopLeft="63.3,212.528301886792" />
+        <NodeLayout
+          Size="137,42"
+          Id="Package\Alos Clinica"
+          TopLeft="69.8,5.5" />
+        <NodeLayout
+          Size="168,42"
+          Id="Package\Alos Neonatologia"
+          TopLeft="54.3,281.537735849057" />
+        <NodeLayout
+          Size="135,42"
+          Id="Package\Alos Partos"
+          TopLeft="70.8,143.518867924528" />
+        <NodeLayout
+          Size="160,42"
+          Id="Package\Alos Quirurgicas"
+          TopLeft="58.3,74.5094339622641" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="138.3,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,27.0094339622641"
+              Start="0,0"
+              End="0,19.5094339622641">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,19.5094339622641" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="138.3,116.509433962264">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,27.0094339622641"
+              Start="0,0"
+              End="0,19.5094339622641">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,19.5094339622641" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="138.3,185.518867924528">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,27.0094339622641"
+              Start="0,0"
+              End="0,19.5094339622641">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,19.5094339622641" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="138.3,254.528301886792">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,27.0094339622642"
+              Start="0,0"
+              End="0,19.5094339622642">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,19.5094339622642" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

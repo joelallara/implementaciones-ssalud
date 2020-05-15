@@ -1,0 +1,1799 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="1/17/2013 7:44:57 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AMS06"
+  DTS:CreatorName="AMS\adminb"
+  DTS:DTSID="{5B945C38-484C-4F77-B748-FEE76A560DF0}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Comercial_D_GRILLAS"
+  DTS:VersionBuild="79"
+  DTS:VersionGUID="{81BE0AD0-4177-4C2C-89F1-8D21811559FB}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[TXT GRIPRO]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{A8714770-6EC0-43C3-9E0D-FB946A2DB8C9}"
+      DTS:ObjectName="TXT GRIPRO">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="RaggedRight"
+          DTS:LocaleID="1033"
+          DTS:HeaderRowDelimiter="_x000D__x000A_"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x0022_"
+          DTS:CodePage="1252"
+          DTS:ConnectionString="\\p-is-01\SSIS2017$\03 - Archivos\Data Comercial\GRIPRO.TXT">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnDelimiter=""
+              DTS:ColumnWidth="4"
+              DTS:MaximumWidth="4"
+              DTS:DataType="129"
+              DTS:ObjectName="Column 0"
+              DTS:DTSID="{969E9C98-B152-4B1E-85CB-21C7B2EA246C}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnDelimiter=""
+              DTS:ColumnWidth="5"
+              DTS:MaximumWidth="5"
+              DTS:DataType="129"
+              DTS:ObjectName="Column 1"
+              DTS:DTSID="{B33CAD7C-EAF3-4E2B-9244-76D789DD92B6}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnDelimiter=""
+              DTS:ColumnWidth="5"
+              DTS:MaximumWidth="5"
+              DTS:DataType="129"
+              DTS:ObjectName="Column 2"
+              DTS:DTSID="{2D20374D-DBA6-470C-A100-9219CDE10FDF}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnDelimiter=""
+              DTS:ColumnWidth="30"
+              DTS:MaximumWidth="30"
+              DTS:DataType="129"
+              DTS:ObjectName="Column 3"
+              DTS:DTSID="{001D7A72-377A-4688-B910-7CDFA96A73BB}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnDelimiter=""
+              DTS:ColumnWidth="8"
+              DTS:MaximumWidth="8"
+              DTS:DataType="129"
+              DTS:ObjectName="Column 4"
+              DTS:DTSID="{890789F2-8928-421F-BBEB-E923F3A17874}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnDelimiter=""
+              DTS:ColumnWidth="8"
+              DTS:MaximumWidth="8"
+              DTS:DataType="129"
+              DTS:ObjectName="Column 5"
+              DTS:DTSID="{475E138B-C1E1-48A4-8027-641B71FE3159}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000D__x000A_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Column 6"
+              DTS:DTSID="{60B0EE6E-288F-4D56-8B4C-1F11DDB294FA}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{77C33A63-BE94-4A02-9865-624706C734F4}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">1,7,OnError</DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnError"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{77C33A63-BE94-4A02-9865-624706C734F4}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza AUX_D_GRILLAS"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Actualiza los campos de fecha"
+      DTS:DTSID="{28CD6583-CB4D-4885-8C98-70CFD3E7B184}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza AUX_D_GRILLAS"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{C58967E1-D6E6-45BE-BAEB-DD39AA465CE7}"
+          SQLTask:SqlStatementSource="&#x9;&#xA;/* Actualiza informacion de COPAGO en AUX_D_GRILLAS. */&#xA;&#x9;UPDATE AUX_D_GRILLAS&#xA;&#x9;&#x9;set id_con_copago = &#xA;&#x9;&#x9;&#x9;case&#xA;&#x9;&#x9;&#x9;&#x9;when lista_precio_orden in (2,12) then 'N' --SIN COPAGO&#xA;&#x9;&#x9;&#x9;&#x9;else 'S' --CON COPAGO&#xA;&#x9;&#x9;&#x9;end&#xA;&#x9;FROM AUX_D_GRILLAS G &#xA;&#x9;JOIN AUX_LISTA_PRECIO_ORDENES LPO on (G.id_producto = LPO.id_producto and G.id_plan_producto = LPO.id_plan_producto and G.grilla = LPO.grilla)&#xA;&#xA;&#x9;&#x9;-- Actualiza camopo como Resto.&#xA;&#x9;&#x9;UPDATE AUX_D_GRILLAS set id_con_copago = 'X' where id_con_copago not in ('N','S')&#xA;&#xA;&#xA;&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza D_GRILLAS"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{1BB92231-3B97-4DE5-8BCE-C80168A292A4}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza D_GRILLAS"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{C58967E1-D6E6-45BE-BAEB-DD39AA465CE7}"
+          SQLTask:SqlStatementSource="&#xA;/* Actualiza la información existente. Si no estan dadas de baja actualizo tmb el copago */&#xA;&#x9;UPDATE D_GRILLAS&#xA;&#x9;&#x9;SET d_grillas.de_grilla = a12.de_grilla, &#xA;&#x9;&#x9;&#x9;d_grillas.char_fecha_vig_desde = a12.char_fecha_vig_desde, &#xA;&#x9;&#x9;&#x9;d_grillas.char_fecha_vig_hasta = a12.char_fecha_vig_hasta,&#xA;&#x9;&#x9;&#x9;d_grillas.id_con_copago = a12.id_con_copago&#xA;&#x9;FROM aux_d_grillas a12&#xA;&#x9;WHERE d_grillas.id_producto = a12.id_producto and d_grillas.id_plan_producto = a12.id_plan_producto and d_grillas.grilla = a12.grilla&#xA;&#x9;and a12.id_plan_producto not in ('OS', 'SX','PMO') --se excluyen los planes OS y SX xq no tienen liquidacion, por lo tanto no tienen LPO&#xA;&#x9;and a12.char_fecha_vig_hasta = 0&#xA;&#xA;/* Actualiza info para las que se dieron de baja. aqui no actualizo el copago para no perder la info que tengo en mi tabla*/&#xA;&#x9;UPDATE D_GRILLAS&#xA;&#x9;&#x9;SET d_grillas.de_grilla = a12.de_grilla, &#xA;&#x9;&#x9;&#x9;d_grillas.char_fecha_vig_desde = a12.char_fecha_vig_desde, &#xA;&#x9;&#x9;&#x9;d_grillas.char_fecha_vig_hasta = a12.char_fecha_vig_hasta&#xA;&#x9;FROM aux_d_grillas a12&#xA;&#x9;WHERE d_grillas.id_producto=a12.id_producto and d_grillas.id_plan_producto = a12.id_plan_producto and d_grillas.grilla = a12.grilla&#xA;&#x9;and a12.id_plan_producto not in ('OS', 'SX','PMO') --se excluyen los planes OS y SX xq no tienen liquidacion, por lo tanto no tienen LPO&#xA;&#x9;and a12.char_fecha_vig_hasta &lt;&gt; 0 --si una grilla se dio de baja trae fecha, si no trae 0&#xA;&#xA;&#xA;/* Creo la información faltante */&#xA;&#x9;INSERT INTO D_GRILLAS&#xA;&#x9;(id_producto, id_plan_producto, grilla, de_grilla, char_fecha_vig_desde, char_fecha_vig_hasta, id_con_copago, fecha_vig_desde, fecha_vig_hasta)&#xA;&#x9;SELECT a11.id_producto, a11.id_plan_producto, a11.grilla, a11.de_grilla, a11.char_fecha_vig_desde, a11.char_fecha_vig_hasta, id_con_copago, fecha_vig_desde, fecha_vig_hasta&#xA;&#x9;FROM aux_d_grillas a11&#xA;&#x9;WHERE not exists (SELECT * FROM d_grillas a12 WHERE a11.id_producto = a12.id_producto and a11.id_plan_producto = a12.id_plan_producto and a11.grilla = a12.grilla)&#xA;&#xA;/* Corrige de fechas. */&#xA;&#x9;UPDATE D_GRILLAS set char_fecha_vig_desde = '19000101' &#xA;&#x9;where isdate(substring(char_fecha_vig_desde,1,4) + '-' + substring(char_fecha_vig_desde,5,2) + '-' + substring(char_fecha_vig_desde,7,2) + ' ') = 0&#xA;&#xA;&#x9;UPDATE D_GRILLAS set char_fecha_vig_hasta = '19000101' &#xA;&#x9;where isdate(substring(char_fecha_vig_hasta,1,4) + '-' + substring(char_fecha_vig_hasta,5,2) + '-' + substring(char_fecha_vig_hasta,7,2) + ' ') = 0&#xA;&#xA;&#x9;UPDATE D_GRILLAS&#xA;&#x9;&#x9;SET fecha_vig_desde = char_fecha_vig_desde,&#xA;&#x9;&#x9;&#x9;fecha_vig_hasta = char_fecha_vig_hasta &#xA;&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Borrar AUX_D_GRILLAS"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Elimina AUX_D_GRILLAS"
+      DTS:DTSID="{765D57B9-E501-4C1A-9AD4-806A8FF6527A}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Borrar AUX_D_GRILLAS"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{C58967E1-D6E6-45BE-BAEB-DD39AA465CE7}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE AUX_D_GRILLAS" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Detecta nuevas Listas de Precio"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{D1A3C15A-45B7-4DDF-9750-09D2F9C2BDAA}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Detecta nuevas Listas de Precio"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{C58967E1-D6E6-45BE-BAEB-DD39AA465CE7}"
+          SQLTask:SqlStatementSource="if exists (select distinct W67LPO from HOST03.HOST03.SMPLIBD.T67FLPO T &#xA;where W67LPO NOT IN (SELECT distinct lista_precio_orden FROM AUX_LISTA_PRECIO_ORDENES))&#xA;begin&#xA;&#x9;EXEC msdb.dbo.sp_send_dbmail&#xA;&#x9;&#x9;&#x9;@profile_name = 'Soporte MicroStrategy',&#xA;&#x9;&#x9;&#x9;@recipients = 'nicolas.prida@sancorsalud.com.ar; juanfrancisco.trinchieri@sancorsalud.com.ar ',&#xA;&#x9;&#x9;&#x9;@subject = 'Nueva Lista de Precio de Ordenes',&#xA;&#x9;&#x9;&#x9;@body = 'Se han dado de alta las siguientes Listas de Precios de Ordenes en la tabla SMPLIBD.T67FLPO. Averiguar si son CON o SIN COPAGO y actuaizar el codigo: Paquete COMERCIAL_D_GRILLAS/actualiza_aux_d_grillas',&#xA;&#x9;&#x9;&#x9;@query = 'select distinct W67LPO from HOST03.HOST03.SMPLIBD.T67FLPO T &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;where W67LPO NOT IN (SELECT distinct lista_precio_orden FROM AUX_LISTA_PRECIO_ORDENES)',&#xA;&#x9;&#x9;&#x9;@query_result_separator = ';',&#xA;&#x9;&#x9;&#x9;@execute_query_database = 'DW_SALUD';&#xA;end&#xA;&#xA;&#xA;&#xA;DELETE AUX_LISTA_PRECIO_ORDENES" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Lista Precio Orden"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{7BD7105F-6749-4356-A0AC-166B2D66F8B2}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Lista Precio Orden"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <pipeline
+          BLOBTempStoragePath=""
+          bufferTempStoragePath=""
+          version="1">
+          <components>
+            <component
+              refId="Package\Lista Precio Orden\Data Conversion"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Data Conversion;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Data Conversion"
+              name="Data Conversion"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Lista Precio Orden\Data Conversion.Inputs[Data Conversion Input]"
+                  name="Data Conversion Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Lista Precio Orden\Data Conversion.Inputs[Data Conversion Input].Columns[W67PLA]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="5"
+                      cachedName="W67PLA"
+                      lineageId="Package\Lista Precio Orden\OLE DB Source.Outputs[OLE DB Source Output].Columns[W67PLA]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Lista Precio Orden\Data Conversion.Outputs[Data Conversion Output]"
+                  exclusionGroup="1"
+                  name="Data Conversion Output"
+                  synchronousInputId="Package\Lista Precio Orden\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Lista Precio Orden\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of W67PLA]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="5"
+                      lineageId="Package\Lista Precio Orden\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of W67PLA]"
+                      name="Copy of W67PLA"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Lista Precio Orden\OLE DB Source.Outputs[OLE DB Source Output].Columns[W67PLA]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Lista Precio Orden\Data Conversion.Outputs[Data Conversion Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Data Conversion Error Output"
+                  synchronousInputId="Package\Lista Precio Orden\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Lista Precio Orden\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Lista Precio Orden\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Lista Precio Orden\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Lista Precio Orden\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Lista Precio Orden\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[AUX_LISTA_PRECIO_ORDENES]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Lista Precio Orden\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="{C58967E1-D6E6-45BE-BAEB-DD39AA465CE7}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DS_DW_SALUD]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Lista Precio Orden\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Lista Precio Orden\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[W67PRO]"
+                      cachedDataType="numeric"
+                      cachedName="W67PRO"
+                      cachedPrecision="4"
+                      externalMetadataColumnId="Package\Lista Precio Orden\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_producto]"
+                      lineageId="Package\Lista Precio Orden\OLE DB Source.Outputs[OLE DB Source Output].Columns[W67PRO]" />
+                    <inputColumn
+                      refId="Package\Lista Precio Orden\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[W67PLG]"
+                      cachedDataType="numeric"
+                      cachedName="W67PLG"
+                      cachedPrecision="5"
+                      externalMetadataColumnId="Package\Lista Precio Orden\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[grilla]"
+                      lineageId="Package\Lista Precio Orden\OLE DB Source.Outputs[OLE DB Source Output].Columns[W67PLG]" />
+                    <inputColumn
+                      refId="Package\Lista Precio Orden\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[W67LPO]"
+                      cachedDataType="numeric"
+                      cachedName="W67LPO"
+                      cachedPrecision="3"
+                      externalMetadataColumnId="Package\Lista Precio Orden\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[lista_precio_orden]"
+                      lineageId="Package\Lista Precio Orden\OLE DB Source.Outputs[OLE DB Source Output].Columns[W67LPO]" />
+                    <inputColumn
+                      refId="Package\Lista Precio Orden\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of W67PLA]"
+                      cachedDataType="wstr"
+                      cachedLength="5"
+                      cachedName="Copy of W67PLA"
+                      externalMetadataColumnId="Package\Lista Precio Orden\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_plan_producto]"
+                      lineageId="Package\Lista Precio Orden\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of W67PLA]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Lista Precio Orden\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_producto]"
+                      dataType="numeric"
+                      name="id_producto"
+                      precision="4" />
+                    <externalMetadataColumn
+                      refId="Package\Lista Precio Orden\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_plan_producto]"
+                      dataType="wstr"
+                      length="5"
+                      name="id_plan_producto" />
+                    <externalMetadataColumn
+                      refId="Package\Lista Precio Orden\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[grilla]"
+                      dataType="i4"
+                      name="grilla" />
+                    <externalMetadataColumn
+                      refId="Package\Lista Precio Orden\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[lista_precio_orden]"
+                      dataType="numeric"
+                      name="lista_precio_orden"
+                      precision="3" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Lista Precio Orden\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Lista Precio Orden\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Lista Precio Orden\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Lista Precio Orden\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Lista Precio Orden\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Lista Precio Orden\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Lista Precio Orden\OLE DB Source"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE DB Source"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT W67PRO, W67PLA, W67PLG, W67LPO FROM SMPLIBD.T67FLPO</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Lista Precio Orden\OLE DB Source.Connections[OleDbConnection]"
+                  connectionManagerID="{DEF61386-9B9F-4B6A-B439-088B2A65DD60}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DS_HOST03]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Lista Precio Orden\OLE DB Source.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Lista Precio Orden\OLE DB Source.Outputs[OLE DB Source Output].Columns[W67PRO]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Lista Precio Orden\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W67PRO]"
+                      lineageId="Package\Lista Precio Orden\OLE DB Source.Outputs[OLE DB Source Output].Columns[W67PRO]"
+                      name="W67PRO"
+                      precision="4"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Lista Precio Orden\OLE DB Source.Outputs[OLE DB Source Output].Columns[W67PLA]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Lista Precio Orden\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W67PLA]"
+                      length="5"
+                      lineageId="Package\Lista Precio Orden\OLE DB Source.Outputs[OLE DB Source Output].Columns[W67PLA]"
+                      name="W67PLA"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Lista Precio Orden\OLE DB Source.Outputs[OLE DB Source Output].Columns[W67PLG]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Lista Precio Orden\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W67PLG]"
+                      lineageId="Package\Lista Precio Orden\OLE DB Source.Outputs[OLE DB Source Output].Columns[W67PLG]"
+                      name="W67PLG"
+                      precision="5"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Lista Precio Orden\OLE DB Source.Outputs[OLE DB Source Output].Columns[W67LPO]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Lista Precio Orden\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W67LPO]"
+                      lineageId="Package\Lista Precio Orden\OLE DB Source.Outputs[OLE DB Source Output].Columns[W67LPO]"
+                      name="W67LPO"
+                      precision="3"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Lista Precio Orden\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W67PRO]"
+                      dataType="numeric"
+                      name="W67PRO"
+                      precision="4" />
+                    <externalMetadataColumn
+                      refId="Package\Lista Precio Orden\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W67PLA]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      name="W67PLA" />
+                    <externalMetadataColumn
+                      refId="Package\Lista Precio Orden\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W67PLG]"
+                      dataType="numeric"
+                      name="W67PLG"
+                      precision="5" />
+                    <externalMetadataColumn
+                      refId="Package\Lista Precio Orden\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[W67LPO]"
+                      dataType="numeric"
+                      name="W67LPO"
+                      precision="3" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Lista Precio Orden\OLE DB Source.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Lista Precio Orden\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W67PRO]"
+                      dataType="numeric"
+                      lineageId="Package\Lista Precio Orden\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W67PRO]"
+                      name="W67PRO"
+                      precision="4" />
+                    <outputColumn
+                      refId="Package\Lista Precio Orden\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W67PLA]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      lineageId="Package\Lista Precio Orden\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W67PLA]"
+                      name="W67PLA" />
+                    <outputColumn
+                      refId="Package\Lista Precio Orden\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W67PLG]"
+                      dataType="numeric"
+                      lineageId="Package\Lista Precio Orden\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W67PLG]"
+                      name="W67PLG"
+                      precision="5" />
+                    <outputColumn
+                      refId="Package\Lista Precio Orden\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W67LPO]"
+                      dataType="numeric"
+                      lineageId="Package\Lista Precio Orden\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[W67LPO]"
+                      name="W67LPO"
+                      precision="3" />
+                    <outputColumn
+                      refId="Package\Lista Precio Orden\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Lista Precio Orden\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Lista Precio Orden\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Lista Precio Orden\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Lista Precio Orden.Paths[Data Conversion Output]"
+              endId="Package\Lista Precio Orden\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="Data Conversion Output"
+              startId="Package\Lista Precio Orden\Data Conversion.Outputs[Data Conversion Output]" />
+            <path
+              refId="Package\Lista Precio Orden.Paths[OLE DB Source Output]"
+              endId="Package\Lista Precio Orden\Data Conversion.Inputs[Data Conversion Input]"
+              name="OLE DB Source Output"
+              startId="Package\Lista Precio Orden\OLE DB Source.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\TXT GRIPRO"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Transform Data Task: undefined"
+      DTS:DTSID="{944BD805-4C53-48EE-AAD1-8B489D3A6D8A}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="TXT GRIPRO"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v9; (C) 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <pipeline
+          BLOBTempStoragePath=""
+          bufferTempStoragePath=""
+          engineThreads="5"
+          version="1">
+          <components>
+            <component
+              refId="Package\TXT GRIPRO\Data Conversion 1"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Data Conversion;Microsoft Corporation;Microsoft SqlServer v9; (C) 2005 Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Data Conversion"
+              name="Data Conversion 1"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\TXT GRIPRO\Data Conversion 1.Inputs[Data Conversion Input]"
+                  name="Data Conversion Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\TXT GRIPRO\Data Conversion 1.Inputs[Data Conversion Input].Columns[Column 3]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="Column 3"
+                      lineageId="Package\TXT GRIPRO\Flat File Source.Outputs[Flat File Source Output].Columns[Column 3]" />
+                    <inputColumn
+                      refId="Package\TXT GRIPRO\Data Conversion 1.Inputs[Data Conversion Input].Columns[Column 4]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="8"
+                      cachedName="Column 4"
+                      lineageId="Package\TXT GRIPRO\Flat File Source.Outputs[Flat File Source Output].Columns[Column 4]" />
+                    <inputColumn
+                      refId="Package\TXT GRIPRO\Data Conversion 1.Inputs[Data Conversion Input].Columns[Column 5]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="8"
+                      cachedName="Column 5"
+                      lineageId="Package\TXT GRIPRO\Flat File Source.Outputs[Flat File Source Output].Columns[Column 5]" />
+                    <inputColumn
+                      refId="Package\TXT GRIPRO\Data Conversion 1.Inputs[Data Conversion Input].Columns[Column 2]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="5"
+                      cachedName="Column 2"
+                      lineageId="Package\TXT GRIPRO\Flat File Source.Outputs[Flat File Source Output].Columns[Column 2]" />
+                    <inputColumn
+                      refId="Package\TXT GRIPRO\Data Conversion 1.Inputs[Data Conversion Input].Columns[Column 0]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="4"
+                      cachedName="Column 0"
+                      lineageId="Package\TXT GRIPRO\Flat File Source.Outputs[Flat File Source Output].Columns[Column 0]" />
+                    <inputColumn
+                      refId="Package\TXT GRIPRO\Data Conversion 1.Inputs[Data Conversion Input].Columns[Column 1]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="5"
+                      cachedName="Column 1"
+                      lineageId="Package\TXT GRIPRO\Flat File Source.Outputs[Flat File Source Output].Columns[Column 1]" />
+                    <inputColumn
+                      refId="Package\TXT GRIPRO\Data Conversion 1.Inputs[Data Conversion Input].Columns[Column 6]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="Column 6"
+                      lineageId="Package\TXT GRIPRO\Flat File Source.Outputs[Flat File Source Output].Columns[Column 6]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\TXT GRIPRO\Data Conversion 1.Outputs[Data Conversion Output]"
+                  exclusionGroup="1"
+                  name="Data Conversion Output"
+                  synchronousInputId="Package\TXT GRIPRO\Data Conversion 1.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\TXT GRIPRO\Data Conversion 1.Outputs[Data Conversion Output].Columns[Copy of Column 0]"
+                      dataType="ui4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\TXT GRIPRO\Data Conversion 1.Outputs[Data Conversion Output].Columns[Copy of Column 0]"
+                      name="Copy of Column 0"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\TXT GRIPRO\Flat File Source.Outputs[Flat File Source Output].Columns[Column 0]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\TXT GRIPRO\Data Conversion 1.Outputs[Data Conversion Output].Columns[Copy of Column 2]"
+                      dataType="ui4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\TXT GRIPRO\Data Conversion 1.Outputs[Data Conversion Output].Columns[Copy of Column 2]"
+                      name="Copy of Column 2"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\TXT GRIPRO\Flat File Source.Outputs[Flat File Source Output].Columns[Column 2]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\TXT GRIPRO\Data Conversion 1.Outputs[Data Conversion Output].Columns[Copy of Column 3]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="30"
+                      lineageId="Package\TXT GRIPRO\Data Conversion 1.Outputs[Data Conversion Output].Columns[Copy of Column 3]"
+                      name="Copy of Column 3"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\TXT GRIPRO\Flat File Source.Outputs[Flat File Source Output].Columns[Column 3]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\TXT GRIPRO\Data Conversion 1.Outputs[Data Conversion Output].Columns[Copy of Column 4]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="8"
+                      lineageId="Package\TXT GRIPRO\Data Conversion 1.Outputs[Data Conversion Output].Columns[Copy of Column 4]"
+                      name="Copy of Column 4"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\TXT GRIPRO\Flat File Source.Outputs[Flat File Source Output].Columns[Column 4]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\TXT GRIPRO\Data Conversion 1.Outputs[Data Conversion Output].Columns[Copy of Column 5]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="8"
+                      lineageId="Package\TXT GRIPRO\Data Conversion 1.Outputs[Data Conversion Output].Columns[Copy of Column 5]"
+                      name="Copy of Column 5"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\TXT GRIPRO\Flat File Source.Outputs[Flat File Source Output].Columns[Column 5]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\TXT GRIPRO\Data Conversion 1.Outputs[Data Conversion Output].Columns[Copy of Column 1]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="5"
+                      lineageId="Package\TXT GRIPRO\Data Conversion 1.Outputs[Data Conversion Output].Columns[Copy of Column 1]"
+                      name="Copy of Column 1"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\TXT GRIPRO\Flat File Source.Outputs[Flat File Source Output].Columns[Column 1]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\TXT GRIPRO\Data Conversion 1.Outputs[Data Conversion Output].Columns[Copy of Column 6]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="50"
+                      lineageId="Package\TXT GRIPRO\Data Conversion 1.Outputs[Data Conversion Output].Columns[Copy of Column 6]"
+                      name="Copy of Column 6"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\TXT GRIPRO\Flat File Source.Outputs[Flat File Source Output].Columns[Column 6]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\TXT GRIPRO\Data Conversion 1.Outputs[Data Conversion Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Data Conversion Error Output"
+                  synchronousInputId="Package\TXT GRIPRO\Data Conversion 1.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\TXT GRIPRO\Data Conversion 1.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\TXT GRIPRO\Data Conversion 1.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\TXT GRIPRO\Data Conversion 1.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\TXT GRIPRO\Data Conversion 1.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\TXT GRIPRO\Flat File Source"
+              componentClassID="Microsoft.FlatFileSource"
+              contactInfo="Flat File Source;Microsoft Corporation;Microsoft SqlServer v9; (C) 2005 Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Flat File Source"
+              localeId="1033"
+              name="Flat File Source"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Specifies whether zero-length columns are treated as null."
+                  name="RetainNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of an output column containing the file name. If no name is specified, no output column containing the file name will be generated."
+                  name="FileNameColumnName"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\TXT GRIPRO\Flat File Source.Connections[FlatFileConnection]"
+                  connectionManagerID="Package.ConnectionManagers[TXT GRIPRO]"
+                  connectionManagerRefId="Package.ConnectionManagers[TXT GRIPRO]"
+                  name="FlatFileConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\TXT GRIPRO\Flat File Source.Outputs[Flat File Source Output]"
+                  name="Flat File Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\TXT GRIPRO\Flat File Source.Outputs[Flat File Source Output].Columns[Column 0]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\TXT GRIPRO\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 0]"
+                      length="4"
+                      lineageId="Package\TXT GRIPRO\Flat File Source.Outputs[Flat File Source Output].Columns[Column 0]"
+                      name="Column 0"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\TXT GRIPRO\Flat File Source.Outputs[Flat File Source Output].Columns[Column 1]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\TXT GRIPRO\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 1]"
+                      length="5"
+                      lineageId="Package\TXT GRIPRO\Flat File Source.Outputs[Flat File Source Output].Columns[Column 1]"
+                      name="Column 1"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\TXT GRIPRO\Flat File Source.Outputs[Flat File Source Output].Columns[Column 2]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\TXT GRIPRO\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 2]"
+                      length="5"
+                      lineageId="Package\TXT GRIPRO\Flat File Source.Outputs[Flat File Source Output].Columns[Column 2]"
+                      name="Column 2"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\TXT GRIPRO\Flat File Source.Outputs[Flat File Source Output].Columns[Column 3]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\TXT GRIPRO\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 3]"
+                      length="30"
+                      lineageId="Package\TXT GRIPRO\Flat File Source.Outputs[Flat File Source Output].Columns[Column 3]"
+                      name="Column 3"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\TXT GRIPRO\Flat File Source.Outputs[Flat File Source Output].Columns[Column 4]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\TXT GRIPRO\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 4]"
+                      length="8"
+                      lineageId="Package\TXT GRIPRO\Flat File Source.Outputs[Flat File Source Output].Columns[Column 4]"
+                      name="Column 4"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\TXT GRIPRO\Flat File Source.Outputs[Flat File Source Output].Columns[Column 5]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\TXT GRIPRO\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 5]"
+                      length="8"
+                      lineageId="Package\TXT GRIPRO\Flat File Source.Outputs[Flat File Source Output].Columns[Column 5]"
+                      name="Column 5"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\TXT GRIPRO\Flat File Source.Outputs[Flat File Source Output].Columns[Column 6]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\TXT GRIPRO\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 6]"
+                      length="50"
+                      lineageId="Package\TXT GRIPRO\Flat File Source.Outputs[Flat File Source Output].Columns[Column 6]"
+                      name="Column 6"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\TXT GRIPRO\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 0]"
+                      codePage="1252"
+                      dataType="str"
+                      length="4"
+                      name="Column 0" />
+                    <externalMetadataColumn
+                      refId="Package\TXT GRIPRO\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 1]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      name="Column 1" />
+                    <externalMetadataColumn
+                      refId="Package\TXT GRIPRO\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 2]"
+                      codePage="1252"
+                      dataType="str"
+                      length="5"
+                      name="Column 2" />
+                    <externalMetadataColumn
+                      refId="Package\TXT GRIPRO\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 3]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="Column 3" />
+                    <externalMetadataColumn
+                      refId="Package\TXT GRIPRO\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 4]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      name="Column 4" />
+                    <externalMetadataColumn
+                      refId="Package\TXT GRIPRO\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 5]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      name="Column 5" />
+                    <externalMetadataColumn
+                      refId="Package\TXT GRIPRO\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 6]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="Column 6" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\TXT GRIPRO\Flat File Source.Outputs[Flat File Source Error Output]"
+                  isErrorOut="true"
+                  name="Flat File Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\TXT GRIPRO\Flat File Source.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      codePage="1252"
+                      dataType="text"
+                      description="Flat File Source Error Output Column"
+                      lineageId="Package\TXT GRIPRO\Flat File Source.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      name="Flat File Source Error Output Column" />
+                    <outputColumn
+                      refId="Package\TXT GRIPRO\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\TXT GRIPRO\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\TXT GRIPRO\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\TXT GRIPRO\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\TXT GRIPRO\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation;Microsoft SqlServer v9; (C) 2005 Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[AUX_D_GRILLAS]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destinaton. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">ROWS_PER_BATCH = 1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\TXT GRIPRO\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="{C58967E1-D6E6-45BE-BAEB-DD39AA465CE7}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DS_DW_SALUD]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\TXT GRIPRO\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\TXT GRIPRO\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of Column 0]"
+                      cachedDataType="ui4"
+                      cachedName="Copy of Column 0"
+                      externalMetadataColumnId="Package\TXT GRIPRO\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_producto]"
+                      lineageId="Package\TXT GRIPRO\Data Conversion 1.Outputs[Data Conversion Output].Columns[Copy of Column 0]" />
+                    <inputColumn
+                      refId="Package\TXT GRIPRO\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of Column 2]"
+                      cachedDataType="ui4"
+                      cachedName="Copy of Column 2"
+                      externalMetadataColumnId="Package\TXT GRIPRO\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[grilla]"
+                      lineageId="Package\TXT GRIPRO\Data Conversion 1.Outputs[Data Conversion Output].Columns[Copy of Column 2]" />
+                    <inputColumn
+                      refId="Package\TXT GRIPRO\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of Column 3]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="Copy of Column 3"
+                      externalMetadataColumnId="Package\TXT GRIPRO\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[de_grilla]"
+                      lineageId="Package\TXT GRIPRO\Data Conversion 1.Outputs[Data Conversion Output].Columns[Copy of Column 3]" />
+                    <inputColumn
+                      refId="Package\TXT GRIPRO\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of Column 4]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="8"
+                      cachedName="Copy of Column 4"
+                      externalMetadataColumnId="Package\TXT GRIPRO\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[char_fecha_vig_desde]"
+                      lineageId="Package\TXT GRIPRO\Data Conversion 1.Outputs[Data Conversion Output].Columns[Copy of Column 4]" />
+                    <inputColumn
+                      refId="Package\TXT GRIPRO\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of Column 5]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="8"
+                      cachedName="Copy of Column 5"
+                      externalMetadataColumnId="Package\TXT GRIPRO\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[char_fecha_vig_hasta]"
+                      lineageId="Package\TXT GRIPRO\Data Conversion 1.Outputs[Data Conversion Output].Columns[Copy of Column 5]" />
+                    <inputColumn
+                      refId="Package\TXT GRIPRO\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of Column 1]"
+                      cachedDataType="wstr"
+                      cachedLength="5"
+                      cachedName="Copy of Column 1"
+                      externalMetadataColumnId="Package\TXT GRIPRO\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_plan_producto]"
+                      lineageId="Package\TXT GRIPRO\Data Conversion 1.Outputs[Data Conversion Output].Columns[Copy of Column 1]" />
+                    <inputColumn
+                      refId="Package\TXT GRIPRO\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of Column 6]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="Copy of Column 6"
+                      externalMetadataColumnId="Package\TXT GRIPRO\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_con_copago]"
+                      lineageId="Package\TXT GRIPRO\Data Conversion 1.Outputs[Data Conversion Output].Columns[Copy of Column 6]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\TXT GRIPRO\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_producto]"
+                      dataType="i4"
+                      name="id_producto" />
+                    <externalMetadataColumn
+                      refId="Package\TXT GRIPRO\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_plan_producto]"
+                      dataType="wstr"
+                      length="50"
+                      name="id_plan_producto" />
+                    <externalMetadataColumn
+                      refId="Package\TXT GRIPRO\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[grilla]"
+                      dataType="i4"
+                      name="grilla" />
+                    <externalMetadataColumn
+                      refId="Package\TXT GRIPRO\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[de_grilla]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="de_grilla" />
+                    <externalMetadataColumn
+                      refId="Package\TXT GRIPRO\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[char_fecha_vig_desde]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      name="char_fecha_vig_desde" />
+                    <externalMetadataColumn
+                      refId="Package\TXT GRIPRO\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[char_fecha_vig_hasta]"
+                      codePage="1252"
+                      dataType="str"
+                      length="8"
+                      name="char_fecha_vig_hasta" />
+                    <externalMetadataColumn
+                      refId="Package\TXT GRIPRO\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_con_copago]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      name="id_con_copago" />
+                    <externalMetadataColumn
+                      refId="Package\TXT GRIPRO\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_vig_desde]"
+                      dataType="dbTimeStamp"
+                      name="fecha_vig_desde" />
+                    <externalMetadataColumn
+                      refId="Package\TXT GRIPRO\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[fecha_vig_hasta]"
+                      dataType="dbTimeStamp"
+                      name="fecha_vig_hasta" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\TXT GRIPRO\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\TXT GRIPRO\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\TXT GRIPRO\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\TXT GRIPRO\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\TXT GRIPRO\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\TXT GRIPRO\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\TXT GRIPRO.Paths[Data Conversion Output]"
+              endId="Package\TXT GRIPRO\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="Data Conversion Output"
+              startId="Package\TXT GRIPRO\Data Conversion 1.Outputs[Data Conversion Output]" />
+            <path
+              refId="Package\TXT GRIPRO.Paths[Flat File Source Output]"
+              endId="Package\TXT GRIPRO\Data Conversion 1.Inputs[Data Conversion Input]"
+              name="Flat File Source Output"
+              startId="Package\TXT GRIPRO\Flat File Source.Outputs[Flat File Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{CC840663-4628-46FA-BD9A-71B3F60924DA}"
+      DTS:From="Package\Borrar AUX_D_GRILLAS"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Detecta nuevas Listas de Precio" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{33BE5ECB-B868-4341-84A4-EAA907B2F627}"
+      DTS:From="Package\Detecta nuevas Listas de Precio"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Lista Precio Orden" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{579EDF6E-BB7A-4649-8B31-DD656897377E}"
+      DTS:From="Package\Lista Precio Orden"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Actualiza AUX_D_GRILLAS" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{1683908A-AD4F-4031-9785-F9990DA4B544}"
+      DTS:From="Package\Actualiza AUX_D_GRILLAS"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Actualiza D_GRILLAS" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[{067AE57E-6923-4FBB-AF78-F2FE918400A3\}]"
+      DTS:CreationName=""
+      DTS:DTSID="{067AE57E-6923-4FBB-AF78-F2FE918400A3}"
+      DTS:From="Package\Borrar AUX_D_GRILLAS"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="{067AE57E-6923-4FBB-AF78-F2FE918400A3}"
+      DTS:To="Package\TXT GRIPRO" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[{44E44EE1-D173-43F0-BCCD-38A55EB69138\}]"
+      DTS:CreationName=""
+      DTS:DTSID="{44E44EE1-D173-43F0-BCCD-38A55EB69138}"
+      DTS:From="Package\TXT GRIPRO"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="{44E44EE1-D173-43F0-BCCD-38A55EB69138}"
+      DTS:To="Package\Actualiza AUX_D_GRILLAS" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--Esta sección CDATA contiene la información de diseño del paquete. Esta sección incluye información como, por ejemplo, las coordenadas (x,y), el ancho y el alto.-->
+<!--Si edita manualmente esta sección y comete un error, puede eliminarlo. -->
+<!--El paquete podrá cargarse normalmente, pero se perderá la información de diseño anterior y el diseñador reorganizará los elementos automáticamente en la superficie de diseño.-->
+<Objects
+  Version="8">
+  <!--Cada uno de los nodos siguientes contiene propiedades que no afectan al comportamiento en tiempo de ejecución.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="184,44"
+          Id="Package\Actualiza AUX_D_GRILLAS"
+          TopLeft="153.462264150943,285.5" />
+        <NodeLayout
+          Size="158,44"
+          Id="Package\Actualiza D_GRILLAS"
+          TopLeft="166.443396226415,354.556603773585" />
+        <NodeLayout
+          Size="173,44"
+          Id="Package\Borrar AUX_D_GRILLAS"
+          TopLeft="146.933962264151,5.5" />
+        <NodeLayout
+          Size="211,44"
+          Id="Package\Detecta nuevas Listas de Precio"
+          TopLeft="283.764150943396,119.27358490566" />
+        <NodeLayout
+          Size="145,44"
+          Id="Package\Lista Precio Orden"
+          TopLeft="316.745283018868,192.518867924528" />
+        <NodeLayout
+          Size="138,44"
+          Id="Package\TXT GRIPRO"
+          TopLeft="5.5,154.330188679245" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="254.028301886792,49.4245283018868">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="135.056603773585,69.8490566037736"
+              Start="0,0"
+              End="135.056603773585,62.3490566037736">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,34.9056603773585" />
+                  <mssgle:LineSegment
+                    End="135.056603773585,34.9056603773585" />
+                  <mssgle:LineSegment
+                    End="135.056603773585,62.3490566037736" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="389.084905660377,163.198113207547">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0.0377358490566024,29.3207547169811"
+              Start="0,0"
+              End="0.0377358490566024,21.8207547169811">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,14.6415094339623" />
+                  <mssgle:LineSegment
+                    End="0.0377358490566024,14.6415094339623" />
+                  <mssgle:LineSegment
+                    End="0.0377358490566024,21.8207547169811" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="389.122641509434,236.443396226415">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-123.056603773585,49.0566037735849"
+              Start="0,0"
+              End="-123.056603773585,41.5566037735849">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,24.5283018867925" />
+                  <mssgle:LineSegment
+                    End="-123.056603773585,24.5283018867925" />
+                  <mssgle:LineSegment
+                    End="-123.056603773585,41.5566037735849" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="245.311320754717,329.424528301887">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,25.1320754716981"
+              Start="0,0"
+              End="0,17.6320754716981">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,17.6320754716981" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[{067AE57E-6923-4FBB-AF78-F2FE918400A3\}]"
+          TopLeft="212.518867924528,49.4245283018868">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-138.150943396226,104.905660377358"
+              Start="0,0"
+              End="-138.150943396226,97.4056603773585">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,33.4716981132075" />
+                  <mssgle:LineSegment
+                    End="-138.150943396226,33.4716981132075" />
+                  <mssgle:LineSegment
+                    End="-138.150943396226,97.4056603773585" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[{44E44EE1-D173-43F0-BCCD-38A55EB69138\}]"
+          TopLeft="74.3679245283019,198.254716981132">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="150.188679245283,87.2452830188679"
+              Start="0,0"
+              End="150.188679245283,79.7452830188679">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,60.4905660377359" />
+                  <mssgle:LineSegment
+                    End="150.188679245283,60.4905660377359" />
+                  <mssgle:LineSegment
+                    End="150.188679245283,79.7452830188679" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Lista Precio Orden">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="177,42"
+          Id="Package\Lista Precio Orden\OLE DB Destination"
+          TopLeft="5.50000000000003,209.5" />
+        <NodeLayout
+          Size="161,42"
+          Id="Package\Lista Precio Orden\Data Conversion"
+          TopLeft="13.5,107.5" />
+        <NodeLayout
+          Size="157,42"
+          Id="Package\Lista Precio Orden\OLE DB Source"
+          TopLeft="15.5,5.5" />
+        <EdgeLayout
+          Id="Package\Lista Precio Orden.Paths[OLE DB Source Output]"
+          TopLeft="94,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Lista Precio Orden.Paths[Data Conversion Output]"
+          TopLeft="94,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Lista Precio Orden\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Lista Precio Orden\OLE DB Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\TXT GRIPRO">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="177,42"
+          Id="Package\TXT GRIPRO\OLE DB Destination"
+          TopLeft="5.50000000000003,209.5" />
+        <NodeLayout
+          Size="170,42"
+          Id="Package\TXT GRIPRO\Data Conversion 1"
+          TopLeft="9.00000000000003,107.5" />
+        <NodeLayout
+          Size="156,42"
+          Id="Package\TXT GRIPRO\Flat File Source"
+          TopLeft="16,5.5" />
+        <EdgeLayout
+          Id="Package\TXT GRIPRO.Paths[Flat File Source Output]"
+          TopLeft="94,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\TXT GRIPRO.Paths[Data Conversion Output]"
+          TopLeft="94,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\TXT GRIPRO\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

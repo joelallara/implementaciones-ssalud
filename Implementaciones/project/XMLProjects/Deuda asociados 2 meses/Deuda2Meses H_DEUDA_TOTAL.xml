@@ -1,0 +1,963 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="12/30/2013 1:47:34 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AMS16"
+  DTS:CreatorName="AMS\adminb"
+  DTS:DTSID="{CA4B4E5B-C4F2-43B3-B9FD-CED30EE6355A}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Deuda2Meses H_DEUDA_TOTAL"
+  DTS:PackageType="5"
+  DTS:VersionBuild="25"
+  DTS:VersionGUID="{FB1797AF-2F1F-45B3-ACAE-914BFE144C5C}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[File_CSV_Deuda Total]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{89422A48-6AFE-4FB1-9A54-263CBB29DB8B}"
+      DTS:ObjectName="File_CSV_Deuda Total">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="RaggedRight"
+          DTS:LocaleID="11274"
+          DTS:Unicode="True"
+          DTS:HeaderRowDelimiter="_x000D__x000A_"
+          DTS:RowDelimiter="_x000D__x000A_"
+          DTS:TextQualifier="_x003C_none_x003E_"
+          DTS:CodePage="1252"
+          DTS:ConnectionString="\\P-IS-01\SSIS2017$\03 - Archivos\Deuda asociados 2 meses\Deuda Total.CSV">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnDelimiter=""
+              DTS:ColumnWidth="1"
+              DTS:MaximumWidth="1"
+              DTS:DataType="130"
+              DTS:ObjectName="Column 0"
+              DTS:DTSID="{C211CD51-8C82-4D8D-B1F9-DFD0CA48D9F9}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnDelimiter=""
+              DTS:ColumnWidth="9"
+              DTS:MaximumWidth="9"
+              DTS:DataType="130"
+              DTS:ObjectName="Column 1"
+              DTS:DTSID="{FDC32B6D-8D23-4851-8430-6F1EF43FF53C}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnDelimiter=""
+              DTS:ColumnWidth="9"
+              DTS:MaximumWidth="9"
+              DTS:DataType="130"
+              DTS:ObjectName="Column 2"
+              DTS:DTSID="{D0635377-EAE2-434F-A916-9C9707BCFB76}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnDelimiter=""
+              DTS:ColumnWidth="4"
+              DTS:MaximumWidth="4"
+              DTS:DataType="130"
+              DTS:ObjectName="Column 3"
+              DTS:DTSID="{0B2B5241-30D0-4615-8BF3-47506AB44BEC}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnDelimiter=""
+              DTS:ColumnWidth="4"
+              DTS:MaximumWidth="4"
+              DTS:DataType="130"
+              DTS:ObjectName="Column 4"
+              DTS:DTSID="{299CDB5C-BC43-4F62-9E6C-BDAB7936EB97}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnDelimiter=""
+              DTS:ColumnWidth="9"
+              DTS:MaximumWidth="9"
+              DTS:DataType="130"
+              DTS:ObjectName="Column 5"
+              DTS:DTSID="{665A306F-2B48-4661-87F8-2D8BC1CF81D9}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnDelimiter=""
+              DTS:ColumnWidth="4"
+              DTS:MaximumWidth="4"
+              DTS:DataType="130"
+              DTS:ObjectName="Column 6"
+              DTS:DTSID="{979B7099-442D-48D3-AF91-CC12C4AB0A99}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnDelimiter=""
+              DTS:ColumnWidth="9"
+              DTS:MaximumWidth="9"
+              DTS:DataType="130"
+              DTS:ObjectName="Column 7"
+              DTS:DTSID="{D9542FB8-7EB5-49E2-A64E-ED018BAE376A}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnDelimiter=""
+              DTS:ColumnWidth="13"
+              DTS:MaximumWidth="13"
+              DTS:DataType="130"
+              DTS:ObjectName="Column 8"
+              DTS:DTSID="{66117C2E-BB65-4EC0-BF0F-98199C993AF7}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnDelimiter=""
+              DTS:ColumnWidth="13"
+              DTS:MaximumWidth="13"
+              DTS:DataType="130"
+              DTS:ObjectName="Column 9"
+              DTS:DTSID="{19279B6C-5EEE-4396-9E07-F7543D6FCD99}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnDelimiter=""
+              DTS:ColumnWidth="4"
+              DTS:MaximumWidth="4"
+              DTS:DataType="130"
+              DTS:ObjectName="Column 10"
+              DTS:DTSID="{816C8C6A-DD24-4B30-91E7-6ECA6E72E711}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnDelimiter=""
+              DTS:ColumnWidth="4"
+              DTS:MaximumWidth="4"
+              DTS:DataType="130"
+              DTS:ObjectName="Column 11"
+              DTS:DTSID="{81F7D9E9-3387-48B9-82D1-5E90721BD663}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnDelimiter=""
+              DTS:ColumnWidth="2"
+              DTS:MaximumWidth="2"
+              DTS:DataType="130"
+              DTS:ObjectName="Column 12"
+              DTS:DTSID="{C9F825D9-E0B2-4449-AF16-7C2F638CAA68}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnDelimiter=""
+              DTS:ColumnWidth="9"
+              DTS:MaximumWidth="9"
+              DTS:DataType="130"
+              DTS:ObjectName="Column 13"
+              DTS:DTSID="{BAAD548B-143B-433A-B916-9E2D58C82DAB}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnDelimiter=""
+              DTS:ColumnWidth="3"
+              DTS:MaximumWidth="3"
+              DTS:DataType="130"
+              DTS:ObjectName="Column 14"
+              DTS:DTSID="{FD01D1DD-DE4C-47C4-9CB7-0D4DD76AC864}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnDelimiter=""
+              DTS:ColumnWidth="9"
+              DTS:MaximumWidth="9"
+              DTS:DataType="130"
+              DTS:ObjectName="Column 15"
+              DTS:DTSID="{AA53E52A-E094-49CD-B925-1CDA104BEA60}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnDelimiter=""
+              DTS:ColumnWidth="20"
+              DTS:MaximumWidth="20"
+              DTS:DataType="130"
+              DTS:ObjectName="Column 16"
+              DTS:DTSID="{72425B44-4EDE-46FF-B9DF-1FB0755B05A9}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000D__x000A_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Column 17"
+              DTS:DTSID="{AE251AFB-36A7-4A0C-92EF-A59F2173BC4A}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{F8877982-B45E-4997-B847-CB6CA8F7F356}"
+      DTS:ObjectName="SSIS log provider for SQL Server1">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">1,7,OnError</DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnError"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{F8877982-B45E-4997-B847-CB6CA8F7F356}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Borro H_DEUDA_TOTAL"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{744F9CC9-3AEE-45ED-82B9-9633CAAABC82}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Borro H_DEUDA_TOTAL"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server v9; © 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{993A3136-008E-4AB1-A1F5-FEC6D3EF0E9A}"
+          SQLTask:SqlStatementSource="&#xA;&#xA;&#xA;Truncate Table H_DEUDA_TOTAL" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Puente Deuda Total"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{a5b3b9da-5754-4bd3-8738-fc6fa6335ba5}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Puente Deuda Total"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v9; (C) 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <pipeline
+          BLOBTempStoragePath=""
+          bufferTempStoragePath=""
+          engineThreads="5"
+          version="1">
+          <components>
+            <component
+              refId="Package\Puente Deuda Total\Data Conversion"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Data Conversion;Microsoft Corporation;Microsoft SqlServer v9; (C) 2005 Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Data Conversion"
+              name="Data Conversion"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Puente Deuda Total\Data Conversion.Inputs[Data Conversion Input]"
+                  name="Data Conversion Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Puente Deuda Total\Data Conversion.Inputs[Data Conversion Input].Columns[Column 1]"
+                      cachedDataType="wstr"
+                      cachedLength="9"
+                      cachedName="Column 1"
+                      lineageId="Package\Puente Deuda Total\Flat File Source.Outputs[Flat File Source Output].Columns[Column 1]" />
+                    <inputColumn
+                      refId="Package\Puente Deuda Total\Data Conversion.Inputs[Data Conversion Input].Columns[Column 7]"
+                      cachedDataType="wstr"
+                      cachedLength="9"
+                      cachedName="Column 7"
+                      lineageId="Package\Puente Deuda Total\Flat File Source.Outputs[Flat File Source Output].Columns[Column 7]" />
+                    <inputColumn
+                      refId="Package\Puente Deuda Total\Data Conversion.Inputs[Data Conversion Input].Columns[Column 9]"
+                      cachedDataType="wstr"
+                      cachedLength="13"
+                      cachedName="Column 9"
+                      lineageId="Package\Puente Deuda Total\Flat File Source.Outputs[Flat File Source Output].Columns[Column 9]" />
+                    <inputColumn
+                      refId="Package\Puente Deuda Total\Data Conversion.Inputs[Data Conversion Input].Columns[Column 13]"
+                      cachedDataType="wstr"
+                      cachedLength="9"
+                      cachedName="Column 13"
+                      lineageId="Package\Puente Deuda Total\Flat File Source.Outputs[Flat File Source Output].Columns[Column 13]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Puente Deuda Total\Data Conversion.Outputs[Data Conversion Output]"
+                  exclusionGroup="1"
+                  name="Data Conversion Output"
+                  synchronousInputId="Package\Puente Deuda Total\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Puente Deuda Total\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Column 1]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="9"
+                      lineageId="Package\Puente Deuda Total\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Column 1]"
+                      name="Copy of Column 1"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Puente Deuda Total\Flat File Source.Outputs[Flat File Source Output].Columns[Column 1]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Puente Deuda Total\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Column 7]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="9"
+                      lineageId="Package\Puente Deuda Total\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Column 7]"
+                      name="Copy of Column 7"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Puente Deuda Total\Flat File Source.Outputs[Flat File Source Output].Columns[Column 7]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Puente Deuda Total\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Column 9]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="13"
+                      lineageId="Package\Puente Deuda Total\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Column 9]"
+                      name="Copy of Column 9"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Puente Deuda Total\Flat File Source.Outputs[Flat File Source Output].Columns[Column 9]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Puente Deuda Total\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Column 13]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      length="9"
+                      lineageId="Package\Puente Deuda Total\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Column 13]"
+                      name="Copy of Column 13"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the input column used as the source of data for the conversion."
+                          name="SourceInputColumnLineageID">#{Package\Puente Deuda Total\Flat File Source.Outputs[Flat File Source Output].Columns[Column 13]}</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Puente Deuda Total\Data Conversion.Outputs[Data Conversion Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Data Conversion Error Output"
+                  synchronousInputId="Package\Puente Deuda Total\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Puente Deuda Total\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Puente Deuda Total\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Puente Deuda Total\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Puente Deuda Total\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Puente Deuda Total\Flat File Source"
+              componentClassID="Microsoft.FlatFileSource"
+              contactInfo="Flat File Source;Microsoft Corporation;Microsoft SqlServer v9; (C) 2005 Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Flat File Source"
+              localeId="11274"
+              name="Flat File Source"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Specifies whether zero-length columns are treated as null."
+                  name="RetainNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of an output column containing the file name. If no name is specified, no output column containing the file name will be generated."
+                  name="FileNameColumnName"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Puente Deuda Total\Flat File Source.Connections[FlatFileConnection]"
+                  connectionManagerID="Package.ConnectionManagers[File_CSV_Deuda Total]"
+                  connectionManagerRefId="Package.ConnectionManagers[File_CSV_Deuda Total]"
+                  name="FlatFileConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Puente Deuda Total\Flat File Source.Outputs[Flat File Source Output]"
+                  name="Flat File Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Puente Deuda Total\Flat File Source.Outputs[Flat File Source Output].Columns[Column 1]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Puente Deuda Total\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 1]"
+                      length="9"
+                      lineageId="Package\Puente Deuda Total\Flat File Source.Outputs[Flat File Source Output].Columns[Column 1]"
+                      name="Column 1"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Puente Deuda Total\Flat File Source.Outputs[Flat File Source Output].Columns[Column 7]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Puente Deuda Total\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 7]"
+                      length="9"
+                      lineageId="Package\Puente Deuda Total\Flat File Source.Outputs[Flat File Source Output].Columns[Column 7]"
+                      name="Column 7"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Puente Deuda Total\Flat File Source.Outputs[Flat File Source Output].Columns[Column 9]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Puente Deuda Total\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 9]"
+                      length="13"
+                      lineageId="Package\Puente Deuda Total\Flat File Source.Outputs[Flat File Source Output].Columns[Column 9]"
+                      name="Column 9"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Puente Deuda Total\Flat File Source.Outputs[Flat File Source Output].Columns[Column 13]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Puente Deuda Total\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 13]"
+                      length="9"
+                      lineageId="Package\Puente Deuda Total\Flat File Source.Outputs[Flat File Source Output].Columns[Column 13]"
+                      name="Column 13"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
+                          name="FastParse">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the data is in binary format."
+                          name="UseBinaryFormat">false</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Puente Deuda Total\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 0]"
+                      dataType="wstr"
+                      length="1"
+                      name="Column 0" />
+                    <externalMetadataColumn
+                      refId="Package\Puente Deuda Total\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 1]"
+                      dataType="wstr"
+                      length="9"
+                      name="Column 1" />
+                    <externalMetadataColumn
+                      refId="Package\Puente Deuda Total\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 2]"
+                      dataType="wstr"
+                      length="9"
+                      name="Column 2" />
+                    <externalMetadataColumn
+                      refId="Package\Puente Deuda Total\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 3]"
+                      dataType="wstr"
+                      length="4"
+                      name="Column 3" />
+                    <externalMetadataColumn
+                      refId="Package\Puente Deuda Total\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 4]"
+                      dataType="wstr"
+                      length="4"
+                      name="Column 4" />
+                    <externalMetadataColumn
+                      refId="Package\Puente Deuda Total\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 5]"
+                      dataType="wstr"
+                      length="9"
+                      name="Column 5" />
+                    <externalMetadataColumn
+                      refId="Package\Puente Deuda Total\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 6]"
+                      dataType="wstr"
+                      length="4"
+                      name="Column 6" />
+                    <externalMetadataColumn
+                      refId="Package\Puente Deuda Total\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 7]"
+                      dataType="wstr"
+                      length="9"
+                      name="Column 7" />
+                    <externalMetadataColumn
+                      refId="Package\Puente Deuda Total\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 8]"
+                      dataType="wstr"
+                      length="13"
+                      name="Column 8" />
+                    <externalMetadataColumn
+                      refId="Package\Puente Deuda Total\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 9]"
+                      dataType="wstr"
+                      length="13"
+                      name="Column 9" />
+                    <externalMetadataColumn
+                      refId="Package\Puente Deuda Total\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 10]"
+                      dataType="wstr"
+                      length="4"
+                      name="Column 10" />
+                    <externalMetadataColumn
+                      refId="Package\Puente Deuda Total\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 11]"
+                      dataType="wstr"
+                      length="4"
+                      name="Column 11" />
+                    <externalMetadataColumn
+                      refId="Package\Puente Deuda Total\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 12]"
+                      dataType="wstr"
+                      length="2"
+                      name="Column 12" />
+                    <externalMetadataColumn
+                      refId="Package\Puente Deuda Total\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 13]"
+                      dataType="wstr"
+                      length="9"
+                      name="Column 13" />
+                    <externalMetadataColumn
+                      refId="Package\Puente Deuda Total\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 14]"
+                      dataType="wstr"
+                      length="3"
+                      name="Column 14" />
+                    <externalMetadataColumn
+                      refId="Package\Puente Deuda Total\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 15]"
+                      dataType="wstr"
+                      length="9"
+                      name="Column 15" />
+                    <externalMetadataColumn
+                      refId="Package\Puente Deuda Total\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 16]"
+                      dataType="wstr"
+                      length="20"
+                      name="Column 16" />
+                    <externalMetadataColumn
+                      refId="Package\Puente Deuda Total\Flat File Source.Outputs[Flat File Source Output].ExternalColumns[Column 17]"
+                      dataType="wstr"
+                      length="50"
+                      name="Column 17" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Puente Deuda Total\Flat File Source.Outputs[Flat File Source Error Output]"
+                  isErrorOut="true"
+                  name="Flat File Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Puente Deuda Total\Flat File Source.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      dataType="nText"
+                      description="Flat File Source Error Output Column"
+                      lineageId="Package\Puente Deuda Total\Flat File Source.Outputs[Flat File Source Error Output].Columns[Flat File Source Error Output Column]"
+                      name="Flat File Source Error Output Column" />
+                    <outputColumn
+                      refId="Package\Puente Deuda Total\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Puente Deuda Total\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Puente Deuda Total\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Puente Deuda Total\Flat File Source.Outputs[Flat File Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Puente Deuda Total\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation;Microsoft SqlServer v9; (C) 2005 Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[H_DEUDA_TOTAL]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destinaton. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">0</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Puente Deuda Total\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="{993A3136-008E-4AB1-A1F5-FEC6D3EF0E9A}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DS_CONSULTAS_DW]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Puente Deuda Total\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Puente Deuda Total\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of Column 7]"
+                      cachedDataType="wstr"
+                      cachedLength="9"
+                      cachedName="Copy of Column 7"
+                      externalMetadataColumnId="Package\Puente Deuda Total\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Periodo_Comprobante]"
+                      lineageId="Package\Puente Deuda Total\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Column 7]" />
+                    <inputColumn
+                      refId="Package\Puente Deuda Total\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of Column 9]"
+                      cachedDataType="wstr"
+                      cachedLength="13"
+                      cachedName="Copy of Column 9"
+                      externalMetadataColumnId="Package\Puente Deuda Total\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Saldo]"
+                      lineageId="Package\Puente Deuda Total\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Column 9]" />
+                    <inputColumn
+                      refId="Package\Puente Deuda Total\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of Column 13]"
+                      cachedDataType="wstr"
+                      cachedLength="9"
+                      cachedName="Copy of Column 13"
+                      externalMetadataColumnId="Package\Puente Deuda Total\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_persona]"
+                      lineageId="Package\Puente Deuda Total\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Column 13]" />
+                    <inputColumn
+                      refId="Package\Puente Deuda Total\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Copy of Column 1]"
+                      cachedDataType="wstr"
+                      cachedLength="9"
+                      cachedName="Copy of Column 1"
+                      externalMetadataColumnId="Package\Puente Deuda Total\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Afiliado]"
+                      lineageId="Package\Puente Deuda Total\Data Conversion.Outputs[Data Conversion Output].Columns[Copy of Column 1]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Puente Deuda Total\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_persona]"
+                      dataType="i4"
+                      name="id_persona" />
+                    <externalMetadataColumn
+                      refId="Package\Puente Deuda Total\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Afiliado]"
+                      dataType="i4"
+                      name="Afiliado" />
+                    <externalMetadataColumn
+                      refId="Package\Puente Deuda Total\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Periodo_Comprobante]"
+                      dataType="i4"
+                      name="Periodo_Comprobante" />
+                    <externalMetadataColumn
+                      refId="Package\Puente Deuda Total\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Saldo]"
+                      dataType="r8"
+                      name="Saldo" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Puente Deuda Total\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Puente Deuda Total\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Puente Deuda Total\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Puente Deuda Total\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Puente Deuda Total\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Puente Deuda Total\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Puente Deuda Total.Paths[Data Conversion Output]"
+              endId="Package\Puente Deuda Total\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="Data Conversion Output"
+              startId="Package\Puente Deuda Total\Data Conversion.Outputs[Data Conversion Output]" />
+            <path
+              refId="Package\Puente Deuda Total.Paths[Flat File Source Output]"
+              endId="Package\Puente Deuda Total\Data Conversion.Inputs[Data Conversion Input]"
+              name="Flat File Source Output"
+              startId="Package\Puente Deuda Total\Flat File Source.Outputs[Flat File Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{ECEDFAE0-1BF5-4FF4-BA2E-4CC09E5D3A83}"
+      DTS:From="Package\Borro H_DEUDA_TOTAL"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Puente Deuda Total" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="203,42"
+          Id="Package\Borro H_DEUDA_TOTAL"
+          TopLeft="4.01886792452831,5.5" />
+        <NodeLayout
+          Size="177,42"
+          Id="Package\Puente Deuda Total"
+          TopLeft="17.0188679245283,91.3490566037736" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="105.518867924528,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,43.8490566037736"
+              Start="0,0"
+              End="0,36.3490566037736">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,36.3490566037736" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Puente Deuda Total">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Puente Deuda Total\Flat File Source"
+          TopLeft="5.72641509433961,5.5" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Puente Deuda Total\Data Conversion"
+          TopLeft="5.5,98.8207547169811" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Puente Deuda Total\OLE DB Destination"
+          TopLeft="5.5,191.688679245283" />
+        <EdgeLayout
+          Id="Package\Puente Deuda Total.Paths[Flat File Source Output]"
+          TopLeft="73.6132075471698,49.4245283018868">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-0.226415094339615,49.3962264150943"
+              Start="0,0"
+              End="-0.226415094339615,41.8962264150943">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,24.6792452830189" />
+                  <mssgle:LineSegment
+                    End="-0.226415094339615,24.6792452830189" />
+                  <mssgle:LineSegment
+                    End="-0.226415094339615,41.8962264150943" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Puente Deuda Total.Paths[Data Conversion Output]"
+          TopLeft="73.3867924528302,142.745283018868">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,48.9433962264151"
+              Start="0,0"
+              End="0,41.4433962264151">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,41.4433962264151" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Puente Deuda Total\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

@@ -1,0 +1,500 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="8/10/2017 8:49:55 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AMS06X"
+  DTS:CreatorName="AMS\jtrinchier"
+  DTS:DTSID="{C1A14CA2-63EF-436D-B1B3-A5803F5BDEA8}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="Consumos NUEVO_PROYECTO_EMPRESA"
+  DTS:PackageType="5"
+  DTS:VersionBuild="20"
+  DTS:VersionGUID="{A248FDBF-EEA5-425C-AA24-685E6519F43F}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{E0C2BE7B-6743-468B-8C04-7605675A4F91}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">1,7,OnError</DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnError"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{E0C2BE7B-6743-468B-8C04-7605675A4F91}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza Consumo Ambulatorio"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{98808F21-9C17-4317-A973-AA9A36B02CE2}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza Consumo Ambulatorio"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{6601EFDC-B0A3-4B05-9A3F-EFAAD98885BF}"
+          SQLTask:SqlStatementSource="declare @Periodo int&#xA;set @Periodo = (select MAX(id_periodo)  from AUX_PERIODO_MES_BORRA)&#xA;&#xA;UPDATE H_ORD_AMB_DET &#xA;set id_factura_A_E_cons = NULL,&#xA;id_empresa_PE_cons = NULL,&#xA;id_tipo_entidad_PE_cons = NULL,&#xA;id_marca_PE_cons = NULL,&#xA;id_convenio_especial_cons = NULL&#xA;WHERE id_periodo = @Periodo&#xA;&#xA;/* ACTUALIZACMOS CON CLAVE COMPUESTA DE CTA/SCTA/SCIA    */&#xA;&#xA;UPDATE H_ORD_AMB_DET&#xA;set id_factura_A_E_cons = S.id_factura_A_E,&#xA;id_empresa_PE_cons = S.id_empresa_PE,&#xA;id_tipo_entidad_PE_cons = S.id_tipo_entidad_PE,&#xA;id_marca_PE_cons = S.id_marca_PE,&#xA;id_convenio_especial_cons = S.id_convenio_especial&#xA;FROM H_ORD_AMB_DET R &#xA;INNER JOIN H_COMER_STOCK_AFILIA S ON (R.afiliado = S.afiliado and R.subnumero = S.subnumero and R.secuencia = S.secuencia AND R.id_periodo_prestacion = S.id_periodo)&#xA;WHERE R.id_periodo = @Periodo&#xA;&#xA;-- BUSCAMOS MAXIMO PERIODO DE STOCK CON TOPE AL QUE SE ESTA ACTUALIZANDO PARA LA CLAVE EN CUESTION&#xA;SELECT MAX(S.id_periodo) id_periodo, S.afiliado,S.subnumero,S.secuencia &#xA;INTO #TEMP_CONS &#xA;FROM H_COMER_STOCK_AFILIA S INNER JOIN H_ORD_AMB_DET R ON (R.afiliado = S.afiliado and R.subnumero = S.subnumero and R.secuencia = S.secuencia)&#xA;WHERE R.id_marca_PE_cons is null and S.id_periodo &lt;= @Periodo&#xA;AND R.id_periodo = @Periodo and S.id_periodo &gt; 201512&#xA;GROUP BY S.afiliado,S.subnumero,S.secuencia&#xA;&#xA;SELECT DISTINCT id_periodo, S.afiliado,S.subnumero,S.secuencia, id_tipo_entidad_PE, id_empresa_PE, id_marca_PE, id_factura_A_E, id_convenio_especial &#xA;into #STOCK_CONS&#xA;FROM H_COMER_STOCK_AFILIA S&#xA;WHERE EXISTS (SELECT * FROM #TEMP_CONS T WHERE T.afiliado = S.afiliado and T.subnumero = S.subnumero and T.secuencia = S.secuencia and S.id_periodo=T.id_periodo)&#xA;&#xA;-- SEGUNDO BARRIDO CON CLAVE CTA/SCTA/SECUENCIA Y PERIODO MAXIMO DE STOCK&#xA;UPDATE H_ORD_AMB_DET&#xA;set id_factura_A_E_cons = S.id_factura_A_E,&#xA;id_empresa_PE_cons = S.id_empresa_PE,&#xA;id_tipo_entidad_PE_cons = S.id_tipo_entidad_PE,&#xA;id_marca_PE_cons = S.id_marca_PE,&#xA;id_convenio_especial_cons = S.id_convenio_especial&#xA;FROM H_ORD_AMB_DET R &#xA;INNER JOIN #STOCK_CONS S ON (R.afiliado = S.afiliado and R.subnumero = S.subnumero and R.secuencia = S.secuencia)&#xA;WHERE R.id_periodo = @Periodo&#xA;AND R.id_marca_PE_cons IS NULL&#xA;&#xA;DROP TABLE #TEMP_CONS&#xA;DROP TABLE #STOCK_CONS&#xA;&#xA;/*  ACTUALIZACIONES POR CLAVE SOLO DE PERSONAS    */&#xA;&#xA;/* Reemplazo por Consumos  y PeriodoPrestacion */&#xA;Update H_ORD_AMB_DET&#xA;set id_factura_A_E_cons = E.id_factura_A_E,&#xA;id_empresa_PE_cons = E.id_empresa_PE,&#xA;id_tipo_entidad_PE_cons = E.id_tipo_entidad_PE,&#xA;id_marca_PE_cons = E.id_marca_PE,&#xA;id_convenio_especial_cons = E.id_convenio_especial&#xA;FROM H_ORD_AMB_DET A INNER JOIN dw_salud.dbo.H_COMER_STOCK_AFILIA E ON A.id_periodo_prestacion = E.id_periodo AND A.id_persona = E.id_persona&#xA;WHERE A.id_periodo = @Periodo  AND A.id_marca_PE_cons is null&#xA;&#xA;-- Se busca el maximo periodo donde estuvo una persona para obtener el tipo de entidad y la empresa.&#xA;SELECT MAX(S.id_periodo) id_periodo, S.id_persona &#xA;INTO #TEMPAMB&#xA;FROM dw_salud.dbo.H_COMER_STOCK_AFILIA S INNER JOIN H_ORD_AMB_DET R ON (R.id_persona=S.id_persona)&#xA;WHERE R.id_factura_A_E_cons is null AND R.id_periodo = @Periodo and S.id_periodo &lt;= @Periodo and S.id_periodo &gt; 201512&#xA;GROUP BY S.id_persona&#xA;&#xA;SELECT DISTINCT id_periodo, id_persona, id_tipo_entidad_PE, id_empresa_PE, id_factura_A_E, id_marca_PE, id_convenio_especial &#xA;into #STOCKAMB FROM dw_salud.dbo.H_COMER_STOCK_AFILIA S&#xA;WHERE EXISTS (SELECT id_persona FROM #TEMPAMB T &#xA;&#x9;&#x9;&#x9;  WHERE S.id_persona=T.id_persona and S.id_periodo=T.id_periodo)&#xA;&#xA;-- Se actualiza ambos datos con el ultimo periodo donde se encontro cada persona.&#xA;UPDATE H_ORD_AMB_DET&#xA;set id_factura_A_E_cons = E.id_factura_A_E,&#xA;id_empresa_PE_cons = E.id_empresa_PE,&#xA;id_tipo_entidad_PE_cons = E.id_tipo_entidad_PE,&#xA;id_marca_PE_cons = E.id_marca_PE,&#xA;id_convenio_especial_cons = E.id_convenio_especial&#xA;FROM H_ORD_AMB_DET R &#xA;INNER JOIN #STOCKAMB E ON (R.id_persona=E.id_persona)&#xA;WHERE R.id_periodo = @Periodo and R.id_factura_A_E_cons is null&#xA;&#xA;&#xA;DROP TABLE #STOCKAMB&#xA;DROP TABLE #TEMPAMB&#xA;&#xA;/* EXCEPCIONES */&#xA;&#xA;-- si esta en ospaca, pero no es producto 78, lo paso a indivicual&#xA;UPDATE H_ORD_AMB_DET &#xA;set id_factura_A_E_cons = 'A',&#xA;id_empresa_PE_cons = 0,&#xA;id_tipo_entidad_PE_cons = 'I',&#xA;id_marca_PE_cons = 7,&#xA;id_convenio_especial_cons = 0&#xA;where id_marca_PE_cons = 10 and id_periodo = @Periodo and id_producto &lt;&gt; 78&#xA;&#xA;--si es AMPS, pero el producto no es el 18, lo paso a individual&#xA;UPDATE H_ORD_AMB_DET &#xA;set id_factura_A_E_cons = 'A',&#xA;id_empresa_PE_cons = 0,&#xA;id_tipo_entidad_PE_cons = 'I',&#xA;id_marca_PE_cons = 7,&#xA;id_convenio_especial_cons = 0&#xA;where id_marca_PE_cons = 9 and id_periodo = @Periodo and id_producto &lt;&gt; 18&#xA;&#xA;--Se aplican valores por defecto a los casos que no es posible averiguar el valor correcto.&#xA;UPDATE H_ORD_AMB_DET &#xA;set id_factura_A_E_cons = 'A',&#xA;id_empresa_PE_cons = 0,&#xA;id_tipo_entidad_PE_cons = 'I',&#xA;id_marca_PE_cons = 7,&#xA;id_convenio_especial_cons = 0&#xA;WHERE id_factura_A_E_cons is null and id_periodo = @Periodo&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza Consumo Internación"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{27CD6C4A-3D9F-4E97-82C5-9D970585BB8F}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza Consumo Internación"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{6601EFDC-B0A3-4B05-9A3F-EFAAD98885BF}"
+          SQLTask:SqlStatementSource="declare @Periodo int&#xA;set @Periodo = (select MAX(id_periodo)  from AUX_PERIODO_MES_BORRA)&#xA;&#xA;&#xA;/*    INTERNACIONES    */&#xA;&#xA;UPDATE H_ORD_INT_DET &#xA;set id_factura_A_E_cons = NULL,&#xA;id_empresa_PE_cons = NULL,&#xA;id_tipo_entidad_PE_cons = NULL,&#xA;id_marca_PE_cons = NULL,&#xA;id_convenio_especial_cons = NULL&#xA;WHERE id_periodo = @Periodo&#xA;&#xA;&#xA;/*   PRIMER BARRIDO CON CLAVE COMPUESTA CTA/SCTA/SCIA */&#xA;UPDATE H_ORD_INT_DET&#xA;set id_factura_A_E_cons = S.id_factura_A_E,&#xA;id_empresa_PE_cons = S.id_empresa_PE,&#xA;id_tipo_entidad_PE_cons = S.id_tipo_entidad_PE,&#xA;id_marca_PE_cons = S.id_marca_PE,&#xA;id_convenio_especial_cons = S.id_convenio_especial&#xA;FROM H_ORD_INT_DET R &#xA;INNER JOIN H_COMER_STOCK_AFILIA S ON (R.afiliado = S.afiliado and R.subnumero = S.subnumero and R.secuencia = S.secuencia AND R.id_periodo_prestacion = S.id_periodo)&#xA;WHERE R.id_periodo = @Periodo&#xA;&#xA;-- BUSCAMOS MAXIMO PERIODO DE STOCK CON TOPE AL QUE SE ESTA ACTUALIZANDO PARA LA CLAVE EN CUESTION&#xA;SELECT MAX(S.id_periodo) id_periodo, S.afiliado,S.subnumero,S.secuencia &#xA;INTO #TEMP_INT &#xA;FROM H_COMER_STOCK_AFILIA S INNER JOIN H_ORD_INT_DET R ON (R.afiliado = S.afiliado and R.subnumero = S.subnumero and R.secuencia = S.secuencia)&#xA;WHERE R.id_marca_PE_cons is null and S.id_periodo &lt;= @Periodo and S.id_periodo &gt; 201512&#xA;AND R.id_periodo = @Periodo&#xA;GROUP BY S.afiliado,S.subnumero,S.secuencia&#xA;&#xA;SELECT DISTINCT id_periodo, S.afiliado,S.subnumero,S.secuencia, id_tipo_entidad_PE, id_empresa_PE, id_marca_PE, id_factura_A_E, id_convenio_especial &#xA;into #STOCK_INT&#xA;FROM H_COMER_STOCK_AFILIA S&#xA;WHERE EXISTS (SELECT * FROM #TEMP_INT T WHERE T.afiliado = S.afiliado and T.subnumero = S.subnumero and T.secuencia = S.secuencia and S.id_periodo=T.id_periodo)&#xA;&#xA;&#xA;-- SEGUNDO BARRIDO CON CLAVE CTA/SCTA/SECUENCIA Y PERIODO MAXIMO DE STOCK&#xA;UPDATE H_ORD_INT_DET&#xA;set id_factura_A_E_cons = S.id_factura_A_E,&#xA;id_empresa_PE_cons = S.id_empresa_PE,&#xA;id_tipo_entidad_PE_cons = S.id_tipo_entidad_PE,&#xA;id_marca_PE_cons = S.id_marca_PE,&#xA;id_convenio_especial_cons = S.id_convenio_especial&#xA;FROM H_ORD_INT_DET R &#xA;INNER JOIN #STOCK_INT S ON (R.afiliado = S.afiliado and R.subnumero = S.subnumero and R.secuencia = S.secuencia)&#xA;WHERE R.id_periodo = @Periodo&#xA;AND R.id_marca_PE_cons IS NULL&#xA;&#xA;DROP TABLE #TEMP_INT&#xA;DROP TABLE #STOCK_INT&#xA;&#xA;&#xA;/*  ACTUALIZACIONES POR CLAVE PERSONA  */&#xA;&#xA;Update H_ORD_INT_DET&#xA;set id_factura_A_E_cons = E.id_factura_A_E,&#xA;id_empresa_PE_cons = E.id_empresa_PE,&#xA;id_tipo_entidad_PE_cons = E.id_tipo_entidad_PE,&#xA;id_marca_PE_cons = E.id_marca_PE,&#xA;id_convenio_especial_cons = E.id_convenio_especial&#xA;FROM H_ORD_INT_DET A&#xA;INNER JOIN dw_salud.dbo.H_COMER_STOCK_AFILIA E ON A.id_periodo_prestacion = E.id_periodo AND A.id_persona = E.id_persona&#xA;WHERE A.id_periodo = @Periodo AND A.id_marca_PE_cons is null&#xA;&#xA;-- Se busca el maximo periodo donde estuvo una persona para obtener el tipo de entidad y la empresa.&#xA;SELECT MAX(S.id_periodo) id_periodo, S.id_persona &#xA;INTO #TEMPINT&#xA;FROM dw_salud.dbo.H_COMER_STOCK_AFILIA S INNER JOIN H_ORD_INT_DET R ON (R.id_persona=S.id_persona)&#xA;WHERE R.id_factura_A_E_cons is null AND R.id_periodo = @Periodo and S.id_periodo &lt;= @Periodo and S.id_periodo &gt; 201512&#xA;GROUP BY S.id_persona&#xA;&#xA;SELECT DISTINCT id_periodo, id_persona, id_tipo_entidad_PE, id_empresa_PE, id_factura_A_E, id_marca_PE, id_convenio_especial &#xA;into #STOCKINT &#xA;FROM dw_salud.dbo.H_COMER_STOCK_AFILIA S&#xA;WHERE EXISTS (SELECT * FROM #TEMPINT T &#xA;&#x9;&#x9;&#x9;  WHERE S.id_persona=T.id_persona and S.id_periodo=T.id_periodo)&#xA;&#xA; &#xA;-- Se actualiza ambos datos con el ultimo periodo donde se encontro cada persona.&#xA;UPDATE H_ORD_INT_DET&#xA;set id_factura_A_E_cons = E.id_factura_A_E,&#xA;id_empresa_PE_cons = E.id_empresa_PE,&#xA;id_tipo_entidad_PE_cons = E.id_tipo_entidad_PE,&#xA;id_marca_PE_cons = E.id_marca_PE,&#xA;id_convenio_especial_cons = E.id_convenio_especial&#xA;FROM H_ORD_INT_DET R &#xA;INNER JOIN #STOCKINT E ON (R.id_persona=E.id_persona)&#xA;WHERE R.id_periodo = @Periodo and R.id_factura_A_E_cons is null&#xA;&#xA;DROP TABLE #STOCKINT&#xA;DROP TABLE #TEMPINT&#xA;&#xA;&#xA;/* EXCEPCIONES  */&#xA;&#xA;--si la marca es de OSPACA, pero el producto no es el 78, se lo pasa a individual. esto se hace para que no se ensucien los reportes en tablero, xq estos casos&#xA;--tienen la marca de ospaca, pero con un producto de salud sancor, entonces se visualiza mal el dato.&#xA;UPDATE H_ORD_INT_DET &#xA;set id_factura_A_E_cons = 'A',&#xA;id_empresa_PE_cons = 0,&#xA;id_tipo_entidad_PE_cons = 'I',&#xA;id_marca_PE_cons = 7,&#xA;id_convenio_especial_cons = 0&#xA;where id_marca_PE_cons = 10 and id_periodo = @Periodo and id_producto &lt;&gt; 78&#xA;&#xA;&#xA;--si es AMPS, pero el producto no es el 18, lo paso a individual&#xA;UPDATE H_ORD_INT_DET &#xA;set id_factura_A_E_cons = 'A',&#xA;id_empresa_PE_cons = 0,&#xA;id_tipo_entidad_PE_cons = 'I',&#xA;id_marca_PE_cons = 7,&#xA;id_convenio_especial_cons = 0&#xA;where id_marca_PE_cons = 9 and id_periodo = @Periodo and id_producto &lt;&gt; 18&#xA;&#xA;&#xA;&#xA;&#xA;--Se aplican valores por defecto a los casos que no es posible averiguar el valor correcto.&#xA;UPDATE H_ORD_INT_DET &#xA;set id_factura_A_E_cons = 'A',&#xA;id_empresa_PE_cons = 0,&#xA;id_tipo_entidad_PE_cons = 'I',&#xA;id_marca_PE_cons = 7,&#xA;id_convenio_especial_cons = 0&#xA;WHERE id_factura_A_E_cons is null and id_periodo = @Periodo&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza CostoSalud en HOST03"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tarea Ejecutar SQL"
+      DTS:DTSID="{5C938BEE-DFE5-447C-A3FD-03A704EEC5E0}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza CostoSalud en HOST03"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{35F84AFA-39B3-4DE2-B208-28F090C93A89}"
+          SQLTask:SqlStatementSource="update EMPRESA.CONVENIOS_COSTO_SALUD&#xA;set COSTO = case when RECAUDACION = 0 and CONSUMO &gt; 0  THEN 100 &#xA;&#x9;&#x9;&#x9;&#x9;when RECAUDACION = 0 AND CONSUMO = 0 THEN 0&#x9;&#xA;&#x9;&#x9;&#x9;&#x9;WHEN CONSUMO &lt; 0 THEN 100&#xA;&#x9;&#x9;&#x9;&#x9;WHEN RECAUDACION &lt; 0 THEN 0 &#xA;&#x9;&#x9;&#x9;&#x9;ELSE (CONSUMO/RECAUDACION)*100 END&#xA;where LOTE = (select max(LOTE) from EMPRESA.CONVENIOS_COSTO_SALUD)&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza H_CONVENIOS_EMPRESAS"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tarea Ejecutar SQL"
+      DTS:DTSID="{45748ABD-BBA5-4C40-B03A-90EEF3E5FF82}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza H_CONVENIOS_EMPRESAS"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{6601EFDC-B0A3-4B05-9A3F-EFAAD98885BF}"
+          SQLTask:SqlStatementSource="-------------------------------------------------------------------------------------------------------------&#xA;--me traigo a mis tablas toda la info que se calcula en el AS400 con el SP de arriba solamente para los casos en que es distinto a lo que yo ya tengo &#xA;UPDATE H_CONVENIOS_EMPRESAS&#xA;SET id_rango_costo = COST.ID,&#xA;id_blindaje = EMP.ID_BLINDAJE_TIPO &#xA;from H_CONVENIOS_EMPRESAS ST &#xA;left JOIN AS400.HOST03.EMPRESA.EMPRESAS EMP ON ST.id_convenio = EMP.ID AND ST.id_tipo_entidad_convenio = 'E' &#xA;join AS400.HOST03.EMPRESA.CONVENIOS_COSTO_SALUD C    ON C.id_convenio =  ST.id_convenio and LOTE = (select max(LOTE) &#xA;from AS400.HOST03.EMPRESA.CONVENIOS_COSTO_SALUD)&#xA;join AS400.HOST03.EMPRESA.CONVENIOS_RANGOS_COSTO_SALUD  COST  ON   COSTO between COSTO_DESDE and COSTO_HASTA &#xA;where ST.id_periodo = (select max(id_periodo) from H_COMER_STOCK_AFILIA) AND ST.id_tipo_entidad_convenio = 'E' &#xA;and (EMP.ID_BLINDAJE_TIPO &lt;&gt; st.id_blindaje OR COST.ID &lt;&gt; ST.id_rango_costo)&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Clasificaciones Linea Empresa"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tarea Ejecutar SQL"
+      DTS:DTSID="{C139AF1B-B259-421D-8A61-5A844A25D031}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Clasificaciones Linea Empresa"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{6601EFDC-B0A3-4B05-9A3F-EFAAD98885BF}"
+          SQLTask:SqlStatementSource="Declare @Periodo int&#xA;SET @Periodo  = (Select max(id_periodo) from H_COMER_STOCK_AFILIA)&#xA;&#xA;SET DATEFORMAT 'YMD'&#xA;&#xA;select&#x9;a11.id_persona  id_persona,&#xA;&#x9;a11.id_convenio, &#xA;&#x9;sum(a11.comer_cant_grupo_activo)  stock&#xA;into #ZZMQ00&#xA;from&#x9;H_COMER_STOCK_AFILIA&#x9;a11&#xA;&#x9;join&#x9;D_PERSONAS&#x9;a12&#xA;&#x9;  on &#x9;(a11.id_persona = a12.id_persona)&#xA;&#x9;join&#x9;D_LOCALIDADES_AFILIADO&#x9;a13&#xA;&#x9;  on &#x9;(a12.id_localidad_afiliado = a13.id_localidad_afiliado)&#xA;&#x9;join&#x9;D_PLANES&#x9;a14&#xA;&#x9;  on &#x9;(a11.id_plan_producto = a14.id_plan_producto and &#xA;&#x9;a11.id_producto = a14.id_producto)&#xA;&#x9;join&#x9;D_PLANES_AGRUPADOS&#x9;a15&#xA;&#x9;  on &#x9;(a14.id_plan_agrupado = a15.id_plan_agrupado)&#xA;&#x9;join&#x9;D_PRODUCTOS&#x9;a16&#xA;&#x9;  on &#x9;(a11.id_producto = a16.id_producto)&#xA;where&#x9;(a16.Id_Clase_Producto in ('S ')&#xA; and a14.Id_SubRubro_Ley in (1, 2, 3, 5, 6, 7)&#xA; and a11.id_periodo in (@Periodo)&#xA; and not ((a11.id_producto = 16 and a11.id_plan_producto = 'CC   ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='CM   ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='CS1  ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='CS100')&#xA;   or  (a11.id_producto=4 and a11.id_plan_producto='M    ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='M    ')&#xA;   or  (a11.id_producto=20 and a11.id_plan_producto='M    ')&#xA;   or  (a11.id_producto=14 and a11.id_plan_producto='Z    ')&#xA;   or  (a11.id_producto=20 and a11.id_plan_producto='Z    ')&#xA;   or  (a11.id_producto=1 and a11.id_plan_producto='C    ')&#xA;   or  (a11.id_producto=4 and a11.id_plan_producto='Z    ')))&#xA;   and a11.id_tipo_entidad_convenio = 'E'&#xA;group by&#x9;a11.id_persona, a11.id_convenio&#xA;&#xA;create index #ZZMQ00_i on #ZZMQ00 (id_persona) &#xA;&#xA;select&#x9;a11.id_persona  id_persona,&#xA;&#x9;sum(a11.total_recaudacion)  reca&#xA;into #ZZMD01&#xA;from&#x9;H_RECAUDACION_DETALLE&#x9;a11&#xA;&#x9;join&#x9;#ZZMQ00&#x9;pa12&#xA;&#x9;  on &#x9;(a11.id_persona = pa12.id_persona)&#xA;&#x9;join&#x9;D_PERSONAS&#x9;a13&#xA;&#x9;  on &#x9;(a11.id_persona = a13.id_persona)&#xA;&#x9;join&#x9;D_LOCALIDADES_AFILIADO&#x9;a14&#xA;&#x9;  on &#x9;(a13.id_localidad_afiliado = a14.id_localidad_afiliado)&#xA;&#x9;join&#x9;D_PLANES&#x9;a15&#xA;&#x9;  on &#x9;(a11.id_plan_producto = a15.id_plan_producto and &#xA;&#x9;a11.id_producto = a15.id_producto)&#xA;&#x9;join&#x9;D_PLANES_AGRUPADOS&#x9;a16&#xA;&#x9;  on &#x9;(a15.id_plan_agrupado = a16.id_plan_agrupado)&#xA;&#x9;join&#x9;D_PRODUCTOS&#x9;a17&#xA;&#x9;  on &#x9;(a15.id_producto = a17.id_producto)&#xA;where&#x9;(a17.Id_Clase_Producto in ('S ')&#xA; and a15.Id_SubRubro_Ley in (1, 2, 3, 5, 6, 7)&#xA; and a14.id_zona_comercial not in (0, 1, 20)&#xA; and a16.id_plan_agrupado_S not in (84, 85, 58, 78, 29)&#xA; and not ((a11.id_producto = 4 and a11.id_plan_producto = 'PMO  ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='PMO  ')&#xA;   or  (a11.id_producto=35 and a11.id_plan_producto='PMO  '))&#xA; and a15.id_producto not in (78)&#xA; and not ((a11.id_producto = 16 and a11.id_plan_producto = 'CC   ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='CM   ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='CS1  ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='CS100')&#xA;   or  (a11.id_producto=4 and a11.id_plan_producto='M    ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='M    ')&#xA;   or  (a11.id_producto=20 and a11.id_plan_producto='M    ')&#xA;   or  (a11.id_producto=14 and a11.id_plan_producto='Z    ')&#xA;   or  (a11.id_producto=20 and a11.id_plan_producto='Z    ')&#xA;   or  (a11.id_producto=1 and a11.id_plan_producto='C    ')&#xA;   or  (a11.id_producto=4 and a11.id_plan_producto='Z    '))&#xA; and a11.id_periodo in (select top 12 H.id_periodo from D_PERIODO H where vigente_consumo = 1  order by H.id_periodo desc)&#xA; and a11.rcosto3 = 1)&#xA;group by&#x9;a11.id_persona&#xA;&#xA;select&#x9;a11.id_persona  id_persona,&#xA;&#x9;sum(a11.imp_prest_int_pag)  consumo_int&#xA;into #ZZSP04&#xA;from&#x9;H_ORD_INT_DET&#x9;a11&#xA;&#x9;join&#x9;#ZZMQ00&#x9;pa12&#xA;&#x9;  on &#x9;(a11.id_persona = pa12.id_persona)&#xA;&#x9;join&#x9;D_PERSONAS&#x9;a13&#xA;&#x9;  on &#x9;(a11.id_persona = a13.id_persona)&#xA;&#x9;join&#x9;D_LOCALIDADES_AFILIADO&#x9;a14&#xA;&#x9;  on &#x9;(a13.id_localidad_afiliado = a14.id_localidad_afiliado)&#xA;&#x9;join&#x9;D_PLANES&#x9;a15&#xA;&#x9;  on &#x9;(a11.id_plan_producto = a15.id_plan_producto and &#xA;&#x9;a11.id_producto = a15.id_producto)&#xA;&#x9;join&#x9;D_PLANES_AGRUPADOS&#x9;a16&#xA;&#x9;  on &#x9;(a15.id_plan_agrupado = a16.id_plan_agrupado)&#xA;&#x9;join&#x9;D_PRODUCTOS&#x9;a17&#xA;&#x9;  on &#x9;(a11.id_producto = a17.id_producto)&#xA;where&#x9;(a17.Id_Clase_Producto in ('S ')&#xA; and a15.Id_SubRubro_Ley in (1, 2, 3, 5, 6, 7)&#xA; and a14.id_zona_comercial not in (0, 1, 20)&#xA; and a16.id_plan_agrupado_S not in (84, 85, 58, 78, 29)&#xA; and not ((a11.id_producto = 4 and a11.id_plan_producto = 'PMO  ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='PMO  ')&#xA;   or  (a11.id_producto=35 and a11.id_plan_producto='PMO  '))&#xA; and a11.id_producto not in (78)&#xA; and not ((a11.id_producto = 16 and a11.id_plan_producto = 'CC   ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='CM   ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='CS1  ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='CS100')&#xA;   or  (a11.id_producto=4 and a11.id_plan_producto='M    ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='M    ')&#xA;   or  (a11.id_producto=20 and a11.id_plan_producto='M    ')&#xA;   or  (a11.id_producto=14 and a11.id_plan_producto='Z    ')&#xA;   or  (a11.id_producto=20 and a11.id_plan_producto='Z    ')&#xA;   or  (a11.id_producto=1 and a11.id_plan_producto='C    ')&#xA;   or  (a11.id_producto=4 and a11.id_plan_producto='Z    '))&#xA; and a11.id_periodo in (select top 12 H.id_periodo from D_PERIODO H where vigente_consumo = 1 order by H.id_periodo desc)&#xA; and a11.ccosto3 = 1)&#xA;group by&#x9;a11.id_persona&#xA;&#xA;select&#x9;a11.id_persona  id_persona,&#xA;&#x9;sum(a11.imp_pret_amb_pag)  consumo_amb&#xA;into #ZZSP05&#xA;from&#x9;H_ORD_AMB_DET&#x9;a11&#xA;&#x9;join&#x9;#ZZMQ00&#x9;pa12&#xA;&#x9;  on &#x9;(a11.id_persona = pa12.id_persona)&#xA;&#x9;join&#x9;D_PERSONAS&#x9;a13&#xA;&#x9;  on &#x9;(a11.id_persona = a13.id_persona)&#xA;&#x9;join&#x9;D_LOCALIDADES_AFILIADO&#x9;a14&#xA;&#x9;  on &#x9;(a13.id_localidad_afiliado = a14.id_localidad_afiliado)&#xA;&#x9;join&#x9;D_PLANES&#x9;a15&#xA;&#x9;  on &#x9;(a11.id_plan_producto = a15.id_plan_producto and &#xA;&#x9;a11.id_producto = a15.id_producto)&#xA;&#x9;join&#x9;D_PLANES_AGRUPADOS&#x9;a16&#xA;&#x9;  on &#x9;(a15.id_plan_agrupado = a16.id_plan_agrupado)&#xA;&#x9;join&#x9;D_PRODUCTOS&#x9;a17&#xA;&#x9;  on &#x9;(a11.id_producto = a17.id_producto)&#xA;where&#x9;(a17.Id_Clase_Producto in ('S ')&#xA; and a15.Id_SubRubro_Ley in (1, 2, 3, 5, 6, 7)&#xA; and a14.id_zona_comercial not in (0, 1, 20)&#xA; and a16.id_plan_agrupado_S not in (84, 85, 58, 78, 29)&#xA; and not ((a11.id_producto = 4 and a11.id_plan_producto = 'PMO  ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='PMO  ')&#xA;   or  (a11.id_producto=35 and a11.id_plan_producto='PMO  '))&#xA; and a11.id_producto not in (78)&#xA; and not ((a11.id_producto = 16 and a11.id_plan_producto = 'CC   ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='CM   ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='CS1  ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='CS100')&#xA;   or  (a11.id_producto=4 and a11.id_plan_producto='M    ')&#xA;   or  (a11.id_producto=16 and a11.id_plan_producto='M    ')&#xA;   or  (a11.id_producto=20 and a11.id_plan_producto='M    ')&#xA;   or  (a11.id_producto=14 and a11.id_plan_producto='Z    ')&#xA;   or  (a11.id_producto=20 and a11.id_plan_producto='Z    ')&#xA;   or  (a11.id_producto=1 and a11.id_plan_producto='C    ')&#xA;   or  (a11.id_producto=4 and a11.id_plan_producto='Z    '))&#xA; and a11.id_periodo in (select top 12 H.id_periodo from D_PERIODO H where vigente_consumo = 1 order by H.id_periodo desc)&#xA; and a11.ccosto3 = 1)&#xA;group by&#x9;a11.id_persona&#xA;&#xA;&#xA;/*  INSERTA EN LA TABLA DE DAVID EN DONDE LUEGO SE CALCULA EL BLINDAJE */&#xA;&#xA;Insert HOST03.HOST03.EMPRESA.CONVENIOS_COSTO_SALUD --se inserta sobre host03 porque en as400 da error&#xA;select&#x9;id_convenio as ID_CONVENIO, &#xA;&#x9;(@Periodo) as PERIODO_STOCK,&#xA;&#x9;sum(st.stock) as CANTIDAD_STOCK,&#xA;&#x9;(select max(id_periodo) from D_PERIODO where vigente_consumo = 1) as PERIODO_COSTO,&#xA;&#x9;&#x9;sum(isnull(pa14.consumo_int,0))+sum(isnull(pa15.consumo_amb,0)) CONSUMO,&#xA;&#x9;sum(isnull(pa11.reca,0)) RECAUDACIÓN,&#xA;&#x9;0 as COSTO,&#xA;&#x9;(select max(LOTE)+1 from AS400.HOST03.EMPRESA.CONVENIOS_COSTO_SALUD) as LOTE --este numero de lote es incremental, el proceso de la intra que calcula el blindaje trabaja siempre con el mas grande, por eso siempre vamos sumando uno cada que instertamos info nueva.&#xA;from&#x9;#ZZMQ00 st &#xA;&#x9;left join&#x9;#ZZMD01&#x9;pa11 on (st.id_persona = pa11.id_persona)&#xA;&#x9; left join&#x9;#ZZSP04&#x9;pa14 on (pa14.id_persona = st.id_persona)&#xA;&#x9; left join&#x9;#ZZSP05&#x9;pa15 on (pa15.id_persona = st.id_persona)&#xA;where id_convenio &gt; 0 &#xA;group by id_convenio&#xA;&#xA;&#xA;&#xA;&#xA;DROP TABLE #ZZMQ00&#xA;DROP TABLE #ZZMD01&#xA;DROP TABLE #ZZSP04&#xA;DROP TABLE #ZZSP05&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Convenios Consumo Ambulatorio"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{67d1355b-e2cb-48e7-a9be-aecd12e5be10}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Convenios Consumo Ambulatorio"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{6601EFDC-B0A3-4B05-9A3F-EFAAD98885BF}"
+          SQLTask:SqlStatementSource="declare @Periodo int&#xA;set @Periodo = (select MAX(id_periodo)  from AUX_PERIODO_MES_BORRA)&#xA;&#xA;/* ACTUALIZACMOS CON CLAVE COMPUESTA DE CTA/SCTA/SCIA    */&#xA;&#xA;UPDATE H_ORD_AMB_DET&#xA;set id_convenio = S.id_convenio,&#xA;id_tipo_entidad_convenio = S.id_tipo_entidad_convenio&#xA;FROM H_ORD_AMB_DET R &#xA;INNER JOIN H_COMER_STOCK_AFILIA S ON (R.afiliado = S.afiliado and R.subnumero = S.subnumero and R.secuencia = S.secuencia AND R.id_periodo_prestacion = S.id_periodo)&#xA;WHERE R.id_periodo = @Periodo&#xA;&#xA;-- BUSCAMOS MAXIMO PERIODO DE STOCK CON TOPE AL QUE SE ESTA ACTUALIZANDO PARA LA CLAVE EN CUESTION&#xA;SELECT MAX(S.id_periodo) id_periodo, S.afiliado,S.subnumero,S.secuencia &#xA;INTO #TEMP_CONSU &#xA;FROM H_COMER_STOCK_AFILIA S INNER JOIN H_ORD_AMB_DET R ON (R.afiliado = S.afiliado and R.subnumero = S.subnumero and R.secuencia = S.secuencia)&#xA;WHERE R.id_convenio is null and S.id_periodo &lt;= @Periodo&#xA;AND R.id_periodo = @Periodo and S.id_periodo &gt; 201705&#xA;GROUP BY S.afiliado,S.subnumero,S.secuencia&#xA;&#xA;SELECT DISTINCT id_periodo, S.afiliado,S.subnumero,S.secuencia, id_convenio,id_tipo_entidad_convenio&#xA;into #STOCK_CONSU&#xA;FROM H_COMER_STOCK_AFILIA S&#xA;WHERE EXISTS (SELECT * FROM #TEMP_CONSU T WHERE T.afiliado = S.afiliado and T.subnumero = S.subnumero and T.secuencia = S.secuencia and S.id_periodo=T.id_periodo)&#xA;&#xA;-- SEGUNDO BARRIDO CON CLAVE CTA/SCTA/SECUENCIA Y PERIODO MAXIMO DE STOCK&#xA;UPDATE H_ORD_AMB_DET&#xA;set id_convenio = S.id_convenio,&#xA;id_tipo_entidad_convenio = S.id_tipo_entidad_convenio&#xA;FROM H_ORD_AMB_DET R &#xA;INNER JOIN #STOCK_CONSU S ON (R.afiliado = S.afiliado and R.subnumero = S.subnumero and R.secuencia = S.secuencia)&#xA;WHERE R.id_periodo = @Periodo&#xA;AND R.id_convenio IS NULL&#xA;&#xA;DROP TABLE #TEMP_CONSU&#xA;DROP TABLE #STOCK_CONSU&#xA;&#xA;/*  ACTUALIZACIONES POR CLAVE SOLO DE PERSONAS    */&#xA;&#xA;/* Reemplazo por Consumos  y PeriodoPrestacion */&#xA;Update H_ORD_AMB_DET&#xA;set id_convenio = E.id_convenio,&#xA;id_tipo_entidad_convenio = E.id_tipo_entidad_convenio&#xA;FROM H_ORD_AMB_DET A INNER JOIN dw_salud.dbo.H_COMER_STOCK_AFILIA E ON A.id_periodo_prestacion = E.id_periodo AND A.id_persona = E.id_persona&#xA;WHERE A.id_periodo = @Periodo  AND A.id_convenio is null&#xA;&#xA;-- Se busca el maximo periodo donde estuvo una persona para obtener el tipo de entidad y la empresa.&#xA;SELECT MAX(S.id_periodo) id_periodo, S.id_persona &#xA;INTO #TEMPAMBU&#xA;FROM dw_salud.dbo.H_COMER_STOCK_AFILIA S INNER JOIN H_ORD_AMB_DET R ON (R.id_persona=S.id_persona)&#xA;WHERE R.id_convenio is null AND R.id_periodo = @Periodo and S.id_periodo &lt;= @Periodo and S.id_periodo &gt; 201705&#xA;GROUP BY S.id_persona&#xA;&#xA;SELECT DISTINCT id_periodo, id_persona, id_convenio,id_tipo_entidad_convenio&#xA;into #STOCKAMBU FROM dw_salud.dbo.H_COMER_STOCK_AFILIA S&#xA;WHERE EXISTS (SELECT id_persona FROM #TEMPAMBU T &#xA;     WHERE S.id_persona=T.id_persona and S.id_periodo=T.id_periodo)&#xA;&#xA;-- Se actualiza ambos datos con el ultimo periodo donde se encontro cada persona.&#xA;UPDATE H_ORD_AMB_DET&#xA;set id_convenio = S.id_convenio,&#xA;id_tipo_entidad_convenio = S.id_tipo_entidad_convenio&#xA;FROM H_ORD_AMB_DET R &#xA;INNER JOIN #STOCKAMBU S ON (R.id_persona=S.id_persona)&#xA;WHERE R.id_periodo = @Periodo and R.id_convenio is null&#xA;&#xA;&#xA;DROP TABLE #STOCKAMBU&#xA;DROP TABLE #TEMPAMBU&#xA;&#xA;/* EXCEPCIONES */&#xA;&#xA;&#xA;--Se aplican valores por defecto a los casos que no es posible averiguar el valor correcto.&#xA;UPDATE H_ORD_AMB_DET &#xA;set id_convenio = 0,&#xA;id_tipo_entidad_convenio = 'I'&#xA;WHERE id_convenio is null and id_periodo = @Periodo&#xA;-- Para las personas que queda con producto distinto a 18 y se le pega amps se lo pasa a individual&#xA;update H_ORD_AMB_DET&#xA;set id_convenio = 0 , id_tipo_entidad_convenio = 'I'&#xA;where  id_producto &lt;&gt; 18 and id_convenio = 1 and id_tipo_entidad_convenio = 'A' and id_periodo = @Periodo &#xA;&#xA;&#xA;&#xA;select distinct id_convenio,id_tipo_entidad_convenio,0 as id_periodo_maximo into #convenios_nuevos &#xA;from H_ORD_AMB_DET h&#xA;where  not exists  (select id_convenio ,id_tipo_entidad_convenio &#xA;     from H_CONVENIOS_EMPRESAS C where id_periodo = @periodo&#xA;     and h.id_periodo =  c.id_periodo and h.id_convenio = c.id_convenio and h.id_tipo_entidad_convenio = c.id_tipo_entidad_convenio) &#xA;  and id_periodo = @periodo&#xA;&#xA;update #convenios_nuevos&#xA;set id_periodo_maximo = maximo_periodo from&#xA;#convenios_nuevos c inner join (&#xA;select t.id_convenio, max(h.id_periodo) as maximo_periodo from #convenios_nuevos t inner join H_CONVENIOS_EMPRESAS h on t.id_convenio = h.id_convenio&#xA; and t.id_tipo_entidad_convenio = h.id_tipo_entidad_convenio&#xA;group by t.id_convenio) A on c.id_convenio = a.id_convenio&#xA;&#xA;&#xA;insert into H_CONVENIOS_EMPRESAS&#xA;select @periodo,c.id_convenio,c.id_tipo_entidad_convenio,e.id_subtipo_venta,id_rango_stock,id_rango_costo,id_blindaje,interes_comercial,es_mutual&#xA;,id_holding,'Amb' from #convenios_nuevos c inner join H_CONVENIOS_EMPRESAS e&#xA;on  c.id_convenio = e.id_convenio and c.id_periodo_maximo = e.id_periodo and c.id_tipo_entidad_convenio = e.id_tipo_entidad_convenio" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Convenios Consumo Internación"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{060cbbe5-a98d-4ba1-a0c5-947d2724d666}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Convenios Consumo Internación"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{6601EFDC-B0A3-4B05-9A3F-EFAAD98885BF}"
+          SQLTask:SqlStatementSource="declare @Periodo int&#xA;set @Periodo = (select MAX(id_periodo)  from AUX_PERIODO_MES_BORRA)&#xA;&#xA;/* ACTUALIZACMOS CON CLAVE COMPUESTA DE CTA/SCTA/SCIA    */&#xA;&#xA;UPDATE H_ORD_INT_DET&#xA;set id_convenio = S.id_convenio,&#xA;id_tipo_entidad_convenio = S.id_tipo_entidad_convenio&#xA;FROM H_ORD_INT_DET R &#xA;INNER JOIN H_COMER_STOCK_AFILIA S ON (R.afiliado = S.afiliado and R.subnumero = S.subnumero and R.secuencia = S.secuencia AND R.id_periodo_prestacion = S.id_periodo)&#xA;WHERE R.id_periodo = @Periodo&#xA;&#xA;-- BUSCAMOS MAXIMO PERIODO DE STOCK CON TOPE AL QUE SE ESTA ACTUALIZANDO PARA LA CLAVE EN CUESTION&#xA;SELECT MAX(S.id_periodo) id_periodo, S.afiliado,S.subnumero,S.secuencia &#xA;INTO #TEMP_CONSU &#xA;FROM H_COMER_STOCK_AFILIA S INNER JOIN H_ORD_INT_DET R ON (R.afiliado = S.afiliado and R.subnumero = S.subnumero and R.secuencia = S.secuencia)&#xA;WHERE R.id_convenio is null and S.id_periodo &lt;= @Periodo&#xA;AND R.id_periodo = @Periodo and S.id_periodo &gt; 201705&#xA;GROUP BY S.afiliado,S.subnumero,S.secuencia&#xA;&#xA;SELECT DISTINCT id_periodo, S.afiliado,S.subnumero,S.secuencia, id_convenio,id_tipo_entidad_convenio&#xA;into #STOCK_CONSU&#xA;FROM H_COMER_STOCK_AFILIA S&#xA;WHERE EXISTS (SELECT * FROM #TEMP_CONSU T WHERE T.afiliado = S.afiliado and T.subnumero = S.subnumero and T.secuencia = S.secuencia and S.id_periodo=T.id_periodo)&#xA;&#xA;-- SEGUNDO BARRIDO CON CLAVE CTA/SCTA/SECUENCIA Y PERIODO MAXIMO DE STOCK&#xA;UPDATE H_ORD_INT_DET&#xA;set id_convenio = S.id_convenio,&#xA;id_tipo_entidad_convenio = S.id_tipo_entidad_convenio&#xA;FROM H_ORD_INT_DET R &#xA;INNER JOIN #STOCK_CONSU S ON (R.afiliado = S.afiliado and R.subnumero = S.subnumero and R.secuencia = S.secuencia)&#xA;WHERE R.id_periodo = @Periodo&#xA;AND R.id_convenio IS NULL&#xA;&#xA;DROP TABLE #TEMP_CONSU&#xA;DROP TABLE #STOCK_CONSU&#xA;&#xA;/*  ACTUALIZACIONES POR CLAVE SOLO DE PERSONAS    */&#xA;&#xA;/* Reemplazo por Consumos  y PeriodoPrestacion */&#xA;Update H_ORD_INT_DET&#xA;set id_convenio = E.id_convenio,&#xA;id_tipo_entidad_convenio = E.id_tipo_entidad_convenio&#xA;FROM H_ORD_INT_DET A INNER JOIN dw_salud.dbo.H_COMER_STOCK_AFILIA E ON A.id_periodo_prestacion = E.id_periodo AND A.id_persona = E.id_persona&#xA;WHERE A.id_periodo = @Periodo  AND A.id_convenio is null&#xA;&#xA;-- Se busca el maximo periodo donde estuvo una persona para obtener el tipo de entidad y la empresa.&#xA;SELECT MAX(S.id_periodo) id_periodo, S.id_persona &#xA;INTO #TEMPAMBU&#xA;FROM dw_salud.dbo.H_COMER_STOCK_AFILIA S INNER JOIN H_ORD_INT_DET R ON (R.id_persona=S.id_persona)&#xA;WHERE R.id_convenio is null AND R.id_periodo = @Periodo and S.id_periodo &lt;= @Periodo and S.id_periodo &gt; 201705&#xA;GROUP BY S.id_persona&#xA;&#xA;SELECT DISTINCT id_periodo, id_persona, id_convenio,id_tipo_entidad_convenio&#xA;into #STOCKAMBU FROM dw_salud.dbo.H_COMER_STOCK_AFILIA S&#xA;WHERE EXISTS (SELECT id_persona FROM #TEMPAMBU T &#xA;     WHERE S.id_persona=T.id_persona and S.id_periodo=T.id_periodo)&#xA;&#xA;-- Se actualiza ambos datos con el ultimo periodo donde se encontro cada persona.&#xA;UPDATE H_ORD_INT_DET&#xA;set id_convenio = S.id_convenio,&#xA;id_tipo_entidad_convenio = S.id_tipo_entidad_convenio&#xA;FROM H_ORD_INT_DET R &#xA;INNER JOIN #STOCKAMBU S ON (R.id_persona=S.id_persona)&#xA;WHERE R.id_periodo = @Periodo and R.id_convenio is null&#xA;&#xA;&#xA;DROP TABLE #STOCKAMBU&#xA;DROP TABLE #TEMPAMBU&#xA;&#xA;/* EXCEPCIONES */&#xA;&#xA;&#xA;--Se aplican valores por defecto a los casos que no es posible averiguar el valor correcto.&#xA;UPDATE H_ORD_INT_DET &#xA;set id_convenio = 0,&#xA;id_tipo_entidad_convenio = 'I'&#xA;WHERE id_convenio is null and id_periodo = @Periodo&#xA;&#xA;&#xA;&#xA;update H_ORD_int_DET&#xA;set id_convenio = 0 , id_tipo_entidad_convenio = 'I'&#xA;where  id_producto &lt;&gt; 18 and id_convenio = 1 and id_tipo_entidad_convenio = 'A' and id_periodo = @Periodo &#xA;&#xA;&#xA;select distinct id_convenio,id_tipo_entidad_convenio,0 as id_periodo_maximo into #convenios_nuevos &#xA;from H_ORD_INT_DET h&#xA;where  not exists  (select id_convenio ,id_tipo_entidad_convenio &#xA;     from H_CONVENIOS_EMPRESAS C where id_periodo = @periodo&#xA;     and h.id_periodo =  c.id_periodo and h.id_convenio = c.id_convenio and h.id_tipo_entidad_convenio = c.id_tipo_entidad_convenio) &#xA;  and id_periodo = @periodo&#xA;&#xA;update #convenios_nuevos&#xA;set id_periodo_maximo = maximo_periodo from&#xA;#convenios_nuevos c inner join (&#xA;select t.id_convenio, max(h.id_periodo) as maximo_periodo from #convenios_nuevos t inner join H_CONVENIOS_EMPRESAS h on t.id_convenio = h.id_convenio&#xA; and t.id_tipo_entidad_convenio = h.id_tipo_entidad_convenio&#xA;group by t.id_convenio) A on c.id_convenio = a.id_convenio&#xA;&#xA;&#xA;insert into H_CONVENIOS_EMPRESAS&#xA;select @periodo,c.id_convenio,c.id_tipo_entidad_convenio,e.id_subtipo_venta,id_rango_stock,id_rango_costo,id_blindaje,interes_comercial,es_mutual&#xA;,id_holding,'INT' from #convenios_nuevos c inner join H_CONVENIOS_EMPRESAS e&#xA;on  c.id_convenio = e.id_convenio and c.id_periodo_maximo = e.id_periodo and c.id_tipo_entidad_convenio = e.id_tipo_entidad_convenio" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SP Actualizar Blindaje HOST03"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Tarea Ejecutar SQL"
+      DTS:DTSID="{b5ab2b31-783f-4102-97b5-9e1116cc39cd}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SP Actualizar Blindaje HOST03"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{35F84AFA-39B3-4DE2-B208-28F090C93A89}"
+          SQLTask:SqlStatementSource="&#xA;&#xA;----LLAMADA A PRODCEDIMIENTO ALMACENADO EN AS400 QUE CALCULA EL BLINDAJE DE CADA CONVENIO&#xA;CALL EMPRESA.ACTUALIZAR_BLINDAJE&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{29D4F6FD-CA0E-410F-83D7-11CC12AC3490}"
+      DTS:From="Package\Actualiza Consumo Ambulatorio"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Actualiza Consumo Internación" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{22221156-45B4-49A2-8864-FAC55B471B1A}"
+      DTS:From="Package\Convenios Consumo Internación"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Clasificaciones Linea Empresa" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{F704E60A-741E-4646-A2FD-DC90FA1E2F53}"
+      DTS:From="Package\Convenios Consumo Ambulatorio"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Convenios Consumo Internación" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{6B63BFD8-3924-4224-B259-C078FF0716EA}"
+      DTS:From="Package\Actualiza Consumo Internación"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Convenios Consumo Ambulatorio" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
+      DTS:CreationName=""
+      DTS:DTSID="{F80FBEEA-18EF-488B-9425-A8981767F5D1}"
+      DTS:From="Package\Clasificaciones Linea Empresa"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 4"
+      DTS:To="Package\Actualiza CostoSalud en HOST03" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 5]"
+      DTS:CreationName=""
+      DTS:DTSID="{59EEC745-26E3-420C-BEF7-BA8D5D6AC7D1}"
+      DTS:From="Package\Actualiza CostoSalud en HOST03"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 5"
+      DTS:To="Package\SP Actualizar Blindaje HOST03" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 6]"
+      DTS:CreationName=""
+      DTS:DTSID="{B5F6FB14-D9FF-42F6-8F80-68E71C93D20B}"
+      DTS:From="Package\SP Actualizar Blindaje HOST03"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 6"
+      DTS:To="Package\Actualiza H_CONVENIOS_EMPRESAS" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib">
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="400,233">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,150"
+              Start="0,0"
+              End="0,142.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,142.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="235,42"
+          Id="Package\Actualiza Consumo Ambulatorio"
+          TopLeft="5.50000000000001,5.5" />
+        <NodeLayout
+          Size="231,42"
+          Id="Package\Actualiza Consumo Internación"
+          TopLeft="7.50000000000001,107.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="123,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <GroupLayout
+          Text="Proyecto Empresas"
+          ParentId="Package"
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="246,205"
+          Size="246,248"
+          Id="267e87f6-4294-4cf6-8f34-14e3e4b0e98d"
+          TopLeft="276.411949685535,39.5">
+          <GroupLayout.ChildrenIds>
+            <s:String>Package\Actualiza Consumo Ambulatorio</s:String>
+            <s:String>Package\Actualiza Consumo Internación</s:String>
+            <s:String>Package.PrecedenceConstraints[Constraint]</s:String>
+          </GroupLayout.ChildrenIds>
+        </GroupLayout>
+        <NodeLayout
+          Size="243,42"
+          Id="Package\Convenios Consumo Ambulatorio"
+          TopLeft="22.2,5.5" />
+        <NodeLayout
+          Size="238,42"
+          Id="Package\Convenios Consumo Internación"
+          TopLeft="24.7,107.5" />
+        <NodeLayout
+          Size="229,42"
+          Id="Package\Clasificaciones Linea Empresa"
+          TopLeft="29.2,175.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="143.7,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,26"
+              Start="0,0"
+              End="0,18.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="143.7,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="235,42"
+          Id="Package\Actualiza CostoSalud en HOST03"
+          TopLeft="26.2,257" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="143.7,217.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,39.5"
+              Start="0,0"
+              End="0,32">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,32" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="274,42"
+          Id="Package\Actualiza H_CONVENIOS_EMPRESAS"
+          TopLeft="6.69999999999999,415" />
+        <NodeLayout
+          Size="235,42"
+          Id="Package\SP Actualizar Blindaje HOST03"
+          TopLeft="27,339" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 5]"
+          TopLeft="144.1,299">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,40"
+              Start="0,0"
+              End="0,32.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,32.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 6]"
+          TopLeft="144.1,381">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,34"
+              Start="0,0"
+              End="0,26.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <GroupLayout
+          Text="Linea Empresa"
+          ParentId="Package"
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="348,512"
+          Size="348,555"
+          Id="01acaf72-1a0e-4f9c-af91-008963511dca"
+          TopLeft="257.411949685535,334.5">
+          <GroupLayout.ChildrenIds>
+            <s:String>Package\Convenios Consumo Ambulatorio</s:String>
+            <s:String>Package\Convenios Consumo Internación</s:String>
+            <s:String>Package\Clasificaciones Linea Empresa</s:String>
+            <s:String>Package.PrecedenceConstraints[Constraint 1]</s:String>
+            <s:String>Package.PrecedenceConstraints[Constraint 2]</s:String>
+            <s:String>Package\Actualiza CostoSalud en HOST03</s:String>
+            <s:String>Package.PrecedenceConstraints[Constraint 4]</s:String>
+            <s:String>Package\Actualiza H_CONVENIOS_EMPRESAS</s:String>
+            <s:String>Package\SP Actualizar Blindaje HOST03</s:String>
+            <s:String>Package.PrecedenceConstraints[Constraint 5]</s:String>
+            <s:String>Package.PrecedenceConstraints[Constraint 6]</s:String>
+          </GroupLayout.ChildrenIds>
+        </GroupLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

@@ -1,0 +1,210 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="7/1/2019 7:44:33 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AMS06X"
+  DTS:CreatorName="AMS\mpaludi"
+  DTS:DTSID="{4540FE5D-40C8-4C48-96BE-D94FCADA7B15}"
+  DTS:EnableConfig="True"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="Discapacidad H_DISCAPACIDAD_AHORRO"
+  DTS:PackageType="5"
+  DTS:VersionBuild="17"
+  DTS:VersionGUID="{A3974519-F9A4-4857-BA7D-38898CE4E9E0}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{48560E05-AD90-44FB-B917-846B1D759C76}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">1,7,OnError</DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnError"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{48560E05-AD90-44FB-B917-846B1D759C76}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza H_DISCAPACIDAD_AHORRO"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{A190B8BF-670C-4513-8005-364256C0239A}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza H_DISCAPACIDAD_AHORRO"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{1D8B8A51-4890-496E-8E4F-724205552402}"
+          SQLTask:SqlStatementSource="declare @periodo int =  dbo.DevuelvePeriodo(getdate()) &#xA;declare @periodo_proceso int = dbo.periodosanteriores(@periodo,2)&#xA;declare @año int = (select left(@periodo,4)) * 1000+101&#xA;&#xA;&#xA;insert into [dbo].[H_DISCAPACIDAD_AHORRO]&#xA; select @periodo_proceso as id_periodo, &#xA;&#x9;&#x9;numero_evaluacion,&#xA;&#x9;&#x9;numero_secuencia,-- orden de pasos&#xA;&#x9;&#x9;id_prestacion,&#xA;&#x9;&#x9;cantidad_autorizada,&#xA;&#x9;&#x9;importe_solicitado_prest,&#xA;&#x9;&#x9;id_acreedor,&#xA;&#x9;&#x9;'P' as id_tipo_prestador,&#xA;&#x9;&#x9;cant_solicitado,&#xA;&#x9;&#x9; estado,&#xA;&#x9;&#x9;valor_pactado,&#xA;&#x9;&#x9;porc_valor_pactado,&#xA;&#x9;&#x9;importe,&#xA;&#x9;&#x9;CASE when fecha_baja_prestacion &lt;&gt; '0'  then cast(fecha_baja_prestacion as datetime) else '1900-01-01'end  as fecha_baja_prestacion ,&#xA;&#x9;&#x9;CASE when fecha_vig_desde &lt;&gt; 0  then cast(cast(fecha_vig_desde as varchar)as datetime) else '1900-01-01'end as fecha_vig_desde_prest ,&#xA;&#x9;&#x9;case when isdate(fecha_vig_hasta) = 1 then cast (cast(fecha_vig_hasta as varchar)as datetime)&#xA;&#x9;&#x9;&#x9; when   isdate(fecha_vig_hasta - 1 ) = 1 and fecha_vig_hasta &lt;&gt; 0 then cast (cast(fecha_vig_hasta - 1 as varchar)as datetime) &#xA;&#x9;&#x9;&#x9; else  '1900-01-01' end as fecha_vig_hasta_prest, -- HAY FECHAS HASTA QUE NO SON VALIDAS PORQUE ES EL DIA SIGUIENTE AL ULTIMO DIA DEL MES&#xA;&#x9;&#x9;numero_persona as numero_persona,&#xA;&#x9;&#x9;CASE when fecha_vig_desde_prest &lt;&gt; '0' then cast(cast(fecha_vig_desde_prest as varchar)as datetime) else '1900-01-01'end as fecha_vig_desde,&#xA;&#x9;&#x9;CASE when fecha_vig_hasta_prest &lt;&gt; '0' then cast(cast(fecha_vig_hasta_prest as varchar)as datetime) else '1900-01-01'end as fecha_vig_hasta,&#xA;&#x9;--&#x9;CASE when w01fal &lt;&gt; '0' then cast(cast(w01fal as varchar)as datetime) else'1900-01-01' end as fecha_alta_persona,&#xA;&#x9;--  CASE when w01fba &lt;&gt; '0' then cast(cast(w01fba as varchar)as datetime) else'1900-01-01' end as fecha_baja_persona,&#xA;&#x9;&#x9;codigo_incapacidad  as codigo_incapacidad,&#xA;&#x9;&#x9;0 as imp_tarifa_disca,&#xA;&#x9;&#x9;0 as id_marca_tipo_calculo,&#xA;&#x9;&#x9;0 as imp_gasto_disca,&#xA;&#x9;&#x9;null as afiliado,&#xA;&#x9;&#x9;null as subnumero,&#xA;&#x9;&#x9;null as secuencia,&#xA;&#x9;&#x9;null as id_producto,&#xA;&#x9;&#x9;null as id_subproducto,&#xA;&#x9;&#x9;null as id_plan_producto,&#xA;&#x9;&#x9;null as id_convenio,&#xA;&#x9;&#x9;null id_tipo_entidad_convenio&#xA; from aux_h_discapacidad_ahorro&#xA; where fecha_vig_desde_prest &gt;= @año and fecha_vig_hasta_prest &gt;= @año -- Fecha vigencia todo el año en curso&#xA;&#x9;&#x9;and fecha_vig_desde &lt; @periodo * 100 +1 and fecha_vig_hasta &gt;= @periodo * 100 +1 -- fecha vigencia de la prestacion que empiece antes del periodo y termine despues &#xA;&#xA;&#xA;&#xA; Truncate table[D_TIPO_DISCAPACIDAD]&#xA; -- Carga la d de los tipos de discapacidad&#xA; insert into [D_TIPO_DISCAPACIDAD]&#xA; select w31cin,w31des from as400.host03.SMPLIBD.T32FCIN&#x9;&#xA;&#xA;--Carga id_tipo_discapacidad para 'F/D'&#xA; insert into D_TIPO_DISCAPACIDAD values (99, 'F/D')&#xA;&#xA;Truncate table AUX_TARIFA_PRESTACION&#xA; -- Genera la tabla de tarifas a partir del query de la tabla de AS&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#xA;insert into  AUX_TARIFA_PRESTACION&#xA;select mtacod as cod_tarifa,&#xA;&#x9;mtatno + mtacpr  as id_prestacion,&#xA;&#x9;cast(mtafvi as datetime) as  fecha_vigencia,&#xA;&#x9;mtatpr as imp_total_prestacion   from openquery (host03,'&#xA;SELECT mtacod ,&#xA;&#x9;&#x9;mtatno , mtacpr ,&#xA;&#x9;mtafvi ,&#xA;&#x9;mtatpr &#xA;&#x9; From desarrollo.val000B&#xA; where mtacod = ''DISCAP''&#xA;&#x9;')&#xA;&#xA;-- Se busca la fecha maxima de cada tarifa de cada prestacion &#xA; select id_prestacion, max(fecha_vigencia) as maxima_fecha , cast(0 as decimal(12,2)) as tarifa&#xA; into #temp_costo_prestacion&#xA; from AUX_TARIFA_PRESTACION&#xA; where fecha_vigencia &lt;= getdate()&#xA; group by id_prestacion&#xA; -- Segun la fecha maxima se le pega el mayor valor que encuentre, hay  fechas que tienen 2 valores para una prest&#xA; update #temp_costo_prestacion&#xA; set tarifa =  maxima_tarifa&#xA; from #temp_costo_prestacion t inner join ( select  id_prestacion,fecha_vigencia, max(imp_total_prestacion) as maxima_tarifa&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;from AUX_TARIFA_PRESTACION group by id_prestacion, fecha_vigencia ) A&#xA; on t.maxima_fecha = a.fecha_vigencia and t.id_prestacion = a.id_prestacion&#xA;&#xA;&#xA;&#xA;&#xA; -- Actualizo en la h el ahorro&#xA;  update  [H_DISCAPACIDAD_AHORRO]&#xA;  set imp_tarifa_disca =  tarifa&#xA;  from [H_DISCAPACIDAD_AHORRO] H inner join #temp_costo_prestacion t &#xA;&#x9;on h.id_prestacion  = t.id_prestacion collate Modern_Spanish_CI_AS&#xA;&#x9;where id_periodo = @periodo_proceso --ultimo periodo&#xA;&#xA;-- Se releva si el calculo del gasto es con el porcentaje  o con el importe pactado&#xA;update [H_DISCAPACIDAD_AHORRO]&#xA;set id_marca_tipo_calculo =  case when imp_valor_pactado_disca &lt;&gt; 0  then 1 -- Se calcula con le valor&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;   when imp_valor_pactado_disca = 0 and porc_valor_pactado_disca &lt;&gt; 0 then 2 -- Se calcula con el porcentaje&#x9;&#x9;&#x9;&#x9;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;else 0 -- NO DEFINIDO&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;end&#xA;-- Calcula el gasto dependiendo de si lo hace por porcentaje o por importe&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#xA;update [H_DISCAPACIDAD_AHORRO]&#xA;set imp_gasto_disca = case when id_marca_tipo_calculo = 1 then imp_valor_pactado_disca * cant_practicas_autorizado_disca&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;   when id_marca_tipo_calculo = 2 then (porc_valor_pactado_disca /100) * imp_tarifa_disca * cant_practicas_autorizado_disca &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;   else 0 end&#xA; drop table #temp_costo_prestacion&#xA;&#xA; -- une stock por persona con la tabla de ahorro para calcular campos de afiliacion y producto&#xA;  update h_discapacidad_ahorro&#xA;  set afiliado = a.afiliado,&#xA;&#x9;  subnumero = a.subnumero,&#xA;&#x9;  secuencia = a.secuencia,&#xA;&#x9;  id_producto = a.id_producto,&#xA;&#x9;  id_subproducto = a.id_subproducto,&#xA;&#x9;  id_plan_producto = a.id_plan_producto&#xA; from h_discapacidad_ahorro h  inner join H_COMER_STOCK_AFILIA a  &#xA; on h.id_persona = a.id_persona and h.id_periodo = a.id_periodo&#xA;&#xA; --A las personas que no encuentra busca el ultimo stock en el que esta&#xA;  select id_persona, max(id_periodo) as maximo_periodo into #temp_faltantes from h_comer_stock_afilia where id_persona in (&#xA; select distinct id_persona from h_discapacidad_ahorro &#xA; where id_persona not in (select id_persona from h_comer_stock_afilia&#xA; where id_periodo = @periodo_proceso))  and id_periodo &lt; @periodo_proceso&#xA; group by id_persona&#xA;&#xA;  update h_discapacidad_ahorro&#xA;  set afiliado = a.afiliado,&#xA;&#x9;  subnumero = a.subnumero,&#xA;&#x9;  secuencia = a.secuencia,&#xA;&#x9;  id_producto = a.id_producto,&#xA;&#x9;  id_subproducto = a.id_subproducto,&#xA;&#x9;  id_plan_producto = a.id_plan_producto&#xA; from h_discapacidad_ahorro h  &#xA; inner join H_COMER_STOCK_AFILIA a  on h.id_persona = a.id_persona &#xA; inner join #temp_faltantes t on a.id_persona = t.id_persona and a.id_periodo = t.maximo_periodo&#xA; where h.afiliado is null &#xA;-- Existen casos que la persona ingresa luego de la foto que se saca de stock por lo tanto no aparece en el mismo stock&#xA;--sino que aparece en el siguiente... Por lo tanto se buscan los restantes en el siguiente stock&#xA;  update h_discapacidad_ahorro&#xA;  set afiliado = a.afiliado,&#xA;&#x9;  subnumero = a.subnumero,&#xA;&#x9;  secuencia = a.secuencia,&#xA;&#x9;  id_producto = a.id_producto,&#xA;&#x9;  id_subproducto = a.id_subproducto,&#xA;&#x9;  id_plan_producto = a.id_plan_producto&#xA; from h_discapacidad_ahorro h  &#xA; inner join H_COMER_STOCK_AFILIA a  &#xA;&#x9;on h.id_persona = a.id_persona and a.id_periodo = dbo.periodosposteriores(h.id_periodo,2)&#xA;&#x9;where h.afiliado is null&#xA;&#xA;&#xA;--ACTUALIZA CONVENIO &#xA;update h_discapacidad_ahorro&#xA;set id_convenio = h.id_convenio,&#xA;&#x9;id_tipo_entidad_convenio = h.id_tipo_entidad_convenio&#xA;from h_discapacidad_ahorro D inner join h_comer_STOCK_afilia h on h.afiliado = d.afiliado&#xA;and h.subnumero = d.subnumero and h.secuencia = d.secuencia and h.id_periodo = d.id_periodo&#xA;&#xA;update h_discapacidad_ahorro&#xA;set id_convenio = h.id_convenio,&#xA;&#x9;id_tipo_entidad_convenio = h.id_tipo_entidad_convenio&#xA;from h_discapacidad_ahorro D inner join h_comer_STOCK_afilia h &#xA;on h.afiliado = d.afiliado and h.id_periodo = d.id_periodo&#xA;where d.id_convenio is null&#xA;&#xA;update h_discapacidad_ahorro&#xA;set id_convenio = 0,&#xA;&#x9;id_tipo_entidad_convenio ='I'&#xA;where id_convenio is null" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza la Auxiliar"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{293B5727-399D-4F8C-A174-CAAC90312DAF}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza la Auxiliar"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{1D8B8A51-4890-496E-8E4F-724205552402}"
+          SQLTask:SqlStatementSource="Insert into aux_h_discapacidad_ahorro&#xA;&#x9;select wp1nev  as numero_evaluacion,&#xA;&#x9;&#x9;&#x9;wp1sec as numero_secuencia,&#xA;&#x9;&#x9;&#x9;wp1nom + wp1pre as id_prestacion,&#xA;&#x9;&#x9;&#x9;wp1can as cantidad_autorizada,&#xA;&#x9;&#x9;&#x9;wp1ISP  as importe_solicitado_prest,&#xA;&#x9;&#x9;&#x9;wp1npr as id_acreedor,&#xA;&#x9;&#x9;&#x9;'P' as id_tipo_prestador,&#xA;&#x9;&#x9;&#x9;wp1cso as cant_solicitado,&#xA;&#x9;&#x9;&#x9;wp1est as estado,&#xA;&#x9;&#x9;&#x9;wp1vpa as valor_pactado,&#xA;&#x9;&#x9;&#x9;wp1pvp as porc_valor_pactado,&#xA;&#x9;&#x9;&#x9;wp1imp as importe,&#xA;&#x9;&#x9;&#x9;wp1fbp as fecha_baja_prestacion,&#xA;&#x9;&#x9;&#x9;wp1fvd as fecha_vig_desde,&#xA;&#x9;&#x9;&#x9;wp1fvh as fecha_vig_hasta,&#xA;&#x9;&#x9;&#x9;wt1npe as numero_persona,&#xA;&#x9;&#x9;&#x9;wt1fvd as fecha_vig_desde_prest,&#xA;&#x9;&#x9;&#x9;wt1fvh as fecha_vig_hasta_prest,&#xA;&#x9;&#x9;&#x9;wt1est as estado_prest,&#xA;&#x9;&#x9;&#x9;w01fal as fecha_alta_persona,&#xA;&#x9;&#x9;&#x9;w01fba as fecha_baja_persona,&#xA;&#x9;&#x9;&#x9;w01cin as codigo_incapacidad,&#xA;&#x9;&#x9;&#x9;w31des as descripcion  &#xA;&#x9;&#x9;&#x9;--into aux_h_discapacidad_ahorro&#xA;&#x9;&#x9;&#x9;from openquery (host03,'&#xA;&#x9;SELECT * &#xA;&#x9;&#x9; From smplibd.m01fevp vp&#xA;&#x9;&#x9;&#x9;inner join  smplibd.m01feva va on vp.wP1NEV = va.wT1NEV &#xA;&#x9;&#x9;&#x9;inner join&#x9;SMPLIBD.M01FPER er on va.wT1NPE = er.w01NPE &#xA;&#x9;&#x9;&#x9;inner join&#x9;SMPLIBD.T32FCIN t on  t.W31CIN = er.w01cin&#xA;&#x9; where wP1EST &lt;&gt; 4 -- Estado evaluacion distinto a cancelado&#xA;&#x9;&#x9;&#x9;and wP1FBP = 0  &#xA;&#x9;&#x9;&#x9;and wT1EST = ''A''  &#xA;&#x9;&#x9;')" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Borra Auxiliar"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{18B6F649-1932-44CD-8F71-727388416D2D}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Borra Auxiliar"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{1D8B8A51-4890-496E-8E4F-724205552402}"
+          SQLTask:SqlStatementSource=" Truncate table aux_h_discapacidad_ahorro&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{FA6F482C-5736-4066-9B12-D01AFDF37B1A}"
+      DTS:From="Package\Borra Auxiliar"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Actualiza la Auxiliar" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{0A73052C-C0CA-4C2A-AD70-53DBD09FA973}"
+      DTS:From="Package\Actualiza la Auxiliar"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Actualiza H_DISCAPACIDAD_AHORRO" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="278,42"
+          Id="Package\Actualiza H_DISCAPACIDAD_AHORRO"
+          TopLeft="1.59748427672957,203.198113207547" />
+        <NodeLayout
+          Size="174,42"
+          Id="Package\Actualiza la Auxiliar"
+          TopLeft="53.5974842767296,104.349056603774" />
+        <NodeLayout
+          Size="145,42"
+          Id="Package\Borra Auxiliar"
+          TopLeft="68.0974842767296,5.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="140.59748427673,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,56.8490566037736"
+              Start="0,0"
+              End="0,49.3490566037736">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,49.3490566037736" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="140.59748427673,146.349056603774">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,56.8490566037736"
+              Start="0,0"
+              End="0,49.3490566037736">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,49.3490566037736" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

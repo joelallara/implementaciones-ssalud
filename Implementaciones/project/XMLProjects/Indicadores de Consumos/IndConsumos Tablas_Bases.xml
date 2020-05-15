@@ -1,0 +1,156 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="7/6/2015 9:34:19 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="DES2921"
+  DTS:CreatorName="AMS\pgonzalez"
+  DTS:DTSID="{87B753E7-0286-4095-ABE0-21A149B9550E}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="3082"
+  DTS:ObjectName="IndConsumos_Tablas_Bases"
+  DTS:PackageType="5"
+  DTS:VersionBuild="90"
+  DTS:VersionGUID="{EEE9B273-FF3C-4547-BD7C-FB3A111E3D89}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{743A792C-B3C4-4D9B-AEBA-C212DED0F6F6}"
+      DTS:ObjectName="SSIS log provider for SQL Server1">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">1,7,OnError</DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnError"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{743A792C-B3C4-4D9B-AEBA-C212DED0F6F6}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Arma Tablas Bases - Vigente"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{1A8F55EC-4D94-45CD-A929-FCEC652143E1}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Arma Tablas Bases - Vigente"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{A3223EA0-900E-4B20-A33F-FDC7A3B40426}"
+          SQLTask:SqlStatementSource="/* Capitas Salud */&#xA;&#xA;/* Agrupa Parametros con los que vamos a trabajar. */&#xA;&#xA;&#x9;&#x9;-- Variable con el periodo a trabajar. */&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;DECLARE @Periodo Int , @Fecha Datetime, @Periodo_Anterior Int, @Periodo_Anterior_12M Int&#xA;&#x9;&#x9;SET @Periodo = (Select MAX(id_periodo) from AUX_PERIODO_MES_BORRA_IND_CONSUMOS)&#xA;        SET @Fecha = (select MAX(id_fecha) from D_FECHA where id_periodo = @Periodo )&#xA;        SET @Periodo_Anterior = (select dbo.PeriodoAnterior(@Fecha))&#xA;        SET @Periodo_Anterior_12M = (select dbo.PeriodosAnteriores(@Periodo_Anterior,12))&#xA;        &#xA;&#x9;&#x9;-- Capitas con las que vamos a trabajar. */&#xA;&#x9;&#x9;DROP TABLE Consultas_DW.dbo.TMP_CAPITAS_INDICADOR&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;SELECT distinct id_capita &#xA;&#x9;&#x9;INTO Consultas_DW.dbo.TMP_CAPITAS_INDICADOR &#xA;&#x9;&#x9;FROM D_CAPITAS_SALUD where id_capita_salud = 1 and &#xA;&#x9;&#x9;(SUBSTRING(fecha_vigencia_hasta,1,6) &gt;= @Periodo_Anterior_12M or SUBSTRING(fecha_vigencia_hasta,1,6) = 0)&#xA;&#xA;&#xA;/* PERSONAS / CAPITAS - */&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;TRUNCATE TABLE Consultas_DW.dbo.AUX_H_PERSONAS_CAPITAS_SALUD&#xA;&#xA;&#x9;/*&#x9;Antes del 18/05/16 aqui se generaba todo el padrón de personas para el periodo de consumos. Ahora se hace por&#xA;&#x9;&#x9;adelantado en el SSIS Actualiza_H_PERSONAS_CAPITAS_SALUD.dtsx, es decir, al momento de ejecutar indicadores&#xA;&#x9;&#x9;ya contamos con la información lista hasta el periodo de stock de afiliados. */&#xA;&#x9;&#xA;&#x9;-- A partir del 18/05/16 la AUX_H_PERSONAS_CAPITAS_SALUD se actualiza desde la H_PERSONAS_CAPITAS_SALUD que ya viene actualizada al mismo periodo que stock.&#xA;&#x9;&#x9;INSERT INTO Consultas_DW.dbo.AUX_H_PERSONAS_CAPITAS_SALUD&#xA;&#x9;&#x9;(Id_Capita, Id_Periodo, id_periodo_real ,Id_Persona, Afiliado, Subnumero, Secuencia, Id_Producto, Id_plan_Producto)&#xA;&#x9;&#x9;SELECT Id_Capita, dbo.PeriodoSiguiente(CAST(CAST(dbo.Devuelve_Fecha(id_periodo) as CHAR(8)) as datetime)) as id_periodo, id_periodo as id_periodo_real, Id_Persona, Afiliado, Subnumero, Secuencia, Id_Producto, Id_plan_Producto&#xA;&#x9;&#x9;FROM H_PERSONAS_CAPITAS_SALUD C&#xA;&#x9;&#x9;WHERE id_periodo between @Periodo_Anterior_12M and @Periodo_Anterior /* Ultimo Periodo de Consumos */&#xA;&#x9;&#x9;and id_capita in (select id_capita from Consultas_DW.dbo.TMP_CAPITAS_INDICADOR)&#xA;&#xA;&#xA;/* Calcula NRO_CAPITAS / PRESTACIONES / NIVELES....&#xA;&#xA;&#x9;&#x9;HOST03.HOST03.SMPLIBD.TC5FCNI : Tabla de Capitas/Niveles&#xA;&#x9;&#x9;HOST03.HOST03.DESARROLLO.CUP001L3 : Tabla de Niveles/Prestaciones */&#xA;&#xA;&#x9;&#x9;TRUNCATE TABLE Consultas_DW.dbo.AUX_IND_CONS_PRESTACIONES&#xA;&#xA;&#x9;/* Calcula Capitas/Prestaciones/Niveles */&#xA;&#x9;&#x9;INSERT INTO Consultas_DW.dbo.AUX_IND_CONS_PRESTACIONES&#xA;&#x9;&#x9;(id_capita, id_nivel_cobertura_prest, fecha_vigencia_desde, fecha_vigencia_hasta, id_nomenclador, id_prestacion)&#xA;&#x9;&#x9;SELECT TC5CAP as Id_Capita, TC5CNI as id_nivel_cobertura_prest, TC5FVD as Fecha_Vigencia_Desde, TC5FVH as Fecha_Vigencia_Hasta, TNO_COD as id_nomenclador, NMP_CPR as Id_Prestacion&#xA;&#x9;&#x9;FROM HOST03.HOST03.SMPLIBD.TC5FCNI I&#xA;&#x9;&#x9;JOIN HOST03.HOST03.DESARROLLO.CUP001L3 C on I.TC5CNI = C.NMPNIV&#xA;&#x9;&#x9;WHERE TC5CAP in (select id_capita from Consultas_DW.dbo.TMP_CAPITAS_INDICADOR) and TC5FVH = 0&#xA;&#xA;&#x9;&#xA;&#xA;&#x9;/* Calcula Capitas/Prestaciones/Niveles:0 para las Prestaciones que no tienen asignada un Nivel */&#xA;&#x9;&#x9;INSERT INTO Consultas_DW.dbo.AUX_IND_CONS_PRESTACIONES&#xA;&#x9;&#x9;(id_capita, id_nivel_cobertura_prest, fecha_vigencia_desde, fecha_vigencia_hasta, id_nomenclador, id_prestacion)&#xA;&#x9;&#x9;SELECT TC8CAP as Id_Capita, 0 as id_Nivel_Cobertura_Prest, TC8FVD as Fecha_Vigencia_Desde, TC8FVH as Fecha_Vigencia_Hasta, TC8NOM as id_nomenclador, TC8PRE as Id_Prestacion&#xA;&#x9;&#x9;FROM HOST03.HOST03.SMPLIBD.TC8FCPR I&#xA;&#x9;&#x9;WHERE TC8CAP in (select id_capita from Consultas_DW.dbo.TMP_CAPITAS_INDICADOR) and TC8FVH = 0&#xA;&#xA;&#x9;/* Carga por afuera Capita 146 y 153 con sus Prestaciones y Nomenclador - &#xA;&#x9;&#x9;En sistema de capitas estas no tienen cargada la cobertura ya que es de medicamentos */&#xA;&#xA;&#x9;&#x9;-- 146&#xA;&#x9;&#x9;INSERT INTO Consultas_DW.dbo.AUX_IND_CONS_PRESTACIONES&#xA;&#x9;&#x9;(id_capita, id_nivel_cobertura_prest, fecha_vigencia_desde, fecha_vigencia_hasta, id_nomenclador, id_prestacion)&#xA;&#x9;&#x9;SELECT 146 as Id_Capita, 0 as id_Nivel_Cobertura_Prest, '0' as Fecha_Vigencia_Desde, '0' as Fecha_Vigencia_Hasta, id_nomenclador as id_nomenclador, de_codigo_prestacion as id_prestacion&#xA;&#x9;&#x9;FROM DW_SALUD.dbo.D_PRESTACION&#xA;&#x9;&#x9;where id_rubro_ind_consumo in ('O') /* Rubro Medicamentos Oncología */&#xA;&#xA;&#xA;&#x9;&#x9;-- 153&#xA;&#x9;&#x9;INSERT INTO Consultas_DW.dbo.AUX_IND_CONS_PRESTACIONES&#xA;&#x9;&#x9;(id_capita, id_nivel_cobertura_prest, fecha_vigencia_desde, fecha_vigencia_hasta, id_nomenclador, id_prestacion)&#xA;&#x9;&#x9;SELECT 153 as Id_Capita, 0 as id_Nivel_Cobertura_Prest, '0' as Fecha_Vigencia_Desde, '0' as Fecha_Vigencia_Hasta, id_nomenclador as id_nomenclador, de_codigo_prestacion as id_prestacion&#xA;&#x9;&#x9;FROM DW_SALUD.dbo.D_PRESTACION&#xA;&#x9;&#x9;where id_rubro_ind_consumo in ('O') /* Rubro Medicamentos Oncología */&#xA;&#xA;&#x9;&#x9;DELETE FROM Consultas_DW.dbo.AUX_IND_CONS_PRESTACIONES WHERE id_prestacion in ('99999999') and id_nomenclador in ('99')&#xA;&#x9;&#xA;&#xA;&#x9;&#x9;/* Depura información */&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;/* Borra las prestaciones erroneas o incompletas. */&#xA;&#x9;&#x9;&#x9;&#x9;DELETE FROM Consultas_DW.dbo.AUX_IND_CONS_PRESTACIONES WHERE id_prestacion in ('99999999') and id_nomenclador in ('99')&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;/* Elimina de los padrones de prestaciones por capita las excepciones. */&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;-- Esto se debe a que al momento de la carga de prestaciones a una capita, Adriana Alassia lo hace por niveles de cobertura (1, 2 o 3) para no cargar por cada nomenclador o por cada prestación. Entonces existe la tabla TC9FNEX que indica cuales son las prestaciones que pertenecen a una capita pero que realmente no estan capitadas. A estas debemos borrarlas.&#xA;&#x9;&#x9;&#x9;&#x9;DELETE Consultas_DW.dbo.AUX_IND_CONS_PRESTACIONES&#xA;&#x9;&#x9;&#x9;&#x9;FROM HOST03.HOST03.SMPLIBD.TC9FNEX N&#xA;&#x9;&#x9;&#x9;&#x9;JOIN Consultas_DW.dbo.AUX_IND_CONS_PRESTACIONES P on N.TC9CAP = P.id_capita and N.TC9NOM COLLATE SQL_Latin1_General_CP850_CI_AI = P.id_nomenclador and N.TC9PRE COLLATE SQL_Latin1_General_CP850_CI_AI = P.id_prestacion&#xA;&#x9;&#x9;&#x9;&#x9;WHERE TC9FVH = 0 and /* Fecha Vigencia Hasta = 0 VIGENTE */&#xA;&#x9;&#x9;&#x9;&#x9;TC9CAP in (select id_capita from Consultas_DW.dbo.TMP_CAPITAS_INDICADOR ) /* = Capita de Salud */&#xA;&#x9;&#x9;&#x9;&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;/* Actualiza Consultas_DW.dbo.AUX_IND_CONS_PRESTACIONES. */&#xA;&#x9;&#x9;&#x9;&#xA;&#x9;&#x9;&#x9;/* Marca Ind Consultas en Prestaciones. */&#xA;&#x9;&#x9;&#x9;UPDATE Consultas_DW.dbo.AUX_IND_CONS_PRESTACIONES&#xA;&#x9;&#x9;&#x9;SET id_rubro_ind_consumo = EA.id_rubro_ind_consumo&#xA;&#x9;&#x9;&#x9;FROM Consultas_DW.dbo.AUX_IND_CONS_PRESTACIONES PC&#xA;&#x9;&#x9;&#x9;join DW_SALUD.dbo.D_PRESTACION EA ON PC.id_nomenclador = EA.id_nomenclador and PC.id_prestacion = EA.de_codigo_prestacion&#xA;&#xA;&#x9;&#x9;&#x9;UPDATE Consultas_DW.dbo.AUX_IND_CONS_PRESTACIONES SET id_rubro_ind_consumo = '' where id_rubro_ind_consumo is null&#xA;&#xA;&#xA;&#x9;&#x9;&#x9;/* Obtiene las Capitas con los Rubros que cubre cada una. */&#xA;&#xA; &#x9;&#x9;&#x9; DROP TABLE RUBROS_COBERTURAS_CAPITAS&#xA;&#xA;&#x9;&#x9;&#x9;select distinct id_capita, id_rubro_ind_consumo&#xA;&#x9;&#x9;&#x9;into RUBROS_COBERTURAS_CAPITAS&#xA;&#x9;&#x9;&#x9;from Consultas_DW.dbo.AUX_IND_CONS_PRESTACIONES where id_rubro_ind_consumo not in ('')&#xA;&#x9;&#x9;&#x9;order by id_capita, id_rubro_ind_consumo&#xA;&#xA;&#xA;&#x9;&#x9;&#x9;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Borra AUX_H_INDICADORES_CONS_CANT_AFI y AUX_H_INDICADORES_CONS_CANT_PREST"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{B402D554-D3E6-40F2-BA34-7AD63F83E2EA}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Borra AUX_H_INDICADORES_CONS_CANT_AFI y AUX_H_INDICADORES_CONS_CANT_PREST"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{A3223EA0-900E-4B20-A33F-FDC7A3B40426}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE AUX_H_INDICADORES_CONS_CANT_AFI&#xA;TRUNCATE TABLE AUX_H_INDICADORES_CONS_CANT_PREST" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{0DD6C6F8-1E82-4A97-9716-1FCBA92348F8}"
+      DTS:From="Package\Arma Tablas Bases - Vigente"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Borra AUX_H_INDICADORES_CONS_CANT_AFI y AUX_H_INDICADORES_CONS_CANT_PREST" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="222,42"
+          Id="Package\Arma Tablas Bases - Vigente"
+          TopLeft="180.5,5.5" />
+        <NodeLayout
+          Size="572,42"
+          Id="Package\Borra AUX_H_INDICADORES_CONS_CANT_AFI y AUX_H_INDICADORES_CONS_CANT_PREST"
+          TopLeft="5.5,92.0660377358491" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="291.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,44.5660377358491"
+              Start="0,0"
+              End="0,37.0660377358491">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,37.0660377358491" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

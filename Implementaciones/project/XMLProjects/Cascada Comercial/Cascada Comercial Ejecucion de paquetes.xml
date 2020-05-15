@@ -1,0 +1,352 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="9/18/2017 8:03:35 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AMS06X"
+  DTS:CreatorName="AMS\jtrinchier"
+  DTS:DTSID="{CF62E88D-BA47-48A8-BC9E-EEF1A650FD51}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="Cascada Comercial Ejecucion de paquetes"
+  DTS:PackageType="5"
+  DTS:VersionBuild="11"
+  DTS:VersionGUID="{23FA2761-E921-451C-A0D8-15910053AA25}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="2">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">1,7,OnError</DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnError"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Cascada Comercial D_EJECUTIVOS_EMPRESAS"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Execute Package Task"
+      DTS:DTSID="{29ECDBC1-1555-4EB8-8D3D-E691513EF87C}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Cascada Comercial D_EJECUTIVOS_EMPRESAS"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>Cascada Comercial D_EJECUTIVOS_EMPRESAS.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Cascada Comercial D_PERSONAS_CASCADA_COMERCIAL"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Execute Package Task"
+      DTS:DTSID="{AA132794-CA2C-44F3-BACE-F2BAEF16A811}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Cascada Comercial D_PERSONAS_CASCADA_COMERCIAL"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>Cascada Comercial D_PERSONAS_CASCADA_COMERCIAL.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Cascada Comercial D_PUESTOS_CASCADA_COMERCIAL"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Execute Package Task"
+      DTS:DTSID="{8DB7DD88-6057-4904-A4F1-19C4B76EB762}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Cascada Comercial D_PUESTOS_CASCADA_COMERCIAL"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>Cascada Comercial D_PUESTOS_CASCADA_COMERCIAL.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Cascada Comercial D_TIPOS_PUESTOS_CASCADA_COMERCIAL"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Execute Package Task"
+      DTS:DTSID="{DA9DFFCF-21C2-4610-A4DA-A2247086E365}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Cascada Comercial D_TIPOS_PUESTOS_CASCADA_COMERCIAL"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>Cascada Comercial D_TIPOS_PUESTOS_CASCADA_COMERCIAL.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Cascada Comercial H_CASCADA_COMERCIAL"
+      DTS:CreationName="Microsoft.ExecutePackageTask"
+      DTS:Description="Execute Package Task"
+      DTS:DTSID="{4816D4C9-7644-4FEB-9307-1473440D491C}"
+      DTS:ExecutableType="Microsoft.ExecutePackageTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Cascada Comercial H_CASCADA_COMERCIAL"
+      DTS:TaskContact="Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <ExecutePackageTask>
+          <UseProjectReference>True</UseProjectReference>
+          <PackageName>Cascada Comercial H_CASCADA_COMERCIAL.dtsx</PackageName>
+        </ExecutePackageTask>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Mail consistencia en Cascada Comercial"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{5A993247-2A9A-46B0-A744-72B23B5C6D48}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Mail consistencia en Cascada Comercial"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{B6C8990D-748C-45F8-90C1-4EE0405A1677}"
+          SQLTask:SqlStatementSource="/* Avisa si se agrega una nueva zona en cascada y no tenemos en nuestra tabla D_ZONA_COMERCIAL */&#xA;&#xA;Insert into Consultas_Dw.dbo.Notificaciones_Zona_Cascada_Comercial&#xA;(Codigo, Zona,id_zona_comercial, de_zona_comercial ,diferencia, notificacion)&#xA;select Codigo, Zona, Codigo as id_zona_comercial,Zona as de_zona_comercial ,'nueva id_zona_comercial' as diferencia ,0 as notificacion&#xA;from AS400.HOST03.comercial.ZONAS &#xA;where Codigo not in (select distinct id_zona_comercial&#xA;from D_ZONA_COMERCIAL)&#xA;&#xA;/* Avisa si cambian la id de una zona en cascada y no tenemos dicho cambio en nuestra tabla D_ZONA_COMERCIAL */&#xA;&#xA;Insert into Consultas_Dw.dbo.Notificaciones_Zona_Cascada_Comercial&#xA;(Codigo, Zona, id_zona_comercial, de_zona_comercial, diferencia, notificacion)&#xA;select Codigo, Zona, id_zona_comercial, de_zona_comercial , 'Cambio en id_zona_comercial' as diferencia ,0 as notificacion &#xA;from AS400.HOST03.comercial.ZONAS A&#xA;Inner join D_ZONA_COMERCIAL D ON  D.de_zona_comercial collate SQL_Latin1_General_CP850_CI_AI  =   A.Zona&#xA;where A.Codigo &lt;&gt; D.id_zona_comercial&#xA;&#xA;/* Avisa si cambian la descripción de una zona en cascada y no tenemos dicho cambio en nuestra tabla D_ZONA_COMERCIAL */&#xA;&#xA;Insert into Consultas_Dw.dbo.Notificaciones_Zona_Cascada_Comercial&#xA;(Codigo, Zona, id_zona_comercial, de_zona_comercial, diferencia, notificacion)&#xA;select Codigo, Zona, id_zona_comercial, de_zona_comercial, 'Cambio en de_zona_comercial' as diferencia ,0 as notificacion  from AS400.HOST03.comercial.ZONAS A&#xA;Inner join D_ZONA_COMERCIAL D ON A.Codigo = D.id_zona_comercial&#xA;where D.de_zona_comercial collate SQL_Latin1_General_CP850_CI_AI  &lt;&gt;   A.Zona&#xA;&#xA;&#xA;&#xA;IF (select count(notificacion) from Consultas_Dw.dbo.Notificaciones_Zona_Cascada_Comercial&#xA;where notificacion = 0 ) &gt; 0&#xA;&#xA;BEGIN&#xA;&#xA;EXEC msdb.dbo.sp_send_dbmail&#xA;   @profile_name = 'Soporte MicroStrategy',&#xA;   @recipients = 'juanfrancisco.trinchieri@sancorsalud.com.ar',&#xA;   @subject = 'Cascada Comercial - Control de Consistencia en D_ZONA_COMERCIAL',&#xA;   @body = 'Buenos Días,&#xA;   &#xA;   En esta oportunidad enviamos el correo con el Control de Consistencia en D_ZONA_COMERCIAL para Cascada Comecial / Trazabilidad de Fichas Diario.&#xA;   &#xA;   A modo de comentario se muestran la combinacion de id_zona_comercial y  de_zona_comercial para el periodo vigente de cascada comercial, los campos Codigo y Zona son los id_zona y de_zona respectivamente.&#xA;   &#xA;   Por ultimo se pasa la diferencia:&#xA;&#xA;   1- &quot;nueva id_zona_comercial&quot; : en la tabla de as400 (HOST03.comercial.ZONAS)  hay una nueva zona comercial que no tenemos en nuestra D_ZONA_COMERCIAL.&#xA;   2- &quot;Cambio en id_zona_comercial&quot; : en la tabla de as400 (HOST03.comercial.ZONAS)tenemos misma de_zona_comercial, distinta id_zona_comercial. Por lo cual no tenemos dicho cambio en nuestra D_ZONA_COMERCIAL.&#xA;   2- &quot;Cambio en de_zona_comercial&quot; : en la tabla de as400 (HOST03.comercial.ZONAS)tenemos misma id_zona_comercial ,distinta de_zona_comercial. Por lo cual  no tenemos dicho cambio en nuestra D_ZONA_COMERCIAL.&#xA;&#xA;   Desde ya estamos a disposición,&#xA;&#xA;    Saludos&#xA;&#xA;&#x9;Juan Francisco Trinchieri&#xA;&#xA;&#x9;Planeamiento y Control de Gestión&#xA;&#x9;SanCor Salud - Sede Central&#xA;&#x9;Tel.: 03493-429500  Int. 3086&#xA;&#x9;juanfrancisco.trinchieri@sancorsalud.com.ar&#xA;&#xA;&#xA;  Información Sobre el Estado - Campos Consistencia en Zonas Comerciales&#xA;   ',&#xA;@query = 'Select Codigo, Zona, diferencia from Consultas_Dw.dbo.Notificaciones_Zona_Cascada_Comercial where&#xA;notificacion = 0  ',&#xA;&#x9;&#x9;&#x9;&#x9;@query_result_separator = '|',&#xA;&#x9;&#x9;&#x9;&#x9;@execute_query_database = 'DW_SALUD';&#xA;&#xA;&#xA;&#xA;&#xA;UPDATE Consultas_Dw.dbo.Notificaciones_Zona_Cascada_Comercial SET  notificacion = 1&#xA;where notificacion = 0&#xA;&#xA;END &#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{178756F3-4BA0-479B-BD3C-0307390C2F47}"
+      DTS:From="Package\Cascada Comercial D_TIPOS_PUESTOS_CASCADA_COMERCIAL"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Cascada Comercial D_PUESTOS_CASCADA_COMERCIAL" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{0A266035-3DBE-47B3-90A2-96C9C3FCC827}"
+      DTS:From="Package\Cascada Comercial D_PUESTOS_CASCADA_COMERCIAL"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Cascada Comercial D_PERSONAS_CASCADA_COMERCIAL" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{147C9592-0D31-4B4C-85DC-8EE02160D75C}"
+      DTS:From="Package\Cascada Comercial D_PERSONAS_CASCADA_COMERCIAL"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Cascada Comercial D_EJECUTIVOS_EMPRESAS" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{6B380C77-BC2D-4AA0-B63D-397DF21FE478}"
+      DTS:From="Package\Cascada Comercial H_CASCADA_COMERCIAL"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Mail consistencia en Cascada Comercial" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
+      DTS:CreationName=""
+      DTS:DTSID="{5614AEEE-0FBD-4631-A7D9-6A2B690A4CE6}"
+      DTS:From="Package\Cascada Comercial D_EJECUTIVOS_EMPRESAS"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 4"
+      DTS:To="Package\Cascada Comercial H_CASCADA_COMERCIAL" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="328,42"
+          Id="Package\Cascada Comercial D_EJECUTIVOS_EMPRESAS"
+          TopLeft="48.7610062893082,213.032075471698" />
+        <NodeLayout
+          Size="384,42"
+          Id="Package\Cascada Comercial D_PERSONAS_CASCADA_COMERCIAL"
+          TopLeft="20.7610062893082,143.854716981132" />
+        <NodeLayout
+          Size="375,42"
+          Id="Package\Cascada Comercial D_PUESTOS_CASCADA_COMERCIAL"
+          TopLeft="25.2610062893082,74.677358490566" />
+        <NodeLayout
+          Size="414,42"
+          Id="Package\Cascada Comercial D_TIPOS_PUESTOS_CASCADA_COMERCIAL"
+          TopLeft="5.26100628930817,5.5" />
+        <NodeLayout
+          Size="317,42"
+          Id="Package\Cascada Comercial H_CASCADA_COMERCIAL"
+          TopLeft="54.2610062893082,282.209433962264" />
+        <NodeLayout
+          Size="277,42"
+          Id="Package\Mail consistencia en Cascada Comercial"
+          TopLeft="77.2610062893082,351.38679245283" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="212.511006289308,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,27.177358490566"
+              Start="0,0"
+              End="0,19.677358490566">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,19.677358490566" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="212.761006289308,116.677358490566">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,27.177358490566"
+              Start="0,0"
+              End="0,19.677358490566">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,19.677358490566" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="212.761006289308,185.854716981132">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,27.177358490566"
+              Start="0,0"
+              End="0,19.677358490566">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,19.677358490566" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="214.261006289308,324.209433962264">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,27.177358490566"
+              Start="0,0"
+              End="0,19.677358490566">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,19.677358490566" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="212.761006289308,255.032075471698">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,27.177358490566"
+              Start="0,0"
+              End="0,19.677358490566">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,19.677358490566" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

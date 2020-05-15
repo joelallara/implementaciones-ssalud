@@ -1,0 +1,102 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/21/2015 8:51:12 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AMS06X"
+  DTS:CreatorName="AMS\pgonzalez"
+  DTS:DTSID="{9049BF4F-FD27-43E7-8A92-D3DB37BABBB5}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="InternacionesDiario SSIS_Internaciones_Calculo_Dias_Int"
+  DTS:PackageType="5"
+  DTS:VersionBuild="13"
+  DTS:VersionGUID="{BC1374DA-7829-4C90-86E5-BA9B4374CCF5}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{3761634B-FB78-4EC6-9C16-BD893523B259}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">1,7,OnError</DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnError"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{3761634B-FB78-4EC6-9C16-BD893523B259}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Calculo Dias de Internacion"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{A8DCD4B9-3355-45C9-9417-A4A8D59F9B21}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Calculo Dias de Internacion"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0"
+        DTS:LoggingMode="1" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{87B3EF38-D424-4CA0-9B98-F49ED069F118}"
+          SQLTask:SqlStatementSource="-- Calculo los dìas promedio de internaciòn en base a los ultimos 12 periodos de h_internaciones_carlos&#xA;-- Luego de ejecutar el Costo de CIE10 se ejecuta este script que actualiza el resto de los campos de la tabla H_COSTO_INTERNACIONES_CIE10&#xA;&#xA;/* Calcula Periodos (Desde - Hasta) a   procesar */&#xA;&#xA; DECLARE @Periodo_Hasta Datetime&#xA; SET @Periodo_Hasta = (SELECT MAX(Id_Fecha) from D_FECHA)&#xA;&#xA; DECLARE @Periodo_Desde Datetime&#xA; SET @Periodo_Desde = DATEADD(MONTH, -12, @Periodo_Hasta)&#xA; ---------------------------------------------------------&#xA;&#xA; DECLARE @Periodo_Desde_INT INT&#xA; SET @Periodo_Desde_INT = dbo.DevuelvePeriodo(@Periodo_Desde)&#xA;&#xA; DECLARE @Periodo_Hasta_INT INT&#xA; SET @Periodo_Hasta_INT = dbo.DevuelvePeriodo(@Periodo_Hasta)&#xA;&#xA;update dbo.H_COSTO_INTERNACIONES_CIE10 set cantidad_internaciones_dias_promedio = cantidad_internaciones_dias , cantidad_dias_totales_autorizados = dias_totales_internacion , promedio_dias = cast(prom_dias_internacion as float)&#xA;FROM dbo.H_COSTO_INTERNACIONES_CIE10 C&#xA;&#xA;INNER JOIN (&#xA;select id_posicion_no_facturador, id_tipo_internacion, id_diagnostico , SUM(cant_dias_aut_total) as dias_totales_internacion, SUM(cant_internaciones) as cantidad_internaciones_dias, CAST(SUM(cast(cant_dias_aut_total as float))/SUM(cast(cant_internaciones as float)) as float) as prom_dias_internacion&#xA;from H_INTERNACIONES_CARLOS where id_periodo between @Periodo_Desde_INT and @Periodo_Hasta_INT --in (201404, 201405, 201406, 201407 , 201408, 201409, 201410, 201411, 201412, 201501, 201502, 201503, 201504)&#xA;group by id_posicion_no_facturador, id_tipo_internacion, id_diagnostico) Dias ON C.id_posicion_no_facturador = Dias.id_posicion_no_facturador AND C.id_tipo_internacion = Dias.id_tipo_internacion AND C.id_diagnostico = Dias.id_diagnostico&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="213,42"
+          Id="Package\Calculo Dias de Internacion"
+          TopLeft="5.5,5.5" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

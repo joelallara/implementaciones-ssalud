@@ -1,0 +1,1125 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="6/26/2019 3:32:42 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="DES6103"
+  DTS:CreatorName="AMS\jallara"
+  DTS:DTSID="{64572D78-7FEB-4246-8E21-096407AA1C2D}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="Presupuesto vs Balance H_PRESUPUESTO_PROVEEDORES"
+  DTS:PackageType="5"
+  DTS:VersionBuild="57"
+  DTS:VersionGUID="{C156CDE4-9B8F-4D1E-B8DE-AEB224319A04}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[File_Proveedores con Tercerizados_Destination_Path]"
+      DTS:CreationName="FILE"
+      DTS:DTSID="{AC04E3EC-9CD8-47D9-8FD7-8068E50CFB9F}"
+      DTS:ObjectName="File_Proveedores con Tercerizados_Destination_Path">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:FileUsageType="1"
+          DTS:ConnectionString="\\P-IS-01\SSIS2017$\03 - Archivos\Presupuesto vs Balance\Proveedores con Tercerizados.xlsx" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[File_Proveedores con Tercerizados_Historico]"
+      DTS:CreationName="FILE"
+      DTS:DTSID="{AA75F23B-FAB2-49F9-9C65-BA9E419C3B89}"
+      DTS:ObjectName="File_Proveedores con Tercerizados_Historico">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:FileUsageType="2"
+          DTS:ConnectionString="\\P-IS-01\SSIS2017$\03 - Archivos\Presupuesto vs Balance\Historico" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[File_Proveedores con Tercerizados_Source_Path]"
+      DTS:CreationName="FILE"
+      DTS:DTSID="{BCBF6EB4-990D-460F-8F69-7DEC1EDBE8CA}"
+      DTS:ObjectName="File_Proveedores con Tercerizados_Source_Path">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="\\ams12\procesoplanillasestadisticas$\Archivos_DAF\Planillas para Dossier\Proveedores con Tercerizados.xlsx" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[File_XLS_Proveedores con Tercerizados]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{604C1E76-B09C-4818-9313-AC0053F9A3DF}"
+      DTS:ObjectName="File_XLS_Proveedores con Tercerizados">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=\\P-IS-01\SSIS2017$\03 - Archivos\Presupuesto vs Balance\Proveedores con Tercerizados.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{80A563D2-10A9-46FE-8370-C6D94C51740C}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{80A563D2-10A9-46FE-8370-C6D94C51740C}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Actualiza tabla de Dimensión"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{28552F94-7ED7-4C15-85B5-7CC0CD6B7DCC}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Actualiza tabla de Dimensión"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{477281BB-666E-45C1-9DCD-9210B256133D}"
+          SQLTask:SqlStatementSource="--SE REALIZAN LAS ACTUALIZACIONES CORRESPONDIENTES A LAS TABLAS DE DIMENSION&#xA;-- Valida si se debe agregar nuevo registro que exista en Aux y no en D_PROVEEDORES_PRESUPUESTO&#xA;insert into D_PROVEEDORES_PRESUPUESTO &#xA; select &#xA;&#x9;(select max(id_proveedor_presupuesto) &#xA;&#x9; from D_PROVEEDORES_PRESUPUESTO) + ROW_NUMBER() over (order by id_proveedor) as id, id_proveedor&#xA; from AUX_H_PRESUPUESTO_PROVEEDORES&#xA; where id_proveedor not in(select de_proveedor_presupuesto from D_PROVEEDORES_PRESUPUESTO)&#xA; group by id_proveedor&#xA; &#xA;&#xA;-- Valida si se debe agregar nuevo regisro que exista en Aux y no en D_DIRECCIONES_PRESUPUESTO&#xA;insert into D_DIRECCIONES_PRESUPUESTO &#xA; select &#xA;&#x9;(select max(id_direccion_presupuesto) &#xA;&#x9; from D_DIRECCIONES_PRESUPUESTO) + ROW_NUMBER() over (order by direccion) as id, direccion&#xA; from AUX_H_PRESUPUESTO_PROVEEDORES&#xA; where direccion not in(select de_direccion_presupuesto from D_DIRECCIONES_PRESUPUESTO)&#xA; group by direccion&#xA; &#xA; &#xA;-- Valida si se debe agregar nuevo regisro que exista en Aux y no en D_GERENCIAS_PRESUPUESTO&#xA;insert into D_GERENCIAS_PRESUPUESTO &#xA; select &#xA;&#x9;(select max(id_gerencia_presupuesto) &#xA;&#x9; from D_GERENCIAS_PRESUPUESTO) + ROW_NUMBER() over (order by gerencia) as id, gerencia&#xA; from AUX_H_PRESUPUESTO_PROVEEDORES&#xA; where gerencia not in(select de_gerencia_presupuesto from D_GERENCIAS_PRESUPUESTO)&#xA; group by gerencia &#xA;  &#xA; &#xA; -- Valida si se debe agregar nuevo regisro que exista en Aux y no en D_EGRESOS_PRESUPUESTO&#xA;insert into D_EGRESOS_PRESUPUESTO &#xA; select &#xA;&#x9;(select max(id_egreso_presupuesto) &#xA;&#x9; from D_EGRESOS_PRESUPUESTO) + ROW_NUMBER() over (order by egreso) as id, egreso&#xA; from AUX_H_PRESUPUESTO_PROVEEDORES&#xA; where egreso not in(select de_egreso_presupuesto from D_EGRESOS_PRESUPUESTO)&#xA; group by egreso&#xA;   &#xA; &#xA; -- Valida si se debe agregar nuevo regisro que exista en Aux y no en D_CLASIFICACION_1_PRESUPUESTO&#xA;insert into D_CLASIFICACION_1_PRESUPUESTO &#xA; select &#xA;&#x9;(select max(id_clasificacion_1_presupuesto) &#xA;&#x9; from D_CLASIFICACION_1_PRESUPUESTO) + ROW_NUMBER() over (order by clasificacion_1) as id, clasificacion_1&#xA; from AUX_H_PRESUPUESTO_PROVEEDORES&#xA; where clasificacion_1 not in(select de_clasificacion_1_presupuesto from D_CLASIFICACION_1_PRESUPUESTO)&#xA; group by clasificacion_1&#xA;    &#xA; &#xA; -- Valida si se debe agregar nuevo regisro que exista en Aux y no en D_CLASIFICACION_2_PRESUPUESTO&#xA;insert into D_CLASIFICACION_2_PRESUPUESTO &#xA; select &#xA;&#x9;(select max(id_clasificacion_2_presupuesto) &#xA;&#x9; from D_CLASIFICACION_2_PRESUPUESTO) + ROW_NUMBER() over (order by clasificacion_2) as id, clasificacion_2&#xA; from AUX_H_PRESUPUESTO_PROVEEDORES&#xA; where clasificacion_2 not in(select de_clasificacion_2_presupuesto from D_CLASIFICACION_2_PRESUPUESTO)&#xA; group by clasificacion_2&#xA; &#xA; &#xA; -- Valida si se debe agregar nuevo regisro que exista en Aux y no en D_CLASIFICACION_3_PRESUPUESTO&#xA;insert into D_CLASIFICACION_3_PRESUPUESTO &#xA; select &#xA;&#x9;(select max(id_clasificacion_3_presupuesto) &#xA;&#x9; from D_CLASIFICACION_3_PRESUPUESTO) + ROW_NUMBER() over (order by clasificacion_3) as id, clasificacion_3&#xA; from AUX_H_PRESUPUESTO_PROVEEDORES&#xA; where clasificacion_3 not in(select de_clasificacion_3_presupuesto from D_CLASIFICACION_3_PRESUPUESTO)&#xA; group by clasificacion_3&#xA; &#xA;  &#xA; -- Valida si se debe agregar nuevo regisro que exista en Aux y no en D_CLASIFICACION_4_PRESUPUESTO&#xA;insert into D_CLASIFICACION_4_PRESUPUESTO &#xA; select &#xA;&#x9;(select max(id_clasificacion_4_presupuesto) &#xA;&#x9; from D_CLASIFICACION_4_PRESUPUESTO) + ROW_NUMBER() over (order by clasificacion_4) as id, clasificacion_4&#xA; from AUX_H_PRESUPUESTO_PROVEEDORES&#xA; where clasificacion_4 not in(select de_clasificacion_4_presupuesto from D_CLASIFICACION_4_PRESUPUESTO)&#xA; group by clasificacion_4" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:DelayValidation="True"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{867990d2-cda1-4259-8ec9-770d2d824743}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="AUX_H_PRESUPUESTO_PROVEEDORES"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <pipeline
+          BLOBTempStoragePath=""
+          bufferTempStoragePath=""
+          version="1">
+          <components>
+            <component
+              refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source"
+              componentClassID="Microsoft.ExcelSource"
+              contactInfo="Excel Source;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Excel Source"
+              name="Excel Source"
+              usesDispositions="true"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">Hoja1$</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mapping from parameters in the SQL command to variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[File_XLS_Proveedores con Tercerizados]"
+                  connectionManagerRefId="Package.ConnectionManagers[File_XLS_Proveedores con Tercerizados]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output]"
+                  name="Excel Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].Columns[DIRECCION]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].ExternalColumns[DIRECCION]"
+                      length="255"
+                      lineageId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].Columns[DIRECCION]"
+                      name="DIRECCION"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].Columns[EGRESO]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].ExternalColumns[EGRESO]"
+                      length="255"
+                      lineageId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].Columns[EGRESO]"
+                      name="EGRESO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].Columns[Clasificación 1]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].ExternalColumns[Clasificación 1]"
+                      length="255"
+                      lineageId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].Columns[Clasificación 1]"
+                      name="Clasificación 1"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].Columns[Clasificación 2]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].ExternalColumns[Clasificación 2]"
+                      length="255"
+                      lineageId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].Columns[Clasificación 2]"
+                      name="Clasificación 2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].Columns[Clasificación 3 ]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].ExternalColumns[Clasificación 3 ]"
+                      length="255"
+                      lineageId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].Columns[Clasificación 3 ]"
+                      name="Clasificación 3 "
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].Columns[PERIODO]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].ExternalColumns[PERIODO]"
+                      lineageId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].Columns[PERIODO]"
+                      name="PERIODO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].Columns[BALANCE]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].ExternalColumns[BALANCE]"
+                      lineageId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].Columns[BALANCE]"
+                      name="BALANCE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].Columns[F13]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].ExternalColumns[F13]"
+                      lineageId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].Columns[F13]"
+                      name="F13"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].Columns[GERENCIA/JEFATURA]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].ExternalColumns[GERENCIA/JEFATURA]"
+                      length="255"
+                      lineageId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].Columns[GERENCIA/JEFATURA]"
+                      name="GERENCIA/JEFATURA"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].Columns[PROVEEDOR]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].ExternalColumns[PROVEEDOR]"
+                      length="255"
+                      lineageId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].Columns[PROVEEDOR]"
+                      name="PROVEEDOR"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].Columns[TERCERIZADO]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].ExternalColumns[TERCERIZADO]"
+                      lineageId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].Columns[TERCERIZADO]"
+                      name="TERCERIZADO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].Columns[RESTO]"
+                      dataType="r8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].ExternalColumns[RESTO]"
+                      lineageId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].Columns[RESTO]"
+                      name="RESTO"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].Columns[F14]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].ExternalColumns[F14]"
+                      length="255"
+                      lineageId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].Columns[F14]"
+                      name="F14"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].Columns[Clasificación 4]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].ExternalColumns[Clasificación 4]"
+                      length="255"
+                      lineageId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].Columns[Clasificación 4]"
+                      name="Clasificación 4"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].ExternalColumns[DIRECCION]"
+                      dataType="wstr"
+                      length="255"
+                      name="DIRECCION" />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].ExternalColumns[EGRESO]"
+                      dataType="wstr"
+                      length="255"
+                      name="EGRESO" />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].ExternalColumns[Clasificación 1]"
+                      dataType="wstr"
+                      length="255"
+                      name="Clasificación 1" />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].ExternalColumns[Clasificación 2]"
+                      dataType="wstr"
+                      length="255"
+                      name="Clasificación 2" />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].ExternalColumns[Clasificación 3 ]"
+                      dataType="wstr"
+                      length="255"
+                      name="Clasificación 3 " />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].ExternalColumns[PERIODO]"
+                      dataType="r8"
+                      name="PERIODO" />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].ExternalColumns[BALANCE]"
+                      dataType="r8"
+                      name="BALANCE" />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].ExternalColumns[F13]"
+                      dataType="r8"
+                      name="F13" />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].ExternalColumns[GERENCIA/JEFATURA]"
+                      dataType="wstr"
+                      length="255"
+                      name="GERENCIA/JEFATURA" />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].ExternalColumns[PROVEEDOR]"
+                      dataType="wstr"
+                      length="255"
+                      name="PROVEEDOR" />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].ExternalColumns[TERCERIZADO]"
+                      dataType="r8"
+                      name="TERCERIZADO" />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].ExternalColumns[RESTO]"
+                      dataType="r8"
+                      name="RESTO" />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].ExternalColumns[F14]"
+                      dataType="wstr"
+                      length="255"
+                      name="F14" />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].ExternalColumns[Clasificación 4]"
+                      dataType="wstr"
+                      length="255"
+                      name="Clasificación 4" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Error Output]"
+                  isErrorOut="true"
+                  name="Excel Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Error Output].Columns[DIRECCION]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Error Output].Columns[DIRECCION]"
+                      name="DIRECCION" />
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Error Output].Columns[EGRESO]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Error Output].Columns[EGRESO]"
+                      name="EGRESO" />
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Error Output].Columns[Clasificación 1]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Error Output].Columns[Clasificación 1]"
+                      name="Clasificación 1" />
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Error Output].Columns[Clasificación 2]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Error Output].Columns[Clasificación 2]"
+                      name="Clasificación 2" />
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Error Output].Columns[Clasificación 3 ]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Error Output].Columns[Clasificación 3 ]"
+                      name="Clasificación 3 " />
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Error Output].Columns[PERIODO]"
+                      dataType="r8"
+                      lineageId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Error Output].Columns[PERIODO]"
+                      name="PERIODO" />
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Error Output].Columns[BALANCE]"
+                      dataType="r8"
+                      lineageId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Error Output].Columns[BALANCE]"
+                      name="BALANCE" />
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Error Output].Columns[F13]"
+                      dataType="r8"
+                      lineageId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Error Output].Columns[F13]"
+                      name="F13" />
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Error Output].Columns[GERENCIA/JEFATURA]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Error Output].Columns[GERENCIA/JEFATURA]"
+                      name="GERENCIA/JEFATURA" />
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Error Output].Columns[PROVEEDOR]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Error Output].Columns[PROVEEDOR]"
+                      name="PROVEEDOR" />
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Error Output].Columns[TERCERIZADO]"
+                      dataType="r8"
+                      lineageId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Error Output].Columns[TERCERIZADO]"
+                      name="TERCERIZADO" />
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Error Output].Columns[RESTO]"
+                      dataType="r8"
+                      lineageId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Error Output].Columns[RESTO]"
+                      name="RESTO" />
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Error Output].Columns[F14]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Error Output].Columns[F14]"
+                      name="F14" />
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Error Output].Columns[Clasificación 4]"
+                      dataType="wstr"
+                      length="255"
+                      lineageId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Error Output].Columns[Clasificación 4]"
+                      name="Clasificación 4" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[AUX_H_PRESUPUESTO_PROVEEDORES]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="{477281BB-666E-45C1-9DCD-9210B256133D}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DS_DW_SALUD]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[PERIODO]"
+                      cachedDataType="r8"
+                      cachedName="PERIODO"
+                      externalMetadataColumnId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_periodo]"
+                      lineageId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].Columns[PERIODO]" />
+                    <inputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[RESTO]"
+                      cachedDataType="r8"
+                      cachedName="RESTO"
+                      externalMetadataColumnId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[imp_proveedor_resto]"
+                      lineageId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].Columns[RESTO]" />
+                    <inputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[TERCERIZADO]"
+                      cachedDataType="r8"
+                      cachedName="TERCERIZADO"
+                      externalMetadataColumnId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[imp_proveedor_tercerizado]"
+                      lineageId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].Columns[TERCERIZADO]" />
+                    <inputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[BALANCE]"
+                      cachedDataType="r8"
+                      cachedName="BALANCE"
+                      externalMetadataColumnId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[imp_proveedor_balance]"
+                      lineageId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].Columns[BALANCE]" />
+                    <inputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[PROVEEDOR]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="PROVEEDOR"
+                      externalMetadataColumnId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_proveedor]"
+                      lineageId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].Columns[PROVEEDOR]" />
+                    <inputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[DIRECCION]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="DIRECCION"
+                      externalMetadataColumnId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[direccion]"
+                      lineageId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].Columns[DIRECCION]" />
+                    <inputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[GERENCIA/JEFATURA]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="GERENCIA/JEFATURA"
+                      externalMetadataColumnId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[gerencia]"
+                      lineageId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].Columns[GERENCIA/JEFATURA]" />
+                    <inputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[EGRESO]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="EGRESO"
+                      externalMetadataColumnId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[egreso]"
+                      lineageId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].Columns[EGRESO]" />
+                    <inputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Clasificación 1]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Clasificación 1"
+                      externalMetadataColumnId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[clasificacion_1]"
+                      lineageId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].Columns[Clasificación 1]" />
+                    <inputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Clasificación 2]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Clasificación 2"
+                      externalMetadataColumnId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[clasificacion_2]"
+                      lineageId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].Columns[Clasificación 2]" />
+                    <inputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Clasificación 3 ]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Clasificación 3 "
+                      externalMetadataColumnId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[clasificacion_3]"
+                      lineageId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].Columns[Clasificación 3 ]" />
+                    <inputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Clasificación 4]"
+                      cachedDataType="wstr"
+                      cachedLength="255"
+                      cachedName="Clasificación 4"
+                      externalMetadataColumnId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[clasificacion_4]"
+                      lineageId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output].Columns[Clasificación 4]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_periodo]"
+                      dataType="i4"
+                      name="id_periodo" />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[imp_proveedor_tercerizado]"
+                      dataType="numeric"
+                      name="imp_proveedor_tercerizado"
+                      precision="18"
+                      scale="6" />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[imp_proveedor_resto]"
+                      dataType="numeric"
+                      name="imp_proveedor_resto"
+                      precision="18"
+                      scale="6" />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[imp_proveedor_balance]"
+                      dataType="numeric"
+                      name="imp_proveedor_balance"
+                      precision="18"
+                      scale="6" />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[id_proveedor]"
+                      dataType="wstr"
+                      length="50"
+                      name="id_proveedor" />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[direccion]"
+                      dataType="wstr"
+                      length="50"
+                      name="direccion" />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[gerencia]"
+                      dataType="wstr"
+                      length="50"
+                      name="gerencia" />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[egreso]"
+                      dataType="wstr"
+                      length="50"
+                      name="egreso" />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[clasificacion_1]"
+                      dataType="wstr"
+                      length="50"
+                      name="clasificacion_1" />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[clasificacion_2]"
+                      dataType="wstr"
+                      length="50"
+                      name="clasificacion_2" />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[clasificacion_3]"
+                      dataType="wstr"
+                      length="50"
+                      name="clasificacion_3" />
+                    <externalMetadataColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[clasificacion_4]"
+                      dataType="wstr"
+                      length="50"
+                      name="clasificacion_4" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\AUX_H_PRESUPUESTO_PROVEEDORES.Paths[Excel Source Output]"
+              endId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="Excel Source Output"
+              startId="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source.Outputs[Excel Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Borra Auxiliar"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{a27b464d-b344-44e8-86f8-5cc673c7aeef}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Borra Auxiliar"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{477281BB-666E-45C1-9DCD-9210B256133D}"
+          SQLTask:SqlStatementSource="truncate table aux_h_presupuesto_proveedores" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Borra H_PRESUPUESTO_PROVEEDORES"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{96F7FA12-9088-4982-859D-B9A9D17B92E0}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Borra H_PRESUPUESTO_PROVEEDORES"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{477281BB-666E-45C1-9DCD-9210B256133D}"
+          SQLTask:SqlStatementSource="--Borra registros del periodo actual del excel&#xA;DELETE&#xA;FROM H_PRESUPUESTO_PROVEEDORES&#xA;WHERE id_periodo in (SELECT distinct id_periodo FROM AUX_H_PRESUPUESTO_PROVEEDORES where id_periodo is not null)" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Copia Excel a Local"
+      DTS:CreationName="Microsoft.FileSystemTask"
+      DTS:Description="File System Task"
+      DTS:DTSID="{b6728374-1d09-4ef8-94a8-a77118e8d508}"
+      DTS:ExecutableType="Microsoft.FileSystemTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Copia Excel a Local"
+      DTS:TaskContact="File System Task;Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <FileSystemData
+          TaskOverwriteDestFile="True"
+          TaskSourcePath="{BCBF6EB4-990D-460F-8F69-7DEC1EDBE8CA}"
+          TaskDestinationPath="{AC04E3EC-9CD8-47D9-8FD7-8068E50CFB9F}" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Inserta en la H_PRESUPUESTO_PROVEEDORES"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{2d168f5a-d29f-4d39-b9fa-f7b2bb999b0b}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Inserta en la H_PRESUPUESTO_PROVEEDORES"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{477281BB-666E-45C1-9DCD-9210B256133D}"
+          SQLTask:SqlStatementSource="--Limpia registros NULL de AUX_H_PRESUPUESTO_PROVEEDORES&#xA;DELETE&#xA;FROM AUX_H_PRESUPUESTO_PROVEEDORES&#xA;WHERE id_periodo is null&#xA;&#xA;&#xA;--ACTUALIZA H_PRESUPUESTO_PROVEEDORES&#xA;insert into H_PRESUPUESTO_PROVEEDORES&#xA;select id_periodo,&#xA;&#x9;p.id_proveedor_presupuesto,&#xA;    d.id_direccion_presupuesto,&#xA;    g.id_gerencia_presupuesto,&#xA;    e.id_egreso_presupuesto,&#xA;    c1.id_clasificacion_1_presupuesto,&#xA;    c2.id_clasificacion_2_presupuesto,&#xA;    c3.id_clasificacion_3_presupuesto,&#xA;    c4.id_clasificacion_4_presupuesto,&#xA;    isnull(imp_proveedor_tercerizado,0),&#xA;    isnull(imp_proveedor_resto,0),&#xA;    isnull(imp_proveedor_balance,0)&#xA;from AUX_H_PRESUPUESTO_PROVEEDORES A&#xA;inner join D_PROVEEDORES_PRESUPUESTO P on a.id_proveedor = p.de_proveedor_presupuesto&#xA;inner join D_DIRECCIONES_PRESUPUESTO D on a.direccion = d.de_direccion_presupuesto&#xA;inner join D_GERENCIAS_PRESUPUESTO G on a.gerencia = g.de_gerencia_presupuesto&#xA;inner join D_EGRESOS_PRESUPUESTO E ON a.egreso = e.de_egreso_presupuesto&#xA;inner join D_CLASIFICACION_1_PRESUPUESTO C1 on a.clasificacion_1 = c1.de_clasificacion_1_presupuesto&#xA;inner join D_CLASIFICACION_2_PRESUPUESTO C2 on a.clasificacion_2 = c2.de_clasificacion_2_presupuesto&#xA;inner join D_CLASIFICACION_3_PRESUPUESTO C3 on a.clasificacion_3 = c3.de_clasificacion_3_presupuesto&#xA;inner join D_CLASIFICACION_4_PRESUPUESTO C4 on a.clasificacion_4 = c4.de_clasificacion_4_presupuesto" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Mueve Excel a Historico"
+      DTS:CreationName="Microsoft.FileSystemTask"
+      DTS:Description="Tarea Sistema de archivos"
+      DTS:DTSID="{25C82930-5BA5-43BE-B323-39B8E389B1B9}"
+      DTS:ExecutableType="Microsoft.FileSystemTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Mueve Excel a Historico"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <FileSystemData
+          TaskOperationType="MoveFile"
+          TaskOverwriteDestFile="True"
+          TaskSourcePath="{AC04E3EC-9CD8-47D9-8FD7-8068E50CFB9F}"
+          TaskDestinationPath="{AA75F23B-FAB2-49F9-9C65-BA9E419C3B89}" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{855FF560-35EF-4B6D-8A3C-FBFAB42A514F}"
+      DTS:From="Package\Copia Excel a Local"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Borra Auxiliar" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{14B12FA6-77E5-4778-BB0C-6B53295BBAEE}"
+      DTS:From="Package\Borra Auxiliar"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\AUX_H_PRESUPUESTO_PROVEEDORES" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{A80A76A6-966E-4A21-9918-23CE9DB2F7F0}"
+      DTS:From="Package\AUX_H_PRESUPUESTO_PROVEEDORES"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Actualiza tabla de Dimensión" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{8886EB6D-1404-4360-9D84-47104144772A}"
+      DTS:From="Package\Actualiza tabla de Dimensión"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Borra H_PRESUPUESTO_PROVEEDORES" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
+      DTS:CreationName=""
+      DTS:DTSID="{539AF0FD-D54C-41F3-B6F4-BEAC549138E9}"
+      DTS:From="Package\Borra H_PRESUPUESTO_PROVEEDORES"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 4"
+      DTS:To="Package\Inserta en la H_PRESUPUESTO_PROVEEDORES" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 5]"
+      DTS:CreationName=""
+      DTS:DTSID="{C1094677-D861-47B4-BBBF-B94965F505B2}"
+      DTS:From="Package\Inserta en la H_PRESUPUESTO_PROVEEDORES"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 5"
+      DTS:To="Package\Mueve Excel a Historico" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="221,42"
+          Id="Package\Actualiza tabla de Dimensión"
+          TopLeft="58.6428571428571,213.5" />
+        <NodeLayout
+          Size="296,42"
+          Id="Package\AUX_H_PRESUPUESTO_PROVEEDORES"
+          TopLeft="21.1428571428571,144.166666666667" />
+        <NodeLayout
+          Size="145,42"
+          Id="Package\Borra Auxiliar"
+          TopLeft="96.6428571428571,74.8333333333333" />
+        <NodeLayout
+          Size="297,42"
+          Id="Package\Borra H_PRESUPUESTO_PROVEEDORES"
+          TopLeft="20.6428571428571,282.833333333333" />
+        <NodeLayout
+          Size="176,42"
+          Id="Package\Copia Excel a Local"
+          TopLeft="81.1428571428571,5.5" />
+        <NodeLayout
+          Size="330,42"
+          Id="Package\Inserta en la H_PRESUPUESTO_PROVEEDORES"
+          TopLeft="4.14285714285714,352.166666666667" />
+        <NodeLayout
+          Size="197,42"
+          Id="Package\Mueve Excel a Historico"
+          TopLeft="70.6428571428571,421.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="169.142857142857,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,27.3333333333333"
+              Start="0,0"
+              End="0,19.8333333333333">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,19.8333333333333" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="169.142857142857,116.833333333333">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,27.3333333333337"
+              Start="0,0"
+              End="0,19.8333333333337">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,19.8333333333337" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="169.142857142857,186.166666666667">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,27.333333333333"
+              Start="0,0"
+              End="0,19.833333333333">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,19.833333333333" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="169.142857142857,255.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,27.3333333333333"
+              Start="0,0"
+              End="0,19.8333333333333">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,19.8333333333333" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="169.142857142857,324.833333333333">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,27.3333333333333"
+              Start="0,0"
+              End="0,19.8333333333333">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,19.8333333333333" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 5]"
+          TopLeft="169.142857142857,394.166666666667">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,27.3333333333333"
+              Start="0,0"
+              End="0,19.8333333333333">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,19.8333333333333" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\AUX_H_PRESUPUESTO_PROVEEDORES">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="177,42"
+          Id="Package\AUX_H_PRESUPUESTO_PROVEEDORES\OLE DB Destination"
+          TopLeft="5.50000000000001,107.5" />
+        <NodeLayout
+          Size="144,42"
+          Id="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source"
+          TopLeft="22,5.5" />
+        <EdgeLayout
+          Id="Package\AUX_H_PRESUPUESTO_PROVEEDORES.Paths[Excel Source Output]"
+          TopLeft="94,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\AUX_H_PRESUPUESTO_PROVEEDORES\Excel Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\AUX_H_PRESUPUESTO_PROVEEDORES\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

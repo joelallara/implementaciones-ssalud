@@ -1,0 +1,263 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="1/13/2016 2:22:29 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AMS06X"
+  DTS:CreatorName="AMS\nborio"
+  DTS:DelayValidation="True"
+  DTS:DTSID="{B4148BB2-6D9B-424E-A8BC-4E7E95F89B6A}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="ResolucionesSSS Consumos R650 SancorSalud"
+  DTS:PackageType="5"
+  DTS:VersionBuild="165"
+  DTS:VersionGUID="{7CC57467-A7B0-4493-A462-7CD317564AA1}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{743F8C0F-06C7-4933-B59B-1B691D2E0AB9}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">1,7,OnError</DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnError"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{743F8C0F-06C7-4933-B59B-1B691D2E0AB9}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Formulario 60 y 90"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{4cc10ca0-59b0-421c-91ee-bec8ede70abd}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Formulario 60 y 90"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{6E028507-BF67-411B-A5DB-799F7227FA03}"
+          SQLTask:SqlStatementSource="&#xA;SET DATEFORMAT 'YMD'&#xA;&#xA;&#x9;DELETE dbo.AUX_H_R650_FORMULARIO_60y90&#xA;&#x9;&#xA;&#xA;-- Encuentra el Periodo Actual de consumos.&#xA;&#x9;DECLARE @Ult_Periodo_Consumo CHAR(6) SET @Ult_Periodo_Consumo = (SELECT MAX(id_periodo) from D_PERIODO where vigente_consumo = 1)&#xA;&#xA;-- Encuentra el Periodo perteneciente a 10 meses anteriores al Periodo Actual. Esto es para no asegurarse de &#xA;&#x9;DECLARE @Periodo_Minimo int SET @Periodo_Minimo = (SELECT dbo.Periodo8MesesAtras(@Ult_Periodo_Consumo))&#xA;&#xA;&#xA;&#x9;&#x9;&#x9;select a11.Id_Tipo_Beneficiario, a14.id_provincia, a11.id_periodo, a11.Id_Padron, a12.id_cod_resolucion, sum(a11.cant_prest_int_acep)  WJXBFS1, 15 as id_entidad_capita, 0 as id_trimestre, SUBSTRING(CAST(a11.id_periodo as CHAR(6)),1,4) as id_anio&#xA;&#x9;&#x9;&#x9;into #ZZTGQOTURONSP000&#xA;&#x9;&#x9;&#x9;from H_ORD_INT_DET a11&#xA;&#x9;&#x9;&#x9; join D_PRESTACION a12 on  (a11.id_prestacion = a12.id_prestacion)&#xA;&#x9;&#x9;&#x9; join D_PERSONAS a13 on  (a11.id_persona = a13.id_persona)&#xA;&#x9;&#x9;&#x9; join D_LOCALIDADES_AFILIADO a14 on  (a13.id_localidad_afiliado = a14.id_localidad_afiliado)&#xA;&#x9;&#x9;&#x9; join D_TIPOS_BENEFICIARIOS a15 on  (a11.Id_Tipo_Beneficiario = a15.Id_Tipo_Beneficiario)&#xA;&#x9;&#x9;&#x9; join D_PRODUCTOS a16 on  (a11.id_producto = a16.id_producto)&#xA;&#x9;&#x9;&#x9;where a11.id_periodo &gt; @Periodo_Minimo AND a11.id_periodo &lt;= @Ult_Periodo_Consumo&#xA;&#x9;&#x9;&#x9; and a15.Id_Grupo_Tipo_Beneficiario in (1, 2)&#xA;&#x9;&#x9;&#x9; and NOT EXISTS (SELECT * FROM FILTRO_PLAN_PRODUCTO a17 WHERE a11.id_producto_original=a17.id_producto and a11.id_plan_producto_original=a17.id_plan_producto)&#xA;&#x9;&#x9;&#x9; and a12.id_cod_resolucion in ('B', 'C', 'D', 'E', 'F', 'G', 'A')&#xA;&#x9;&#x9;&#x9; and a11.id_origen_prestacion in ('A')&#xA;&#x9;&#x9;&#x9;group by a11.Id_Tipo_Beneficiario, a14.id_provincia, a11.id_periodo, a11.Id_Padron, a12.id_cod_resolucion &#xA;&#xA;&#x9;&#x9;&#x9;select a11.Id_Tipo_Beneficiario, a14.id_provincia, a11.id_periodo, a11.Id_Padron, a12.id_cod_resolucion, sum(a11.cant_prest_amb_acep)  WJXBFS1, 15 as id_entidad_capita, 0 as id_trimestre, SUBSTRING(CAST(a11.id_periodo as CHAR(6)),1,4) as id_anio&#xA;&#x9;&#x9;&#x9;into #ZZTXYS9U82FSP001&#xA;&#x9;&#x9;&#x9;from H_ORD_AMB_DET a11&#xA;&#x9;&#x9;&#x9; join D_PRESTACION a12 on  (a11.id_prestacion = a12.id_prestacion)&#xA;&#x9;&#x9;&#x9; join D_PERSONAS a13 on  (a11.id_persona = a13.id_persona)&#xA;&#x9;&#x9;&#x9; join D_LOCALIDADES_AFILIADO a14 on  (a13.id_localidad_afiliado = a14.id_localidad_afiliado)&#xA;&#x9;&#x9;&#x9; join D_TIPOS_BENEFICIARIOS a15  on  (a11.Id_Tipo_Beneficiario = a15.Id_Tipo_Beneficiario)&#xA;&#x9;&#x9;&#x9; join D_PRODUCTOS a16 on  (a11.id_producto = a16.id_producto)&#xA;&#x9;&#x9;&#x9;where a11.id_periodo &gt; @Periodo_Minimo AND a11.id_periodo &lt;= @Ult_Periodo_Consumo&#xA;&#x9;&#x9;&#x9; and a15.Id_Grupo_Tipo_Beneficiario in (1, 2)&#xA;&#x9;&#x9;&#x9; and NOT EXISTS (SELECT * FROM FILTRO_PLAN_PRODUCTO a17 WHERE a11.id_producto_original=a17.id_producto and a11.id_plan_producto_original=a17.id_plan_producto)&#xA;&#x9;&#x9;&#x9; and a12.id_cod_resolucion in ('B', 'C', 'D', 'E', 'F', 'G', 'A')&#xA;&#x9;&#x9;&#x9; and a11.id_origen_prestacion in ('A')&#xA;&#x9;&#x9;&#x9;group by a11.Id_Tipo_Beneficiario, a14.id_provincia, a11.id_periodo, a11.Id_Padron, a12.id_cod_resolucion &#xA;&#xA;&#xA;&#x9;&#x9;&#x9;INSERT INTO dbo.AUX_H_R650_FORMULARIO_60y90&#xA;&#x9;&#x9;&#x9;(ID_Periodo,&#xA;&#x9;&#x9;&#x9; id_provincia,&#xA;&#x9;&#x9;&#x9; id_padron,&#xA;&#x9;&#x9;&#x9; Id_Grupo_Tipo_Beneficiario,&#xA;&#x9;&#x9;&#x9; id_cod_resolucion,&#xA;&#x9;&#x9;&#x9; cantidad_60y90,&#xA;&#x9;&#x9;&#x9; id_entidad_capita)&#xA;&#x9;&#x9;&#x9;select distinct &#xA;&#x9;&#x9;&#x9;coalesce(pa11.ID_Periodo, pa12.ID_Periodo)  ID_Periodo,&#xA;&#x9;&#x9;&#x9;coalesce(pa11.id_provincia, pa12.id_provincia)  id_provincia,&#xA;&#x9;&#x9;&#x9;coalesce(pa11.Id_Padron, pa12.Id_Padron)  Id_Padron,&#xA;&#x9;&#x9;&#x9;a13.Id_Grupo_Tipo_Beneficiario  Id_Grupo_Tipo_Beneficiario, &#xA;&#x9;&#x9;&#x9;coalesce(pa11.id_cod_resolucion, pa12.id_cod_resolucion)  id_cod_resolucion,&#xA;&#x9;&#x9;&#x9;(ISNULL(pa11.WJXBFS1, 0) + ISNULL(pa12.WJXBFS1, 0))  cantidad_60y90,&#xA;&#x9;&#x9;&#x9;pa12.id_entidad_capita&#xA;&#x9;&#x9;&#x9;from #ZZTGQOTURONSP000 pa11&#xA;&#x9;&#x9;&#x9; full outer join #ZZTXYS9U82FSP001 pa12&#xA;&#x9;&#x9;&#x9;   on  (pa11.ID_Periodo = pa12.ID_Periodo and &#xA;&#x9;&#x9;&#x9;&#x9;pa11.Id_Padron = pa12.Id_Padron and &#xA;&#x9;&#x9;&#x9;&#x9;pa11.id_cod_resolucion = pa12.id_cod_resolucion and &#xA;&#x9;&#x9;&#x9;&#x9;pa11.id_provincia = pa12.id_provincia)&#xA;&#x9;&#x9;&#x9; join D_TIPOS_BENEFICIARIOS a13 on  (coalesce(pa11.Id_Tipo_Beneficiario, pa12.Id_Tipo_Beneficiario) = a13.Id_Tipo_Beneficiario)&#xA;&#x9;&#x9;&#x9; join D_CODIGOS_RESOLUCION650 a14 on  (coalesce(pa11.id_cod_resolucion, pa12.id_cod_resolucion) = a14.id_cod_resolucion)&#xA;&#x9;&#x9;&#x9; join D_PADRON_AFILIADOS a15 on  (coalesce(pa11.Id_Padron, pa12.Id_Padron) = a15.Id_Padron)&#xA;&#x9;&#x9;&#x9; join D_PROVINCIA a16 on  (coalesce(pa11.id_provincia, pa12.id_provincia) = a16.id_provincia)&#xA;&#x9;&#x9;&#x9; join D_GRUPO_TIPOS_BENEFICIARIO a17 on  (a13.Id_Grupo_Tipo_Beneficiario = a17.Id_Grupo_Tipo_Beneficiario)&#xA;&#x9;&#x9;&#x9;ORDER BY id_provincia, id_cod_resolucion, Id_Padron, Id_Grupo_Tipo_Beneficiario&#xA;&#xA;&#x9;&#x9;&#x9;drop table #ZZTGQOTURONSP000&#xA;&#x9;&#x9;&#x9;drop table #ZZTXYS9U82FSP001&#xA;&#xA;&#x9;UPDATE AUX_H_R650_FORMULARIO_60y90 &#x9;SET id_anio = P.id_anio, id_trimestre_r650 = P.id_trimestre&#xA;&#x9;FROM AUX_H_R650_FORMULARIO_60y90 R JOIN D_PERIODO P on R.id_periodo = P.id_periodo&#xA;&#x9;where id_entidad_capita = 15 and R.id_trimestre_r650 is null&#xA;&#x9;&#x9;&#x9;&#xA;&#x9; --Borra periodo ya existente.&#xA;&#x9; DELETE DW_SALUD.dbo.H_R650_FORMULARIO_60y90&#xA;&#x9; FROM DW_SALUD.dbo.H_R650_FORMULARIO_60y90 A&#xA;&#x9; JOIN dbo.AUX_H_R650_FORMULARIO_60y90 H on H.id_trimestre_r650 = A.id_trimestre_r650 AND H.id_anio = A.id_anio AND H.id_entidad_capita = A.id_entidad_capita AND H.id_periodo = A.id_periodo &#xA;&#xA;&#x9;INSERT INTO H_R650_FORMULARIO_60y90&#xA;&#x9;SELECT id_periodo, id_provincia, Id_padron, Id_Grupo_Tipo_Beneficiario, id_cod_resolucion, cantidad_60y90, id_trimestre_r650, id_anio, id_entidad_capita&#xA;&#x9;FROM dbo.AUX_H_R650_FORMULARIO_60y90&#xA;&#x9;WHERE cantidad_60y90 &lt;&gt; 0&#xA;&#x9;&#xA;&#xA;&#x9;DELETE dbo.AUX_H_R650_FORMULARIO_60y90&#xA;&#x9;&#xA;&#x9;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Formulario 70"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{3523c1d7-3aad-445b-a10d-3ca975eefe09}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Formulario 70"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{6E028507-BF67-411B-A5DB-799F7227FA03}"
+          SQLTask:SqlStatementSource="&#xA;SET DATEFORMAT 'YMD'&#xA;&#xA;&#x9;DELETE FROM dbo.AUX_H_R650_FORMULARIO_70&#xA;&#xA;-- Encuentra el Periodo Actual de consumos.&#xA;&#x9;DECLARE @Ult_Periodo_Consumo CHAR(6) SET @Ult_Periodo_Consumo = (SELECT MAX(id_periodo) from D_PERIODO where vigente_consumo = 1)&#xA;&#xA;-- Encuentra el Periodo perteneciente a 10 meses anteriores al Periodo Actual. Esto es para no asegurarse de &#xA;&#x9;DECLARE @Periodo_Minimo int SET @Periodo_Minimo = (SELECT dbo.Periodo8MesesAtras(@Ult_Periodo_Consumo))&#xA;&#xA;&#xA;&#x9;INSERT INTO dbo.AUX_H_R650_FORMULARIO_70&#xA;&#x9;(id_periodo, id_provincia, Id_Grupo_Tipo_Beneficiario, id_tipo_internacion, Id_Padron, cant_dias, cant_egresos, id_anio, id_entidad_capita)&#xA;&#x9;select a11.id_periodo, a18.id_provincia, a12.Id_Grupo_Tipo_Beneficiario, a11.id_tipo_internacion, a11.Id_Padron, sum(a11.dias_aut_int)  cant_dias, sum(a11.cant_internaciones) cant_egresos, SUBSTRING(CAST(a11.id_periodo as CHAR(6)),1,4) as id_anio, 15 as id_entidad_capita&#xA;&#x9;from H_INTERNACIONES a11&#xA;&#x9; join D_TIPOS_BENEFICIARIOS a12 on (a11.Id_Tipo_Beneficiario = a12.Id_Tipo_Beneficiario)&#xA;&#x9; join D_PERSONAS a13 on  (a11.id_persona = a13.id_persona)&#xA;&#x9; join D_LOCALIDADES_AFILIADO a14  on  (a13.id_localidad_afiliado = a14.id_localidad_afiliado)&#xA;&#x9; join D_PRODUCTOS a15  on  (a11.id_producto = a15.id_producto)&#xA;&#x9; join D_GRUPO_TIPOS_BENEFICIARIO a16 on  (a12.Id_Grupo_Tipo_Beneficiario = a16.Id_Grupo_Tipo_Beneficiario)&#xA;&#x9; join D_PADRON_AFILIADOS a17 on  (a11.Id_Padron = a17.Id_Padron)&#x9; &#xA;&#x9; join D_PROVINCIA a18  on  (a14.id_provincia = a18.id_provincia)&#xA;&#x9; join D_TIPO_INTERNACION a19 on  (a11.id_tipo_internacion = a19.id_tipo_internacion)&#xA;&#x9;where (a11.id_periodo &gt; @Periodo_Minimo AND a11.id_periodo &lt;= @Ult_Periodo_Consumo&#xA;&#x9;and NOT EXISTS (SELECT * FROM FILTRO_PLAN_PRODUCTO a20 WHERE a11.id_producto = a20.id_producto and a11.id_plan_producto = a20.id_plan_producto)&#xA;&#x9; and a12.Id_Grupo_Tipo_Beneficiario in (1, 2)&#xA;&#x9; and a11.id_estado_aut_orden in (3, 4)&#xA;&#x9; and a15.id_segmento not in (3)&#xA;&#x9; and a11.id_tipo_internacion not in ('CD', 'CP'))&#xA;&#x9;group by a18.id_provincia, a11.Id_Padron, a12.Id_Grupo_Tipo_Beneficiario, a11.id_periodo, a11.id_tipo_internacion&#xA;&#x9; &#xA;&#x9;UPDATE AUX_H_R650_FORMULARIO_70&#x9;SET id_trimestre_r650 = P.id_trimestre&#xA;&#x9;FROM AUX_H_R650_FORMULARIO_70 R JOIN D_PERIODO P on R.id_periodo = P.id_periodo&#xA;&#x9;where id_entidad_capita = 15 and R.id_trimestre_r650 is null&#xA;&#x9; &#xA;&#x9;-- Borra periodo ya existente.&#xA;&#x9; DELETE DW_SALUD.dbo.H_R650_FORMULARIO_70&#xA;&#x9; FROM DW_SALUD.dbo.H_R650_FORMULARIO_70 A&#xA;&#x9; JOIN dbo.AUX_H_R650_FORMULARIO_70 H on H.id_trimestre_r650 = A.id_trimestre_r650 AND H.id_anio = A.id_anio AND H.id_entidad_capita = A.id_entidad_capita AND H.id_periodo = A.id_periodo &#xA;&#xA;&#x9;INSERT INTO H_R650_FORMULARIO_70&#xA;&#x9;(id_periodo, id_provincia, Id_Grupo_Tipo_Beneficiario, Id_Tipo_Internacion, Id_padron, Cant_dias, Cant_egresos, id_trimestre_r650, id_anio, id_entidad_capita)&#xA;&#x9;SELECT id_periodo, id_provincia, Id_Grupo_Tipo_Beneficiario, Id_Tipo_Internacion, Id_padron, Cant_dias, Cant_egresos, id_trimestre_r650, id_anio, id_entidad_capita&#xA;&#x9;FROM dbo.AUX_H_R650_FORMULARIO_70&#xA;&#x9;&#xA;&#x9;DELETE dbo.AUX_H_R650_FORMULARIO_70&#xA;&#x9;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Formulario 80 AMB"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{370cbab0-f37c-482d-a8ac-c5f180c0b32e}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Formulario 80 AMB"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{6E028507-BF67-411B-A5DB-799F7227FA03}"
+          SQLTask:SqlStatementSource="&#xA;SET DATEFORMAT 'YMD'&#xA;&#xA;&#x9;DELETE FROM dbo.AUX_H_R650_FORMULARIO_80_AMB&#xA;&#xA;-- Encuentra el Periodo Actual de consumos.&#xA;&#x9;DECLARE @Ult_Periodo_Consumo CHAR(6) SET @Ult_Periodo_Consumo = (SELECT MAX(id_periodo) from D_PERIODO where vigente_consumo = 1)&#xA;&#xA;-- Encuentra el Periodo perteneciente a 10 meses anteriores al Periodo Actual. Esto es para no asegurarse de &#xA;&#x9;DECLARE @Periodo_Minimo int SET @Periodo_Minimo = (SELECT dbo.Periodo8MesesAtras(@Ult_Periodo_Consumo))&#xA;&#xA;&#xA;&#x9;&#x9;&#x9;select a11.Id_Tipo_Beneficiario, a16.id_provincia, a11.id_periodo, a11.Id_Padron, a11.id_origen_prestacion, a12.id_cod_resolucion, count(distinct a11.id_persona)  WJXBFS1, 15 as id_entidad_capita, SUBSTRING(CAST(a11.id_periodo as CHAR(6)),1,4) as id_anio&#xA;&#x9;&#x9;&#x9;into #ZZTXMEHN17PSP000&#xA;&#x9;&#x9;&#x9;from H_ORD_AMB_DET a11&#xA;&#x9;&#x9;&#x9; join D_PRESTACION a12  on  (a11.id_prestacion = a12.id_prestacion)&#xA;&#x9;&#x9;&#x9; join D_TIPOS_BENEFICIARIOS a13  on  (a11.Id_Tipo_Beneficiario = a13.Id_Tipo_Beneficiario)&#xA;&#x9;&#x9;&#x9; join D_PRODUCTOS a14  on  (a11.id_producto = a14.id_producto)&#xA;&#x9;&#x9;&#x9; join D_PERSONAS a15   on  (a11.id_persona = a15.id_persona)&#xA;&#x9;&#x9;&#x9; join D_LOCALIDADES_AFILIADO a16   on  (a15.id_localidad_afiliado = a16.id_localidad_afiliado)&#xA;&#x9;&#x9;&#x9;where (a11.id_periodo &gt; @Periodo_Minimo AND a11.id_periodo &lt;= @Ult_Periodo_Consumo&#xA;&#x9;&#x9;&#x9; and a13.Id_Grupo_Tipo_Beneficiario in (1, 2)&#xA;&#x9;&#x9;&#x9;and NOT EXISTS (SELECT * FROM FILTRO_PLAN_PRODUCTO a20 WHERE a11.id_producto=a20.id_producto and a11.id_plan_producto=a20.id_plan_producto)&#xA;&#x9;&#x9;&#x9; and a12.id_cod_resolucion in ('J', 'K', 'L', 'M')&#xA;&#x9;&#x9;&#x9; and a11.id_origen_prestacion in ('A'))&#xA;&#x9;&#x9;&#x9;group by a11.Id_Tipo_Beneficiario, a16.id_provincia, a11.id_periodo, a11.Id_Padron, a11.id_origen_prestacion, a12.id_cod_resolucion &#xA;&#xA;&#x9;&#x9;&#x9;select a11.Id_Tipo_Beneficiario, a16.id_provincia, a11.id_periodo, a11.Id_Padron, a11.id_origen_prestacion, a12.id_cod_resolucion, count(distinct a11.id_persona)  WJXBFS1, 15 as id_entidad_capita, SUBSTRING(CAST(a11.id_periodo as CHAR(6)),1,4) as id_anio&#xA;&#x9;&#x9;&#x9;into #ZZTHPYUM939SP001&#xA;&#x9;&#x9;&#x9;from H_ORD_INT_DET a11&#xA;&#x9;&#x9;&#x9; join D_PRESTACION a12  on  (a11.id_prestacion = a12.id_prestacion)&#xA;&#x9;&#x9;&#x9; join D_TIPOS_BENEFICIARIOS a13   on  (a11.Id_Tipo_Beneficiario = a13.Id_Tipo_Beneficiario)&#xA;&#x9;&#x9;&#x9; join D_PRODUCTOS a14  on  (a11.id_producto = a14.id_producto)&#xA;&#x9;&#x9;&#x9; join D_PERSONAS a15  on  (a11.id_persona = a15.id_persona)&#xA;&#x9;&#x9;&#x9; join D_LOCALIDADES_AFILIADO a16   on  (a15.id_localidad_afiliado = a16.id_localidad_afiliado)&#xA;&#x9;&#x9;&#x9;where (a11.id_periodo &gt; @Periodo_Minimo AND a11.id_periodo &lt;= @Ult_Periodo_Consumo&#xA;&#x9;&#x9;&#x9; and a13.Id_Grupo_Tipo_Beneficiario in (1, 2)&#xA;&#x9;&#x9;&#x9; and NOT EXISTS (SELECT * FROM FILTRO_PLAN_PRODUCTO a20 WHERE a11.id_producto=a20.id_producto and a11.id_plan_producto=a20.id_plan_producto)&#xA;&#x9;&#x9;&#x9; and a12.id_cod_resolucion in ('J', 'K', 'L', 'M')&#xA;&#x9;&#x9;&#x9; and a11.id_origen_prestacion in ('A'))&#xA;&#x9;&#x9;&#x9;group by a11.Id_Tipo_Beneficiario, a16.id_provincia, a11.id_periodo, a11.Id_Padron, a11.id_origen_prestacion, a12.id_cod_resolucion &#xA;&#xA;&#x9;&#x9;&#x9;INSERT INTO dbo.AUX_H_R650_FORMULARIO_80_AMB&#xA;&#x9;&#x9;&#x9;(ID_Periodo,&#xA;&#x9;&#x9;&#x9; id_provincia,&#xA;&#x9;&#x9;&#x9; id_padron,&#xA;&#x9;&#x9;&#x9; Id_Grupo_Tipo_Beneficiario,&#xA;&#x9;&#x9;&#x9; id_cod_resolucion,&#xA;&#x9;&#x9;&#x9; cantidad_80A,&#xA;&#x9;&#x9;&#x9; id_entidad_capita)&#xA;&#x9;&#x9;&#x9;select distinct &#xA;&#x9;&#x9;&#x9; coalesce(pa11.ID_Periodo, pa12.ID_Periodo)  ID_Periodo,&#xA;&#x9;&#x9;&#x9; coalesce(pa11.id_provincia, pa12.id_provincia)  id_provincia,&#xA;&#x9;&#x9;&#x9; coalesce(pa11.Id_Padron, pa12.Id_Padron)  Id_Padron,&#xA;&#x9;&#x9;&#x9; a13.Id_Grupo_Tipo_Beneficiario  Id_Grupo_Tipo_Beneficiario,&#xA;&#x9;&#x9;&#x9; coalesce(pa11.id_cod_resolucion, pa12.id_cod_resolucion)  id_cod_resolucion,&#xA;&#x9;&#x9;&#x9; ROUND(ISNULL(((ISNULL(pa11.WJXBFS1, 0) + ISNULL(pa12.WJXBFS1, 0)) / 2.0), 0), 0)  cantidad_80A,&#xA;&#x9;&#x9;&#x9; Pa11.id_entidad_capita&#xA;&#x9;&#x9;&#x9; from #ZZTXMEHN17PSP000 pa11&#xA;&#x9;&#x9;&#x9; full outer join #ZZTHPYUM939SP001 pa12&#xA;&#x9;&#x9;&#x9;   on  (pa11.ID_Periodo = pa12.ID_Periodo and &#xA;&#x9;&#x9;&#x9; pa11.Id_Padron = pa12.Id_Padron and &#xA;&#x9;&#x9;&#x9; pa11.Id_Tipo_Beneficiario = pa12.Id_Tipo_Beneficiario and &#xA;&#x9;&#x9;&#x9; pa11.id_cod_resolucion = pa12.id_cod_resolucion and &#xA;&#x9;&#x9;&#x9; pa11.id_origen_prestacion = pa12.id_origen_prestacion and &#xA;&#x9;&#x9;&#x9; pa11.id_provincia = pa12.id_provincia)&#xA;&#x9;&#x9;&#x9; join D_TIPOS_BENEFICIARIOS a13  on  (coalesce(pa11.Id_Tipo_Beneficiario, pa12.Id_Tipo_Beneficiario) = a13.Id_Tipo_Beneficiario)&#xA;&#x9;&#x9;&#x9; join D_CODIGOS_RESOLUCION650 a14   on  (coalesce(pa11.id_cod_resolucion, pa12.id_cod_resolucion) = a14.id_cod_resolucion)&#xA;&#x9;&#x9;&#x9; join D_ORIGEN_PRESTACION a15  on  (coalesce(pa11.id_origen_prestacion, pa12.id_origen_prestacion) = a15.id_origen_prestacion)&#xA;&#x9;&#x9;&#x9; join D_PADRON_AFILIADOS a16  on  (coalesce(pa11.Id_Padron, pa12.Id_Padron) = a16.Id_Padron)&#xA;&#x9;&#x9;&#x9; join D_PROVINCIA a17  on  (coalesce(pa11.id_provincia, pa12.id_provincia) = a17.id_provincia)&#xA;&#x9;&#x9;&#x9; join D_GRUPO_TIPOS_BENEFICIARIO a18  on  (a13.Id_Grupo_Tipo_Beneficiario = a18.Id_Grupo_Tipo_Beneficiario)&#xA;&#xA;&#x9;&#x9;&#x9;drop table #ZZTXMEHN17PSP000&#xA;&#x9;&#x9;&#x9;drop table #ZZTHPYUM939SP001&#xA;&#xA;&#xA;&#x9;UPDATE AUX_H_R650_FORMULARIO_80_AMB&#x9;SET id_anio = P.id_anio, id_trimestre_r650 = P.id_trimestre&#xA;&#x9;FROM AUX_H_R650_FORMULARIO_80_AMB R JOIN D_PERIODO P on R.id_periodo = P.id_periodo&#xA;&#x9;where id_entidad_capita = 15 and R.id_trimestre_r650 is null&#xA;&#x9;&#x9;&#x9;&#xA;&#x9; --Borra periodo ya existente.&#xA;&#x9; DELETE DW_SALUD.dbo.H_R650_FORMULARIO_80_AMB&#xA;&#x9; FROM DW_SALUD.dbo.H_R650_FORMULARIO_80_AMB A&#xA;&#x9; JOIN dbo.AUX_H_R650_FORMULARIO_80_AMB H on H.id_trimestre_r650 = A.id_trimestre_r650 AND H.id_anio = A.id_anio AND H.id_entidad_capita = A.id_entidad_capita AND H.id_periodo = A.id_periodo &#xA;&#xA;&#x9;INSERT INTO H_R650_FORMULARIO_80_AMB&#xA;&#x9;SELECT id_periodo, id_provincia, Id_padron, Id_Grupo_Tipo_Beneficiario, id_cod_resolucion, cantidad_80A, id_trimestre_r650, id_anio, id_entidad_capita&#xA;&#x9;FROM dbo.AUX_H_R650_FORMULARIO_80_AMB&#xA;&#x9;&#x9;&#xA;&#x9;DELETE dbo.AUX_H_R650_FORMULARIO_80_AMB&#xA;&#xA;&#x9;&#x9;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Formulario 80 INT"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{9177902b-3db2-4c9a-8167-7c294405905d}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Formulario 80 INT"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{6E028507-BF67-411B-A5DB-799F7227FA03}"
+          SQLTask:SqlStatementSource="&#xA;SET DATEFORMAT 'YMD'&#xA;&#xA;&#x9;DELETE dbo.AUX_H_R650_FORMULARIO_80_INT&#xA;&#xA;-- Encuentra el Periodo Actual de consumos.&#xA;&#x9;DECLARE @Ult_Periodo_Consumo CHAR(6) SET @Ult_Periodo_Consumo = (SELECT MAX(id_periodo) from D_PERIODO where vigente_consumo = 1)&#xA;&#xA;-- Encuentra el Periodo perteneciente a 10 meses anteriores al Periodo Actual. Esto es para no asegurarse de &#xA;&#x9;DECLARE @Periodo_Minimo int SET @Periodo_Minimo = (SELECT dbo.Periodo8MesesAtras(@Ult_Periodo_Consumo))&#xA;&#xA;&#xA;&#x9;&#x9;select a11.Id_Tipo_Beneficiario, a16.id_provincia, a11.id_periodo, a11.Id_Padron, a11.id_origen_prestacion, a12.id_cod_resolucion, count(distinct a11.id_persona)  WJXBFS1, 15 as id_entidad_capita, SUBSTRING(CAST(a11.id_periodo as CHAR(6)),1,4) as id_anio&#xA;&#x9;&#x9;into #ZZT397T0OKASP000&#xA;&#x9;&#x9;from H_ORD_AMB_DET a11&#xA;&#x9;&#x9; join D_PRESTACION a12  on  (a11.id_prestacion = a12.id_prestacion)&#xA;&#x9;&#x9; join D_TIPOS_BENEFICIARIOS a13  on  (a11.Id_Tipo_Beneficiario = a13.Id_Tipo_Beneficiario)&#xA;&#x9;&#x9; join D_PRODUCTOS a14  on  (a11.id_producto = a14.id_producto)&#xA;&#x9;&#x9; join D_PERSONAS a15  on  (a11.id_persona = a15.id_persona)&#xA;&#x9;&#x9; join D_LOCALIDADES_AFILIADO a16 on  (a15.id_localidad_afiliado = a16.id_localidad_afiliado)&#xA;&#x9;&#x9;where (a11.id_periodo &gt; @Periodo_Minimo AND a11.id_periodo &lt;= @Ult_Periodo_Consumo&#xA;&#x9;&#x9; and a13.Id_Grupo_Tipo_Beneficiario in (2, 1)&#xA;&#x9;&#x9; and NOT EXISTS (SELECT * FROM FILTRO_PLAN_PRODUCTO a20 WHERE a11.id_producto=a20.id_producto and a11.id_plan_producto=a20.id_plan_producto)&#xA;&#x9;&#x9; and a12.id_cod_resolucion in ('O', 'R', 'P', 'N')&#xA;&#x9;&#x9; and a11.id_origen_prestacion in ('I'))&#xA;&#x9;&#x9;group by a11.Id_Tipo_Beneficiario, a16.id_provincia, a11.id_periodo, a11.Id_Padron, a11.id_origen_prestacion, a12.id_cod_resolucion &#xA;&#xA;&#x9;&#x9;select a11.Id_Tipo_Beneficiario, a16.id_provincia, a11.id_periodo, a11.Id_Padron, a11.id_origen_prestacion, a12.id_cod_resolucion, count(distinct a11.id_persona)  WJXBFS1, 15 as id_entidad_capita, SUBSTRING(CAST(a11.id_periodo as CHAR(6)),1,4) as id_anio&#xA;&#x9;&#x9;into #ZZTKQBI04Y2SP001&#xA;&#x9;&#x9;from H_ORD_INT_DET a11&#xA;&#x9;&#x9; join D_PRESTACION a12  on  (a11.id_prestacion = a12.id_prestacion)&#xA;&#x9;&#x9; join D_TIPOS_BENEFICIARIOS a13 on  (a11.Id_Tipo_Beneficiario = a13.Id_Tipo_Beneficiario)&#xA;&#x9;&#x9; join D_PRODUCTOS a14 on  (a11.id_producto = a14.id_producto)&#xA;&#x9;&#x9; join D_PERSONAS a15  on  (a11.id_persona = a15.id_persona)&#xA;&#x9;&#x9; join D_LOCALIDADES_AFILIADO a16 on  (a15.id_localidad_afiliado = a16.id_localidad_afiliado)&#xA;&#x9;&#x9;where (a11.id_periodo &gt; @Periodo_Minimo AND a11.id_periodo &lt;= @Ult_Periodo_Consumo&#xA;&#x9;&#x9; and a13.Id_Grupo_Tipo_Beneficiario in (2, 1)&#xA;&#x9;&#x9; and NOT EXISTS (SELECT * FROM FILTRO_PLAN_PRODUCTO a20 WHERE a11.id_producto=a20.id_producto and a11.id_plan_producto=a20.id_plan_producto)&#xA;&#x9;&#x9; and a12.id_cod_resolucion in ('O', 'R', 'P', 'N')&#xA;&#x9;&#x9; and a11.id_origen_prestacion in ('I'))&#xA;&#x9;&#x9;group by a11.Id_Tipo_Beneficiario, a16.id_provincia, a11.id_periodo, a11.Id_Padron, a11.id_origen_prestacion, a12.id_cod_resolucion &#xA;&#xA;&#x9;&#x9;INSERT INTO dbo.AUX_H_R650_FORMULARIO_80_INT&#xA;&#x9;&#x9;(ID_Periodo,&#xA;&#x9;&#x9; id_provincia,&#xA;&#x9;&#x9; id_padron,&#xA;&#x9;&#x9; Id_Grupo_Tipo_Beneficiario,&#xA;&#x9;&#x9; id_cod_resolucion,&#xA;&#x9;&#x9; cantidad_80I,&#xA;&#x9;&#x9; id_entidad_capita)&#xA;&#x9;&#x9;select distinct &#xA;&#x9;&#x9; coalesce(pa11.ID_Periodo, pa12.ID_Periodo)  ID_Periodo,&#xA;&#x9;&#x9; coalesce(pa11.id_provincia, pa12.id_provincia)  id_provincia,&#xA;&#x9;&#x9; coalesce(pa11.Id_Padron, pa12.Id_Padron)  Id_Padron,&#xA;&#x9;&#x9; a13.Id_Grupo_Tipo_Beneficiario  Id_Grupo_Tipo_Beneficiario,&#xA;&#x9;&#x9; coalesce(pa11.id_cod_resolucion, pa12.id_cod_resolucion)  id_cod_resolucion,&#xA;&#x9;&#x9; ROUND(ISNULL(((ISNULL(pa11.WJXBFS1, 0) + ISNULL(pa12.WJXBFS1, 0)) / 2.0), 0), 0)  cantidad_80I,&#xA;&#x9;&#x9;pa12.id_entidad_capita&#xA;&#x9;&#x9;from #ZZT397T0OKASP000 pa11&#xA;&#x9;&#x9; full outer join #ZZTKQBI04Y2SP001 pa12&#xA;&#x9;&#x9;   on  (pa11.ID_Periodo = pa12.ID_Periodo and &#xA;&#x9;&#x9; pa11.Id_Padron = pa12.Id_Padron and &#xA;&#x9;&#x9; pa11.Id_Tipo_Beneficiario = pa12.Id_Tipo_Beneficiario and &#xA;&#x9;&#x9; pa11.id_cod_resolucion = pa12.id_cod_resolucion and &#xA;&#x9;&#x9; pa11.id_origen_prestacion = pa12.id_origen_prestacion and &#xA;&#x9;&#x9; pa11.id_provincia = pa12.id_provincia)&#xA;&#x9;&#x9; join D_TIPOS_BENEFICIARIOS a13  on  (coalesce(pa11.Id_Tipo_Beneficiario, pa12.Id_Tipo_Beneficiario) = a13.Id_Tipo_Beneficiario)&#xA;&#x9;&#x9; join D_CODIGOS_RESOLUCION650 a14 on  (coalesce(pa11.id_cod_resolucion, pa12.id_cod_resolucion) = a14.id_cod_resolucion)&#xA;&#x9;&#x9; join D_ORIGEN_PRESTACION a15  on  (coalesce(pa11.id_origen_prestacion, pa12.id_origen_prestacion) = a15.id_origen_prestacion)&#xA;&#x9;&#x9; join D_PADRON_AFILIADOS a16  on  (coalesce(pa11.Id_Padron, pa12.Id_Padron) = a16.Id_Padron)&#xA;&#x9;&#x9; join D_PROVINCIA a17  on  (coalesce(pa11.id_provincia, pa12.id_provincia) = a17.id_provincia)&#xA;&#x9;&#x9; join D_GRUPO_TIPOS_BENEFICIARIO a18  on  (a13.Id_Grupo_Tipo_Beneficiario = a18.Id_Grupo_Tipo_Beneficiario)&#xA;&#xA;&#x9;&#x9;drop table #ZZT397T0OKASP000&#xA;&#x9;&#x9;drop table #ZZTKQBI04Y2SP001&#xA;&#xA;&#x9;UPDATE AUX_H_R650_FORMULARIO_80_INT&#x9;SET id_anio = P.id_anio, id_trimestre_r650 = P.id_trimestre&#xA;&#x9;FROM AUX_H_R650_FORMULARIO_80_INT R JOIN D_PERIODO P on R.id_periodo = P.id_periodo&#xA;&#x9;where id_entidad_capita = 15 and R.id_trimestre_r650 is null&#xA;&#xA;&#x9; --Borra periodo ya existente.&#xA;&#x9; DELETE DW_SALUD.dbo.H_R650_FORMULARIO_80_INT&#xA;&#x9; FROM DW_SALUD.dbo.H_R650_FORMULARIO_80_INT A&#xA;&#x9; JOIN dbo.AUX_H_R650_FORMULARIO_80_INT H on H.id_trimestre_r650 = A.id_trimestre_r650 AND H.id_anio = A.id_anio AND H.id_entidad_capita = A.id_entidad_capita AND H.id_periodo = A.id_periodo&#xA;&#xA;&#x9;INSERT INTO H_R650_FORMULARIO_80_INT&#xA;&#x9;SELECT id_periodo, id_provincia, Id_padron, Id_Grupo_Tipo_Beneficiario, id_cod_resolucion, cantidad_80I, id_trimestre_r650, id_anio, id_entidad_capita&#xA;&#x9;FROM dbo.AUX_H_R650_FORMULARIO_80_INT&#xA;&#x9;&#x9;&#xA;&#x9;DELETE dbo.AUX_H_R650_FORMULARIO_80_INT&#xA;&#x9;&#x9;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{D4BA0691-9508-4D1B-8D09-5F53509A3804}"
+      DTS:From="Package\Formulario 60 y 90"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Formulario 70" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{4002DCB3-43A3-465A-AD7D-CF69D7616E97}"
+      DTS:From="Package\Formulario 70"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Formulario 80 AMB" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{BE0858C2-DE94-4AA2-90FC-7ECDF00F2D9F}"
+      DTS:From="Package\Formulario 80 AMB"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Formulario 80 INT" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="170,42"
+          Id="Package\Formulario 60 y 90"
+          TopLeft="6.25000000000003,5.5" />
+        <NodeLayout
+          Size="147,42"
+          Id="Package\Formulario 70"
+          TopLeft="17.75,78.6069182389937" />
+        <NodeLayout
+          Size="174,42"
+          Id="Package\Formulario 80 AMB"
+          TopLeft="4.25000000000003,151.713836477987" />
+        <NodeLayout
+          Size="167,42"
+          Id="Package\Formulario 80 INT"
+          TopLeft="7.75000000000003,224.820754716981" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="91.25,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,31.1069182389937"
+              Start="0,0"
+              End="0,23.6069182389937">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,23.6069182389937" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="91.25,120.606918238994">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,31.1069182389937"
+              Start="0,0"
+              End="0,23.6069182389937">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,23.6069182389937" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="91.25,193.713836477987">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,31.1069182389937"
+              Start="0,0"
+              End="0,23.6069182389937">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,23.6069182389937" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

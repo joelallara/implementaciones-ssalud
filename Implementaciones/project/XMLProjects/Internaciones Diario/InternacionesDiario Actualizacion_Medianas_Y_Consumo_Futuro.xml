@@ -1,0 +1,262 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="9/26/2019 10:30:58 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="AMS06X"
+  DTS:CreatorName="AMS\jtrinchier"
+  DTS:DTSID="{FE33B3BC-804E-4364-B627-CE6EBE68232E}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.1301.433"
+  DTS:LocaleID="11274"
+  DTS:ObjectName="InternacionesDiario Actualizacion_Medianas_Y_Consumo_Futuro"
+  DTS:PackageType="5"
+  DTS:VersionBuild="21"
+  DTS:VersionGUID="{6B13F1EE-D4F0-4179-9EA6-23EB4A321A5A}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:LogProviders>
+    <DTS:LogProvider
+      DTS:ConfigString="DS_MSDB"
+      DTS:CreationName="Microsoft.LogProviderSQLServer"
+      DTS:Description="Writes log entries for events to a SQL Server database"
+      DTS:DTSID="{DB3B7DA2-3409-4E53-84C9-847A29D7CE10}"
+      DTS:ObjectName="SSIS log provider for SQL Server">
+      <DTS:ObjectData>
+        <InnerObject />
+      </DTS:ObjectData>
+    </DTS:LogProvider>
+  </DTS:LogProviders>
+  <DTS:Variables />
+  <DTS:LoggingOptions
+    DTS:FilterKind="0"
+    DTS:LoggingMode="1">
+    <DTS:Property
+      DTS:DataType="8"
+      DTS:Name="EventFilter">1,7,OnError</DTS:Property>
+    <DTS:Property
+      DTS:EventName="OnError"
+      DTS:Name="ColumnFilter">
+      <DTS:Property
+        DTS:Name="Computer">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="Operator">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceName">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="SourceID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="ExecutionID">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="MessageText">-1</DTS:Property>
+      <DTS:Property
+        DTS:Name="DataBytes">-1</DTS:Property>
+    </DTS:Property>
+    <DTS:SelectedLogProviders>
+      <DTS:SelectedLogProvider
+        DTS:InstanceID="{DB3B7DA2-3409-4E53-84C9-847A29D7CE10}" />
+    </DTS:SelectedLogProviders>
+  </DTS:LoggingOptions>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Calculo de la Mediana en Internaciones Diario"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{8a0fcc2c-633b-46c3-9e7d-1fb9a371bf88}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Calculo de la Mediana en Internaciones Diario"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{87B3EF38-D424-4CA0-9B98-F49ED069F118}"
+          SQLTask:SqlStatementSource="select distinct top 13 id_periodo&#xA;into #temp_periodo&#xA;from H_INTERNACIONES_CARLOS&#xA;order by id_periodo desc&#xA;&#xA;--- Declara 2 variables el menor periodo y el mayor para generar 1 año.&#xA;Declare @Periodo_inicio int, @Periodo_Fin int&#xA;&#xA;Set @Periodo_inicio = (Select min(id_periodo) from #temp_periodo) &#xA;Set @Periodo_Fin = (Select max(id_periodo) from #temp_periodo)&#xA;&#xA;--- Consulta si existen estas tablas temporales, en caso afirmativo las elimina para poder realizar este proceso. &#xA;if exists (select * from sysobjects where name = 'TDiagnostico')&#xA;  begin&#xA; drop table TDiagnostico&#xA;  end&#xA;if exists (select * from sysobjects where name = 'TTipIPos')&#xA;  begin&#xA; drop table TTipIPos&#xA;  end&#xA;if exists (select * from sysobjects where name = 'MDiagnostico')&#xA;  begin&#xA; drop table MDiagnostico&#xA;  end&#xA;if exists (select * from sysobjects where name = 'TDiagPos')&#xA;  begin&#xA; drop table TDiagPos&#xA;  end&#xA;if exists (select * from sysobjects where name = 'MDiagPos')&#xA;  begin&#xA; drop table MDiagPos&#xA;  end&#xA;if exists (select * from sysobjects where name = 'MTipIPos')&#xA;  begin&#xA; drop table MTipIPos&#xA;  end&#xA;&#xA;--- Calculo de la Mediana solo por Diagnóstico&#xA;&#xA;create table TDiagnostico&#xA;(&#xA;    id_diagnostico nvarchar(8),&#xA;    nro_orden int primary key,&#xA;    total_facturacion_internacion float&#xA;)&#xA;&#xA;go&#xA;&#xA;Declare @Periodo_inicio int, @Periodo_Fin int&#xA;&#xA;Set @Periodo_inicio = (Select min(id_periodo) from #temp_periodo) &#xA;Set @Periodo_Fin = (Select max(id_periodo) from #temp_periodo)&#xA;&#xA;&#xA;&#xA;&#xA;-- Cargo Datos Resumidos&#xA;insert into TDiagnostico&#xA;select id_diagnostico, nro_orden, total_facturacion_internacion&#xA;from H_INTERNACIONES_CARLOS&#xA;where id_periodo &gt;= @Periodo_inicio and id_periodo &lt;= @Periodo_Fin and total_facturacion_internacion &lt;&gt; 0&#xA;and id_tipo_internacion  not in ('CD','CP' )&#xA;&#xA;go&#xA;&#xA;-- Calculo Mediana por Diagnostico&#xA;&#xA;select id_diagnostico,&#xA;    AVG(total_facturacion_internacion) as MedianConsumo&#xA;into MDiagnostico&#xA;from &#xA;(&#xA;    select id_diagnostico, nro_orden, total_facturacion_internacion, &#xA;        ROW_NUMBER() over (partition by id_diagnostico &#xA;        order by total_facturacion_internacion ASC) as ConsRank,&#xA;        COUNT(*) over (partition by id_diagnostico) as DiagCount&#xA;    from&#xA;        TDiagnostico&#xA;) x&#xA;where&#xA;    x.ConsRank in (x.DiagCount/2+1, (x.DiagCount+1)/2)    &#xA;group by&#xA;    x.id_diagnostico     &#xA;    &#xA;&#xA;go&#xA;&#xA;--- Calculo de la Mediana por Diagnostico / Posicion&#xA;&#xA;create table TDiagPos&#xA;(&#xA;    id_diagnostico nvarchar(8),&#xA;    id_posicion_no_facturador int, &#xA;    nro_orden int primary key,&#xA;    total_facturacion_internacion float&#xA;)&#xA;&#xA;go&#xA;Declare @Periodo_inicio int, @Periodo_Fin int&#xA;&#xA;Set @Periodo_inicio = (Select min(id_periodo) from #temp_periodo) &#xA;Set @Periodo_Fin = (Select max(id_periodo) from #temp_periodo)&#xA;-- Cargo Datos Resumidos&#xA;insert into TDiagPos&#xA;select id_diagnostico, id_posicion_no_facturador, nro_orden, total_facturacion_internacion&#xA;from H_INTERNACIONES_CARLOS&#xA;where id_periodo &gt;= @Periodo_inicio and id_periodo &lt;= @Periodo_Fin and total_facturacion_internacion &lt;&gt; 0&#xA;and id_tipo_internacion  not in ('CD','CP')&#xA;go&#xA;&#xA;-- Calculo Mediana por Diagnostico  / Posicion&#xA;&#xA;select id_diagnostico, &#xA; id_posicion_no_facturador,&#xA;    AVG(total_facturacion_internacion) as MedianConsumo&#xA;into MDiagPos&#xA;from &#xA;(&#xA;    select id_diagnostico, id_posicion_no_facturador, nro_orden, total_facturacion_internacion, &#xA;        ROW_NUMBER() over (partition by id_diagnostico, id_posicion_no_facturador &#xA;        order by total_facturacion_internacion ASC) as ConsRank,&#xA;        COUNT(*) over (partition by id_diagnostico, id_posicion_no_facturador) as DiagCount&#xA;    from&#xA;        TDiagPos&#xA;) x&#xA;where&#xA;    x.ConsRank in (x.DiagCount/2+1, (x.DiagCount+1)/2)    &#xA;group by&#xA;    x.id_diagnostico, x.id_posicion_no_facturador&#xA;    &#xA;&#xA;go&#xA;&#xA;--- Calculo de la Mediana por Tipo Internacion / Posicion&#xA;&#xA;create table TTipIPos&#xA;(&#xA;    id_tipo_internacion char(2),&#xA;    id_posicion_no_facturador int, &#xA;    nro_orden int primary key,&#xA;    total_facturacion_internacion float&#xA;)&#xA;&#xA;go&#xA;Declare @Periodo_inicio int, @Periodo_Fin int&#xA;&#xA;Set @Periodo_inicio = (Select min(id_periodo) from #temp_periodo) &#xA;Set @Periodo_Fin = (Select max(id_periodo) from #temp_periodo)&#xA;&#xA;-- Cargo Datos Resumidos&#xA;insert into TTipIPos&#xA;select id_tipo_internacion, id_posicion_no_facturador, nro_orden, total_facturacion_internacion&#xA;from H_INTERNACIONES_CARLOS&#xA;where id_periodo &gt;= @Periodo_inicio and id_periodo &lt;= @Periodo_Fin and total_facturacion_internacion &lt;&gt; 0&#xA;and id_tipo_internacion  not in ('CD','CP')&#xA;go&#xA;&#xA;-- Calculo Mediana por Diagnostico / Posicion&#xA;&#xA;select id_tipo_internacion, &#xA; id_posicion_no_facturador,&#xA;    AVG(total_facturacion_internacion) as MedianConsumo&#xA;into MTipIPos&#xA;from &#xA;(&#xA;    select id_tipo_internacion, id_posicion_no_facturador, nro_orden, total_facturacion_internacion, &#xA;        ROW_NUMBER() over (partition by id_tipo_internacion, id_posicion_no_facturador &#xA;        order by total_facturacion_internacion ASC) as ConsRank,&#xA;        COUNT(*) over (partition by id_tipo_internacion, id_posicion_no_facturador) as DiagCount&#xA;    from&#xA;        TTipIPos&#xA;) x&#xA;where&#xA;    x.ConsRank in (x.DiagCount/2+1, (x.DiagCount+1)/2)    &#xA;group by&#xA;    x.id_tipo_internacion, x.id_posicion_no_facturador&#xA;    &#xA;&#xA;go&#xA;&#xA;Declare @Periodo_inicio int, @Periodo_Fin int&#xA;&#xA;Set @Periodo_inicio = (Select min(id_periodo) from #temp_periodo) &#xA;Set @Periodo_Fin = (Select max(id_periodo) from #temp_periodo)&#xA;-- Actualizacion de campos en H_INTERNACIONES_CARLOS&#xA;&#xA;update H_INTERNACIONES_CARLOS&#xA;set mediana_diagnostico = MedianConsumo&#xA;from H_INTERNACIONES_CARLOS INT&#xA;inner join MDiagnostico md on (INT.id_diagnostico = md.id_diagnostico)&#xA;where id_periodo &gt;= @Periodo_inicio and id_periodo &lt;= @Periodo_Fin &#xA;&#xA;update H_INTERNACIONES_CARLOS&#xA;set mediana_diagpos = MedianConsumo&#xA;from H_INTERNACIONES_CARLOS INT&#xA;inner join mdiagpos md on (INT.id_diagnostico = md.id_diagnostico &#xA;and INT.id_posicion_no_facturador = md.id_posicion_no_facturador)&#xA;where id_periodo &gt;= @Periodo_inicio and id_periodo &lt;= @Periodo_Fin &#xA;&#xA;update H_INTERNACIONES_CARLOS&#xA;set mediana_tipipos = MedianConsumo&#xA;from H_INTERNACIONES_CARLOS INT&#xA;inner join mtipipos md on (INT.id_tipo_internacion = md.id_tipo_internacion&#xA;and INT.id_posicion_no_facturador = md.id_posicion_no_facturador)&#xA;where id_periodo &gt;= @Periodo_inicio and id_periodo &lt;= @Periodo_Fin &#xA;&#xA;-- Determinación de la mediana final a utilizar&#xA;&#xA;update H_INTERNACIONES_CARLOS&#xA;set mediana_final = CASE &#xA; WHEN (total_facturacion_internacion &lt;&gt;0) THEN total_facturacion_internacion&#xA; WHEN (total_facturacion_internacion = 0 and mediana_diagpos &lt;&gt; 0) THEN mediana_diagpos&#xA; WHEN (total_facturacion_internacion = 0 and mediana_diagpos = 0 and&#xA; mediana_diagnostico &lt;&gt; 0) THEN mediana_diagnostico&#xA; WHEN (total_facturacion_internacion = 0 and mediana_diagnostico = 0 and&#xA; mediana_diagpos = 0) THEN mediana_tipipos&#xA; END&#xA;FROM H_INTERNACIONES_CARLOS INT&#xA;WHERE id_periodo &gt;= @Periodo_inicio AND id_periodo &lt;= @Periodo_Fin&#xA;&#xA;drop table #temp_periodo&#xA;drop table TDiagnostico&#xA;drop table TDiagPos&#xA;drop table TTipIPos&#xA;drop table MDiagnostico&#xA;drop table MDiagPos&#xA;drop table MTipIPos&#xA;&#xA;&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Calculo de la Mediana SSS  en Internaciones Diario"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{767c5b35-05a3-4a4c-bc07-23d34b4f8030}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Calculo de la Mediana SSS  en Internaciones Diario"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{87B3EF38-D424-4CA0-9B98-F49ED069F118}"
+          SQLTask:SqlStatementSource="---- Toma los 13 ultimos periodos vigentes en H_INTERNACIONES_CARLOS&#xA;SET DATEFORMAT 'YMD'&#xA;&#xA;/* Calcula Periodos (Desde - Hasta) a procesar de consumo */&#xA;--- Minimo periodo de los ultimos 12 meses vigentes de consumo&#xA;DECLARE @Periodo_Desde_Consumo INT&#xA;SET @Periodo_Desde_Consumo = (select min(id_periodo) from D_periodo where id_periodo in (select top 12 id_periodo from D_PERIODO&#xA;                               where vigente_consumo = 1&#xA;                                group by  id_periodo&#xA;                                order by id_periodo desc))&#xA;--- Maximo periodo de Consumo                                &#xA;DECLARE @Periodo_Hasta_Consumo INT&#xA;SET @Periodo_Hasta_Consumo = (select MAX(id_periodo) from D_PERIODO where vigente_consumo = 1)&#xA;&#xA;&#xA;--- Periodo siguiente al ultimo vigente de consumo.&#xA;DECLARE @Periodo_Siguiente_Consumo_Cerrado INT&#xA;SET @Periodo_Siguiente_Consumo_Cerrado = (select dbo.PeriodosPosteriores(@Periodo_Hasta_Consumo, 2))&#xA;&#xA;&#xA;--- 13 meses Antes del maximo de H_INTERNACIONES_CARLOS&#xA;DECLARE @Periodo_Desde_Internaciones INT&#xA;SET @Periodo_Desde_Internaciones = (select min(id_periodo) from H_INTERNACIONES_CARLOS where id_periodo in (select top 13 id_periodo from H_INTERNACIONES_CARLOS&#xA;                                group by  id_periodo&#xA;                                order by id_periodo desc))&#xA;&#xA;--- MAximo periodo de H_INTERNACIONES_CARLOS&#xA;DECLARE @Periodo_Hasta_Internaciones INT&#xA;SET @Periodo_Hasta_Internaciones = (select MAX(id_periodo) from H_INTERNACIONES_CARLOS)&#xA;&#xA;/* Obtener el mes 7 de U12M de consumo */&#xA;DECLARE @mes7 INT&#xA;SET @mes7 =  ( select dbo.PeriodosPosteriores(@Periodo_Desde_Consumo,7))&#xA;&#xA;/* Calculo del % de aumento a aplicar a partir del mes 7 de consumo */&#xA;DECLARE @aumento FLOAT&#xA;SET @aumento = (select SUM(aumento_Sss) from H_ARANCELES_AUMENTOS where id_periodo &gt;= @Periodo_Desde_Consumo &#xA;and id_periodo &lt;= @Periodo_Hasta_Consumo)/2&#xA;&#xA;/* Actualizar los valores a todas las internaciones hasta el mes 6 de consumo */&#xA;UPDATE H_INTERNACIONES_CARLOS&#xA;set mediana_diagnostico_ajus = mediana_diagnostico,&#xA;mediana_diagpos_ajus = mediana_diagpos,&#xA;mediana_tipipos_ajus = mediana_tipipos&#xA;WHERE id_periodo &gt;= @Periodo_Desde_Internaciones and id_periodo &lt; @mes7&#xA;and id_tipo_internacion  not in ('CD', 'CP')&#xA;&#xA;/* Actualizar los valores a todas las internaciones a partir del mes 7 de consumo &#xA;hasta el periodo de consumo incluido */&#xA;UPDATE H_INTERNACIONES_CARLOS&#xA;set mediana_diagnostico_ajus = mediana_diagnostico + mediana_diagnostico * @aumento,&#xA;mediana_diagpos_ajus = mediana_diagpos + mediana_diagpos * @aumento,&#xA;mediana_tipipos_ajus = mediana_tipipos + mediana_tipipos * @aumento&#xA;WHERE id_periodo &gt;= @mes7 and id_periodo &lt;= @Periodo_Hasta_Consumo&#xA;and id_tipo_internacion  not in ('CD', 'CP')&#xA;drop table TAumento&#xA;&#xA;create table TAumento&#xA;(&#xA;    id_periodo int primary key,&#xA;    id_periodo_anterior int,&#xA;    sss float, &#xA;    aumento_mes float,&#xA;    aumento_acu float,&#xA;    aumento float&#xA;)&#xA;&#xA;INSERT TAumento&#xA;    select id_periodo, 0,0,0,0,0 from D_PERIODO &#xA; where id_periodo &gt;= @Periodo_Siguiente_Consumo_Cerrado and id_periodo &lt;= @Periodo_Hasta_Internaciones&#xA; &#xA;update TAumento&#xA;set id_periodo_anterior = dbo.PeriodoAnteriorP(id_periodo)&#xA; &#xA;UPDATE TAumento&#xA;set sss = ARA.aumento_sss,&#xA;aumento_mes = 1 + sss&#xA;from TAumento AUM inner join H_ARANCELES_AUMENTOS ARA on (ARA.id_periodo = AUM.id_periodo) &#xA;&#xA;UPDATE TAumento&#xA;set aumento_mes = 1 + sss&#xA;from TAumento AUM inner join H_ARANCELES_AUMENTOS ARA on (ARA.id_periodo = AUM.id_periodo) &#xA;&#xA;UPDATE TAumento&#xA;set aumento_acu = (1 + @aumento) &#xA;from TAumento AUM where id_periodo = @Periodo_Siguiente_Consumo_Cerrado&#xA;&#xA;UPDATE TAumento&#xA;set aumento = aumento_mes * aumento_acu -1&#xA;from TAumento AUM where id_periodo = @Periodo_Siguiente_Consumo_Cerrado&#xA;&#xA;&#xA;WHILE (SELECT MIN(id_periodo) FROM TAumento where id_periodo &gt; @Periodo_Siguiente_Consumo_Cerrado &#xA;and aumento = 0) &#xA;&lt;= (SELECT MAX(id_periodo) FROM TAumento)&#xA;BEGIN&#xA; SELECT id_periodo_Anterior id_periodo, &#xA; aumento&#xA; INTO #paso FROM TAumento where aumento = 0&#xA; &#xA; update #paso&#xA; set aumento = aum.aumento&#xA; from #paso pas inner join TAumento Aum on (pas.id_periodo = aum.id_periodo)&#xA; where aum.aumento &lt;&gt; 0&#xA; &#xA; UPDATE TAumento&#xA; SET aumento_acu = (pas.aumento + 1)&#xA; FROM TAumento Aum inner join #paso Pas on (Aum.id_periodo_anterior = Pas.id_Periodo)&#xA; where pas.aumento &lt;&gt; 0&#xA; &#xA; UPDATE TAumento&#xA; SET aumento = aumento_mes * aumento_acu -1&#xA; FROM TAumento Aum inner join #paso Pas on (Aum.id_periodo_anterior = Pas.id_Periodo)&#xA; where aum.aumento_acu &lt;&gt; 0&#xA; &#xA; drop table #paso&#xA; &#xA;END&#xA;&#xA;/* Actualizar los valores a todas las internaciones a partir del mes siguiente de consumo &#xA;hasta el ultimo periodo que hay internaciones */&#xA;UPDATE H_INTERNACIONES_CARLOS&#xA;set mediana_diagnostico_ajus = mediana_diagnostico + mediana_diagnostico * aumento ,&#xA;mediana_diagpos_ajus = mediana_diagpos + mediana_diagpos * aumento,&#xA;mediana_tipipos_ajus = mediana_tipipos + mediana_tipipos * aumento &#xA;FROM H_INTERNACIONES_CARLOS INT&#xA;INNER JOIN TAumento Aum on (int.id_periodo = aum.id_periodo) &#xA;WHERE int.id_periodo &gt;= @Periodo_Siguiente_Consumo_Cerrado and int.id_periodo &lt;= @Periodo_Hasta_Internaciones&#xA;and id_tipo_internacion  not in ('CD', 'CP')&#xA;/* Actualizar el valor de Mediana Final Ajustada */&#xA;/* Si lo que se consideró es el Total Consumido no se ajusta, sino, van los valores ajustados */&#xA;&#xA;update H_INTERNACIONES_CARLOS&#xA;set mediana_final_ajus = CASE &#xA; WHEN (total_facturacion_internacion &lt;&gt;0) THEN total_facturacion_internacion&#xA; WHEN (total_facturacion_internacion = 0 and mediana_diagpos_ajus &lt;&gt; 0) THEN mediana_diagpos_ajus&#xA; WHEN (total_facturacion_internacion = 0 and mediana_diagpos_ajus = 0 and&#xA; mediana_diagnostico_ajus &lt;&gt; 0) THEN mediana_diagnostico_ajus&#xA; WHEN (total_facturacion_internacion = 0 and mediana_diagnostico_ajus = 0 and&#xA; mediana_diagpos_ajus = 0) THEN mediana_tipipos_ajus&#xA; END&#xA;FROM H_INTERNACIONES_CARLOS INT&#xA;WHERE id_periodo &gt;= @Periodo_Desde_Internaciones AND id_periodo &lt;= @Periodo_Hasta_Internaciones&#xA; and id_marca_reporte_consumos_futuros = 1" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Calculo importe internaciones consumo futuro CD y CP"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{eacb360b-a03c-4c50-a5fd-9d434e2ec807}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Calculo importe internaciones consumo futuro CD y CP"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{87B3EF38-D424-4CA0-9B98-F49ED069F118}"
+          SQLTask:SqlStatementSource="DECLARE @aumento FLOAT&#xA;SET @aumento = (select SUM(aumento_Sss) from H_ARANCELES_AUMENTOS where id_periodo &gt;= 201706 &#xA;and id_periodo &lt;= 201711) /2&#xA;declare  @maxperiodoconsumo int&#xA;set @maxperiodoconsumo = (select MAX(id_periodo) from dw_salud.dbo.D_PERIODO where vigente_consumo = 1)&#xA;declare  @periodosiguienteconsumo int&#xA;set @periodosiguienteconsumo = DW_SALUD.dbo.PeriodosPosteriores(@maxperiodoconsumo,2)&#xA;declare  @maxperiodo int&#xA;set @maxperiodo = (select MAX(id_periodo) from dw_salud.dbo.H_INTERNACIONES_CARLOS)&#xA;declare @fechaminima datetime&#xA;set @fechaminima = (select min(id_fecha) from d_fecha where id_periodo = DW_SALUD.dbo.PeriodosAnteriores(@maxperiodoconsumo,6))&#xA;declare @fechamaxima datetime&#xA;set @fechamaxima = (select max(id_fecha) from d_fecha where id_periodo = @maxperiodoconsumo)&#xA;&#xA;/* Elimina las internaciones que no son correctas */&#xA;delete from h_internaciones_carlos where nro_orden = 346749 or nro_orden = 315490 or nro_orden = 425992&#xA;&#xA;&#xA;/*Dimensiona los campos update imp_consumo_futuro_cd_cp  y set imp_consumo_U6M_cd_cp en 0*/&#xA;&#xA;update H_INTERNACIONES_CARLOS &#xA;set imp_consumo_U6M_cd_cp = 0,&#xA;imp_consumo_futuro_cd_cp = 0&#xA;&#xA;&#xA;/* Borra y carga la tabla aumento*/&#xA;drop table TAumento1&#xA;&#xA;create table TAumento1&#xA;(&#xA;    id_periodo int primary key,&#xA;    id_periodo_anterior int,&#xA;    sss float, &#xA;    aumento_mes float,&#xA;    aumento_acu float,&#xA;    aumento float&#xA;)&#xA;&#xA;INSERT TAumento1&#xA;    select id_periodo, 0,0,0,0,0 from D_PERIODO &#xA; where id_periodo &gt;= @periodosiguienteconsumo and id_periodo &lt;= @maxperiodo&#xA; &#xA;update TAumento1&#xA;set id_periodo_anterior = dbo.PeriodoAnteriorP(id_periodo)&#xA; &#xA;UPDATE TAumento1&#xA;set sss = ARA.aumento_sss,&#xA;aumento_mes = 1 + sss&#xA;from TAumento1 AUM inner join H_ARANCELES_AUMENTOS ARA on (ARA.id_periodo = AUM.id_periodo) &#xA;&#xA;UPDATE TAumento1&#xA;set aumento_mes = 1 + sss&#xA;from TAumento1 AUM inner join H_ARANCELES_AUMENTOS ARA on (ARA.id_periodo = AUM.id_periodo) &#xA;&#xA;UPDATE TAumento1&#xA;set aumento_acu = (1 + @aumento) &#xA;from TAumento1 AUM where id_periodo = @periodosiguienteconsumo&#xA;&#xA;UPDATE TAumento1&#xA;set aumento = aumento_mes * aumento_acu -1&#xA;from TAumento1 AUM where id_periodo = @periodosiguienteconsumo&#xA;&#xA;&#xA;WHILE (SELECT MIN(id_periodo) FROM TAumento1 where id_periodo &gt; @periodosiguienteconsumo&#xA;and aumento = 0) &#xA;&lt;= (SELECT MAX(id_periodo) FROM TAumento1)&#xA;BEGIN&#xA; SELECT id_periodo_Anterior id_periodo, &#xA; aumento&#xA; INTO #paso FROM TAumento1 where aumento = 0&#xA; &#xA; update #paso&#xA; set aumento = aum.aumento&#xA; from #paso pas inner join TAumento1 Aum on (pas.id_periodo = aum.id_periodo)&#xA; where aum.aumento &lt;&gt; 0&#xA; &#xA; UPDATE TAumento1&#xA; SET aumento_acu = (pas.aumento + 1)&#xA; FROM TAumento1 Aum inner join #paso Pas on (Aum.id_periodo_anterior = Pas.id_Periodo)&#xA; where pas.aumento &lt;&gt; 0&#xA; &#xA; UPDATE TAumento1&#xA; SET aumento = aumento_mes * aumento_acu -1&#xA; FROM TAumento1 Aum inner join #paso Pas on (Aum.id_periodo_anterior = Pas.id_Periodo)&#xA; where aum.aumento_acu &lt;&gt; 0&#xA; &#xA; drop table #paso&#xA; &#xA;END&#xA;/*Calculo de h_internaciones_cd_cp*/&#xA;&#xA;truncate table h_internaciones_cd_cp&#xA;&#xA;&#xA;/*insert todas las internaciones internaciones */&#xA;insert into h_internaciones_cd_cp&#xA;select nro_orden as id_internacion, id_periodo as id_periodo_internacion&#xA;,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0&#xA;from DW_SALUD.dbo.H_INTERNACIONES_CARLOS H &#xA;where id_tipo_orden = 6 and id_marca_reporte_consumos_futuros = 2 --and id_periodo &lt;= DW_SALUD.dbo.PeriodosAnteriores(@maxperiodoconsumo,7) &#xA;order by id_periodo, nro_orden&#xA;&#xA;&#xA;-- Actualiza los periodos correspondientes&#xA;update h_internaciones_cd_cp&#xA;set id_periodo_1 = DW_SALUD.dbo.PeriodosAnteriores(@maxperiodoconsumo,6),&#xA; id_periodo_2 = DW_SALUD.dbo.PeriodosAnteriores(@maxperiodoconsumo,5),&#xA; id_periodo_3 = DW_SALUD.dbo.PeriodosAnteriores(@maxperiodoconsumo,4),&#xA; id_periodo_4 = DW_SALUD.dbo.PeriodosAnteriores(@maxperiodoconsumo,3),&#xA; id_periodo_5 = DW_SALUD.dbo.PeriodosAnteriores(@maxperiodoconsumo,2),--(periodo anterior a consumo)&#xA; id_periodo_6 = (@maxperiodoconsumo),&#xA; id_periodo_7 = DW_SALUD.dbo.PeriodosPosteriores(@maxperiodoconsumo,2), --actuales (periodo siguiente a consumo)&#xA; id_periodo_8 = DW_SALUD.dbo.PeriodosPosteriores(@maxperiodoconsumo,3),&#xA; id_periodo_9 = DW_SALUD.dbo.PeriodosPosteriores(@maxperiodoconsumo,4),&#xA; id_periodo_10 = DW_SALUD.dbo.PeriodosPosteriores(@maxperiodoconsumo,5),&#xA; id_periodo_11 = DW_SALUD.dbo.PeriodosPosteriores(@maxperiodoconsumo,6) -- Periodo 5 meses mayor a consumo (solo se usa si hay un 5to mes)&#xA; &#xA;-- seteo Cantidad dias por periodos&#xA;&#xA;update h_internaciones_cd_cp&#xA;set dias_periodo_1 = p.cant_dias_periodo&#xA;from DW_SALUD.dbo.D_PERIODO p&#xA;inner join h_internaciones_cd_cp on id_periodo_1 = p.id_periodo&#xA;&#xA;update  h_internaciones_cd_cp &#xA;set dias_periodo_2 = p.cant_dias_periodo&#xA;from DW_SALUD.dbo.D_PERIODO p&#xA;inner join h_internaciones_cd_cp on id_periodo_2 = p.id_periodo&#xA;&#xA;update  h_internaciones_cd_cp &#xA;set dias_periodo_3 = p.cant_dias_periodo&#xA;from DW_SALUD.dbo.D_PERIODO p&#xA;inner join h_internaciones_cd_cp on id_periodo_3 = p.id_periodo&#xA;&#xA;update  h_internaciones_cd_cp &#xA;set dias_periodo_4 = p.cant_dias_periodo&#xA;from DW_SALUD.dbo.D_PERIODO p&#xA;inner join h_internaciones_cd_cp on id_periodo_4 = p.id_periodo&#xA;&#xA;update  h_internaciones_cd_cp &#xA;set dias_periodo_5 = p.cant_dias_periodo&#xA;from DW_SALUD.dbo.D_PERIODO p&#xA;inner join h_internaciones_cd_cp on id_periodo_5 = p.id_periodo&#xA;&#xA;update  h_internaciones_cd_cp &#xA;set dias_periodo_6 = p.cant_dias_periodo&#xA;from DW_SALUD.dbo.D_PERIODO p&#xA;inner join h_internaciones_cd_cp on id_periodo_6 = p.id_periodo&#xA;&#xA;update  h_internaciones_cd_cp &#xA;set dias_periodo_7 = p.cant_dias_periodo&#xA;from DW_SALUD.dbo.D_PERIODO p&#xA;inner join h_internaciones_cd_cp on id_periodo_7 = p.id_periodo&#xA;&#xA;update  h_internaciones_cd_cp &#xA;set dias_periodo_8 = p.cant_dias_periodo&#xA;from DW_SALUD.dbo.D_PERIODO p&#xA;inner join h_internaciones_cd_cp on id_periodo_8 = p.id_periodo&#xA;&#xA;update  h_internaciones_cd_cp &#xA;set dias_periodo_9 = p.cant_dias_periodo&#xA;from DW_SALUD.dbo.D_PERIODO p&#xA;inner join h_internaciones_cd_cp on id_periodo_9 = p.id_periodo&#xA;where DW_SALUD.dbo.PeriodosPosteriores(@maxperiodoconsumo,4) &lt;= (select MAX(id_periodo) from H_INTERNACIONES_CARLOS) &#xA;&#xA;update  h_internaciones_cd_cp &#xA;set dias_periodo_10 = p.cant_dias_periodo&#xA;from DW_SALUD.dbo.D_PERIODO p&#xA;inner join h_internaciones_cd_cp on id_periodo_10 = p.id_periodo&#xA;where DW_SALUD.dbo.PeriodosPosteriores(@maxperiodoconsumo,5) &lt;= (select MAX(id_periodo) from H_INTERNACIONES_CARLOS) &#xA;&#xA;update  h_internaciones_cd_cp &#xA;set dias_periodo_11 = p.cant_dias_periodo&#xA;from DW_SALUD.dbo.D_PERIODO p&#xA;inner join h_internaciones_cd_cp on id_periodo_11 = p.id_periodo&#xA;where DW_SALUD.dbo.PeriodosPosteriores(@maxperiodoconsumo,6) &lt;= (select MAX(id_periodo) from H_INTERNACIONES_CARLOS) &#xA;&#xA;--------seteo total dias-------------&#xA;update  h_internaciones_cd_cp&#xA;set total_dias = (dias_periodo_1+ dias_periodo_2 + dias_periodo_3 +dias_periodo_4 +dias_periodo_5 + dias_periodo_6)&#xA;&#xA;&#xA;/*CALCULO DE LO PAGADO PRIMEROS 6 PERIODOS PARA LOS MENORES AL 6TO MES DE CONSUMO*/&#xA;&#xA;-- Seteo Periodo 1 pag PARA LOS MENORES AL 6TO MES DE CONSUMO&#xA;select f6.id_internacion, f6.id_periodo_1, SUM(imp_prest_int_pag) as pagado&#xA;into #tempperiodo1&#xA;from h_internaciones_cd_cp f6&#xA;inner join DW_SALUD.dbo.H_ORD_INT_DET det on f6.id_internacion = det.id_orden_relacionada &#xA;        and f6.id_periodo_1 = det.id_periodo&#xA;where f6.id_periodo_internacion &lt;= DW_SALUD.dbo.PeriodosAnteriores(@maxperiodoconsumo,7) &#xA;group by f6.id_internacion, f6.id_periodo_1&#xA;&#xA;update h_internaciones_cd_cp&#xA;set periodo_pag_1 = t.pagado&#xA;from h_internaciones_cd_cp h inner join #tempperiodo1 t &#xA;on h.id_periodo_1 = t.id_periodo_1 and h.id_internacion = t.id_internacion &#xA;-- Seteo Periodo 2 pag PARA LOS MENORES AL 6TO MES DE CONSUMO&#xA;select f6.id_internacion, f6.id_periodo_2, SUM(imp_prest_int_pag) as pagado&#xA;into #tempperiodo2&#xA;from h_internaciones_cd_cp f6&#xA;inner join DW_SALUD.dbo.H_ORD_INT_DET det on f6.id_internacion = det.id_orden_relacionada &#xA;        and f6.id_periodo_2 = det.id_periodo&#xA;where f6.id_periodo_internacion &lt;= DW_SALUD.dbo.PeriodosAnteriores(@maxperiodoconsumo,7) &#xA;group by f6.id_internacion, f6.id_periodo_2&#xA;&#xA;update h_internaciones_cd_cp &#xA;set periodo_pag_2 = t.pagado&#xA;from h_internaciones_cd_cp h inner join #tempperiodo2 t &#xA;on h.id_periodo_2 = t.id_periodo_2 and h.id_internacion = t.id_internacion &#xA;-- Seteo Periodo 3 pag PARA LOS MENORES AL 6TO MES DE CONSUMO&#xA;select f6.id_internacion, f6.id_periodo_3, SUM(imp_prest_int_pag) as pagado&#xA;into #tempperiodo3&#xA;from h_internaciones_cd_cp f6&#xA;inner join DW_SALUD.dbo.H_ORD_INT_DET det on f6.id_internacion = det.id_orden_relacionada &#xA;        and f6.id_periodo_3 = det.id_periodo&#xA;where f6.id_periodo_internacion &lt;= DW_SALUD.dbo.PeriodosAnteriores(@maxperiodoconsumo,7) &#xA;group by f6.id_internacion, f6.id_periodo_3&#xA;&#xA;update h_internaciones_cd_cp &#xA;set periodo_pag_3 = t.pagado&#xA;from h_internaciones_cd_cp  h inner join #tempperiodo3 t &#xA;on h.id_periodo_3 = t.id_periodo_3 and h.id_internacion = t.id_internacion &#xA;-- Seteo Periodo 4 pag PARA LOS MENORES AL 6TO MES DE CONSUMO&#xA;select f6.id_internacion, f6.id_periodo_4, SUM(imp_prest_int_pag) as pagado&#xA;into #tempperiodo4&#xA;from h_internaciones_cd_cp  f6&#xA;inner join DW_SALUD.dbo.H_ORD_INT_DET det on f6.id_internacion = det.id_orden_relacionada &#xA;        and f6.id_periodo_4 = det.id_periodo&#xA;where f6.id_periodo_internacion &lt;= DW_SALUD.dbo.PeriodosAnteriores(@maxperiodoconsumo,7) &#xA;group by f6.id_internacion, f6.id_periodo_4&#xA;&#xA;update h_internaciones_cd_cp &#xA;set periodo_pag_4 = t.pagado&#xA;from h_internaciones_cd_cp h inner join #tempperiodo4 t &#xA;on h.id_periodo_4 = t.id_periodo_4 and h.id_internacion = t.id_internacion &#xA;-- Seteo Periodo 5 pag PARA LOS MENORES AL 6TO MES DE CONSUMO&#xA;select f6.id_internacion, f6.id_periodo_5, SUM(imp_prest_int_pag) as pagado&#xA;into #tempperiodo5&#xA;from h_internaciones_cd_cp f6&#xA;inner join DW_SALUD.dbo.H_ORD_INT_DET det on f6.id_internacion = det.id_orden_relacionada &#xA;        and f6.id_periodo_5 = det.id_periodo&#xA;where f6.id_periodo_internacion &lt;= DW_SALUD.dbo.PeriodosAnteriores(@maxperiodoconsumo,7) &#xA;group by f6.id_internacion, f6.id_periodo_5&#xA;&#xA;update h_internaciones_cd_cp &#xA;set periodo_pag_5 = t.pagado&#xA;from h_internaciones_cd_cp h inner join #tempperiodo5 t &#xA;on h.id_periodo_5 = t.id_periodo_5 and h.id_internacion = t.id_internacion &#xA;-- Seteo Periodo 6 pag PARA LOS MENORES AL 6TO MES DE CONSUMO&#xA;select f6.id_internacion, f6.id_periodo_6, SUM(imp_prest_int_pag) as pagado&#xA;into #tempperiodo6&#xA;from h_internaciones_cd_cp f6&#xA;inner join DW_SALUD.dbo.H_ORD_INT_DET det on f6.id_internacion = det.id_orden_relacionada &#xA;        and f6.id_periodo_6 = det.id_periodo&#xA;where f6.id_periodo_internacion &lt;= DW_SALUD.dbo.PeriodosAnteriores(@maxperiodoconsumo,7) &#xA;group by f6.id_internacion, f6.id_periodo_6&#xA;&#xA;update h_internaciones_cd_cp &#xA;set periodo_pag_6 = t.pagado&#xA;from h_internaciones_cd_cp h inner join #tempperiodo6 t &#xA;on h.id_periodo_6 = t.id_periodo_6 and h.id_internacion = t.id_internacion &#xA;&#xA;--seteo total pagado  PARA LOS MENORES AL 6TO MES DE CONSUMO&#xA;update h_internaciones_cd_cp&#xA;set total_general = (periodo_pag_1 + periodo_pag_2 + periodo_pag_3 + periodo_pag_4 + periodo_pag_5 + periodo_pag_6)&#xA;&#xA;--Promedio diario PARA LOS MENORES AL 6TO MES DE CONSUMO&#xA;update h_internaciones_cd_cp&#xA;set prom_diario = [total_general]/ (dias_periodo_1 + dias_periodo_2 + dias_periodo_3+ dias_periodo_4 +dias_periodo_5 +dias_periodo_6)&#xA;&#xA;/*CALCULOS PARA PARA LAS MAYORES AL 6TO MES DE CONSUMO&#xA;Calculo de promedio diario y total general periodo para internaciones &gt;= 6 meses por separado para internaciones&#xA;psiquiatricas y domiciliarias*/&#xA;select id_tipo_orden_relacionada,id_orden_relacionada, SUM(imp_prest_int_pag) as consumoU6M&#xA;into #internaciones_U6m_cp&#xA;from H_ORD_INT_DET c&#xA;where c.id_periodo &gt; DW_SALUD.dbo.PeriodosAnteriores(@maxperiodoconsumo,7) and id_tipo_orden_relacionada = 6 &#xA;group by id_tipo_orden_relacionada, id_orden_relacionada&#xA;&#xA;select * into #internaciones_U6m_cd from #internaciones_U6m_cp&#xA;&#xA;&#xA;--Inserto columnas de tipo de internacion y cantidad de dias internado&#xA;alter table #internaciones_U6m_cd add  id_tipo_internacion char(2), dias_internacion int&#xA;alter table #internaciones_U6m_cp add  id_tipo_internacion char(2), dias_internacion int&#xA;&#xA;-- Creo una tabla temporal para agregar las fechas de internacion&#xA;select id_tipo_orden_relacionada,id_orden_relacionada, i.fecha_internacion&#xA;into #temp_cp&#xA;from #internaciones_U6m_cp c&#xA;inner join H_INTERNACIONES_CARLOS i on id_orden_relacionada = i.nro_orden&#xA;&#xA;select id_tipo_orden_relacionada,id_orden_relacionada, i.fecha_internacion&#xA;into #temp_cd&#xA;from #internaciones_U6m_cd c&#xA;inner join H_INTERNACIONES_CARLOS i on id_orden_relacionada = i.nro_orden&#xA;/* Seteo el tipo de internacion a partir de h_internaciones_carlos*/&#xA;update #internaciones_U6m_cp &#xA;set id_tipo_internacion = h.id_tipo_internacion&#xA;from #internaciones_U6m_cp i&#xA;inner join h_internaciones_carlos h on i.id_orden_relacionada = h.nro_orden&#xA;&#xA;update #internaciones_U6m_cd&#xA;set id_tipo_internacion = h.id_tipo_internacion&#xA;from #internaciones_U6m_cd i&#xA;inner join h_internaciones_carlos h on i.id_orden_relacionada = h.nro_orden&#xA;/*Elimino las columnas no pertenecientes a domiciliaria ni psiquiatrica*/&#xA;delete from #internaciones_U6m_cp where id_tipo_internacion not in ('CP') or id_tipo_internacion  is null&#xA;delete from #internaciones_U6m_cd where id_tipo_internacion not in ('CD') or id_tipo_internacion  is null&#xA;&#xA;-- Calculo la cantidad de dias internado&#xA;&#xA;update #internaciones_U6m_cp &#xA;set dias_internacion=(select case when fecha_internacion &lt;= @fechaminima then DATEDIFF(day, @fechaminima ,@fechamaxima)&#xA;         when fecha_internacion &gt; @fechaminima then  DATEDIFF(day, fecha_internacion,@fechamaxima)end )&#xA;from #internaciones_U6m_cp i&#xA;inner join #temp_cp t on t.id_orden_relacionada = i.id_orden_relacionada&#xA;&#xA;update #internaciones_U6m_cd &#xA;set dias_internacion=(select case when fecha_internacion &lt;= @fechaminima then DATEDIFF(day, @fechaminima ,@fechamaxima)&#xA;         when fecha_internacion &gt; @fechaminima then  DATEDIFF(day, fecha_internacion,@fechamaxima)end )&#xA;from #internaciones_U6m_cd i&#xA;inner join #temp_cd t on t.id_orden_relacionada = i.id_orden_relacionada&#xA;/* Calculo el promedio diario*/&#xA;declare @promediodiario_cp decimal(11,2)&#xA;set @promediodiario_cp = (select (SUM(consumoU6M) / SUM(dias_internacion))   from #internaciones_U6m_cp)&#xA;declare @promediodiario_cd decimal(11,2)&#xA;set @promediodiario_cd = (select (SUM(consumoU6M) / SUM(dias_internacion))   from #internaciones_U6m_cd)&#xA;&#xA;&#xA;/* Para las internaciones mayores calculo total general y promedio diario*/&#xA;update h_internaciones_cd_cp&#xA;set prom_diario = @promediodiario_cp&#xA;from h_internaciones_cd_cp cp&#xA;inner join H_INTERNACIONES_CARLOS h on cp.id_internacion = h.nro_orden&#xA;where id_periodo_internacion &gt; DW_SALUD.dbo.PeriodosAnteriores(@maxperiodoconsumo,7) and h.id_tipo_internacion = 'CP'&#xA; &#xA;update h_internaciones_cd_cp&#xA;set prom_diario = @promediodiario_cd&#xA;from h_internaciones_cd_cp cp&#xA;inner join H_INTERNACIONES_CARLOS h on cp.id_internacion = h.nro_orden&#xA;where id_periodo_internacion &gt; DW_SALUD.dbo.PeriodosAnteriores(@maxperiodoconsumo,7) and h.id_tipo_internacion = 'CD'&#xA;&#xA;--Conusmo ultimos 6 meses&#xA;update h_internaciones_cd_cp&#xA;set total_general = t.consumoU6M&#xA;from h_internaciones_cd_cp h inner join #internaciones_U6m_cp t on t.id_orden_relacionada = h.id_internacion&#xA;where id_periodo_internacion &gt; DW_SALUD.dbo.PeriodosAnteriores(@maxperiodoconsumo,7) &#xA;&#xA;update h_internaciones_cd_cp&#xA;set total_general = t.consumoU6M&#xA;from h_internaciones_cd_cp h inner join #internaciones_U6m_cd t on t.id_orden_relacionada = h.id_internacion&#xA;where id_periodo_internacion &gt; DW_SALUD.dbo.PeriodosAnteriores(@maxperiodoconsumo,7) &#xA;&#xA;&#xA;----Setea los aumentos para todos&#xA;update h_internaciones_cd_cp&#xA;set aumento_periodo_11 =t.aumento&#xA;from h_internaciones_cd_cp h&#xA;inner join DW_SALUD.dbo.TAumento1 t on h.id_periodo_11 = t.id_periodo&#xA;&#xA;update h_internaciones_cd_cp&#xA;set aumento_periodo_10 =t.aumento&#xA;from h_internaciones_cd_cp h&#xA;inner join DW_SALUD.dbo.TAumento1 t on h.id_periodo_10 = t.id_periodo&#xA;&#xA;update h_internaciones_cd_cp&#xA;set aumento_periodo_9 =t.aumento&#xA;from h_internaciones_cd_cp h&#xA;inner join DW_SALUD.dbo.TAumento1 t on h.id_periodo_9 = t.id_periodo&#xA;&#xA;update h_internaciones_cd_cp&#xA;set aumento_periodo_8 = t.aumento&#xA;from h_internaciones_cd_cp h&#xA;inner join DW_SALUD.dbo.TAumento1 t on h.id_periodo_8 = t.id_periodo&#xA;&#xA;update h_internaciones_cd_cp&#xA;set aumento_periodo_7 =t.aumento&#xA;from h_internaciones_cd_cp h&#xA;inner join DW_SALUD.dbo.TAumento1 t on h.id_periodo_7 = t.id_periodo&#xA;&#xA;---Setea lo pagado los ultimos meses&#xA;update h_internaciones_cd_cp&#xA;set periodo_pag_7 = prom_diario * dias_periodo_7 * (aumento_periodo_7+1)&#xA;from h_internaciones_cd_cp&#xA;where id_periodo_internacion &lt;= id_periodo_7&#xA;update h_internaciones_cd_cp&#xA;set periodo_pag_8 = prom_diario * dias_periodo_8 * (aumento_periodo_8+1)&#xA;from h_internaciones_cd_cp&#xA;where id_periodo_internacion &lt;= id_periodo_8&#xA;update h_internaciones_cd_cp&#xA;set periodo_pag_9 = prom_diario * dias_periodo_9 * (aumento_periodo_9+1)&#xA;from h_internaciones_cd_cp&#xA;where id_periodo_internacion &lt;= id_periodo_9&#xA;update h_internaciones_cd_cp&#xA;set periodo_pag_10 = prom_diario * dias_periodo_10 * (aumento_periodo_10+1)&#xA;from h_internaciones_cd_cp&#xA;where id_periodo_internacion &lt;= id_periodo_10&#xA;&#xA;update h_internaciones_cd_cp&#xA;set periodo_pag_11 = prom_diario * dias_periodo_11 * (aumento_periodo_11+1)&#xA;from h_internaciones_cd_cp&#xA;where id_periodo_internacion &lt;= id_periodo_11&#xA;&#xA;/*Seteo total*/&#xA;update h_internaciones_cd_cp&#xA;set total = periodo_pag_7 + periodo_pag_8+ periodo_pag_9 +periodo_pag_10 + periodo_pag_11&#xA;&#xA;/* Calculo de los campos imp_consumo_u6M_cd_cp y imp_consumo_futuro_cd_cp de H_INTERNACIONES_CARLOS*/&#xA;--Setea en 0&#xA;UPDATE H_INTERNACIONES_CARLOS&#xA;SET imp_consumo_U6M_cd_cp = 0,&#xA; imp_consumo_futuro_cd_cp = 0&#xA;--Toma los valores de la tabla y los setea&#xA;UPDATE H_INTERNACIONES_CARLOS&#xA;SET imp_consumo_U6M_cd_cp = i.total_general,&#xA; imp_consumo_futuro_cd_cp = i.total&#xA;from H_INTERNACIONES_CARLOS c&#xA;inner join H_INTERNACIONES_CD_CP i on c.nro_orden = i.id_internacion and i.id_periodo_internacion = c.id_periodo&#xA;&#xA;&#xA;drop table #temp_cd&#xA;drop table #temp_cp&#xA;drop table #tempperiodo1&#xA;drop table #tempperiodo2&#xA;drop table #tempperiodo3&#xA;drop table #tempperiodo4&#xA;drop table #tempperiodo5&#xA;drop table #tempperiodo6&#xA;drop table #internaciones_U6m_cp&#xA;drop table #internaciones_U6m_cd&#xA;&#xA;&#xA;&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Envio Mail - Para  Isla Analistas de Datos"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{ecf72593-e32d-45c8-a6a2-01e8c9588731}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Envio Mail - Para  Isla Analistas de Datos"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:LoggingOptions
+        DTS:FilterKind="0" />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{87B3EF38-D424-4CA0-9B98-F49ED069F118}"
+          SQLTask:SqlStatementSource="&#xA;---- Se creo este envio de mail, para avisarles en el momento justo en el que la información de Internaciones Diaria esta actualizada ( más precisamente los campos de medianas, que los analistas de datos necesitan).&#xA;&#xA;&#xA;---- Variable con el día de la fecha de hoy ( quitando hora)&#xA;&#xA;Declare @día_de_la_fecha_de_hoy date&#xA;Set @día_de_la_fecha_de_hoy = (SELECT (cast(GETDATE()  as datetime)))&#xA;&#xA;IF (select COUNT(id_fecha) from Consultas_dw.dbo.AUX_NOTIFICACIONES_ANALISTAS_DATOS&#xA;where id_fecha = @día_de_la_fecha_de_hoy and descripcion_proceso = 'internaciones diario') &lt; 1&#xA;&#xA;Begin&#xA;&#xA;Insert into Consultas_dw.dbo.AUX_NOTIFICACIONES_ANALISTAS_DATOS&#xA;select @día_de_la_fecha_de_hoy, 0 as notificacion, 'internaciones diario' as Proceso&#xA;&#xA;END&#xA;&#xA;IF (select COUNT(id_fecha) from Consultas_dw.dbo.AUX_NOTIFICACIONES_ANALISTAS_DATOS&#xA;where id_fecha = @día_de_la_fecha_de_hoy and descripcion_proceso = 'internaciones diario'&#xA;and id_notificacion = 0 ) &lt;&gt; 0&#xA;&#xA;Begin&#xA;&#xA;EXEC msdb.dbo.sp_send_dbmail&#xA;   @profile_name = 'Soporte MicroStrategy',&#xA;   @recipients = 'juanfrancisco.trinchieri@sancorsalud.com.ar; leonardo.saucedo@sancorsalud.com.ar; luciana.picech@sancorsalud.com.ar',&#xA;   @subject = 'Internaciones Diario - Finalizo Correctamente',&#xA;   @body = 'Buenos Días,&#xA;   &#xA;   Enviamos este correo para comunicarles que el proceso de Internaciones Diario finalizo correctamente.&#xA;   &#xA;   Desde ya estamos a disposición,&#xA;&#xA;    Saludos&#xA;&#xA; Juan Francisco Trinchieri&#xA;&#xA; Planeamiento y Control de Gestión&#xA; SanCor Salud - Sede Central&#xA; Tel.: 03493-429500  Int. 3086&#xA; juanfrancisco.trinchieri@sancorsalud.com.ar&#xA;&#xA;&#xA;  Información Sobre el Estado - Personas Sin Localidad&#xA;   ',&#xA;@query = 'IF (Select COUNT(*)&#xA; from H_COMER_STOCK_AFILIA a11&#xA;  join D_PERSONAS a13&#xA;    on  (a11.id_persona = a13.id_persona)&#xA;  join D_LOCALIDADES_AFILIADO a14&#xA;    on  (a13.id_localidad_afiliado = a14.id_localidad_afiliado)&#xA; where (a11.id_periodo in (select top 12 id_periodo from D_PERIODO where vigente_comercial = 1 order by id_periodo desc)&#xA;  and a14.id_zona_comercial in (0, 1))) = 0&#xA;       SELECT ''Felicidades!, Hoy la Base esta Completa'' as Notificación;&#xA;ELSE &#xA;       select LTRIM(a11.id_persona) NroPersona,&#xA;  RTRIM(a13.Nombre) Nombre,&#xA;  RTRIM(a13.Apellido) Apellido,&#xA;  LTRIM(a13.id_localidad_afiliado) CodLocalidad,&#xA;  RTRIM(a14.de_localidad_afiliado) Localidad&#xA; from H_COMER_STOCK_AFILIA a11&#xA;  join D_PERSONAS a13&#xA;    on  (a11.id_persona = a13.id_persona)&#xA;  join D_LOCALIDADES_AFILIADO a14&#xA;    on  (a13.id_localidad_afiliado = a14.id_localidad_afiliado)&#xA; where (a11.id_periodo in (select top 12 id_periodo from D_PERIODO where vigente_comercial = 1 order by id_periodo desc)&#xA;  and a14.id_zona_comercial in (0, 1))&#xA; group by a11.id_persona , a13.Nombre,&#xA;  a13.Apellido,&#xA;  a13.id_localidad_afiliado,&#xA;  a14.de_localidad_afiliado;',&#xA;    @query_result_separator = '|',&#xA;    @execute_query_database = 'DW_SALUD';&#xA;&#xA;&#xA;UPDATE Consultas_dw.dbo.AUX_NOTIFICACIONES_ANALISTAS_DATOS SET id_notificacion = 1&#xA;&#xA;where id_fecha = @día_de_la_fecha_de_hoy and descripcion_proceso = 'internaciones diario'&#xA;END" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{094D983B-C585-46B0-9998-C3CDBEF0F14B}"
+      DTS:From="Package\Calculo de la Mediana en Internaciones Diario"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Calculo de la Mediana SSS  en Internaciones Diario" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{D2D1C4D8-7091-4164-9F17-2EC84466604D}"
+      DTS:From="Package\Calculo de la Mediana SSS  en Internaciones Diario"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Calculo importe internaciones consumo futuro CD y CP" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{598C8956-A669-4ECC-B9D2-71C99C520EC6}"
+      DTS:From="Package\Calculo importe internaciones consumo futuro CD y CP"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Envio Mail - Para  Isla Analistas de Datos" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--Esta sección CDATA contiene la información de diseño del paquete. Esta sección incluye información como, por ejemplo, las coordenadas (x,y), el ancho y el alto.-->
+<!--Si edita manualmente esta sección y comete un error, puede eliminarlo. -->
+<!--El paquete podrá cargarse normalmente, pero se perderá la información de diseño anterior y el diseñador reorganizará los elementos automáticamente en la superficie de diseño.-->
+<Objects
+  Version="8">
+  <!--Cada uno de los nodos siguientes contiene propiedades que no afectan al comportamiento en tiempo de ejecución.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="304,42"
+          Id="Package\Calculo de la Mediana en Internaciones Diario"
+          TopLeft="24.8372641509434,5.5" />
+        <NodeLayout
+          Size="331,42"
+          Id="Package\Calculo de la Mediana SSS  en Internaciones Diario"
+          TopLeft="11.3372641509434,79.2358490566038" />
+        <NodeLayout
+          Size="348,42"
+          Id="Package\Calculo importe internaciones consumo futuro CD y CP"
+          TopLeft="2.83726415094338,156.858490566038" />
+        <NodeLayout
+          Size="280,42"
+          Id="Package\Envio Mail - Para  Isla Analistas de Datos"
+          TopLeft="36.8372641509434,229.160377358491" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="176.837264150943,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,31.7358490566038"
+              Start="0,0"
+              End="0,24.2358490566038">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,24.2358490566038" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="176.837264150943,121.235849056604">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,35.6226415094339"
+              Start="0,0"
+              End="0,28.1226415094339">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,28.1226415094339" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="176.837264150943,198.858490566038">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,30.3018867924528"
+              Start="0,0"
+              End="0,22.8018867924528">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,22.8018867924528" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
