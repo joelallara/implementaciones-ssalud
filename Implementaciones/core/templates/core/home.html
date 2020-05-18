@@ -11,13 +11,21 @@
   <table class="table table-hover shadow mb-2 bg-white rounded">
     <thead>
       <tr>
-        <th>Nombre</th>
+        <th>Fecha Implementación</th>
+        <th>Proyecto</th>
+        <th class="text-center align-middle">Solicitante</th>
+        <th class="text-center align-middle">Implementador</th>
+        <th class="text-center align-middle">LSN</th>
       </tr>
     </thead>
     <tbody>
-      {% for project in projects %}
+      {% for deploy in deploys %}
       <tr>
-        <th>{{project.project_name}}</th>
+        <th>{{deploy.deploy_date|date:'d/m/y H:i'}}</th>
+        <th>{{deploy.request_header.project.project_name}}</th>
+        <th class="text-center align-middle">{{deploy.request_header.created_by}}</th>
+        <th class="text-center align-middle">{{deploy.deploy_by}}</th>
+        <th class="text-center align-middle">{{deploy.lsn}}</th>
       </tr>
       {% empty %}
       <td colspan="6" scope="col">No hay proyectos disponibles</td>

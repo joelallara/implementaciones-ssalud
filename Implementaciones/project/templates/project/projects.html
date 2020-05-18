@@ -49,58 +49,68 @@
     </div>
   </div>
 
-  <div class="row h-25">
+  <div class="row">
     {% if projects %}
-    <div class="col-4 mt-2 bg-light text-dark h-50">
+    <div class="col-lg-4 mt-2 bg-light text-dark">
       <h3 class="mt-2">Proyectos</h3>
-      <div class="col-12 lista">
-        <div class="list-group mb-4" id="projects-list-group">
-          {% for project in projects %}
-          <a href="#" class="list-group-item list-group-item-action list-group-item-primary"
-            data-url="{% url 'project:packages' project.id %}">
-            <div class="row">
-              <div class="col-8 mt-3">
-                {{project.project_name}}
-              </div>
-              <div class="col-2 ml-5">
-                <div class="row">
-                  <div class="col-6">
-                    <i class="material-icons" data-toggle="tooltip" data-placement="top" title="Documentación">
-                      link
-                    </i>
-                  </div>
-                  <div class="col-6">
-                    <i class="material-icons" data-toggle="tooltip" data-placement="top" title="Actualizar info">
-                      update
-                    </i>
-                  </div>
-                  <div class="col-12">
-                    <p class="text-right align-middle update-date" data-toggle="tooltip" data-placement="top"
-                      title="Ultima Actualización">
-                      {{project.modified|date:'d/m/y'}}
-                    </p>
-                  </div>
+      <div class="row">
+        <div class="col-12 lista">
+          <div class="list-group mb-4" id="projects-list-group">
+            {% for project in projects %}
+            <a href="#" class="list-group-item list-group-item-action list-group-item-primary"
+              data-url="{% url 'project:packages' project.id %}">
+              <div class="row">
+                <div class="col-7 align-middle">
+                  {{project.project_name}}
+                </div>
+                <div class="col-3 ml-5">
+                  <p class="text-right update-date" data-toggle="tooltip" data-placement="top"
+                        title="Ultima Actualización">
+                        {{project.modified|date:'d/m/y'}}
+                      </p>
+                  <!-- <div class="row">
+                    <div class="col-6">
+                      <i class="material-icons" data-toggle="tooltip" data-placement="top" title="Documentación">
+                        link
+                      </i>
+                    </div>
+                    <div class="col-6">
+                      <i class="material-icons" data-toggle="tooltip" data-placement="top" title="Actualizar info">
+                        update
+                      </i>
+                    </div>
+                    <div class="col-12">
+                      <p class="text-right align-middle update-date" data-toggle="tooltip" data-placement="top"
+                        title="Ultima Actualización">
+                        {{project.modified|date:'d/m/y'}}
+                      </p>
+                    </div>
+                  </div> -->
+
                 </div>
 
               </div>
-
-            </div>
-          </a>
-          {% endfor %}
+            </a>
+            {% endfor %}
+          </div>
         </div>
       </div>
     </div>
-    <div class="col-4 mt-2 border-left bg-light text-dark">
+    <div class="col-lg-4 mt-2 border-left bg-light text-dark">
       <h3 class="mt-2">Paquetes</h3>
-      <div class="col-12 lista">
-        <div class="list-group mb-4" id="packages-list-group">
+      <div class="row">
+        <div class="col-12 lista">
+          <div class="list-group mb-4" id="packages-list-group">
+          </div>
         </div>
       </div>
     </div>
-    <div class="col-4 mt-2 border-left bg-light text-dark">
+    <div class="col-lg-4 mt-2 border-left bg-light text-dark">
       <h3 class="mt-2">Tareas</h3>
-      <div class="col-12 lista">
-        <div class="list-group mb-4" id="tasks-list-group">
+      <div class="row">
+        <div class="col-12 lista">
+          <div class="list-group mb-4" id="tasks-list-group">
+          </div>
         </div>
       </div>
     </div>
@@ -109,11 +119,11 @@
 
     {% endif %}
   </div>
-  <div class="row">
-    <div class="col-12 mt-2 border-left bg-light text-dark">
+  <!-- <div class="row">
+    <div class="col-xl-12 mt-2 border-left bg-light text-dark">
       <h3 class="mt-2">Documentación</h3>
     </div>
-  </div>
+  </div> -->
 
 
 

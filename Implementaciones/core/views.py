@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.core.mail import send_mail
 from django.conf import settings
 
-from project.models import Project
+from deploy.models import DeployInfo
 import smtplib
 
 
@@ -11,8 +11,8 @@ class HomePageView(TemplateView):
     template_name = "core/home.html"
 
     def get(self, request, *args, **kwargs):
-        projects = Project.projects.all()
-        return render(request, self.template_name, {'projects': projects})
+        deploys = DeployInfo.objects.all()[:5]
+        return render(request, self.template_name, {'deploys': deploys})
 
 
 def email(request, subject, message, email_receive):

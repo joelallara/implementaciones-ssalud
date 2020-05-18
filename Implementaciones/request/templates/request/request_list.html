@@ -20,97 +20,105 @@
                 </span>
             </a>
         </div>
-        <!-- MODAL SOLICITUD -->
-        <div class="modal fade" id="modalNuevaSolicitud" tabindex="-1">
-            <div class="modal-dialog modal-lg modal-dialog-centered">
-                <div class="modal-content">
 
-                    <!-- cabecera del diálogo -->
-                    <div class="modal-header">
-                        <h4 class="modal-title">Nueva Solicitud Implementacion</h4>
-                        <button type="button" class="close" data-dismiss="modal">X</button>
-                    </div>
+        <div class="col-12">
+            <!-- MODAL SOLICITUD -->
+            <div class="modal fade" id="modalNuevaSolicitud" tabindex="-1">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+                    <div class="modal-content">
 
-                    <!-- cuerpo del diálogo -->
-                    <div class="modal-body">
-                        <form method="POST" id="implementationRequestForm" action="nueva_solicitud/">
-                            {% csrf_token %}
-                            <div class="form-row">
-                                <div class="col-12 mt-2">
-                                    <div class="alert alert-danger collapse" role="alert" id="projectAlert">
-                                        Debe seleccionar un proyecto.
+                        <!-- cabecera del diálogo -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">Nueva Solicitud Implementacion</h4>
+                            <button type="button" class="close" data-dismiss="modal">X</button>
+                        </div>
+
+                        <!-- cuerpo del diálogo -->
+                        <div class="modal-body">
+                            <form method="POST" id="implementationRequestForm" action="nueva_solicitud/">
+                                {% csrf_token %}
+                                <div class="form-row">
+                                    <div class="col-12 mt-2">
+                                        <div class="alert alert-danger collapse" role="alert" id="projectAlert">
+                                            Debe seleccionar un proyecto.
+                                        </div>
+                                        <div class="alert alert-danger collapse" role="alert" id="detailAlert">
+                                            Debe agregar al menos una observación a los detalles.
+                                        </div>
                                     </div>
-                                    <div class="alert alert-danger collapse" role="alert" id="detailAlert">
-                                        Debe agregar al menos una observación a los detalles.
+                                    <div class="col-12 mt-2">
+                                        <div class="container-fluid">
+                                            <div class="row mb-2">
+                                                <div class="col-sm-4">
+                                                    <label for="projectSelectpicker">Seleccione un proyecto:</label>
+                                                    <select class="selectpicker form-control mb-2"
+                                                        id="projectSelectpicker" name="projectSelectpicker"
+                                                        title="-----" data-live-search="true"
+                                                        data-url="{% url 'request:json_project_list' %}">
+                                                    </select>
+                                                    <input type="hidden" id="selectedProjectid"
+                                                        name="selectedProjectid" />
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <label for="packageSelectpicker">Seleccione un paquete:</label>
+                                                    <select class="selectpicker form-control" data-live-search="true"
+                                                        id="packageSelectpicker" name="packageSelectpicker"
+                                                        title="-----">
+                                                    </select>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <label for="tasksSelectpicker">Seleccione la/s tarea/s:</label>
+                                                    <select class="selectpicker form-control" multiple
+                                                        data-live-search="true" id="tasksSelectpicker"
+                                                        name="tasksSelectpicker" title="-----">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-2">
+                                                <div class="col-sm-12 mb-2">
+                                                    <label for="observaciones">Ingrese una breve descripcion de los
+                                                        cambios
+                                                        realizados</label>
+                                                    <textarea class="form-control" rows="5" id="observacionesInput"
+                                                        name="observaciones"></textarea>
+                                                </div>
+                                                <div class="col-sm-12">
+                                                    <button type="button"
+                                                        class="btn btn-info add-new form-control">Agregar</button>
+                                                </div>
+                                                <div class="col-sm-12 mt-4">
+                                                    <h5 class="modal-title text-center">Detalles</h5>
+                                                </div>
+                                            </div>
+
+                                            <table class="table table-hover" id="table-add">
+                                                <thead class="thead-light">
+                                                    <tr>
+                                                        <th class="text-center">Paquete</th>
+                                                        <th class="text-center">Tareas</th>
+                                                        <th class="text-center">Observaciones</th>
+                                                        <th class="text-center">Borrar</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-12 mt-2">
-                                    <div class="container-fluid">
-                                        <div class="row mb-2">
-                                            <div class="col-sm-4">
-                                                <label for="projectSelectpicker">Seleccione un proyecto:</label>
-                                                <select class="selectpicker form-control mb-2" id="projectSelectpicker"
-                                                    name="projectSelectpicker" title="-----" data-live-search="true"
-                                                    data-url="{% url 'request:json_project_list' %}">
-                                                </select>
-                                                <input type="hidden" id="selectedProjectid" name="selectedProjectid" />
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <label for="packageSelectpicker">Seleccione un paquete:</label>
-                                                <select class="selectpicker form-control" data-live-search="true"
-                                                    id="packageSelectpicker" name="packageSelectpicker" title="-----">
-                                                </select>
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <label for="tasksSelectpicker">Seleccione la/s tarea/s:</label>
-                                                <select class="selectpicker form-control" multiple
-                                                    data-live-search="true" id="tasksSelectpicker"
-                                                    name="tasksSelectpicker" title="-----">
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="row mb-2">
-                                            <div class="col-sm-12 mb-2">
-                                                <label for="observaciones">Ingrese una breve descripcion de los cambios
-                                                    realizados</label>
-                                                <textarea class="form-control" rows="5" id="observacionesInput"
-                                                    name="observaciones"></textarea>
-                                            </div>
-                                            <div class="col-sm-12">
-                                                <button type="button"
-                                                    class="btn btn-info add-new form-control">Agregar</button>
-                                            </div>
-                                            <div class="col-sm-12 mt-4">
-                                                <h5 class="modal-title text-center">Detalles</h5>
-                                            </div>
-                                        </div>
-
-                                        <table class="table table-hover" id="table-add">
-                                            <thead class="thead-light">
-                                                <tr>
-                                                    <th class="text-center">Paquete</th>
-                                                    <th class="text-center">Tareas</th>
-                                                    <th class="text-center">Observaciones</th>
-                                                    <th class="text-center">Borrar</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
+                            </form>
+                            <!-- pie del diálogo -->
+                            <div class="modal-footer">
+                                <button class="btn btn-secondary mb-2" data-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-primary mb-2" form="implementationRequestForm"
+                                    id="btnEnviar">Enviar</button>
                             </div>
-                        </form>
-                        <!-- pie del diálogo -->
-                        <div class="modal-footer">
-                            <button class="btn btn-secondary mb-2" data-dismiss="modal">Cancelar</button>
-                            <button type="submit" class="btn btn-primary mb-2" form="implementationRequestForm"
-                                id="btnEnviar">Enviar</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
         {% else %}
         <div class="col-12">
             <h2>Historial Solicitudes</h2>
@@ -178,7 +186,7 @@
 
                     <div class="col-12 mt-2">
                         <div class="container-fluid">
-                            <table class="table table-hover" id="table-details">
+                            <table class="table table-hover table-responsive" id="table-details">
                                 <thead class="thead-light">
                                     <tr>
                                         <th class="text-center">Paquete/s</th>
