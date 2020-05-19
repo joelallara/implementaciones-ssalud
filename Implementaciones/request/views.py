@@ -8,6 +8,7 @@ from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
+from core.views import email
 
 
 from .models import ImplementationRequestHeader, ImplementationRequestDetail
@@ -29,6 +30,7 @@ class PendingImplementationRequestHeaderListView(ListView):
     queryset = ImplementationRequestHeader.objects.filter(state='PN')
     context_object_name = 'requests'
     paginate_by = 10
+
 
 @method_decorator(login_required, name='dispatch')
 class UserImplementationRequestHeaderListView(ListView):
@@ -58,7 +60,7 @@ class ImplementationRequestDetailView(View):
         packages = request.POST.getlist('package', None)
         project_instance = get_object_or_404(Project, pk=project_pk)
         implementation_request_header = ImplementationRequestHeader.objects.create(
-           project=project_instance, created_by=request.user)
+            project=project_instance, created_by=request.user)
         for package in packages:
             tasks = request.POST.getlist(package+'task', None)
             tasks_formated = ", ".join(tasks)
@@ -70,5 +72,14 @@ class ImplementationRequestDetailView(View):
                 package=package,
                 tasks=tasks_formated,
                 observations=observations)
+
+        # Email Sending
+        subject = 'Solicitud Deploy a Produccion del proyecto ' + \
+            implementation_request_header.project.project_name
+        message = 'El usuario "' + implementation_request_header.created_by + \
+            '" ha realizado una solicitud de deploy del proyecto ' + \
+            implementation_request_header.project.project_name
+        email_receive = request.user.email
+        email(request, subject, message, email_receive)
+
         return redirect(reverse_lazy('request:user_request_list'))
-        

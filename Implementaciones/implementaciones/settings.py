@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'j9910n+z14!x9^h#$grmu=63do23-qk$ni_tu_xls&h+b=dp!e'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['DWHTEST', '127.0.0.1']
 
 
 # Application definition
@@ -80,12 +80,27 @@ WSGI_APPLICATION = 'implementaciones.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+if DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'sql_server.pyodbc',
+            'NAME': 'IMPLETEST',
+            'HOST': 'DWHTEST',
+            'USER': 'cgestion',
+            'PASSWORD': '4m$$99CtrlG',
+
+            'OPTIONS': {
+                'driver': 'ODBC Driver 17 for SQL Server',
+            }
+        }
+    }
 
 
 # Password validation
@@ -127,25 +142,17 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 
-#Auth redirect
+# Auth redirect
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'login'
 LOGIN_URL = 'login'
 
 
-# Emails
-if DEBUG:
-    #EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
-    #EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
-#else:
-    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-    EMAIL_HOST_USER = 'joel.allara@gmail.com'
-    EMAIL_HOST = 'smtp.gmail.com'
-    EMAIL_PORT = 578
-    EMAIL_USE_TLS = True
-    EMAIL_HOST_PASSWORD = "subccomp85"
-
-
 # Media Files
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+# Email config
+EMAIL_PASSWORD = 'subccomp85'
+EMAIL_ADDRESS = 'joel.allara@sancorsalud.com.ar'

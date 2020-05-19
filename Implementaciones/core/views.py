@@ -16,14 +16,14 @@ class HomePageView(TemplateView):
 
 
 def email(request, subject, message, email_receive):
-    email_from = 'joel.allara@gmail.com'
+    email_from = settings.EMAIL_ADDRESS
     content = 'Subject: {}\n\n{}'.format(subject, message)
-    password = "subccomp85"
+    password = settings.EMAIL_PASSWORD
     fromemail = email_from
     email_to = email_receive
     mail = smtplib.SMTP('smtp.gmail.com', 587)
     mail.ehlo()
     mail.starttls()
     mail.login(email_from, password)
-    mail.sendmail(fromemail, email_to,content)
+    mail.sendmail(fromemail, email_to, content)
     mail.close()
