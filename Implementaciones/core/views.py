@@ -23,7 +23,11 @@ def email(request, subject, message, email_receive):
     email_to = email_receive
     mail = smtplib.SMTP('smtp.gmail.com', 587)
     mail.ehlo()
-    mail.starttls()
-    mail.login(email_from, password)
-    mail.sendmail(fromemail, email_to, content)
-    mail.close()
+    try:
+        mail.starttls()
+        mail.login(email_from, password)
+        mail.sendmail(fromemail, email_to, content)
+    finally:
+        mail.quit()
+        mail.close()
+

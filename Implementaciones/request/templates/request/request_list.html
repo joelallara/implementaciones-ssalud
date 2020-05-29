@@ -141,7 +141,7 @@
             {% for request in requests %}
             <tr>
                 <td class="align-middle">{{request.created|date:'d/m/y H:i'}}</td>
-                <td class="align-middle">{{request.project.project_name}}</td>
+                <td class="text-center align-middle">{{request.project.project_name}}</td>
                 <td class="text-center align-middle">
                     <a data-toggle="modal" data-target="#modalDetalles" href="" data-id="{{request.id}}"
                         data-url="{% url 'request:detail' request.id %}" onClick="fillDetailsModal(this)">

@@ -2,6 +2,9 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.dispatch import receiver
 from django.db.models.signals import post_save
+from django.conf import settings
+
+from PIL import Image
 
 
 def custom_upload_to(instance, file_name):
@@ -18,6 +21,7 @@ class Profile(models.Model):
 
     class Meta:
         ordering = ['user__username']
+
 
 @receiver(post_save, sender=User)
 def ensure_profile_exists(sender, instance, **kwargs):

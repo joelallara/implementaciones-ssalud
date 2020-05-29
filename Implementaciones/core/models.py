@@ -16,7 +16,8 @@ class TimeStampedModel(models.Model):
         )
     modified = models.DateTimeField(
         auto_now=True,
-        verbose_name="Fecha Modificación"
+        verbose_name="Fecha Modificación",
+        null=True
         )
 
     class Meta:

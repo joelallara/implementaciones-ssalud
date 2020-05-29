@@ -2,6 +2,8 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.contrib.admin.views.decorators import staff_member_required
+from django.views.static import serve
+from django.conf.urls.static import static
 
 from project.urls import project_patterns
 from profiles.urls import profiles_patterns
@@ -36,3 +38,11 @@ urlpatterns = [
     # Paths de Profiles
     path('profiles/', include(profiles_patterns)),
 ]
+
+urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)
+
+# if settings.DEBUG:
+#     from django.conf.urls.static import static
+#     urlpatterns += static(settings.MEDIA_URL,
+#                           document_root=settings.MEDIA_ROOT)

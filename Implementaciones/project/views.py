@@ -53,13 +53,20 @@ def update_projects_info(request):
         projects_dict = json.loads(projects_json)
         for project in projects_dict:
             project_name = project["project_name"]
+            print(project_name)
             project_instance, created_project = Project.projects.get_or_create(project_name=project_name)
+            print('paso project')
             for package in project["packages"]:
                 package_name = package["package_name"]
+                print(package_name)
                 package_instance, created_package = Package.objects.get_or_create(project=project_instance, package_name=package_name)
+                print('paso package')
                 for task in package["tasks"]:
                     task_name = task["task_name"]
+                    print(task_name)
                     Task.objects.get_or_create(package=package_instance, task_name=task_name)
+                    print('paso task')
         return redirect(reverse_lazy('project:list') + '?ok')
     except TypeError as e:
+        print(e)
         return redirect(reverse_lazy('project:list') + '?error')

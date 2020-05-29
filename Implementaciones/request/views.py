@@ -74,11 +74,9 @@ class ImplementationRequestDetailView(View):
                 observations=observations)
 
         # Email Sending
-        subject = 'Solicitud Deploy a Produccion del proyecto ' + \
-            implementation_request_header.project.project_name
-        message = 'El usuario "' + implementation_request_header.created_by + \
-            '" ha realizado una solicitud de deploy del proyecto ' + \
-            implementation_request_header.project.project_name
+        
+        subject = 'Solicitud Deploy a Produccion del proyecto ' + implementation_request_header.project.project_name
+        message = 'El usuario "{}" ha realizado una solicitud de deploy del proyecto "{}"'.format(implementation_request_header.created_by, implementation_request_header.project.project_name)
         email_receive = request.user.email
         email(request, subject, message, email_receive)
 
