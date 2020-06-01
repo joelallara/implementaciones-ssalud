@@ -18,7 +18,7 @@ $(document).ready(function () {
                 } else {
                     data.packages.forEach(package => {
                         rows += `
-                    <a href="#" class="list-group-item list-group-item-action list-group-item-info"
+                    <a href="#tareas-info" class="list-group-item list-group-item-action list-group-item-info"
                         data-url="{% url 'project:tasks'${package.id} %}"
                         data-id="${package.id}"
                         onClick="tasksList(this)">
