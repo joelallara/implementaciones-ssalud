@@ -18,6 +18,7 @@ class HomePageView(TemplateView):
 def email(request, subject, message, email_receive):
     email_from = settings.EMAIL_ADDRESS
     content = 'Subject: {}\n\n{}'.format(subject, message)
+    print(content)
     password = settings.EMAIL_PASSWORD
     fromemail = email_from
     email_to = email_receive
@@ -26,7 +27,7 @@ def email(request, subject, message, email_receive):
     try:
         mail.starttls()
         mail.login(email_from, password)
-        mail.sendmail(fromemail, email_to, content)
+        mail.sendmail(fromemail, email_to, content.encode("utf8"))
     finally:
         mail.quit()
         mail.close()
