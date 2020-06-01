@@ -83,6 +83,7 @@ $(document).ready(function () {
   $("#implementationRequestForm").submit(function () {
     // $('#btnEnviar').prop('disabled', true);
     // $('.btn-cancelar').prop('disabled', true);
+    ctrlSubmit(this);
   });
 
   function disableAddButton(){

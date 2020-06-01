@@ -31,4 +31,3 @@ def email(request, subject, message, email_receive):
     finally:
         mail.quit()
         mail.close()
-
