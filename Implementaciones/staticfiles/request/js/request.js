@@ -81,8 +81,8 @@ $(document).ready(function () {
 
   // Disable btnEnviar when submit to prevent multiples submits
   $("#implementationRequestForm").submit(function () {
-    // $('#btnEnviar').prop('disabled', true);
-    // $('.btn-cancelar').prop('disabled', true);
+    $('#btnEnviar').prop('disabled', true);
+    $('.btn-cancelar').prop('disabled', true);
   });
 
   function disableAddButton(){
