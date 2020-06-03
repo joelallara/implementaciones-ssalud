@@ -286,18 +286,6 @@ $(document).ready(function () {
     } else {
       showObservationAlert();
       return;
-      // if (!packagesSelectPicker.isOptionSelected()) {
-      //   showDetailAlert();
-      //   return;
-      // } else {
-      //   hideDetailAlert();
-      // }
-      // observation = '-----'
-      // observationDetailRow =
-      //   '<td class="text-center align-middle">' +
-      //   observation +
-      //   '<input type="hidden" value="' + observation + '" name="' + selectedPackage + 'observations"/>' +
-      //   '</td>';
     }
 
     //Create Detail table row
