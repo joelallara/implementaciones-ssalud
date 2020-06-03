@@ -15,6 +15,7 @@ from .models import ImplementationRequestHeader, ImplementationRequestDetail
 from project.models import Project
 
 
+@method_decorator(login_required, name='dispatch')
 class ImplementationRequestHeaderListView(ListView):
     model = ImplementationRequestHeader
     template_name = 'request/request_list.html'
@@ -45,6 +46,7 @@ class UserImplementationRequestHeaderListView(ListView):
             created_by=self.request.user)
 
 
+@method_decorator(login_required, name='dispatch')
 class ImplementationRequestDetailView(View):
     def get(self, request, header_pk):
         header = get_object_or_404(ImplementationRequestHeader, pk=header_pk)
@@ -74,7 +76,6 @@ class ImplementationRequestDetailView(View):
                 observations=observations)
 
         # Email Sending
-        
         subject = 'Solicitud Deploy a Produccion del proyecto ' + implementation_request_header.project.project_name
         message = 'El usuario "{}" ha realizado una solicitud de deploy del proyecto "{}"'.format(implementation_request_header.created_by, implementation_request_header.project.project_name)
         email_receive = request.user.email

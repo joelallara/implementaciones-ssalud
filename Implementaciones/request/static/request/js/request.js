@@ -85,37 +85,45 @@ $(document).ready(function () {
     $('.btn-cancelar').prop('disabled', true);
   });
 
-  function disableAddButton(){
+  function disableAddButton() {
     $(".add-new").attr("disabled", "disabled");
-  }
+  };
 
   function enableAddButton() {
     $(".add-new").removeAttr("disabled");
-  }
+  };
 
   function disableEnviarButton() {
     $("#btnEnviar").attr("disabled", "disabled");
-  }
+  };
 
-  function enableEnviarButton(){
+  function enableEnviarButton() {
     $("#btnEnviar").removeAttr("disabled");
-  }
+  };
 
-  function showProjectAlert(){
+  function showProjectAlert() {
     $('#projectAlert').removeClass("collapse");
-  }
+  };
 
-  function hideProjectAlert(){
+  function hideProjectAlert() {
     $('#projectAlert').addClass("collapse");
-  }
-  
-  function showDetailAlert(){
-    $('#detailAlert').removeClass("collapse");
-  }
+  };
 
-  function hideDetailAlert(){
+  function showDetailAlert() {
+    $('#detailAlert').removeClass("collapse");
+  };
+
+  function hideDetailAlert() {
     $('#detailAlert').addClass("collapse");
-  }
+  };
+
+  function showObservationAlert() {
+    $('#observationAlert').removeClass("collapse");
+  };
+  
+  function hideObservationAlert() {
+    $('#observationAlert').addClass("collapse");
+  };
 
   //Create selectpickers
   var url = $('#projectSelectpicker').data('url');
@@ -183,6 +191,8 @@ $(document).ready(function () {
     }
   };
 
+
+
   // Enable o Disable "Enviar" button if is or not a project selected or if there is no row on add-table
   $("#btnEnviar").click(function () {
     var isProjectSelected = projectsSelectPicker.isOptionSelected();
@@ -200,6 +210,7 @@ $(document).ready(function () {
         disableEnviarButton();
         return;
       } else {
+        hideDetailAlert();
         enableEnviarButton();
       }
     }
@@ -233,12 +244,12 @@ $(document).ready(function () {
     var packageDetailRow;
     if (packagesSelectPicker.isOptionSelected()) {
       selectedPackage = packagesSelectPicker.getValueOptionSelected();
-      packageDetailRow = selectedPackage + 
-      '<input type="hidden" value="'+ selectedPackage +'" name="package"/>';
+      packageDetailRow = selectedPackage +
+        '<input type="hidden" value="' + selectedPackage + '" name="package"/>';
     } else {
-      selectedPackage = '-----'+ rowIndex;
-      packageDetailRow = '-----' + 
-      '<input type="hidden" value="'+ selectedPackage + '" name="package"/>';
+      selectedPackage = '-----' + rowIndex;
+      packageDetailRow = '-----' +
+        '<input type="hidden" value="' + selectedPackage + '" name="package"/>';
     }
 
     // Create Tasks Detail Row
@@ -259,31 +270,34 @@ $(document).ready(function () {
       tasks = '-----';
       tasksDetailRow = '<td class="text-center align-middle">' +
         tasks +
-        '<input type="hidden" value="' + tasks + '" name="' + selectedPackage + 'task"/>'+
+        '<input type="hidden" value="' + tasks + '" name="' + selectedPackage + 'task"/>' +
         '</td>';
     }
 
     // Create Observation Detail Row
     var observationDetailRow;
     if (observation) {
+      hideObservationAlert();
       observationDetailRow =
         '<td class="text-left align-middle">' +
         observation +
         '<input type="hidden" value="' + observation + '" name="' + selectedPackage + 'observations"/>' +
         '</td>';
     } else {
-      if (!packagesSelectPicker.isOptionSelected()){
-        showDetailAlert();
-        return;
-      } else {
-        hideDetailAlert();
-      }
-      observation = '-----'
-      observationDetailRow =
-        '<td class="text-center align-middle">' +
-        observation +
-        '<input type="hidden" value="' + observation + '" name="' + selectedPackage + 'observations"/>' +
-        '</td>';
+      showObservationAlert();
+      return;
+      // if (!packagesSelectPicker.isOptionSelected()) {
+      //   showDetailAlert();
+      //   return;
+      // } else {
+      //   hideDetailAlert();
+      // }
+      // observation = '-----'
+      // observationDetailRow =
+      //   '<td class="text-center align-middle">' +
+      //   observation +
+      //   '<input type="hidden" value="' + observation + '" name="' + selectedPackage + 'observations"/>' +
+      //   '</td>';
     }
 
     //Create Detail table row
@@ -300,7 +314,6 @@ $(document).ready(function () {
     $("#table-add").append(row);
     $("#table-add tbody tr").eq(index + 4).find(".delete").toggle();
 
-    hideDetailAlert();
 
     if (isTableEmpty()) {
       disableEnviarButton();
@@ -311,6 +324,7 @@ $(document).ready(function () {
       $('#table-add').show();
       projectsSelectPicker.disable();
       projectsSelectPicker.refresh();
+      hideDetailAlert();
     }
 
 

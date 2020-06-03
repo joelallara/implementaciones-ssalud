@@ -2,16 +2,20 @@ from django.views.generic.base import TemplateView
 from django.shortcuts import render
 from django.core.mail import send_mail
 from django.conf import settings
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
+from datetime import datetime, timedelta
 
 from deploy.models import DeployInfo
 import smtplib
 
 
+@method_decorator(login_required, name='dispatch')
 class HomePageView(TemplateView):
     template_name = "core/home.html"
 
     def get(self, request, *args, **kwargs):
-        deploys = DeployInfo.objects.all()[:5]
+        deploys = DeployInfo.objects.filter(deploy_date__gte=datetime.now()-timedelta(days=7))[:5]
         return render(request, self.template_name, {'deploys': deploys})
 
 

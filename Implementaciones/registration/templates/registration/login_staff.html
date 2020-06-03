@@ -1,40 +1,49 @@
-{% extends 'core/base.html' %}
+{% extends 'registration/login.html' %}
 {% load static %}
-{% block title %}Iniciar sesión{% endblock %}
-{% block content %}
-<style>.errorlist{color:red;}</style>
+{% block title %}Iniciar sesión - Staff{% endblock %}
+{% block body %}
+<style>
+  .errorlist {
+    color: red;
+  }
+</style>
 <main role="main">
   <div class="container">
-    <div class="row mt-3">
-      <div class="col-md-9 mx-auto mb-5">
-        {% if 'register' in request.GET %}
-          <div class="alert alert-success" role="alert">
-            Usuario registrado correctamente, ya puede iniciar sesion.
+    <h1 class="text-center logo my-4">Implementaciones BI - Administradores</h1>
+    <div class="row justify-content-center">
+      <div class="col-lg-4 col-md-6 col-sm-8">
+        <div class="card">
+          <div class="card-body">
+            <h3 class="card-title text-center">Iniciar sesión</h3>
+            <form action="" method="post">{% csrf_token %}
+              <h3 class="mb-4">Iniciar sesión</h3>
+              {% if form.non_field_errors %}
+              <div class="alert alert-danger" role="alert">
+                Usuario o contraseña incorrectos, prueba de nuevo.
+              </div>
+              {% endif %}
+              <div class="alert alert-danger" role="alert">
+                Debe ser Administrador para ingresar a este sitio
+              </div>
+              <p>
+                <input type="text" name="username" autofocus maxlength="254" required id="id_username" class="form-control"
+                  placeholder="Nombre de usuario" />
+              </p>
+              <p>
+                <input type="password" name="password" required id="id_password" class="form-control"
+                  placeholder="Contraseña" />
+              </p>
+              <p><input type="submit" class="btn btn-primary btn-block" value="Acceder"></p>
+            </form>
           </div>
-        {% endif %}
-        <form action="" method="post">{% csrf_token %}
-          <h3 class="mb-4">Iniciar sesión</h3>
-          {% if form.non_field_errors %}
-            <div class="alert alert-danger" role="alert">
-              Usuario o contraseña incorrectos, prueba de nuevo.
-            </div>
-          {% endif %}
-          <div class="alert alert-danger" role="alert">
-            Debe ser Administrador para ingresar a este sitio
-          </div>
-          <p>
-            <input type="text" name="username" autofocus maxlength="254" required
-              id="id_username" class="form-control" placeholder="Nombre de usuario"/>
-          </p>
-          <p>
-            <input type="password" name="password" required
-              id="id_password" class="form-control" placeholder="Contraseña"/>
-          </p>
-          <p><input type="submit" class="btn btn-primary btn-block" value="Acceder"></p>
-        </form>
-        <p>
-          ¿Ha olvidado su clave? Puede restaurarla <a href="{% url 'password_reset' %}">aquí</a>
-        </p>
+        </div>
+        <div class="text-center py-2">
+          <small>
+            <p>
+              ¿Olvidaste tu contraseña? Hace clic <a href="{% url 'password_reset' %}">aquí</a>
+            </p>
+          </small>
+        </div>
       </div>
     </div>
   </div>
