@@ -19,19 +19,18 @@ class HomePageView(TemplateView):
         return render(request, self.template_name, {'deploys': deploys})
 
 
-def email(request, subject, message, email_receive):
+def email(request, subject, message, email_to):
     email_from = settings.EMAIL_ADDRESS
     content = 'Subject: {}\n\n{}'.format(subject, message)
-    print(content)
     password = settings.EMAIL_PASSWORD
     fromemail = email_from
-    email_to = email_receive
     mail = smtplib.SMTP('smtp.gmail.com', 587)
     mail.ehlo()
     try:
         mail.starttls()
         mail.login(email_from, password)
-        mail.sendmail(fromemail, email_to, content.encode("utf8"))
+        for email in email_to:
+            mail.sendmail(fromemail, email, content.encode("utf8"))
     finally:
         mail.quit()
         mail.close()

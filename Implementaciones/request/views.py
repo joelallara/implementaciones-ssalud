@@ -9,6 +9,8 @@ from django.utils.decorators import method_decorator
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
 from core.views import email
+from django.conf import settings
+from django.contrib.auth.models import User
 
 
 from .models import ImplementationRequestHeader, ImplementationRequestDetail
@@ -78,7 +80,8 @@ class ImplementationRequestDetailView(View):
         # Email Sending
         subject = 'Solicitud Deploy a Produccion del proyecto ' + implementation_request_header.project.project_name
         message = 'El usuario "{}" ha realizado una solicitud de deploy del proyecto "{}"'.format(implementation_request_header.created_by, implementation_request_header.project.project_name)
-        email_receive = request.user.email
-        email(request, subject, message, email_receive)
+        staff_users = User.objects.filter(is_staff=True)
+        email_to = [staff_user.email for staff_user in staff_users]
+        email(request, subject, message, email_to)
 
         return redirect(reverse_lazy('request:user_request_list'))
