@@ -223,14 +223,10 @@ $(document).ready(function () {
 
     if (isProjectSelected) {
       enableAddButton();
-      // projectsSelectPicker.disable();
-      // projectsSelectPicker.refresh();
     } else {
       showProjectAlert();
       disableAddButton();
       disableEnviarButton();
-      // projectsSelectPicker.enable();
-      // projectsSelectPicker.refresh();
       return;
     }
 
@@ -238,6 +234,9 @@ $(document).ready(function () {
     var index = $("#table-add tbody tr:last-child").index();
     var selectedProject = $(projectsSelectPicker.id + ' option:selected').val();
     var values = [];
+
+    // Add the project name to the detail tittle
+    $('#tituloDetalle').text = 'Detalle Solicitud '+selectedProject;
 
     // Create Package Detail Row
     var selectedPackage;

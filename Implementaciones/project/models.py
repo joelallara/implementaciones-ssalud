@@ -25,6 +25,11 @@ class Project(TimeStampedModel, ActivedModel):
         return self.project_name
 
 
+class PackageManager(models.Manager):
+    def get_queryset(self):
+        return super(PackageManager, self).get_queryset().filter(actived=True)
+
+
 class Package(TimeStampedModel, ActivedModel):
     package_name = models.CharField(
         max_length=100,
@@ -35,6 +40,7 @@ class Package(TimeStampedModel, ActivedModel):
         on_delete=models.CASCADE,
         related_name='packages'
         )
+    objects = PackageManager()
 
     class Meta:
         verbose_name = "paquete"
@@ -45,6 +51,11 @@ class Package(TimeStampedModel, ActivedModel):
         return self.package_name
 
 
+class TaskManager(models.Manager):
+    def get_queryset(self):
+        return super(TaskManager, self).get_queryset().filter(actived=True)
+
+
 class Task(TimeStampedModel, ActivedModel):
     task_name = models.CharField(max_length=100, verbose_name="Nombre Tarea")
     package = models.ForeignKey(
@@ -52,6 +63,7 @@ class Task(TimeStampedModel, ActivedModel):
         on_delete=models.CASCADE,
         related_name='tasks'
         )
+    objects = TaskManager()
 
     class Meta:
         verbose_name = "tarea"

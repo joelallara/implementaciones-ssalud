@@ -4,11 +4,55 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-<div class="container">
+<div class="container bg-white pt-4 pb-2">
   <h1 class="mb-2 mt-2">
-    Implementaciones Recientes
+    Actualizaciones recientes
   </h1>
-  <table class="table table-hover table-responsive-sm shadow mb-2 bg-white rounded">
+  {% for deploy in deploys %}
+  <!--- \\\\\\\Post-->
+  <div class="card gedf-card mb-2">
+    <div class="card-body">
+      <div class="d-inline justify-content-between align-items-center">
+        <div class="row">
+          <div class="col-3">
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="mr-2 ml-2">
+                {% if deploy.request_header.created_by.profile.avatar %}
+                <img class="rounded-circle" width="60" src="{{deploy.request_header.created_by.profile.avatar.url}}"
+                  alt="{{deploy.request_header.created_by}}">
+                {% else %}
+                <img class="rounded-circle" width="60" src="{% static 'registration/img/no-avatar.jpg' %}"
+                  alt="{{deploy.request_header.created_by}}">
+                {% endif %}
+              </div>
+              <div class="ml-2 mr-2">
+                <div class="h5 m-0">{{deploy.request_header.created_by}}</div>
+                <div class="h7 text-muted">{{deploy.request_header.created_by.get_full_name}}</div>
+                <div class="text-muted h7 mb-2"> 
+                  <i class="fa fa-clock-o mr-1"></i>{{deploy.deploy_date|date:'d/m/y H:i'}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-3 my-auto text-center">
+            <h5 class="card-title">{{deploy.request_header.project.project_name}}</h5>
+          </div>
+          <div class="col-3 my-auto text-center">
+            <h5 class="card-title">LSN: {{deploy.lsn}}</h5>
+          </div>
+          <div class="col-3 my-auto text-center">
+            <h7 class="card-title">Implementador:</h7>
+            <h7 class="card-title">{{deploy.deploy_by.get_full_name}}</h7>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% empty %}
+  <td colspan="6" scope="col">No existen implementaciones recientes</td>
+  {% endfor %}
+
+  <!-- <table class="table table-hover table-responsive-sm shadow mb-2 bg-white rounded">
     <thead>
       <tr>
         <th>Fecha Implementación</th>
@@ -31,6 +75,6 @@
       <td colspan="6" scope="col">No existen implementaciones recientes</td>
       {% endfor %}
     </tbody>
-  </table>
+  </table> -->
 </div>
 {% endblock %}
