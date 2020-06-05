@@ -14,13 +14,13 @@ from project.models import Project, Package, Task
 @method_decorator(login_required, name='dispatch')
 class ProjectsPageView(ListView):
     template_name = "project/projects.html"
-    queryset = Project.projects.all()
+    queryset = Project.projects.get_queryset_actived
     context_object_name = 'projects'
 
 
 class GetProjectsJsonList(View):
     def get(self, request):
-        projects = Project.projects.all()
+        projects = Project.projects.get_queryset_actived()
         data = dict()
         data['projects'] = [model_to_dict(project) for project in projects]
         if not data['projects']:
@@ -32,7 +32,7 @@ class GetProjectsJsonList(View):
 class ProjectPackagesView(View):
     def get(self, request, project_pk):
         project = get_object_or_404(Project, pk=project_pk)
-        packages = project.packages.all()
+        packages = project.packages.all().filter(actived=True)
         data = dict()
         data['packages'] = [model_to_dict(package) for package in packages]
         if not data['packages']:
@@ -44,7 +44,7 @@ class ProjectPackagesView(View):
 class PackageTasksView(View):
     def get(self, request, package_pk):
         package = get_object_or_404(Package, pk=package_pk)
-        tasks = package.tasks.all()
+        tasks = package.tasks.all().filter(actived=True)
         data = dict()
         data['tasks'] = [model_to_dict(task) for task in tasks]
         if not data['tasks']:
@@ -58,13 +58,13 @@ def update_projects_info(request):
         projects_dict = json.loads(projects_json)
         for project in projects_dict:
             project_name = project["project_name"]
-            project_instance, created_project = Project.projects.get_or_create(project_name=project_name)
+            project_instance, created_project = Project.projects.all().get_or_create(project_name=project_name)
             for package in project["packages"]:
                 package_name = package["package_name"]
-                package_instance, created_package = Package.objects.get_or_create(project=project_instance, package_name=package_name)
+                package_instance, created_package = Package.objects.all().get_or_create(project=project_instance, package_name=package_name)
                 for task in package["tasks"]:
                     task_name = task["task_name"]
-                    Task.objects.get_or_create(package=package_instance, task_name=task_name)
+                    Task.objects.all().get_or_create(package=package_instance, task_name=task_name)
         return redirect(reverse_lazy('project:list') + '?ok')
     except TypeError:
         return redirect(reverse_lazy('project:list') + '?error')

@@ -5,7 +5,7 @@ from core.models import TimeStampedModel, ActivedModel
 
 
 class ProjectManager(models.Manager):
-    def get_queryset(self):
+    def get_queryset_actived(self):
         return super(ProjectManager, self).get_queryset().filter(actived=True)
 
 
@@ -26,7 +26,7 @@ class Project(TimeStampedModel, ActivedModel):
 
 
 class PackageManager(models.Manager):
-    def get_queryset(self):
+    def get_queryset_actived(self):
         return super(PackageManager, self).get_queryset().filter(actived=True)
 
 
@@ -52,7 +52,7 @@ class Package(TimeStampedModel, ActivedModel):
 
 
 class TaskManager(models.Manager):
-    def get_queryset(self):
+    def get_queryset_actived(self):
         return super(TaskManager, self).get_queryset().filter(actived=True)
 
 
