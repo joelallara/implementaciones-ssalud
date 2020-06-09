@@ -29,8 +29,11 @@ def email(request, subject, message, email_to):
     try:
         mail.starttls()
         mail.login(email_from, password)
-        for email in email_to:
-            mail.sendmail(fromemail, email, content.encode("utf8"))
+        if isinstance(email_to, list):
+            for email in email_to:
+                mail.sendmail(fromemail, email, content.encode("utf8"))
+        else:
+            mail.sendmail(fromemail, email_to, content.encode("utf8"))
     finally:
         mail.quit()
         mail.close()
