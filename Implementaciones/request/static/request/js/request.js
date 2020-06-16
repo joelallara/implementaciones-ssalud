@@ -200,7 +200,7 @@ $(document).ready(function () {
       showProjectAlert();
       disableAddButton();
       disableEnviarButton();
-      return;
+      return false;
     } else {
       hideProjectAlert();
       enableAddButton();
@@ -208,7 +208,7 @@ $(document).ready(function () {
       if (isTableEmpty()) {
         showDetailAlert();
         disableEnviarButton();
-        return;
+        return false;
       } else {
         hideDetailAlert();
         enableEnviarButton();

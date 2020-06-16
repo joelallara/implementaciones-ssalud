@@ -114,7 +114,7 @@
             <table class="table table-hover table-responsive-sm" id="table-requests">
                 <thead class="thead-light">
                     <tr>
-                        <th>Fecha solicitud</th>
+                        <th class="text-center">Fecha solicitud</th>
                         <th class="text-center">Proyecto</th>
                         <th class="text-center">Detalles</th>
                         <th class="text-center">Usuario Solicitante</th>
@@ -124,8 +124,8 @@
                 <tbody>
                     {% for request in requests %}
                     <tr>
-                        <td class="align-middle">{{request.created|date:'d/m/y H:i'}}</td>
-                        <td class="align-middle">{{request.project.project_name}}</td>
+                        <td class="align-middle text-center">{{request.created|date:'d/m/y H:i'}}</td>
+                        <td class="align-middle text-center">{{request.project.project_name}}</td>
                         <td class="text-center align-middle">
                             <a data-toggle="modal" data-target="#modalDetalles" href="" data-id="{{request.id}}"
                                 data-url="{% url 'request:detail' request.id %}" onClick="fillDetailsModal(this)">

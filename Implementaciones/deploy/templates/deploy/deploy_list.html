@@ -22,8 +22,8 @@
             <table class="table table-hover table-responsive-sm table-responsive-lg" id="table-requests">
                 <thead class="thead-light">
                     <tr>
-                        <th>Fecha implementación</th>
-                        <th>Fecha solicitud</th>
+                        <th class="text-center">Fecha implementación</th>
+                        <th class="text-center">Fecha solicitud</th>
                         <th class="text-center">Proyecto</th>
                         <th class="text-center">Detalles</th>
                         <th class="text-center">Solicitante</th>
@@ -34,8 +34,8 @@
                 <tbody>
                     {% for deploy in deploys %}
                     <tr>
-                        <td class="text-left align-middle">{{deploy.deploy_date|date:'d/m/y H:i'}}</td>
-                        <td class="text-left align-middle">{{deploy.request_header.created|date:'d/m/y H:i'}}</td>
+                        <td class="text-center align-middle">{{deploy.deploy_date|date:'d/m/y H:i'}}</td>
+                        <td class="text-center align-middle">{{deploy.request_header.created|date:'d/m/y H:i'}}</td>
                         <td class="text-center align-middle">{{deploy.request_header.project.project_name}}</td>
                         <td class="text-center align_middle">
                             <a data-toggle="modal" data-target="#modalDetalles" href=""
