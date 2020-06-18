@@ -77,6 +77,9 @@ class SelectPicker {
   }
 }
 
+
+
+
 $(document).ready(function () {
 
   // Disable btnEnviar when submit to prevent multiples submits
@@ -120,7 +123,7 @@ $(document).ready(function () {
   function showObservationAlert() {
     $('#observationAlert').removeClass("collapse");
   };
-  
+
   function hideObservationAlert() {
     $('#observationAlert').addClass("collapse");
   };
@@ -236,7 +239,7 @@ $(document).ready(function () {
     var values = [];
 
     // Add the project name to the detail tittle
-    $('#tituloDetalle').text = 'Detalle Solicitud '+selectedProject;
+    $('#tituloDetalle').text = 'Detalle Solicitud ' + selectedProject;
 
     // Create Package Detail Row
     var selectedPackage;
@@ -380,3 +383,72 @@ function fillDetailsModal(el) {
     }
   });
 };
+
+
+const user_input = $("#search-input")
+const search_icon = $('#search-icon')
+const initial_request_div = $('#initial-content')
+const ajax_request_div = $('#replaceable-content')
+const pagination = $('#pagination-row')
+const endpoint = '/solicitudes/buscar/'
+const delay_by_in_ms = 700
+let scheduled_function = false
+var pathname = window.location.pathname;
+
+let ajax_call = function (endpoint, request_parameters) {
+  $.getJSON(endpoint, request_parameters)
+    .done(response => {
+      if (response['is_requests']) {
+        // fade out the initial_request_div, then:
+        initial_request_div.fadeTo('slow', 0).promise().then(() => {
+          // hide original request table
+          initial_request_div.hide()
+          // hide pagination
+          pagination.hide()
+          // replace the HTML contents
+          ajax_request_div.html(response['html_from_view'])
+          // fade-in the div with new contents
+          ajax_request_div.fadeTo('slow', 1)
+          // stop animating search icon
+          search_icon.removeClass('blink')
+        })
+      } else {
+        // fade out the ajax_request_div, then:
+        ajax_request_div.fadeTo('slow', 0).promise().then(() => {
+          // hide div with new contents
+          ajax_request_div.hide()
+          // fade-in the initial_request_div
+          initial_request_div.fadeTo('slow', 1)
+          // show pagination and div initial_request_div
+          pagination.fadeTo('slow', 1).promise().then(() => {
+            // hide original request table
+            initial_request_div.show()
+            pagination.show()
+          })
+          // stop animating search icon
+          search_icon.removeClass('blink')
+        })
+      }
+
+    })
+}
+
+
+user_input.on('keyup', function () {
+
+  const request_parameters = {
+    q: $(this).val(), // value of user_input: the HTML element with ID user-input
+    path: pathname // value of path to determine wich is the correct view to show
+  }
+
+  // start animating the search icon with the CSS class
+  search_icon.addClass('blink')
+
+  // if scheduled_function is NOT false, cancel the execution of the function
+  if (scheduled_function) {
+    clearTimeout(scheduled_function)
+  }
+
+  // setTimeout returns the ID of the function to be executed
+  scheduled_function = setTimeout(ajax_call, delay_by_in_ms, endpoint, request_parameters)
+})

@@ -12,13 +12,30 @@
 <div class="container bg-white pt-4">
     <div class="row mb-2 align-middle">
         {% if request.path == "/solicitudes/mis_solicitudes/" %}
-        <div class="col-12">
+        <div class="col-lg-8">
             <h2 class="d-inline">Mis Solicitudes</h2>
             <a href="" class="d-inline" data-toggle="modal" data-target="#modalNuevaSolicitud">
                 <span class="material-icons">
                     add_circle
                 </span>
             </a>
+        </div>
+        <div class="col-lg-4">
+            <div class="form-row align-items-center">
+                <div class="col-sm-12 my-1">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <span class="material-icons" id="search-icon">
+                                    search
+                                </span>
+                            </div>
+                        </div>
+                        <input type="text" class="form-control" id="search-input"
+                            placeholder="Nombre proyecto">
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="col-12">
@@ -90,7 +107,8 @@
                                                         class="btn btn-info add-new form-control">Agregar</button>
                                                 </div>
                                                 <div class="col-sm-12 mt-4">
-                                                    <h5 class="modal-title text-center" id="tituloDetalle">Detalles Solicitud</h5>
+                                                    <h5 class="modal-title text-center" id="tituloDetalle">Detalles
+                                                        Solicitud</h5>
                                                 </div>
                                             </div>
 
@@ -123,8 +141,25 @@
         </div>
 
         {% else %}
-        <div class="col-12">
+        <div class="col-lg-8">
             <h2>Historial Solicitudes</h2>
+        </div>
+        <div class="col-lg-4">
+            <div class="form-row align-items-center">
+                <div class="col-sm-12 my-1">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <span class="material-icons" id="search-icon">
+                                    search
+                                </span>
+                            </div>
+                        </div>
+                        <input type="text" class="form-control" id="search-input"
+                            placeholder="Nombre proyecto">
+                    </div>
+                </div>
+            </div>
         </div>
         {% endif %}
     </div>
@@ -140,7 +175,8 @@
                 <th class="text-center">Estado</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="replaceable-content"></tbody>
+        <tbody id="initial-content">
             {% for request in requests %}
             <tr>
                 <td class="align-middle text-center">{{request.created|date:'d/m/y H:i'}}</td>
@@ -166,7 +202,7 @@
             </tr>
         </tbody>
     </table>
-    <div class="row">
+    <div class="row" id="pagination-row">
         <div class="col-12 mt-2">
             {% include 'core/includes/pagination.html' %}
         </div>

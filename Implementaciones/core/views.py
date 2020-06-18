@@ -6,6 +6,7 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from datetime import datetime, timedelta
 
+
 from deploy.models import DeployInfo
 import smtplib
 

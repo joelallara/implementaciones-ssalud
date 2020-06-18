@@ -1,0 +1,24 @@
+{% for request in requests %}
+<tr>
+    <td class="align-middle text-center">{{request.created|date:'d/m/y H:i'}}</td>
+    <td class="text-center align-middle">{{request.project.project_name}}</td>
+    <td class="text-center align-middle">
+        <a data-toggle="modal" data-target="#modalDetalles" href="" data-id="{{request.id}}"
+            data-url="{% url 'request:detail' request.id %}" onClick="fillDetailsModal(this)">
+            <i class="material-icons align-middle">
+                list_alt
+            </i>
+        </a>
+    </td>
+    <td class="text-center align-middle">{{request.created_by}}</td>
+    <td class="text-center align-middle">
+        <span class="badge {%if request.state == 'PN' %} badge-danger {% else %} badge-success {%endif%}">
+            {{request.get_state_display}}
+        </span>
+    </td>
+    {% empty %}
+    <tr>
+    <td colspan="5">No se encontraron resultados</td>
+    </tr>
+{% endfor %}
+</tr>
