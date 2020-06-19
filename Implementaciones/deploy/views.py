@@ -8,6 +8,9 @@ from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
+from django.apps import apps
+from django.template.loader import render_to_string
+from django.http import JsonResponse
 
 from .models import DeployInfo
 from request.models import ImplementationRequestHeader
@@ -56,3 +59,24 @@ class DeployRequest(View):
         email_to = request_header.created_by.email
         email(request, subject, message, email_to)
         return redirect(reverse_lazy('deploy:pending') + '?project_name=' + request_header.project.project_name)
+
+
+def ajax_search_deploy(request):
+    data_dict = {}
+    search_parameter = request.GET.get("q")
+
+    if search_parameter:
+        deploys = DeployInfo.objects.filter(request_header__project__project_name__icontains=search_parameter)
+        data_dict["is_deploys"] = True
+    else:
+        deploys = search_parameter
+        data_dict["is_deploys"] = False
+
+    if request.is_ajax():
+        html = render_to_string(
+            template_name="deploy/deploy_search_results.html",
+            context={"deploys": deploys}
+        )
+
+        data_dict["html_from_view"] = html
+        return JsonResponse(data=data_dict, safe=False)

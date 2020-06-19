@@ -11,8 +11,24 @@
 {% include 'deploy/includes/deploy_menu.html' %}
 <div class="container bg-white pt-4">
     <div class="row mb-2">
-        <div class="col-12">
+        <div class="col-lg-8">
             <h2>Historial Implementaciones</h2>
+        </div>
+        <div class="col-lg-4">
+            <div class="form-row align-items-center">
+                <div class="col-sm-12 my-1">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <span class="material-icons" id="search-icon">
+                                    search
+                                </span>
+                            </div>
+                        </div>
+                        <input type="text" class="form-control" id="search-input-deploy" placeholder="Nombre proyecto">
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -31,7 +47,8 @@
                         <th class="text-center">LSN</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="replaceable-content"></tbody>
+                <tbody id="initial-content">
                     {% for deploy in deploys %}
                     <tr>
                         <td class="text-center align-middle">{{deploy.deploy_date|date:'d/m/y H:i'}}</td>
@@ -58,7 +75,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="col-12">
+        <div class="col-12" id="pagination-row">
             {% include 'core/includes/pagination.html' %}
         </div>
     </div>
