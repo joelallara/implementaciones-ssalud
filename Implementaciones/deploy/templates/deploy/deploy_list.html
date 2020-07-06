@@ -35,10 +35,10 @@
 
     <div class="row">
         <div class="col-12">
-            <table class="table table-hover table-responsive-sm table-responsive-lg" id="table-requests">
+            <table class="table table-hover table-responsive-sm table-responsive-lg" id="table-deploys">
                 <thead class="thead-light">
                     <tr>
-                        <th class="text-center">Fecha implementación</th>
+                        <th class="text-center">Fecha</th>
                         <th class="text-center">Fecha solicitud</th>
                         <th class="text-center">Proyecto</th>
                         <th class="text-center">Detalles</th>
@@ -54,7 +54,7 @@
                         <td class="text-center align-middle">{{deploy.deploy_date|date:'d/m/y H:i'}}</td>
                         <td class="text-center align-middle">{{deploy.request_header.created|date:'d/m/y H:i'}}</td>
                         <td class="text-center align-middle">{{deploy.request_header.project.project_name}}</td>
-                        <td class="text-center align_middle">
+                        <td class="text-center align-middle">
                             <a data-toggle="modal" data-target="#modalDetalles" href=""
                                 data-id="{{deploy.request_header.id}}"
                                 data-url="{% url 'request:detail' deploy.request_header.id %}"
@@ -84,21 +84,21 @@
         <div class="col-12 mt-2">
             <!-- MODAL DETALLES SOLICITUD -->
             <div class="modal fade" id="modalDetalles" tabindex="-1">
-                <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-dialog modal-xl modal-dialog-centered">
                     <div class="modal-content">
 
                         <!-- cabecera del diálogo -->
-                        <div class="modal-header">
+                        <!-- <div class="modal-header">
                             <h4 class="modal-title">Detalles</h4>
                             <button type="button" class="close" data-dismiss="modal">X</button>
-                        </div>
+                        </div> -->
 
                         <!-- cuerpo del diálogo -->
                         <div class="modal-body">
 
-                            <div class="col-12 mt-2">
-                                <div class="container-fluid">
-                                    <table class="table table-hover table-responsive-sm" id="table-details">
+                            <div class="col-12 mt-2 p-0">
+                                <div class="container-fluid px-1">
+                                    <table class="table table-responsive-sm table-bordered mb-2" id="table-details">
                                         <thead class="thead-light">
                                             <tr>
                                                 <th class="text-center">Paquete/s</th>
