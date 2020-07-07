@@ -7,13 +7,7 @@ function fillDeployModal(el) {
     type: 'get',
     dataType: 'json',
     success: function (data) {
-      let rows = '';
-      if (!data) {
-        rows += `
-        <tr>
-          <td colspan="3">No hay detalles disponibles</td>
-        </tr>`;
-      } else {
+      if (data) {
         $("#requestHeader").val(data.header);
         $("#requestProject").text(data.project_name);
         $("#requestDate").text(data.created);
@@ -30,7 +24,14 @@ $(document).ready(function () {
     $('#btnEnviarDeploy').prop('disabled', true);
     $('.btn-cancelar').prop('disabled', true);
   });
+
+  //Focus in LSN input when deploy modal is shown
+  $('#modalDeploy').on('shown.bs.modal', function() {
+    $('#lsn').focus();
+  })
 });
+
+
 
 
 const user_input_deploy = $("#search-input-deploy")

@@ -32,7 +32,7 @@ class ImplementationRequestHeaderListView(ListView):
 class PendingImplementationRequestHeaderListView(ListView):
     model = ImplementationRequestHeader
     template_name = 'request/pending_request_list.html'
-    queryset = ImplementationRequestHeader.objects.filter(state='PN')
+    queryset = ImplementationRequestHeader.objects.filter(state='PN').order_by('created')
     context_object_name = 'requests'
     paginate_by = 10
 

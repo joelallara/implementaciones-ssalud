@@ -5,19 +5,22 @@ from django.conf import settings
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from datetime import datetime, timedelta
+from django.shortcuts import redirect
+from django.urls import reverse_lazy
 
 
 from deploy.models import DeployInfo
 import smtplib
 
+def home(request):
+    return redirect(reverse_lazy('request:user_request_list'))
+# @method_decorator(login_required, name='dispatch')
+# class HomePageView(TemplateView):
+    # template_name = "core/home.html"
 
-@method_decorator(login_required, name='dispatch')
-class HomePageView(TemplateView):
-    template_name = "core/home.html"
-
-    def get(self, request, *args, **kwargs):
-        deploys = DeployInfo.objects.filter(deploy_date__gte=datetime.now()-timedelta(days=7))[:5]
-        return render(request, self.template_name, {'deploys': deploys})
+    # def get(self, request, *args, **kwargs):
+        # deploys = DeployInfo.objects.filter(deploy_date__gte=datetime.now()-timedelta(days=7))[:5]
+        # return render(request, self.template_name, {'deploys': deploys})
 
 
 def email(request, subject, message, email_to):
