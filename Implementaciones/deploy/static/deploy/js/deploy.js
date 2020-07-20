@@ -92,10 +92,10 @@ user_input_deploy.on('keyup', function () {
   search_icon_deploy.addClass('blink')
 
   // if scheduled_function is NOT false, cancel the execution of the function
-  if (scheduled_function) {
-    clearTimeout(scheduled_function)
+  if (scheduled_function_deploy) {
+    clearTimeout(scheduled_function_deploy)
   }
 
   // setTimeout returns the ID of the function to be executed
-  scheduled_function = setTimeout(ajax_call_deploy, delay_by_in_ms_deploy, endpoint_deploy, request_parameters_deploy)
+  scheduled_function_deploy = setTimeout(ajax_call_deploy, delay_by_in_ms_deploy, endpoint_deploy, request_parameters_deploy)
 })

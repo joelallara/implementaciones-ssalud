@@ -1,15 +1,17 @@
 import xml.dom.minidom
 import os
 import sys
+import json
 from shutil import copyfile, rmtree
 from pathlib import Path
-import json
+from operator import itemgetter
 
 global SERVER_PROJECTS_FOLDER_PATH
 global XML_PROJECTS_FOLDER
 global PROJECT_EXCEPTIONS
 SERVER_PROJECTS_FOLDER_PATH = '//p-is-01.ams.red/ssis2017$/02 - Proyectos SSIS'#'D:/Django/implementaciones-ssalud/Implementaciones/project/ProjectsCopy'
 XML_PROJECTS_FOLDER = 'project/XMLProjects/'
+TXT_SQL = 'project/SqlStatement.txt'
 PROJECT_EXCEPTIONS = {'Indicadores Estrategicos': 1,
                       'Presupuesto vs Balance': 1,
                       'Trazabilidad de Fichas': 1,
@@ -34,7 +36,10 @@ def resolver_ruta(ruta_relativa):
 """Obtiene los data de todos los proyectos que se encuentran p-is-01/SSIS2017$/02 - Proyectos SSIS"""
 def get_projects_data():
     try:
-        delete_XMLProjects_folder_files()
+        if not os.path.exists(XML_PROJECTS_FOLDER):
+            os.makedirs(XML_PROJECTS_FOLDER)
+        else:
+            delete_XMLProjects_folder_files()
         projects_list = get_projects_list_from_server()
         if not projects_list:
             print("Error: No existen proyectos en la ruta " + SERVER_PROJECTS_FOLDER_PATH + "\n")
@@ -81,7 +86,7 @@ def create_folder_project(project_name):
 """Devuelve la ruta de los archivos DSTX del proyecto dependiendo si se encuentra o no en las excepciones"""
 def get_project_path_files_from(project_name,folder=None):
     if folder == XML_PROJECTS_FOLDER:
-        project_files_path = folder+"/"+project_name
+        project_files_path = folder+project_name
     else:
         if project_name in PROJECT_EXCEPTIONS:
             if PROJECT_EXCEPTIONS[project_name] == 1:
@@ -154,10 +159,35 @@ def change_extension(folder):
             output = os.rename(infilename, newname)
 
 
-"""Busca el codigo SQL, Nombre del paquete y Tarea dentro del XML"""
-def find_xml(filename, string_search):
-    doc = xml.dom.minidom.parse(XML_PROJECTS_FOLDER+filename)
+
+def get_sql_search(string_search):
     
+    result = {'result': []}
+
+    projects_list = get_projects_list_from_local()
+    if not projects_list:
+        print("Error: No existen proyectos en la ruta \n")
+        pass
+    else:
+        for each_project in projects_list:
+            project_name = each_project
+            files_list = os.listdir(get_project_path_files_from(project_name, XML_PROJECTS_FOLDER))
+            for each_file in files_list:
+                json_list = find_xml(project_name, each_file, string_search)
+                for json_item in json_list:
+                    result['result'].append(json_item)
+    return result
+
+
+"""Busca el codigo SQL, Nombre del paquete y Tarea dentro del XML"""
+def find_xml(project_name, filename, string_search):
+    path = get_project_path_files_from(project_name, XML_PROJECTS_FOLDER)
+    doc = xml.dom.minidom.parse(path+"/"+filename)
+
+    nombre_archivo = TXT_SQL
+
+    json_result = []
+
     package = filename[:-4]
 
     dts_padre = doc.getElementsByTagName("DTS:Executables")
@@ -168,46 +198,23 @@ def find_xml(filename, string_search):
             SQL = hprop.getElementsByTagName("SQLTask:SqlTaskData")
             for prop in SQL:
                 sql_script = prop.getAttribute("SQLTask:SqlStatementSource")
-                write_sql_scrip_on_txt(sql_script, package, task, string_search)
+                write_sql_scrip_on_txt(sql_script, project_name, package, task)
+                
+                with open(nombre_archivo) as myFile:
+                    for num, line in enumerate(myFile, 1):
+                        if string_search.lower() in line.lower():
+                            json_result.append({'n_line':str(num), 'line':str(line), 'project': str(project_name), 'package': str(package), 'task':str(task)})
+                           
+    return json_result
 
 
 """Copia el script SQL de la tarea en el txt SqlStatement.txt"""
-def write_sql_scrip_on_txt(sql_script, package, task, string_search):
-
-    nombre_archivo = resolver_ruta("SqlStatement.txt")
-
+def write_sql_scrip_on_txt(sql_script, project_name, package, task):
+    nombre_archivo = TXT_SQL
     f=open(nombre_archivo, "a+")
     f.truncate(0)
     f.write(sql_script)
     f.close()
 
-    find_in_txt(string_search, package, task)
-
-
-"""Recorre el SqlStatement en busqueda del texto ingresado en el inicio 
-y guarda en que linea se encontró, el nombre del paquete y de la tarea"""
-def find_in_txt(string_search, package, task):
-    nombre_archivo = resolver_ruta("SqlStatement.txt")
-    archivo_resultado = resolver_ruta("resultado.txt")
-
-
-    f=open(archivo_resultado, "a+")
-
-    with open(nombre_archivo) as myFile:
-        for num, line in enumerate(myFile, 1):
-            if string_search in line:
-                f.write("#########################################################\n")
-                f.write("Codigo buscado: "+string_search+'\n')
-                f.write('Encontrado en linea: '+str(num)+'\n')
-                f.write(line+"\n")
-                f.write('Paquete: ' + str(package) + '\n')
-                f.write('Tarea: ' + str(task) + '\n')
-                f.write("_________________________________________________________\n")
-                f.write("\n")
-                f.write("\n")
-    f.close()
-
-
 if __name__ == "__main__":
     main()
-

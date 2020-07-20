@@ -1,13 +1,17 @@
 import json
 from django.views.generic import ListView, View
+from django.views.generic.base import TemplateView
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
 from django.forms.models import model_to_dict
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.template.loader import render_to_string
+from django.http import JsonResponse
 
-from .buscadorSSIS import get_projects_data
+
+from .buscadorSSIS import get_projects_data, get_sql_search
 from project.models import Project, Package, Task
 
 
@@ -52,6 +56,12 @@ class PackageTasksView(View):
         return JsonResponse(data)
 
 
+class BuscadorView(TemplateView):
+
+    template_name = "project/search_sql.html"
+
+
+
 def update_projects_info(request):
     try:
         projects_json = get_projects_data()
@@ -68,3 +78,27 @@ def update_projects_info(request):
         return redirect(reverse_lazy('project:list') + '?ok')
     except TypeError:
         return redirect(reverse_lazy('project:list') + '?error')
+
+
+def sql_search(request):
+    data_dict = {}
+    search_parameter = request.GET.get("q")
+    print(search_parameter)
+
+    if search_parameter:
+        search = get_sql_search(search_parameter)
+        search_results = search['result']
+        # print(search_results)
+        data_dict["is_results"] = True
+    else:
+        search_results = search_parameter
+        data_dict["is_results"] = False
+
+    if request.is_ajax():
+        html = render_to_string(
+            template_name="project/search_sql_results.html",
+            context={"search_results": search_results}
+        )
+
+        data_dict["html_from_view"] = html
+        return JsonResponse(data=data_dict, safe=False)

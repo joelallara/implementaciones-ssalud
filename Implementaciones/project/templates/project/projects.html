@@ -9,7 +9,7 @@
 {% block title %}Proyectos{% endblock %}
 
 {% block content %}
-
+{% include 'project/includes/project_menu.html' %}
 <!-- MODAL SPINNER -->
 <div class="container-fluid bg-white pt-4">
   <div class="modal fade bd-example-modal-lg" data-backdrop="static" data-keyboard="false" tabindex="-1">
@@ -40,7 +40,7 @@
       </div>
       {% elif 'error' in request.GET %}
       <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        El proceso de actualización de informacion falló. Verifique su conexion a la unidad compartida SSIS2017$
+        El proceso de actualización de informacion falló. Verifique con el administrador
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

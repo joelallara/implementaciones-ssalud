@@ -1,0 +1,13 @@
+{% for search in search_results %}
+<tr>
+    <td class="text-center align-middle">{{search.project}}</td>
+    <td class="text-center align-middle">{{search.package}}</td>
+    <td class="text-center align-middle">{{search.task}}</td>
+    <td class="text-center align-middle">{{search.n_line}}</td>
+    <td class="align-middle">{{search.line}}</td>
+    {% empty %}
+    <tr>
+        <td colspan="5">No se encontraron resultados</td>
+    </tr>
+{% endfor %}
+</tr>

@@ -1,0 +1,61 @@
+{% extends 'core/base.html' %}
+{% load static%}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="{% static 'project/css/project.css' %}" />
+
+{% endblock stylesheet%}
+
+{% block title %}Buscador SQL{% endblock %}
+
+{% block content %}
+{% include 'project/includes/project_menu.html' %}
+<div class="container bg-white pt-4">
+    <div class="row mb-2">
+        <div class="col-lg-8">
+            <h2>Buscador SQL</h2>
+        </div>
+        <div class="col-lg-4">
+            <div class="form-row align-items-center">
+                <div class="col-sm-9 my-1">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <span class="material-icons" id="search-icon">
+                                    search
+                                </span>
+                            </div>
+                        </div>
+                        <input type="text" class="form-control" id="search-input" placeholder="Código a buscar">
+                    </div>
+                </div>
+                <div class="col-sm-3 my-1">
+                    <button class="btn btn-primary" id="search-btn">Buscar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-hover table-responsive-sm table-responsive-lg" id="table-deploys">
+                <thead class="thead-light">
+                    <tr>
+                        <th class="text-center">Proyecto</th>
+                        <th class="text-center">Paquete</th>
+                        <th class="text-center">Tarea</th>
+                        <th class="text-center">Nº Linea</th>
+                        <th class="text-center">Contenido</th>
+                    </tr>
+                </thead>
+                <tbody id="replaceable-content"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script src="{% static 'project/js/project.js' %}"></script>
+{% endblock javascript%}
