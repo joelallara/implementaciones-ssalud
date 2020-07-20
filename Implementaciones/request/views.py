@@ -82,7 +82,7 @@ class ImplementationRequestDetailView(View):
         # Email Sending
         subject = 'Solicitud Deploy a Produccion del proyecto ' + \
             implementation_request_header.project.project_name
-        message = 'El usuario "{}" ha realizado una solicitud de deploy del proyecto "{}"'.format(
+        message = 'El usuario "{}" ha realizado una solicitud de deploy del proyecto "{}". Para mas detalles ingrese a http://implementacionesbi/implementaciones/pendientes/'.format(
             implementation_request_header.created_by, implementation_request_header.project.project_name)
         staff_users = User.objects.filter(is_staff=True)
         email_to = [staff_user.email for staff_user in staff_users]
