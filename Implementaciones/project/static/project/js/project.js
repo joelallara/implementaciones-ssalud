@@ -1,7 +1,3 @@
-function modal() {
-    $('.modal').modal('show');
-}
-
 $(document).ready(function () {
     const user_input = $("#search-input")
     const search_icon = $('#search-icon')
@@ -144,3 +140,8 @@ function tasksList(el) {
 };
 
 
+// Fill details modal
+function fillSqlModal(data) {
+    $("#sqlScriptTxt").val(data.script);
+    $('#sqlScriptTxt').attr('rows', data.cant_lineas);
+};

@@ -39,14 +39,31 @@
 
     <div class="row">
         <div class="col-12">
+            <!-- MODAL DETALLES SOLICITUD -->
+            <div class="modal fade" id="modalDetalles" tabindex="-1">
+                <div class="modal-dialog modal-xl modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="col-12 mt-2 p-0">
+                                <div class="container-fluid px-1">
+                                    <div class="textarea-wrapper">
+                                        <textarea id="sqlScriptTxt" disabled></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <table class="table table-hover table-responsive-sm table-responsive-lg" id="table-deploys">
                 <thead class="thead-light">
-                    <tr>
-                        <th class="text-center">Proyecto</th>
-                        <th class="text-center">Paquete</th>
-                        <th class="text-center">Tarea</th>
-                        <th class="text-center">Nº Linea</th>
-                        <th class="text-center">Contenido</th>
+                    <tr class="d-flex">
+                        <th class="text-center col-2">Proyecto</th>
+                        <th class="text-center col-3">Paquete</th>
+                        <th class="text-center col-2">Tarea</th>
+                        <th class="text-center col-1">Nº Linea</th>
+                        <th class="text-center col-3">Contenido</th>
+                        <th class="text-center col-1">SQL</th>
                     </tr>
                 </thead>
                 <tbody id="replaceable-content"></tbody>

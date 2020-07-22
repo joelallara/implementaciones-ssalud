@@ -55,7 +55,7 @@ class PackageTasksView(View):
             data['tasks'] = None
         return JsonResponse(data)
 
-
+@method_decorator(login_required, name='dispatch')
 class BuscadorView(TemplateView):
 
     template_name = "project/search_sql.html"
@@ -83,12 +83,10 @@ def update_projects_info(request):
 def sql_search(request):
     data_dict = {}
     search_parameter = request.GET.get("q")
-    print(search_parameter)
 
     if search_parameter:
         search = get_sql_search(search_parameter)
         search_results = search['result']
-        # print(search_results)
         data_dict["is_results"] = True
     else:
         search_results = search_parameter
