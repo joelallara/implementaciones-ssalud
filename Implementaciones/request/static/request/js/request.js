@@ -281,9 +281,9 @@ $(document).ready(function () {
     if (observation) {
       hideObservationAlert();
       observationDetailRow =
-        '<td class="text-left align-middle">' +
+        '<td class="text-left align-middle ObservationDetailRow">' +
         observation +
-        '<input type="hidden" value="' + observation + '" name="' + selectedPackage + 'observations"/>' +
+        '<input type="hidden" id="ObHiddenInput" value="' + observation + '" name="' + selectedPackage + 'observations"/>' +
         '</td>';
     } else {
       showObservationAlert();
@@ -298,7 +298,9 @@ $(document).ready(function () {
       tasksDetailRow +
       observationDetailRow +
       '<td class="text-center align-middle">' +
-      '<a class="delete" title="Delete"><i class="material-icons">&#xE872;</i></a>' +
+      '<a class="add" title="Actualizar observacion" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></a>' +
+      '<a class="edit" title="Editar observacion" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>' +
+      '<a class="delete" title="Borrar" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>' +
       '</td>' +
       '</tr>';
     $("#table-add").append(row);
@@ -350,6 +352,61 @@ $(document).ready(function () {
       projectsSelectPicker.enable();
       projectsSelectPicker.refresh();
     }
+  });
+
+  // Add row on add button click
+  $(document).on("click", ".add", function () {
+    var buttonAdd = $(this);
+    var empty = false;
+    var input = $(this).parents("tr").find('input[type="text"]');
+    var hiddenInput = $(this).parents("tr").find('#ObHiddenInput');
+    var count = 0;
+    input.each(function () {
+      if (!$(this).val()) {
+        $(this).addClass("error");
+        empty = true;
+      } else {
+        $(this).removeClass("error");
+        $(this).parents("tbody").find(".add").each(function () {
+          // Increment count when a obs is in edit mode
+          if ($(this).css('display') != 'none') {
+            count++;
+          }
+        });
+      }
+    });
+    $(this).parents("tr").find(".error").first().focus();
+    if (!empty) {
+      input.each(function () {
+        $(this).parent("td").html($(this).val());
+        hiddenInput.val($(this).val());
+        buttonAdd.parents("tr").find(".ObservationDetailRow").append(hiddenInput);
+      });
+      $(this).parents("tr").find(".add, .edit").toggle();
+      // If count 1 then there are not obs being editing it allows to send the form. Never will be 0 because its count before toggle the button add
+      if (count == 1) {
+        $(".add-new").removeAttr("disabled");
+        $('#btnEnviar').prop('disabled', false);
+        // Disable all edit buttons except the clicked
+        $(this).parents("tbody").find(".edit").not($(this)).css("display", "inline-block");
+      }
+    }
+  });
+
+  // Edit row on edit button click
+  $(document).on("click", ".edit", function () {
+
+    // Disable all edit buttons except the clicked
+    $(this).parents("tbody").find(".edit").not($(this)).css("display", "none");
+
+    $(this).parents("tr").find(".ObservationDetailRow").each(function () {
+      var hiddenInput = $(this).find('#ObHiddenInput');
+      $(this).html('<input type="text" class="form-control" value="' + $(this).text() + '">');
+      $(this).append(hiddenInput);
+    });
+    $(this).parents("tr").find(".add, .edit").toggle();
+    $(".add-new").attr("disabled", "disabled");
+    $('#btnEnviar').prop('disabled', true);
   });
 
 });

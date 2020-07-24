@@ -254,7 +254,7 @@ def find_xml(project_name, filename, string_search):
                         if string_search.lower() in line.lower():
                             json_result.append({'n_line': str(num), 'line': str(line), 'project': str(project_name), 'package': str(
                                 package), 'task': str(task), 'script': str(script_completo), 'cant_lineas': str(cant_lineas)})
-                            # json_result.append({'n_line':str(num), 'line':str(line), 'project': str(project_name), 'package': str(package), 'task':str(task)})
+
 
     return json_result
 
