@@ -80,9 +80,6 @@ $(document).ready(function () {
         });
     };
 
-
-
-
     // Fill the projects-list-group when clic on <a> element
     $('#projects-list-group>a').click(function (e) {
         e.preventDefault();
@@ -101,6 +98,7 @@ $(document).ready(function () {
         $(this).addClass("active");
         return false;
     });
+    
 
 });
 
@@ -145,3 +143,4 @@ function fillSqlModal(data) {
     $("#sqlScriptTxt").val(data.script);
     $('#sqlScriptTxt').attr('rows', data.cant_lineas);
 };
+

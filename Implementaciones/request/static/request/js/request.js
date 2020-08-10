@@ -82,6 +82,13 @@ class SelectPicker {
 
 $(document).ready(function () {
 
+  $("#observacionesInput").on('keyup paste', function () { // <---remove ',' comma
+    var maxLength = $(this).attr('maxlength');
+    var Characters = $(this).val().replace(/(<([^>]+)>)/ig, "").length; // '$' is missing from the selector
+    $("#counter").text(Characters+ "/" +maxLength);
+
+  });
+
   // Disable btnEnviar when submit to prevent multiples submits
   $("#implementationRequestForm").submit(function () {
     $('#btnEnviar').prop('disabled', true);
