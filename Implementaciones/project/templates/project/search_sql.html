@@ -12,22 +12,36 @@
 {% include 'project/includes/project_menu.html' %}
 <div class="container bg-white pt-4">
     <div class="row mb-2">
-        <div class="col-lg-8">
+        <div class="col-lg-8 align-self-center">
             <h2>Buscador SQL</h2>
         </div>
         <div class="col-lg-4">
-            <div class="form-row align-items-center">
+            <div class="form-row">
                 <div class="col-sm-9 my-1">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">
-                                <span class="material-icons" id="search-icon">
-                                    search
-                                </span>
+                    <div class="form-group mb-0">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <span class="material-icons" id="search-icon">
+                                        search
+                                    </span>
+                                </div>
                             </div>
+                            <input type="text" class="form-control" id="search-input" placeholder="Código a buscar">
+
                         </div>
-                        <input type="text" class="form-control" id="search-input" placeholder="Código a buscar">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="busqueda-check">
+                            <label class="form-check-label" for="busqueda-check">
+                                Búsqueda especifica
+                            </label>
+                            <span class="material-icons align-middle info-ico text-warning" data-toggle="tooltip" data-placement="bottom"
+                                title="Si selecciona esta opción, buscará específicamente en cada línea el valor ingresado. De lo contrario, buscará todas las líneas que CONTENGAN el valor ingresado">
+                                info
+                            </span>
+                        </div>
                     </div>
+
                 </div>
                 <div class="col-sm-3 my-1">
                     <button class="btn btn-primary" id="search-btn">Buscar</button>

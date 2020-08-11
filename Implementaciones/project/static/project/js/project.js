@@ -2,6 +2,7 @@ $(document).ready(function () {
     const user_input = $("#search-input")
     const search_icon = $('#search-icon')
     const search_btn = $('#search-btn')
+    const check_btn = $('#busqueda-check')
 
     const ajax_div = $('#replaceable-content')
     const endpoint = '/proyectos/buscar_sql/'
@@ -34,9 +35,9 @@ $(document).ready(function () {
 
 
     search_btn.on('click', function () {
-
         const request_parameters = {
             q: user_input.val(), // value of user_input: the HTML element with ID user-input
+            check_value: check_btn.prop('checked'),
             path: pathname // value of path to determine wich is the correct view to show
         }
 

@@ -2,9 +2,11 @@ import xml.dom.minidom
 import os
 import sys
 import json
+import re
 from shutil import copyfile, rmtree
 from pathlib import Path
 from operator import itemgetter
+
 
 global SERVER_PROJECTS_FOLDER_PATH
 global XML_PROJECTS_FOLDER
@@ -35,8 +37,6 @@ def resolver_ruta(ruta_relativa):
 
 
 """Obtiene los data de todos los proyectos que se encuentran p-is-01/SSIS2017$/02 - Proyectos SSIS"""
-
-
 def get_projects_data():
     try:
         if not os.path.exists(XML_PROJECTS_FOLDER):
@@ -78,8 +78,6 @@ def get_projects_data():
 
 
 """Copia los archivos DSTX de cada proyecto a la carpeta local XMLProjects"""
-
-
 def copy_project_dtsx_files_to_XML_folder(project_name, project_dtsx_files_list=[]):
     create_folder_project(project_name)
     for each_file in project_dtsx_files_list:
@@ -95,15 +93,11 @@ def copy_project_dtsx_files_to_XML_folder(project_name, project_dtsx_files_list=
 
 
 """Crea una carpeta con el nombre del proyecto para ordenar mejor los paquetes"""
-
-
 def create_folder_project(project_name):
     Path(XML_PROJECTS_FOLDER+project_name).mkdir(parents=True, exist_ok=True)
 
 
 """Devuelve la ruta de los archivos DSTX del proyecto dependiendo si se encuentra o no en las excepciones"""
-
-
 def get_project_path_files_from(project_name, folder=None):
     if folder == XML_PROJECTS_FOLDER:
         project_files_path = folder+project_name
@@ -122,8 +116,6 @@ def get_project_path_files_from(project_name, folder=None):
 
 
 """Borra archivos de la carpeta XMLProjects"""
-
-
 def delete_XMLProjects_folder_files():
     for filename in os.listdir(XML_PROJECTS_FOLDER):
         file_path = os.path.join(XML_PROJECTS_FOLDER, filename)
@@ -137,8 +129,6 @@ def delete_XMLProjects_folder_files():
 
 
 """Devuelve listas con las task pertenecientes al package"""
-
-
 def get_package_task_data(project_name, package_name):
     project_package_tasks_names = []
     doc = xml.dom.minidom.parse(
@@ -153,8 +143,6 @@ def get_package_task_data(project_name, package_name):
 
 
 """Verifica si existe la carpeta XML. De lo contrario el programa termina"""
-
-
 def is_folder_empty():
     try:
         if os.listdir(XML_PROJECTS_FOLDER):
@@ -167,8 +155,6 @@ def is_folder_empty():
 
 
 """Obtiene listado de proyectos que se encuentran en el servidor P-IS-01"""
-
-
 def get_projects_list_from_server():
     #projects_list = os.listdir(SERVER_PROJECTS_FOLDER_PATH)
     projects_list = [name for name in os.listdir(SERVER_PROJECTS_FOLDER_PATH) if os.path.isdir(
@@ -177,16 +163,12 @@ def get_projects_list_from_server():
 
 
 """Obtiene el listado de proyectos que se encuentran en la carpeta local XMLProjects"""
-
-
 def get_projects_list_from_local():
     projects_list = os.listdir(XML_PROJECTS_FOLDER)
     return projects_list
 
 
 """Cambia la extension de los archivos de DTSX a XML"""
-
-
 def change_extension(folder):
     for filename in os.listdir(folder):
         if filename[-5:] == ".dtsx":
@@ -198,7 +180,7 @@ def change_extension(folder):
             output = os.rename(infilename, newname)
 
 
-def get_sql_search(string_search):
+def get_sql_search(string_search,check_value):
 
     result = {'result': []}
 
@@ -212,16 +194,14 @@ def get_sql_search(string_search):
             files_list = os.listdir(get_project_path_files_from(
                 project_name, XML_PROJECTS_FOLDER))
             for each_file in files_list:
-                json_list = find_xml(project_name, each_file, string_search)
+                json_list = find_xml(project_name, each_file, string_search, check_value)
                 for json_item in json_list:
                     result['result'].append(json_item)
     return result
 
 
 """Busca el codigo SQL, Nombre del paquete y Tarea dentro del XML"""
-
-
-def find_xml(project_name, filename, string_search):
+def find_xml(project_name, filename, string_search, check_value):
     path = get_project_path_files_from(project_name, XML_PROJECTS_FOLDER)
     doc = xml.dom.minidom.parse(path+"/"+filename)
 
@@ -251,17 +231,22 @@ def find_xml(project_name, filename, string_search):
                 with open(nombre_archivo) as myFile:
                     numeracion = enumerate(myFile, 1)
                     for num, line in numeracion:
-                        if string_search.lower() in line.lower():
-                            json_result.append({'n_line': str(num), 'line': str(line), 'project': str(project_name), 'package': str(
-                                package), 'task': str(task), 'script': str(script_completo), 'cant_lineas': str(cant_lineas)})
+                        if check_value == 'true':
+                            # Regex search when checked
+                            if re.findall(rf'\b{string_search}\b', line):
+                                json_result.append({'n_line': str(num), 'line': str(line), 'project': str(project_name), 'package': str(
+                                    package), 'task': str(task), 'script': str(script_completo), 'cant_lineas': str(cant_lineas)})
+                        else:
+                            # Normal search when unchecked
+                            if string_search.lower() in line.lower():
+                                json_result.append({'n_line': str(num), 'line': str(line), 'project': str(project_name), 'package': str(
+                                    package), 'task': str(task), 'script': str(script_completo), 'cant_lineas': str(cant_lineas)})
 
 
     return json_result
 
 
 """Copia el script SQL de la tarea en el txt SqlStatement.txt"""
-
-
 def write_sql_scrip_on_txt(sql_script, project_name, package, task):
     nombre_archivo = TXT_SQL
     f = open(nombre_archivo, "a+")

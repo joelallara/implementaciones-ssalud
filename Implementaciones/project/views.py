@@ -83,9 +83,10 @@ def update_projects_info(request):
 def sql_search(request):
     data_dict = {}
     search_parameter = request.GET.get("q")
+    check_value = request.GET.get("check_value")
 
     if search_parameter:
-        search = get_sql_search(search_parameter)
+        search = get_sql_search(search_parameter, check_value)
         search_results = search['result']
         data_dict["is_results"] = True
     else:
