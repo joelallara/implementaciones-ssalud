@@ -341,8 +341,9 @@ $(document).ready(function () {
     packagesSelectPicker.refresh();
     tasksSelectPicker.refresh();
 
-    rowIndex++;
+    $("#counter").text("0/500");
 
+    rowIndex++;
   });
 
   // Delete row from add-table
