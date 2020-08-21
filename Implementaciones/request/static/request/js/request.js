@@ -409,7 +409,7 @@ $(document).ready(function () {
 
     $(this).parents("tr").find(".ObservationDetailRow").each(function () {
       var hiddenInput = $(this).find('#ObHiddenInput');
-      $(this).html('<input type="text" class="form-control" value="' + $(this).text() + '">');
+      $(this).html('<input type="text" class="form-control" maxlength = "500" value="' + $(this).text() + '">');
       $(this).append(hiddenInput);
     });
     $(this).parents("tr").find(".add, .edit").toggle();
