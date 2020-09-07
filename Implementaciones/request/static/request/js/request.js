@@ -391,6 +391,10 @@ $(document).ready(function () {
         buttonAdd.parents("tr").find(".ObservationDetailRow").append(hiddenInput);
       });
       $(this).parents("tr").find(".add, .edit").toggle();
+      // Show delete button when there is no row editing
+      $(this).parents("tbody").find(".delete").each(function () {
+        $(this).css("display", "inline-block")
+      });
       // If count 1 then there are not obs being editing it allows to send the form. Never will be 0 because its count before toggle the button add
       if (count == 1) {
         $(".add-new").removeAttr("disabled");
@@ -405,7 +409,7 @@ $(document).ready(function () {
   $(document).on("click", ".edit", function () {
 
     // Disable all edit buttons except the clicked
-    $(this).parents("tbody").find(".edit").not($(this)).css("display", "none");
+    $(this).parents("tbody").find(".edit, .delete").not($(this)).css("display", "none");
 
     $(this).parents("tr").find(".ObservationDetailRow").each(function () {
       var hiddenInput = $(this).find('#ObHiddenInput');
@@ -413,6 +417,7 @@ $(document).ready(function () {
       $(this).append(hiddenInput);
     });
     $(this).parents("tr").find(".add, .edit").toggle();
+    // Disable add-new and btnEnviar when editing a row
     $(".add-new").attr("disabled", "disabled");
     $('#btnEnviar').prop('disabled', true);
   });
