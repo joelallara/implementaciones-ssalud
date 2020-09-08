@@ -246,15 +246,15 @@ $(document).ready(function () {
     var values = [];
 
     // Add the project name to the detail tittle
-    $('#tituloDetalle').text = 'Detalle Solicitud ' + selectedProject;
+    $('#tituloDetalle').text = 'Detalle Solicitud';
 
     // Create Package Detail Row
     var selectedPackage;
     var packageDetailRow;
     if (packagesSelectPicker.isOptionSelected()) {
-      selectedPackage = packagesSelectPicker.getValueOptionSelected();
+      selectedPackage = packagesSelectPicker.getValueOptionSelected() ;
       packageDetailRow = selectedPackage +
-        '<input type="hidden" value="' + selectedPackage + '" name="package"/>';
+        '<input type="hidden" value="' + selectedPackage + rowIndex + '" name="package"/>';
     } else {
       selectedPackage = '-----' + rowIndex;
       packageDetailRow = '-----' +
@@ -270,7 +270,7 @@ $(document).ready(function () {
       selectedTasks.each(function () {
         values.push('<li>' + $(this).text() +
           '</li><input type="hidden" value="' +
-          $(this).text() + '" name="' + selectedPackage + 'task"/>');
+          $(this).text() + '" name="' + selectedPackage + rowIndex + 'task"/>');
       });
       tasks += values.join("");
       tasks += '</ol>';
@@ -279,7 +279,7 @@ $(document).ready(function () {
       tasks = '-----';
       tasksDetailRow = '<td class="text-center align-middle">' +
         tasks +
-        '<input type="hidden" value="' + tasks + '" name="' + selectedPackage + 'task"/>' +
+        '<input type="hidden" value="' + tasks + '" name="' + selectedPackage + rowIndex + 'task"/>' +
         '</td>';
     }
 
@@ -290,7 +290,7 @@ $(document).ready(function () {
       observationDetailRow =
         '<td class="text-left align-middle ObservationDetailRow">' +
         observation +
-        '<input type="hidden" id="ObHiddenInput" value="' + observation + '" name="' + selectedPackage + 'observations"/>' +
+        '<input type="hidden" id="ObHiddenInput" value="' + observation + '" name="' + selectedPackage + rowIndex + 'observations"/>' +
         '</td>';
     } else {
       showObservationAlert();
@@ -298,7 +298,7 @@ $(document).ready(function () {
     }
 
     //Create Detail table row
-    var row = '<tr>' +
+    var row = '<tr id="detailRow">' +
       '<td class="text-center align-middle">' +
       packageDetailRow +
       '</td>' +
