@@ -256,10 +256,11 @@ $(document).ready(function () {
       packageDetailRow = selectedPackage +
         '<input type="hidden" value="' + selectedPackage + rowIndex + '" name="package"/>';
     } else {
-      selectedPackage = '-----' + rowIndex;
+      selectedPackage = '-----' ;
       packageDetailRow = '-----' +
-        '<input type="hidden" value="' + selectedPackage + '" name="package"/>';
+        '<input type="hidden" value="' + selectedPackage + rowIndex +'" name="package"/>';
     }
+    packageDetailRow = packageDetailRow + '<input type="hidden" value="' + rowIndex + '" name="index"/>';
 
     // Create Tasks Detail Row
     var tasks;
@@ -270,7 +271,7 @@ $(document).ready(function () {
       selectedTasks.each(function () {
         values.push('<li>' + $(this).text() +
           '</li><input type="hidden" value="' +
-          $(this).text() + '" name="' + selectedPackage + rowIndex + 'task"/>');
+          $(this).text() + '" name="' + selectedPackage + rowIndex +'task"/>');
       });
       tasks += values.join("");
       tasks += '</ol>';
@@ -287,6 +288,7 @@ $(document).ready(function () {
     var observationDetailRow;
     if (observation) {
       hideObservationAlert();
+      console.log(selectedPackage);
       observationDetailRow =
         '<td class="text-left align-middle ObservationDetailRow">' +
         observation +

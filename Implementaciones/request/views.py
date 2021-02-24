@@ -68,13 +68,17 @@ class ImplementationRequestDetailView(View):
         implementation_request_header = ImplementationRequestHeader.objects.create(
             project=project_instance, created_by=request.user)
         for package in packages:
-            tasks = request.POST.getlist(package+'task', None)
-            tasks_formated = ", ".join(tasks)
+            tasks = request.POST.getlist(package+'task', '-----')
             observations = request.POST.get(package+'observations', '-----')
+            tasks_formated = '-----'
             if package[0:5] == '-----':
                 package = package[0:5]
             else:
+                print(package)
                 package = package[:-1]
+                if tasks != '-----':
+                    tasks_formated = ", ".join(tasks)
+                
             ImplementationRequestDetail.objects.create(
                 request_header=implementation_request_header,
                 package=package,
@@ -88,7 +92,7 @@ class ImplementationRequestDetailView(View):
             implementation_request_header.created_by, implementation_request_header.project.project_name)
         staff_users = User.objects.filter(is_staff=True)
         email_to = [staff_user.email for staff_user in staff_users]
-        email(request, subject, message, email_to)
+        # email(request, subject, message, email_to)
 
         return redirect(reverse_lazy('request:user_request_list'))
 
