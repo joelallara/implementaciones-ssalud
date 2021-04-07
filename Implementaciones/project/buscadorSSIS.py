@@ -19,6 +19,7 @@ PROJECT_EXCEPTIONS = {'Indicadores Estrategicos': 1,
                       'Presupuesto vs Balance': 1,
                       'Trazabilidad de Fichas': 1,
                       'Data Comercial': 1,
+                      'T11 - Linea Empresa':1,
                       'Data Ordenes e Internaciones': 2,
                       'Web Centrix': 3}
 
