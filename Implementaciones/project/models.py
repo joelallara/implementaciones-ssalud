@@ -57,7 +57,7 @@ class TaskManager(models.Manager):
 
 
 class Task(TimeStampedModel, ActivedModel):
-    task_name = models.CharField(max_length=100, verbose_name="Nombre Tarea")
+    task_name = models.CharField(max_length=1000, verbose_name="Nombre Tarea")
     package = models.ForeignKey(
         Package,
         on_delete=models.CASCADE,

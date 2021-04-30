@@ -39,8 +39,8 @@ class ImplementationRequestDetail(models.Model):
         ImplementationRequestHeader,
         on_delete=models.CASCADE,
         related_name="request_details")
-    package = models.CharField(max_length=80)
-    tasks = models.CharField(max_length=200)
+    package = models.CharField(max_length=1000)
+    tasks = models.CharField(max_length=1000)
     observations = models.CharField(max_length=500, blank=False)
 
     class Meta:
