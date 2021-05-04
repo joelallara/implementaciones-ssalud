@@ -57,7 +57,7 @@ class DeployRequest(View):
         message = 'Los cambios que ha realizado sobre el proyecto "' + \
             request_header.project.project_name + '" ya se encuentran en producción'
         email_to = request_header.created_by.email
-        # email(request, subject, message, email_to)
+        email(request, subject, message, email_to)
         return redirect(reverse_lazy('deploy:pending') + '?project_name=' + request_header.project.project_name)
 
 
